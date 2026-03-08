@@ -158,10 +158,10 @@ const impactStatements: Record<string, string> = {
     </div>
   </section>
 
-  {/* Writing Samples */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+  {/* Articles */}
+  <section class="mx-auto max-w-3xl px-6 pt-8 pb-16">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Writing Samples
+      Articles
     </h2>
     <div class="flex flex-col gap-6">
       {blogPosts.map((post) => (
@@ -209,34 +209,8 @@ const impactStatements: Record<string, string> = {
 
   {/* CTA */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-24 text-center">
-    <h2 class="mb-6 text-3xl font-medium tracking-tight sm:text-4xl">
+    <p class="text-3xl font-medium tracking-tight sm:text-4xl">
       Let's craft a better future, together.
-    </h2>
-    <div class="flex items-center justify-center gap-4 text-sm text-muted-foreground">
-      <a
-        href={siteConfig.social.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-      >
-        LinkedIn
-      </a>
-      <a
-        href={siteConfig.social.newsletter}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-      >
-        Newsletter
-      </a>
-      <a
-        href={siteConfig.social.x}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-      >
-        X
-      </a>
-    </div>
+    </p>
   </section>
 </PageLayout>
