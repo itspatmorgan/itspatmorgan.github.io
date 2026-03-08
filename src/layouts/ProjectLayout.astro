@@ -8,9 +8,10 @@ interface Props {
   type: "professional" | "experiment";
   skills: string[];
   thumbnail: string;
+  heroImage?: string;
 }
 
-const { title, description, type, skills, thumbnail } = Astro.props;
+const { title, description, type, skills, thumbnail, heroImage } = Astro.props;
 ---
 
 <PageLayout title={title} description={description} image={thumbnail}>
@@ -39,14 +40,15 @@ const { title, description, type, skills, thumbnail } = Astro.props;
         ))}
       </div>
 
-      {/* Featured image */}
-      <div class="mb-8 overflow-hidden rounded-lg border border-border bg-card">
-        <img
-          src={thumbnail}
-          alt={title}
-          class="w-full object-cover"
-        />
-      </div>
+      {heroImage && (
+        <div class="mb-8 overflow-hidden rounded-lg border border-border bg-card">
+          <img
+            src={heroImage}
+            alt={title}
+            class="w-full object-cover"
+          />
+        </div>
+      )}
     </header>
 
     {/* Markdown body */}

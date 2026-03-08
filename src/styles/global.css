@@ -145,6 +145,17 @@
   @apply bg-transparent p-0;
 }
 
+/* Embed styles within prose */
+.prose lite-youtube {
+  @apply my-8 mb-12 rounded-lg overflow-hidden;
+}
+.prose .figma-embed {
+  max-width: none;
+}
+.prose .figma-embed p {
+  @apply text-[0.7rem] leading-tight;
+}
+
 /* White SVG logos — invert in light mode so they're visible on light backgrounds */
 .logo-adaptive {
   filter: invert(1);

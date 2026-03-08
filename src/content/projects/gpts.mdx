@@ -4,10 +4,14 @@ type: "experiment"
 description: "Marketplace GPTs lack the contextual guidance users need. This project used model introspection—analyzing how GPTs describe their own design and purpose—to create quick-start guides that help users engage effectively and maximize the GPT's capabilities."
 skills: ["Prompt Design", "Content Strategy", "Prototyping"]
 thumbnail: "/images/projects/gpts/feature-gpt-guides.png"
-heroImage: "/images/projects/gpts/thumbnail.jpg"
 sortOrder: 5
 draft: false
 ---
+
+import { YouTube } from 'astro-embed';
+import FigmaEmbed from '@/components/FigmaEmbed.astro';
+
+<YouTube id="ymcaXr5ZjjI" posterQuality="max" />
 
 > How might we develop a scalable system to generate clear, comprehensive user guides for GPTs?
 
@@ -23,8 +27,6 @@ Created two key prompts supporting interaction research and user guide generatio
 2. **Quick-Start User Guide Generator Prompt** - Creating practical documentation
 
 I also made a small, exploratory prototype to showcase how we might integrate the content created from the Guide Generator prompt into the GPT UI.
-
-![GPT Guides Feature](/images/projects/gpts/feature-gpt-guides.png)
 
 ## Opportunities
 
@@ -43,3 +45,11 @@ I also made a small, exploratory prototype to showcase how we might integrate th
 - **How Long:** ~2 days total (ideation, prompt design, prototype)
 - **What Tools:** ChatGPT for prompt exploration and design. Figma for design prototype.
 - **Other Details:** Tested approach with Universal Primer GPT as initial case study
+
+## Slides
+
+<FigmaEmbed
+  src="https://embed.figma.com/deck/ScIDMmUlqu0zY3LBn3NAil/Slides---GPT-Guides?node-id=17-141&embed-host=share"
+  title="GPT Guides presentation slides"
+  caption="You can click through the slides directly"
+/>
