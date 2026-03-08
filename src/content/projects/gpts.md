@@ -1,0 +1,46 @@
+---
+title: "Developing User-Friendly Guides for Marketplace GPTs"
+type: "experiment"
+description: "Marketplace GPTs lack the contextual guidance users need. This project used model introspection—analyzing how GPTs describe their own design and purpose—to create quick-start guides that help users engage effectively and maximize the GPT's capabilities."
+skills: ["Prompt Design", "Content Strategy", "Prototyping"]
+thumbnail: "/images/projects/gpts/thumbnail.jpg"
+sortOrder: 5
+draft: false
+---
+
+## Challenge Statement
+
+How might we develop a scalable system to generate clear, comprehensive user guides for GPTs?
+
+## Inspiration
+
+The GPT Store enables developers to create and share specialized AI assistants, but even popular GPTs with millions of conversations provide minimal guidance on effective use. New users face confusing, visually identical interfaces that mask widely varying capabilities and interaction patterns.
+
+## Solution
+
+Created two key prompts supporting interaction research and user guide generation:
+
+1. **GPT Diagnostic Prompt** - Supporting systematic analysis
+2. **Quick-Start User Guide Generator Prompt** - Creating practical documentation
+
+I also made a small, exploratory prototype to showcase how we might integrate the content created from the Guide Generator prompt into the GPT UI.
+
+![GPT Guides Feature](/images/projects/gpts/feature-gpt-guides.png)
+
+## Opportunities
+
+- Create a foundation for scalable documentation across the GPT Store
+- Leverage a standardized guide format that's flexible for different use cases
+
+## Learnings
+
+- GPTs can effectively articulate their own design principles and usage patterns
+- Documentation needs to balance technical depth with practical guidance
+- More visual and interaction changes could further improve user understanding
+
+## Project Details
+
+- **Who:** Solo project
+- **How Long:** ~2 days total (ideation, prompt design, prototype)
+- **What Tools:** ChatGPT for prompt exploration and design. Figma for design prototype.
+- **Other Details:** Tested approach with Universal Primer GPT as initial case study
