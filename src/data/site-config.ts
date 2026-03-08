@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "Patrick Morgan — Product Designer",
   description:
     "Technical product designer with 12+ years merging design, technology, and storytelling to create human-centered experiences.",
-  url: "https://patrickmorgan.org",
+  url: "https://itspatmorgan.github.io",
   nav: [
     { label: "Resume", href: "/resume" },
     { label: "Writing", href: "/writing" },

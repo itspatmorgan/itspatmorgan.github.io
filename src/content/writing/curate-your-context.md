@@ -4,6 +4,7 @@ description: "Your AI is only as good as the context you give it. Learn how cura
 publishedDate: 2026-02-16
 categories: ["Newsletter"]
 tags: ["AI", "Context Engineering", "Curation"]
+image: "/images/writing/img-curate-your-context.jpg"
 draft: false
 ---
 

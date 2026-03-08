@@ -4,6 +4,7 @@ description: "Why plain text is where human thinking and AI capability meet."
 publishedDate: 2026-02-02
 categories: ["Newsletter"]
 tags: ["AI", "Markdown", "Knowledge Management"]
+image: "/images/writing/img-ai-runs-on-text.jpg"
 draft: false
 ---
 

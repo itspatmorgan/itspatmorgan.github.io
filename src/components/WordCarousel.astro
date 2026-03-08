@@ -1,0 +1,181 @@
+---
+const quotes = [
+  {
+    text: "Plain text is the meeting place where human thinking and machine intelligence overlap.",
+    date: "Feb 2, 2026",
+    source: "AI Runs on Text. So Should You.",
+  },
+  {
+    text: "Ideas come in bursts, half-formed, connected to other thoughts.",
+    date: "Feb 9, 2026",
+    source: "Voice is the Missing Link",
+  },
+  {
+    text: "Collection gathers raw material. Curation creates the signal from it.",
+    date: "Feb 16, 2026",
+    source: "Curate Your Context",
+  },
+  {
+    text: "A well-written prompt reads like plain English but executes like code.",
+    date: "Feb 23, 2026",
+    source: "Your Instructions Now Run Like Code",
+  },
+  {
+    text: "Each piece you curate becomes reusable creative capital.",
+    date: "Feb 16, 2026",
+    source: "Curate Your Context",
+  },
+  {
+    text: "If AI runs on text, the quiet advantage is having your thinking already there.",
+    date: "Feb 2, 2026",
+    source: "AI Runs on Text. So Should You.",
+  },
+  {
+    text: "Stop doing the work yourself and start designing the machine that does the work.",
+    date: "Feb 23, 2026",
+    source: "Your Instructions Now Run Like Code",
+  },
+  {
+    text: "Voice preserves the natural flow of thought in a way that typing rarely does.",
+    date: "Feb 9, 2026",
+    source: "Voice is the Missing Link",
+  },
+];
+---
+
+<div
+  class="py-4 px-6"
+  data-quote-carousel
+  data-quotes={JSON.stringify(quotes)}
+>
+  <div class="border-l-2 border-accent/30 pl-5" style="min-height: 3.5rem;">
+    <p class="text-sm italic text-muted-foreground leading-relaxed">
+      <span data-quote-text></span><span class="quote-cursor" data-cursor>|</span>
+    </p>
+    <p
+      class="mt-1.5 font-mono text-xs text-muted-foreground"
+      data-quote-source
+      style="opacity: 0;"
+    ></p>
+  </div>
+</div>
+
+<style>
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .quote-cursor {
+    animation: blink 0.8s ease-in-out infinite;
+    font-style: normal;
+    font-weight: 300;
+    color: var(--accent);
+    margin-left: 1px;
+  }
+
+  .quote-cursor[data-typing="true"] {
+    animation: none;
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import { animate } from "motion";
+
+  function initQuoteCarousel() {
+    const container = document.querySelector('[data-quote-carousel]') as HTMLElement;
+    if (!container) return;
+
+    const textEl = container.querySelector('[data-quote-text]') as HTMLElement;
+    const cursorEl = container.querySelector('[data-cursor]') as HTMLElement;
+    const sourceEl = container.querySelector('[data-quote-source]') as HTMLElement;
+    if (!textEl || !cursorEl || !sourceEl) return;
+
+    const quotes: { text: string; date: string; source: string }[] = JSON.parse(
+      container.getAttribute('data-quotes') || '[]'
+    );
+    if (!quotes.length) return;
+
+    let current = 0;
+    let cancelled = false;
+
+    function sleep(ms: number) {
+      return new Promise<void>(resolve => {
+        const id = setTimeout(resolve, ms);
+        if (cancelled) clearTimeout(id);
+      });
+    }
+
+    function charDelay(char: string): number {
+      const base = 38 + Math.random() * 28;
+
+      if (char === '.' || char === '!' || char === '?') return base + 180 + Math.random() * 120;
+      if (char === ',') return base + 80 + Math.random() * 60;
+      if (char === '—' || char === ':' || char === ';') return base + 100 + Math.random() * 80;
+      if (char === ' ') return base * 0.6;
+      if (Math.random() < 0.04) return base + 100 + Math.random() * 80;
+
+      return base;
+    }
+
+    async function typeQuote(quote: { text: string; date: string; source: string }) {
+      cursorEl.setAttribute('data-typing', 'true');
+      sourceEl.style.opacity = '0';
+      sourceEl.textContent = '';
+      textEl.textContent = '';
+
+      for (let i = 0; i < quote.text.length; i++) {
+        if (cancelled) return;
+        textEl.textContent = quote.text.slice(0, i + 1);
+        await sleep(charDelay(quote.text[i]));
+      }
+
+      cursorEl.setAttribute('data-typing', 'false');
+
+      // Show attribution with spring
+      sourceEl.textContent = `${quote.date} · ${quote.source}`;
+      await animate(
+        sourceEl,
+        { opacity: [0, 1], y: [4, 0] },
+        { type: "spring", stiffness: 200, damping: 22, mass: 0.7 }
+      ).finished;
+    }
+
+    async function eraseQuote() {
+      if (cancelled) return;
+
+      // Fade out both together
+      const wrapper = container.querySelector('.border-l-2') as HTMLElement;
+      await animate(
+        wrapper,
+        { opacity: [1, 0] },
+        { type: "spring", stiffness: 200, damping: 24, mass: 0.6 }
+      ).finished;
+
+      textEl.textContent = '';
+      sourceEl.textContent = '';
+      sourceEl.style.opacity = '0';
+      wrapper.style.opacity = '1';
+    }
+
+    async function loop() {
+      while (!cancelled) {
+        await typeQuote(quotes[current]);
+        await sleep(2800);
+        await eraseQuote();
+        await sleep(400);
+        current = (current + 1) % quotes.length;
+      }
+    }
+
+    loop();
+
+    document.addEventListener('astro:before-swap', () => {
+      cancelled = true;
+    }, { once: true });
+  }
+
+  initQuoteCarousel();
+  document.addEventListener('astro:after-swap', initQuoteCarousel);
+</script>

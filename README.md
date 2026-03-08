@@ -29,7 +29,8 @@ src/
 │   └── projects/        # Case studies (Markdown)
 ├── data/
 │   ├── site-config.ts   # Site metadata, nav links, social URLs
-│   └── commendations.ts # Testimonial quotes + profile images
+│   ├── commendations.ts # Testimonial quotes + profile images
+│   └── experience.ts    # Career timeline roles + narrative bullet points
 ├── layouts/
 │   ├── BaseLayout.astro    # HTML shell, fonts, theme script
 │   ├── PageLayout.astro    # Standard page (header + footer)
@@ -37,6 +38,7 @@ src/
 │   └── WritingLayout.astro # Article detail page
 ├── pages/
 │   ├── index.astro         # Home page
+│   ├── resume.astro        # Resume / career timeline
 │   ├── projects/[...slug].astro
 │   ├── writing/index.astro       # Writing listing page
 │   ├── writing/[...slug].astro   # Article detail page

@@ -4,6 +4,7 @@ description: "Why your plain-English documentation is more valuable than ever."
 publishedDate: 2026-02-23
 categories: ["Newsletter"]
 tags: ["AI", "Documentation", "Operations"]
+image: "/images/writing/img-your-instructions.jpg"
 draft: false
 ---
 

@@ -23,6 +23,7 @@ const writing = defineCollection({
     publishedDate: z.coerce.date(),
     categories: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

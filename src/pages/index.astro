@@ -26,7 +26,7 @@ const impactStatements: Record<string, string> = {
 <PageLayout>
   {/* Hero */}
   <section class="mx-auto max-w-3xl px-6 pt-24 pb-12">
-    <div class="mb-8 flex items-start gap-6">
+    <div class="mb-8 flex items-start gap-6" data-hero-entrance style="opacity: 0;">
       <img
         src="/images/brand/profile-picture.jpg"
         alt="Patrick Morgan"
@@ -37,14 +37,14 @@ const impactStatements: Record<string, string> = {
         <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">Patrick Morgan</h1>
       </div>
     </div>
-    <p class="mb-6 max-w-xl text-md text-muted-foreground">
+    <p class="mb-6 max-w-xl text-md text-muted-foreground" data-hero-entrance style="opacity: 0;">
       Product designer crafting intuitive experiences for high-impact technology. Building AI-powered tools at
       <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>.
       Writing
       <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>
       — a field guide for creative builders exploring AI and the creative frontier.
     </p>
-    <div class="flex items-center gap-4 text-sm text-muted-foreground">
+    <div class="flex items-center gap-4 text-sm text-muted-foreground" data-hero-entrance style="opacity: 0;"
       <a
         href={siteConfig.social.linkedin}
         target="_blank"
@@ -119,37 +119,40 @@ const impactStatements: Record<string, string> = {
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Writing
     </h2>
-    <div class="mb-10 flex flex-col gap-6 sm:flex-row sm:gap-8">
-      <div class="shrink-0 overflow-hidden rounded-lg border border-border sm:w-48">
+    <div class="group mb-10 overflow-hidden rounded-lg border border-border">
+      <div class="overflow-hidden">
         <img
-          src="/images/unknown-arts/thumbnail.jpg"
+          src="/images/unknown-arts/banner.webp"
           alt="Unknown Arts newsletter"
-          class="aspect-square w-full object-cover"
+          class="w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          style="aspect-ratio: 16/7;"
         />
       </div>
-      <div class="flex-1">
-        <p class="mb-4 text-sm leading-relaxed text-muted-foreground">
-          <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a> is my weekly newsletter for creative builders exploring AI design and the creative frontier.
-        </p>
-        <div class="mb-4 grid grid-cols-3 gap-3">
-          <div>
-            <p class="text-lg font-semibold tracking-tight">7,400+</p>
-            <p class="font-mono text-xs text-muted-foreground">Subscribers</p>
-          </div>
-          <div>
-            <p class="text-lg font-semibold tracking-tight">190+</p>
-            <p class="font-mono text-xs text-muted-foreground">Articles</p>
-          </div>
-          <div>
-            <p class="text-lg font-semibold tracking-tight">128</p>
-            <p class="font-mono text-xs text-muted-foreground">Countries</p>
+      <div class="p-5 sm:p-6">
+        <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+          <p class="text-sm leading-relaxed text-muted-foreground sm:flex-1">
+            <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a> is my weekly newsletter for creative builders exploring AI design and the creative frontier.
+          </p>
+          <div class="flex gap-6 sm:shrink-0">
+            <div>
+              <p class="text-lg font-semibold tracking-tight">7,400+</p>
+              <p class="font-mono text-xs text-muted-foreground">Subscribers</p>
+            </div>
+            <div>
+              <p class="text-lg font-semibold tracking-tight">190+</p>
+              <p class="font-mono text-xs text-muted-foreground">Articles</p>
+            </div>
+            <div>
+              <p class="text-lg font-semibold tracking-tight">128</p>
+              <p class="font-mono text-xs text-muted-foreground">Countries</p>
+            </div>
           </div>
         </div>
         <p class="text-sm leading-relaxed text-muted-foreground">
-          My writing has been featured in top publications like
+          Featured in
           <a href="https://every.to" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Every</a>,
           <a href="https://www.indiehackers.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">IndieHackers</a>,
-          TLDR,
+          <a href="https://tldr.tech/" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">TLDR</a>,
           <a href="https://www.departmentofproduct.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">The Department of Product</a>,
           <a href="https://uxdesign.cc" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">UX Collective</a>, and
           <a href="https://heydesigner.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">HeyDesigner</a>.
@@ -191,7 +194,7 @@ const impactStatements: Record<string, string> = {
     </h2>
     <div class="columns-1 gap-4 sm:columns-2">
       {commendations.map((c) => (
-        <blockquote class="mb-4 break-inside-avoid rounded-lg border border-border bg-card p-5">
+        <blockquote class="mb-4 break-inside-avoid rounded-lg border border-border bg-card p-5" data-kind-words-item style="opacity: 0;">
           <div class="mb-3 flex items-center gap-3">
             <img
               src={c.image}
@@ -217,4 +220,50 @@ const impactStatements: Record<string, string> = {
       Let's craft a better future, together.
     </p>
   </section>
+
+  <script>
+    import { animate } from "motion";
+
+    function init() {
+      // Hero entrance: staggered spring-in on page load
+      const heroEls = document.querySelectorAll('[data-hero-entrance]') as NodeListOf<HTMLElement>;
+      heroEls.forEach((el, i) => {
+        animate(
+          el,
+          { opacity: [0, 1], y: [16, 0] },
+          { type: "spring", stiffness: 160, damping: 20, mass: 0.8, delay: i * 0.12 }
+        );
+      });
+
+      // Kind Words: scroll-triggered staggered entrance
+      const kindWordsItems = document.querySelectorAll('[data-kind-words-item]') as NodeListOf<HTMLElement>;
+      if (!kindWordsItems.length) return;
+
+      let revealed = false;
+      const observer = new IntersectionObserver((entries) => {
+        if (revealed) return;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            revealed = true;
+            observer.disconnect();
+            kindWordsItems.forEach((el, i) => {
+              animate(
+                el,
+                { opacity: [0, 1], y: [20, 0] },
+                { type: "spring", stiffness: 140, damping: 18, mass: 0.8, delay: i * 0.06 }
+              );
+            });
+            break;
+          }
+        }
+      }, { threshold: 0.15 });
+
+      // Observe the section, not individual cards
+      const kindWordsSection = kindWordsItems[0]?.closest('section');
+      if (kindWordsSection) observer.observe(kindWordsSection);
+    }
+
+    init();
+    document.addEventListener('astro:after-swap', init);
+  </script>
 </PageLayout>

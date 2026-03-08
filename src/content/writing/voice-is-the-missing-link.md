@@ -4,6 +4,7 @@ description: "How speaking bridges the gap from thinking to text to AI."
 publishedDate: 2026-02-09
 categories: ["Newsletter"]
 tags: ["AI", "Voice", "Productivity"]
+image: "/images/writing/img-voice.jpg"
 draft: false
 ---
 

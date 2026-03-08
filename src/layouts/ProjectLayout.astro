@@ -13,7 +13,7 @@ interface Props {
 const { title, description, type, skills, thumbnail } = Astro.props;
 ---
 
-<PageLayout title={title} description={description}>
+<PageLayout title={title} description={description} image={thumbnail}>
   <article class="mx-auto max-w-3xl px-6 py-16">
     {/* Back link */}
     <a

@@ -46,6 +46,7 @@ Query with `getCollection()` from `astro:content`. Filter drafts: `getCollection
 
 - `src/data/site-config.ts` — Site metadata, nav links, social URLs
 - `src/data/commendations.ts` — Testimonial quotes with profile images
+- `src/data/experience.ts` — Career timeline roles, sections, and narrative bullet points (resume page)
 
 ## Styling conventions
 
@@ -82,7 +83,6 @@ Markdown content uses `.prose` class (custom styles in `global.css`, not `@tailw
 ## Known issues
 
 - `src/pages/style-guide.astro` has a pre-existing syntax error (line 32) — not blocking
-- Vite may cache a stale reference to `logo-career-tenable.svg` — no source file references this path; restart dev server to clear
 ## Migration status
 
 The site is being migrated from Framer following a phased plan at `/Users/pmwork/Developer/personal-website-plan.md`. Completed phases:

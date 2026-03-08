@@ -106,7 +106,7 @@ export const commendations: Commendation[] = [
   {
     name: "Joe Salowitz",
     role: "Product Design @ Sublime Security",
-    image: "/images/profiles/pLDDjOGyaxFv8yP3ukvzwGPHbg.avif",
+    image: "/images/profiles/joe.avif",
     quote:
       "SUPER highly recommend subscribing to @itspatmorgan's newsletter. It's always filled with really insightful nuggets of wisdom about design, entrepreneurship, business and more!",
   },
