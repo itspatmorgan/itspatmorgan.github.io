@@ -1,0 +1,40 @@
+---
+import "../styles/global.css";
+import { siteConfig } from "@/data/site-config";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const pageTitle = title ? `${title} — ${siteConfig.name}` : siteConfig.title;
+const pageDescription = description ?? siteConfig.description;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageDescription} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+
+    {/* Prevent flash of wrong theme */}
+    <script is:inline>
+      const theme = localStorage.getItem("theme");
+      if (
+        theme === "dark" ||
+        (!theme &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

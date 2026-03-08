@@ -1,0 +1,73 @@
+---
+categories:
+  - Project
+---
+
+# Building an AI Team With Claude
+
+## Summary card info
+
+Title:
+Building an AI Team With Claude
+
+Skills:
+Product Design, Systems Design, Prototyping
+
+Description:
+Anthropic's Claude is a go-to for creative projects but I kept bumping into its limits. I prototyped a new system primitive called "Characters" that maintains consistent traits and knowledge across Claude "Projects", exploring how the interface could expand AI collaboration.
+
+---
+
+## Challenge Statement
+
+- How might I expand my collaborations with Claude in an approachable but scalable way?
+
+---
+
+## Project Summary
+
+### Inspiration
+
+While Claude excels as a creative collaborator, I found myself consistently working around platform limitations to maintain context across different projects and conversations.
+
+### Solution
+
+I designed "Characters" - a new system primitive that allows Claude to maintain consistent traits and knowledge across Projects. This prototype explores how Claude's interface could evolve to support more sophisticated collaboration patterns.
+
+### Opportunities
+
+This feature could enhance Claude's competitive position against Google Gemini ("Gems") and OpenAI ("Assistants") by:
+
+- Improving user experience through consistent collaboration
+- Supporting platform scalability
+- Enabling more complex workflows across projects
+
+### Learnings
+
+- Competition is quickly putting the pieces together
+- Even with Characters, it still feels like some pieces are missing for orchestrating work with Claude
+- Spatial design seems interesting
+
+---
+
+## Project Details
+
+- Who: Solo project
+- How long: 3 days total (ideation, prototype, presentation, & video)
+- What tools: Figma for design, prototype, and slides. Screen Studio for video.
+- Other details: I had already begun reverse engineering Claude's UI in Figma, so I had some basic assets prepared before exploring this feature.
+
+---
+
+## Slides
+
+- Figma deck embed
+
+---
+
+## Resource Links
+
+- [Presentation Slides](https://www.figma.com/deck/FDYHhdO6ZRWcfAjYPEtxBp/Claude-Characters?node-id=1-292&p=f&viewport=191%2C46%2C0.09&t=ISnzjwqH8JntI1k4-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)
+- [Prototype](https://www.figma.com/proto/szuPUOUy4sE4JiERzc6dVe/Anthropic-UI-Kit?page-id=57%3A1080&node-id=71-5985&node-type=canvas&viewport=405%2C-2671%2C0.47&t=gtehGDua5ZOOD4qf-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=71%3A5985)
+- [UI Screens](https://www.figma.com/design/szuPUOUy4sE4JiERzc6dVe/Anthropic-UI-Kit?node-id=57-1080&t=Hw9f2oUQmghEVP9r-1)
+- [Design System](https://www.figma.com/design/szuPUOUy4sE4JiERzc6dVe/Anthropic-UI-Kit?node-id=38-1322&t=Hw9f2oUQmghEVP9r-1)

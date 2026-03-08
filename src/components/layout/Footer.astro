@@ -1,0 +1,53 @@
+---
+import { siteConfig } from "@/data/site-config";
+---
+
+<footer class="border-t border-border py-12">
+  <div class="mx-auto max-w-3xl px-6">
+    <p class="mb-6 text-sm text-muted-foreground">
+      Crafting intuitive software and content fostering the creativity in
+      everyone.
+    </p>
+    <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+      <a href="/" class="transition-colors hover:text-foreground">Home</a>
+      {siteConfig.nav.map((link) => (
+        <a
+          href={link.href}
+          class="transition-colors hover:text-foreground"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={siteConfig.social.newsletter}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-foreground"
+      >
+        Newsletter
+      </a>
+      <a
+        href={`mailto:${siteConfig.social.email}`}
+        class="transition-colors hover:text-foreground"
+      >
+        Email
+      </a>
+      <a
+        href={siteConfig.social.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-foreground"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={siteConfig.social.x}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-foreground"
+      >
+        X
+      </a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,126 @@
+# Website content outline
+
+## Homepage
+
+- Global Top Nav
+  - Brand logo
+  - Link: Experience page
+- Introduction
+  - Headline: "Product designer crafting intuitive experiences for high-impact technology"
+  - Name
+  - Photo
+  - Statement of focus and mission: "Building AI-powered tools to stop cyberattacks at Sublime Security. Writing Unknown Arts - a field guide for creative builders exploring AI design and the creative frontier."
+  - Links: Review my experience, Get my newsletter, Follow me on LinkedIn
+  - Carousel: Employer company logos
+- Projects
+  - Product Design
+    - Title: Making a Complex Query Language Approachable
+      - Tags: Interaction Design, Prototyping, UI Design
+      - Description: "JupiterOne faced a critical user adoption challenge: new customers were thrown into free-form querying without understanding what to ask for or how to ask for it."
+      - Impact: "Reduced new users' time to build a custom query from 21 days to 1."
+    - Title: Expanding a Security Platform Through Systems Design
+      - Tags: Product Strategy, Systems Design, UX Architecture
+      - Description: "Signal Sciences discovered customers 'hacking' core features for new security use cases. Instead of building separate solutions, we created a modular system that extended platform capabilities."
+      - Impact: "Established scalable product architecture that enabled rapid market expansion"
+    - Title: Transforming Customer Feedback Into Product Vision
+      - Tags: UX Strategy, Workshop Facilitation, Storyboarding
+      - Description: "At Signal Sciences, we transformed customer advisory board feedback into a cohesive product vision and user-centered growth strategy through structured research and collaborative workshops."
+      - Impact: "Unified product teams around a shared vision driven by customer insights"
+  - AI Experiments
+    - Title: Building an AI Team With Claude
+      - Tags: Product Design, Systems Design, Prototyping
+      - Description: "Anthropic's Claude is a go-to for creative projects but I kept bumping into its limits. I prototyped a new system primitive called "Characters" that maintains consistent traits and knowledge across Claude "Projects", exploring how the interface could expand AI collaboration."
+    - Title: Developing User-Friendly Guides for Marketplace GPTs
+      - Tags: Prompt Design, Content Strategy, Prototyping
+      - Description: "Marketplace GPTs lack the guidance users need. This project used model introspection—analyzing how GPTs describe their own design and purpose—to create quick-start guides that help users engage effectively and maximize the GPT's capabilities."
+- Unknown Arts
+  - Summary: "Unknown Arts is my weekly newsletter for creative builders exploring AI design and the creative frontier. Since launching in 2022, it's grown to: 7,400+ subscribers across 128 countries. 40% open rate (~2x industry average). 190+ articles in the archive.My writing has been featured in top publications like Every, IndieHackers, TLDR, The Department of Product, UX Collective, and HeyDesigner."
+  - Writing Samples
+    - Article: The Rise of Software as a Workforce
+    - Article: Guide, Don't Command.
+    - Article: AI Teammates Hiding in Every Prompt
+  - Resources
+    - Project: Creating an AI Learning Hub
+- Social proof
+  - Profile photo, Name, Role, Quote
+  - David Hoang
+    - VP Design @ Atlassian
+    - "I've really enjoyed the value and energy @itspatmorgan brings to Design Twitter. I've learned so much! If you're not following him already, I recommend it and subscribe to his newsletter, Unknown Arts."
+  - Grace Ling
+    - Founder @ Design Buddies
+    - "Practical insights to help you level up your design career!"
+  - Michael Riddering
+    - Founder @ Figma Academy
+    - "You're definitely in my top ~3 writers bucket right now. Genuinely look forward to everything you post and the quality is consistently 💯."
+  - Peter Vogt
+    - Design Engineer @ CapitalOne
+    - "@itspatmorgan shares brilliant insights about design careers that are hard to find elsewhere. His newsletter is great."
+  - Alex Cristache
+    - Design Director
+    - ""Unknown Arts" was the first newsletter I subscribed to when I decided to kickstart my Twitter adventure. And it has never disappointed. Every edition is complex, comprehensive, well written, and well studied."
+  - Joshua Newton
+    - Product Design @ Microsoft AI
+    - "Pat is driving the design industry forward. I love his newsletter because he talks with relevancy on growing subjects such as design entrepreneurship and how the industry is evolving. His honest and transparent style makes him one of a kind."
+  - Praful Krishna
+    - Product @ Meta
+    - "The most advanced technology is not always the best answer. This article by Patrick Morgan makes a very important point in the field of product management. A new innovation must push the need but should still relate to the existing paradigms in the customers' mind. This is even more important for enterprise solutions."
+  - Ben Strak
+    - Design @ Monzo
+    - "I love the combination of personal stories and practical resources Patrick shares, something new and interesting every week—highly recommended!"
+  - Raika Sarkett
+    - Conversation Design @ Amazon
+    - "If you work in tech, you definitely need to check out Pat's newsletter!"
+  - Nate Kadlac
+    - Founder @ Approachable Design
+    - "I appreciate Patrick's fresh perspective on how to view design, both through the craft as well as through mindful principles."
+  - Amy Mitchell
+    - Product Director @ Dell
+    - "Weekend Reading: Using design thinking to effect change. Here is a new framework from Patrick Morgan to create, present, and execute new ideas through persuasion and influence. Lots of fresh ideas!"
+  - Damian Martone
+    - Founder @ Hatch Conference
+    - "Is a design background just another skill when starting a business? Or is it a big advantage? Patrick shared a wonderful article where some great folks describe their journeys and learnings. Super recommend for anyone wondering if starting a business is the right thing to do after a design career."
+  - Kaitie Chambers
+    - Advocate @ Figma
+    - "This is brilliant! 😍 I love how you break down the steps and zoom out all the way to file management and then back down to the details of frame naming. Incredible!"
+  - Fawzi Ammache
+    - Product Design @ RBC
+    - "Thorough breakdowns and analysis of the physical and digital products that have shaped our world from the amazing Pat Morgan!
+  - Joe Salowitz
+    - Product Design @ Sublime Security
+    - "SUPER highly recommend subscribing to @itspatmorgan’s newsletter. It’s always filled with really insightful nuggets of wisdom about design, entrepreneurship, business and more!"
+  - Ehsan Nour
+    - Product Design @ Eraser
+    - "Patrick turned it up to 11 recently 🔥"
+- Outro Statement
+  - "Let's craft a better future, together."
+- Global Footer
+  - Get in touch! Always excited to connect with fellow curiou minds and creators—let's make something great together!
+  - Links
+    - Home
+    - Experience
+    - Email
+    - Newsletter
+    - LinkedIn
+    - X
+
+---
+
+## Experience Page
+
+- Global Top Nav
+- Page Title
+  - "Experience"
+- Statement
+  - "12+ years merging design, technology, and storytelling to create human-centered experiences."
+- Button
+  - Download PDF of resume
+- Carousel
+  - Former employer company logos
+- The Bullet Points
+  - Chronological summary of my career
+- The Details
+  - Reverse chronological timeline of resume details
+- Get in Touch
+  - "Always excited to connect with fellow curious minds and creators—let’s make something great together!"
+  - Links: Email, Newsletter, LinkedIn, X
+- Global Footer

@@ -1,0 +1,30 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { Badge } from "@/components/ui/badge";
+---
+
+<PageLayout>
+  <section class="mx-auto max-w-3xl px-6 py-24">
+    <p class="mb-4 font-mono text-sm text-muted-foreground">Product Designer</p>
+    <h1 class="mb-6 text-4xl font-medium tracking-tight">Patrick Morgan</h1>
+    <p class="mb-8 max-w-xl text-lg text-muted-foreground">
+      12+ years merging design, technology, and storytelling to create
+      human-centered experiences.
+    </p>
+    <div class="flex flex-wrap gap-2">
+      <Badge variant="secondary">Interaction Design</Badge>
+      <Badge variant="secondary">Systems Design</Badge>
+      <Badge variant="secondary">Prototyping</Badge>
+      <Badge variant="secondary">AI</Badge>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+    <h2 class="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+      Coming soon
+    </h2>
+    <p class="text-muted-foreground">
+      Projects, writing, and more. This site is being built in the open.
+    </p>
+  </section>
+</PageLayout>
