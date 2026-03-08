@@ -4,6 +4,49 @@
 
 Personal portfolio site for Patrick Morgan (itspatmorgan). Migrated from Framer to a custom Astro + Tailwind + shadcn/ui codebase. Targets design and tech leaders with a warm, minimal aesthetic.
 
+## Workflow
+
+This project uses a plan → track → build → document workflow. Follow this process for all non-trivial work.
+
+### Planning
+
+Before starting implementation, create a plan in `.claude/plans/` with a descriptive filename (e.g., `hover-shimmer.md`). Plans should include:
+- **Context** — What problem this solves and why it matters
+- **Approach** — Technical strategy and key decisions
+- **Files to modify** — Table of files and what changes
+- **Steps** — Ordered implementation steps
+- **Verification** — How to confirm the work is correct
+
+Plans are committed to the repo so they're publicly visible and linkable from issues.
+
+### Task tracking
+
+All work is tracked through [GitHub Issues](https://github.com/itspatmorgan/itspatmorgan.github.io/issues) and the [Personal Website](https://github.com/users/itspatmorgan/projects/2) project board.
+
+**When starting work on an issue:**
+- Move the issue to "In progress" on the project board: `gh project item-edit --project-id <id> --id <item-id> --field-id <status-field-id> --single-select-option-id <in-progress-option-id>`
+- Create a plan in `.claude/plans/` if one doesn't exist
+- Link the plan from the issue as a comment
+
+**When completing work:**
+- Close the issue with `gh issue close <number> --reason completed`
+- The project board auto-moves closed issues to "Done"
+- Link relevant commits from the issue
+
+**Creating new issues:**
+- Use labels from both dimensions (where + what)
+- Where: `home`, `resume`, `projects`, `writing`
+- What: `design`, `content`, `infrastructure`, `documentation`
+- Keep descriptions concise — link to plans for detail
+
+### Directory roles
+
+| Directory | Role | Contents |
+|-----------|------|----------|
+| `.claude/plans/` | Claude's output | Implementation plans created during planning sessions |
+| `.reference/` | Patrick's input | Briefs, outlines, screenshots, design tokens, reference URLs — context that informs the work |
+| `TODO.md` | Pointer | Links to the project board and issues; documents the label taxonomy |
+
 ## Tech stack
 
 - **Framework:** Astro v5 (static output)
@@ -87,25 +130,13 @@ Project detail pages support YouTube and Figma Slides embeds via MDX:
 | `career-*.svg` | Variable | Logo carousel (white SVGs, inverted in light mode via `.logo-adaptive`) |
 | Profile images in `/images/profiles/` | Variable | Commendation author headshots |
 
-## Known issues
-
-- `src/pages/style-guide.astro` has a pre-existing syntax error (line 32) — not blocking
-## Migration status
-
-The site is being migrated from Framer following a phased plan at `/Users/pmwork/Developer/personal-website-plan.md`. Completed phases:
-- Phase 1: Foundation (Astro setup, Tailwind, layouts)
-- Phase 2: Resume page (career timeline, renamed from "experience" to "resume")
-- Phase 3: Project detail pages
-- Phase 4: Home page (hero, logo carousel, projects, writing, kind words, CTA, footer)
-- Phase 5: Writing section (listing page + article detail pages, renamed from "blog" to "writing")
-
-- Phase 6 (in progress): Polish — YouTube & Figma Slides embeds on project pages, MDX conversion, conditional hero images
-
-Remaining: Final polish & launch
-
 ## Naming conventions
 
 The site uses specific terminology consistently:
 - **"Resume"** (not "Experience") — nav, URL `/resume`, footer link
 - **"Writing"** (not "Blog") — nav, URL `/writing`, content collection name, home page section label
 - **"Kind Words"** (not "Commendations" or "Testimonials") — home page section label
+
+## Known issues
+
+- `src/pages/style-guide.astro` has a pre-existing syntax error (line 32) — not blocking

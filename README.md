@@ -4,6 +4,34 @@ Personal portfolio site for Patrick Morgan — product designer, writer, and cre
 
 Built with [Astro](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [shadcn/ui](https://ui.shadcn.com). Deployed to GitHub Pages.
 
+## How we work
+
+This site is built collaboratively with [Claude Code](https://claude.ai/code). The workflow is designed to be transparent — anyone can follow along with what was planned, what decisions were made, and how the work progressed.
+
+**[Project board](https://github.com/users/itspatmorgan/projects/2)** — Kanban view of all work (Backlog → In Progress → Done)
+
+### Workflow
+
+1. **Plan** — Claude Code creates implementation plans in `.claude/plans/`. These capture the approach, file changes, and verification steps before any code is written.
+2. **Track** — Each piece of work gets a [GitHub Issue](https://github.com/itspatmorgan/itspatmorgan.github.io/issues) with context and links to the relevant plan. Issues are tracked on the [project board](https://github.com/users/itspatmorgan/projects/2).
+3. **Build** — Code is written, reviewed, and committed. Commit messages reference the decisions made during implementation.
+4. **Document** — Plans and decision context are linked from issues so the reasoning is preserved alongside the work.
+
+### Labels
+
+Issues are tagged across two dimensions:
+
+| Where | What |
+|-------|------|
+| `home` · `resume` · `projects` · `writing` | `design` · `content` · `infrastructure` · `documentation` |
+
+### Key directories
+
+| Directory | Purpose |
+|-----------|---------|
+| `.claude/plans/` | Implementation plans created by Claude Code |
+| `.reference/` | Input context — briefs, outlines, screenshots, design tokens, reference URLs |
+
 ## Getting started
 
 **Prerequisites:** Node.js 20+ and pnpm 10+
@@ -22,7 +50,7 @@ src/
 ├── components/
 │   ├── layout/          # Header, Footer
 │   ├── ui/              # shadcn/ui primitives (Badge, Button, etc.)
-│   ├── FigmaEmbed.astro   # Figma Slides presentation embed
+│   ├── FigmaEmbed.astro # Figma Slides presentation embed
 │   ├── LogoCarousel.astro
 │   └── ProjectCard.astro
 ├── content/
@@ -54,7 +82,12 @@ public/
     ├── profiles/        # Commendation author headshots
     ├── projects/        # Case study images (feature-* and thumbnail.*)
     └── unknown-arts/    # Newsletter thumbnail
-.reference/              # Design reference assets and planning docs (not deployed)
+.claude/
+└── plans/               # Claude Code implementation plans
+.reference/
+├── website-brief.md     # Original project brief and requirements
+├── planning.md          # Future project ideas
+└── references/          # Screenshots, outlines, design tokens, URLs
 ```
 
 ## Content collections
