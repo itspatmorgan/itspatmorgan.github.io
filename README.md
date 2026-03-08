@@ -22,11 +22,12 @@ src/
 ├── components/
 │   ├── layout/          # Header, Footer
 │   ├── ui/              # shadcn/ui primitives (Badge, Button, etc.)
+│   ├── FigmaEmbed.astro   # Figma Slides presentation embed
 │   ├── LogoCarousel.astro
 │   └── ProjectCard.astro
 ├── content/
 │   ├── writing/         # Articles (Markdown)
-│   └── projects/        # Case studies (Markdown)
+│   └── projects/        # Case studies (Markdown/MDX)
 ├── data/
 │   ├── site-config.ts   # Site metadata, nav links, social URLs
 │   ├── commendations.ts # Testimonial quotes + profile images
@@ -60,7 +61,7 @@ public/
 
 Content is managed through [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) with Zod-validated frontmatter.
 
-### Projects (`src/content/projects/*.md`)
+### Projects (`src/content/projects/*.{md,mdx}`)
 
 ```yaml
 title: "Project Title"
@@ -68,10 +69,12 @@ type: "professional" | "experiment"
 description: "Short description"
 skills: ["Skill 1", "Skill 2"]
 thumbnail: "/images/projects/slug/feature-image.jpg"  # Square image for home page card
-heroImage: "/images/projects/slug/thumbnail.jpg"       # Optional 16:9 image for detail page
+heroImage: "/images/projects/slug/thumbnail.jpg"       # Optional — if omitted, no hero image renders
 sortOrder: 1
 draft: false
 ```
+
+Projects using `.mdx` can import embed components (YouTube, FigmaEmbed) directly in the content body.
 
 ### Writing (`src/content/writing/*.md`)
 

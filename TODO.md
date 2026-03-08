@@ -58,8 +58,10 @@ Ideas and tasks for the portfolio site.
 
 ## Project Detail Pages
 
-- [ ] **YouTube embed support** — Add the ability to embed YouTube videos within project detail page markdown content.
-- [ ] **Figma Slides embed support** — Add the ability to embed Figma Slides presentations within project detail page markdown content.
+- [x] **YouTube embed support** — YouTube embeds via `astro-embed` package (`lite-youtube-embed`). Used in 4 project MDX files with `posterQuality="max"` for high-res thumbnails.
+- [x] **Figma Slides embed support** — Custom `FigmaEmbed.astro` component with iframe. Uses `/deck/` URL path for presentation mode. Used in 4 project MDX files.
+- [x] **MDX conversion** — Converted 4 project files from `.md` to `.mdx` (query-language, expansion, characters, gpts) for embed component support. Vision remains `.md`.
+- [x] **Conditional hero image** — Hero image only renders when `heroImage` frontmatter field is provided. Projects with YouTube embeds omit `heroImage` so YouTube serves as hero.
 
 ## Resume Page
 

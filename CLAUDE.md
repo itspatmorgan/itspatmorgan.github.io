@@ -33,7 +33,7 @@ pnpm preview    # Preview production build
 
 Defined in `src/content.config.ts` with Zod schemas. Two collections:
 
-- **projects** (`src/content/projects/*.md`) — Case studies. Fields: `title`, `type` (professional | experiment), `description`, `skills[]`, `thumbnail`, `heroImage?`, `sortOrder`, `draft`
+- **projects** (`src/content/projects/*.{md,mdx}`) — Case studies. Fields: `title`, `type` (professional | experiment), `description`, `skills[]`, `thumbnail`, `heroImage?`, `sortOrder`, `draft`. Four projects use `.mdx` for embed components; one uses `.md`.
 - **writing** (`src/content/writing/*.md`) — Articles. Fields: `title`, `description`, `publishedDate`, `categories[]`, `tags[]`, `draft`
 
 Query with `getCollection()` from `astro:content`. Filter drafts: `getCollection("writing", ({ data }) => !data.draft)`.
@@ -71,6 +71,13 @@ All home page sections follow this structure:
 
 Markdown content uses `.prose` class (custom styles in `global.css`, not `@tailwindcss/typography`).
 
+### Embeds
+
+Project detail pages support YouTube and Figma Slides embeds via MDX:
+- **YouTube:** `astro-embed` package (`<YouTube id="..." posterQuality="max" />`). Uses `lite-youtube-embed` — shows thumbnail, loads zero JS until play click.
+- **Figma Slides:** Custom `<FigmaEmbed>` component (`src/components/FigmaEmbed.astro`). Uses `/deck/` URL path for presentation mode (not `/slides/` which shows editor view).
+- Embed styles are in `global.css` under `/* Embed styles within prose */`.
+
 ## Image conventions
 
 | Pattern | Size | Purpose |
@@ -92,7 +99,9 @@ The site is being migrated from Framer following a phased plan at `/Users/pmwork
 - Phase 4: Home page (hero, logo carousel, projects, writing, kind words, CTA, footer)
 - Phase 5: Writing section (listing page + article detail pages, renamed from "blog" to "writing")
 
-Remaining: Phase 6 (Polish & Launch)
+- Phase 6 (in progress): Polish — YouTube & Figma Slides embeds on project pages, MDX conversion, conditional hero images
+
+Remaining: Final polish & launch
 
 ## Naming conventions
 
