@@ -18,6 +18,7 @@ import { siteConfig } from "@/data/site-config";
           {link.label}
         </a>
       ))}
+      <span class="h-3.5 w-px bg-border" aria-hidden="true"></span>
       <a
         href={siteConfig.social.newsletter}
         target="_blank"
@@ -25,12 +26,6 @@ import { siteConfig } from "@/data/site-config";
         class="transition-colors hover:text-foreground"
       >
         Newsletter
-      </a>
-      <a
-        href={`mailto:${siteConfig.social.email}`}
-        class="transition-colors hover:text-foreground"
-      >
-        Email
       </a>
       <a
         href={siteConfig.social.linkedin}
@@ -48,14 +43,12 @@ import { siteConfig } from "@/data/site-config";
       >
         X
       </a>
-      {import.meta.env.DEV && (
-        <a
-          href="/style-guide"
-          class="font-mono text-xs transition-colors hover:text-foreground"
-        >
-          Style Guide
-        </a>
-      )}
+      <a
+        href="/style-guide"
+        class="ml-auto px-2 py-1 text-lg text-muted-foreground/40 transition-colors hover:text-foreground"
+      >
+        ✦
+      </a>
     </div>
   </div>
 </footer>
