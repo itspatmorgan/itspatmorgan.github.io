@@ -1,0 +1,57 @@
+---
+const logos = [
+  { src: "/images/logos/career-sublime.svg", alt: "Sublime Security" },
+  { src: "/images/logos/career-tenable.svg", alt: "Tenable" },
+  { src: "/images/logos/career-jupiterone.svg", alt: "JupiterOne" },
+  { src: "/images/logos/career-sigsci.svg", alt: "Signal Sciences" },
+  { src: "/images/logos/career-fastly.svg", alt: "Fastly" },
+  { src: "/images/logos/career-amex.svg", alt: "American Express" },
+  { src: "/images/logos/career-leoburnett.svg", alt: "Leo Burnett" },
+  { src: "/images/logos/career-unknownarts.svg", alt: "Unknown Arts" },
+];
+---
+
+<div class="logo-carousel overflow-hidden">
+  <div class="logo-track flex w-max gap-3">
+    {/* Render twice for seamless loop */}
+    {[...logos, ...logos].map((logo) => (
+      <div class="flex h-10 items-center rounded-full border border-border bg-card px-5">
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          class="logo-adaptive h-4"
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .logo-track {
+    animation: scroll 30s linear infinite;
+  }
+
+  .logo-carousel:hover .logo-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Fade edges */
+  .logo-carousel {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+  }
+</style>

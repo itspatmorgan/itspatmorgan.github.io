@@ -144,3 +144,11 @@
 .prose pre code {
   @apply bg-transparent p-0;
 }
+
+/* White SVG logos — invert in light mode so they're visible on light backgrounds */
+.logo-adaptive {
+  filter: invert(1);
+}
+.dark .logo-adaptive {
+  filter: none;
+}

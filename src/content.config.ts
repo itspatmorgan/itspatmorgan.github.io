@@ -9,6 +9,7 @@ const projects = defineCollection({
     description: z.string(),
     skills: z.array(z.string()),
     thumbnail: z.string(),
+    heroImage: z.string().optional(),
     sortOrder: z.number(),
     draft: z.boolean().default(false),
   }),

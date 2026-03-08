@@ -3,7 +3,8 @@ title: "Expanding a Security Platform Through Systems Design"
 type: "professional"
 description: "Signal Sciences discovered customers 'hacking' core features for new security use cases. Instead of building separate solutions, we created a modular system that extended platform capabilities."
 skills: ["Product Strategy", "Systems Design", "UX Architecture"]
-thumbnail: "/images/projects/expansion/thumbnail.jpg"
+thumbnail: "/images/projects/expansion/feature-expansion.png"
+heroImage: "/images/projects/expansion/thumbnail.jpg"
 sortOrder: 2
 draft: false
 ---

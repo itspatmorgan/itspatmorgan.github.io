@@ -3,7 +3,8 @@ title: "Making a Complex Query Language Approachable"
 type: "professional"
 description: "JupiterOne faced a critical user adoption challenge: new customers were thrown into free-form querying without understanding what to ask for or how to ask for it."
 skills: ["Interaction Design", "Prototyping", "UI Design"]
-thumbnail: "/images/projects/query/thumbnail.jpg"
+thumbnail: "/images/projects/query/feature-query-mono.png"
+heroImage: "/images/projects/query/thumbnail.jpg"
 sortOrder: 1
 draft: false
 ---

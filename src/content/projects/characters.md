@@ -3,7 +3,8 @@ title: "Building an AI Team With Claude"
 type: "experiment"
 description: "Anthropic's Claude is a go-to for creative projects but I kept bumping into its limits. I prototyped a new system primitive called \"Characters\" that maintains consistent traits and knowledge across Claude \"Projects\", exploring how the interface could expand AI collaboration."
 skills: ["Product Design", "Systems Design", "Prototyping"]
-thumbnail: "/images/projects/characters/thumbnail.jpg"
+thumbnail: "/images/projects/characters/feature-characters-ui.png"
+heroImage: "/images/projects/characters/thumbnail.jpg"
 sortOrder: 4
 draft: false
 ---
@@ -17,8 +18,6 @@ While Claude excels as a creative collaborator, I found myself consistently work
 ## Solution
 
 I designed "Characters" - a new system primitive that allows Claude to maintain consistent traits and knowledge across Projects. This prototype explores how Claude's interface could evolve to support more sophisticated collaboration patterns.
-
-![Characters UI](/images/projects/characters/feature-characters-ui.png)
 
 ## Opportunities
 

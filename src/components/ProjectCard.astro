@@ -1,0 +1,44 @@
+---
+import { Badge } from "@/components/ui/badge";
+
+interface Props {
+  title: string;
+  description: string;
+  skills: string[];
+  thumbnail: string;
+  slug: string;
+  impact?: string;
+}
+
+const { title, description, skills, thumbnail, slug, impact } = Astro.props;
+---
+
+<a href={`/projects/${slug}`} class="group block">
+  <article class="flex flex-col gap-5 sm:flex-row sm:gap-6">
+    <div class="shrink-0 overflow-hidden rounded-lg border border-border sm:w-48">
+      <img
+        src={thumbnail}
+        alt={title}
+        class="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+      />
+    </div>
+    <div class="min-w-0 flex-1">
+      <h3 class="mb-2 text-base font-semibold tracking-tight transition-colors group-hover:text-accent">
+        {title}
+      </h3>
+      <div class="mb-3 flex flex-wrap gap-1.5">
+        {skills.map((skill) => (
+          <Badge variant="secondary" className="text-[11px]">{skill}</Badge>
+        ))}
+      </div>
+      <p class="mb-3 text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+      {impact && (
+        <p class="text-sm font-medium text-foreground">
+          {impact}
+        </p>
+      )}
+    </div>
+  </article>
+</a>

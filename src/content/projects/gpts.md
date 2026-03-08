@@ -3,7 +3,8 @@ title: "Developing User-Friendly Guides for Marketplace GPTs"
 type: "experiment"
 description: "Marketplace GPTs lack the contextual guidance users need. This project used model introspection—analyzing how GPTs describe their own design and purpose—to create quick-start guides that help users engage effectively and maximize the GPT's capabilities."
 skills: ["Prompt Design", "Content Strategy", "Prototyping"]
-thumbnail: "/images/projects/gpts/thumbnail.jpg"
+thumbnail: "/images/projects/gpts/feature-gpt-guides.png"
+heroImage: "/images/projects/gpts/thumbnail.jpg"
 sortOrder: 5
 draft: false
 ---
