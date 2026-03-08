@@ -29,9 +29,10 @@ All work is tracked through [GitHub Issues](https://github.com/itspatmorgan/itsp
 - Link the plan from the issue as a comment
 
 **When completing work:**
-- Close the issue with `gh issue close <number> --reason completed`
+- Commit the plan to `.claude/plans/` with a descriptive filename (plan mode writes to a temp directory — always copy to the repo before pushing)
+- Use `Closes #N` in the implementation commit message to auto-close the issue
+- Comment on the issue with: commit link, plan link (to the repo file), and a brief change summary
 - The project board auto-moves closed issues to "Done"
-- Link relevant commits from the issue
 
 **Creating new issues:**
 - Use labels from both dimensions (where + what)
