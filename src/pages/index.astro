@@ -3,6 +3,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import LogoCarousel from "@/components/LogoCarousel.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { siteConfig } from "@/data/site-config";
+import { homeCommendations } from "@/data/commendations";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
@@ -128,34 +129,31 @@ const impactStatements: Record<string, string> = {
       </div>
       <div class="flex-1">
         <p class="mb-4 text-sm leading-relaxed text-muted-foreground">
-          A field guide for creative builders exploring AI and the creative frontier. Each issue blends practical insights with creative experimentation — helping readers build better with emerging tools.
+          <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a> is my weekly newsletter for creative builders exploring AI design and the creative frontier.
         </p>
-        <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="mb-4 grid grid-cols-3 gap-3">
           <div>
             <p class="text-lg font-semibold tracking-tight">7,400+</p>
             <p class="font-mono text-xs text-muted-foreground">Subscribers</p>
           </div>
           <div>
-            <p class="text-lg font-semibold tracking-tight">128</p>
-            <p class="font-mono text-xs text-muted-foreground">Countries</p>
-          </div>
-          <div>
-            <p class="text-lg font-semibold tracking-tight">40%</p>
-            <p class="font-mono text-xs text-muted-foreground">Open rate</p>
-          </div>
-          <div>
             <p class="text-lg font-semibold tracking-tight">190+</p>
             <p class="font-mono text-xs text-muted-foreground">Articles</p>
           </div>
+          <div>
+            <p class="text-lg font-semibold tracking-tight">128</p>
+            <p class="font-mono text-xs text-muted-foreground">Countries</p>
+          </div>
         </div>
-        <a
-          href={siteConfig.social.newsletter}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 transition-colors hover:text-accent"
-        >
-          Read Unknown Arts &rarr;
-        </a>
+        <p class="text-sm leading-relaxed text-muted-foreground">
+          My writing has been featured in top publications like
+          <a href="https://every.to" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Every</a>,
+          <a href="https://www.indiehackers.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">IndieHackers</a>,
+          TLDR,
+          <a href="https://www.departmentofproduct.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">The Department of Product</a>,
+          <a href="https://uxdesign.cc" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">UX Collective</a>, and
+          <a href="https://heydesigner.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">HeyDesigner</a>.
+        </p>
       </div>
     </div>
   </section>
@@ -186,6 +184,59 @@ const impactStatements: Record<string, string> = {
           </article>
         </a>
       ))}
+    </div>
+  </section>
+
+  {/* Commendations */}
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+      Commendations
+    </h2>
+    <div class="grid gap-6 sm:grid-cols-2">
+      {homeCommendations.map((c) => (
+        <blockquote class="rounded-lg border border-border bg-card p-5">
+          <p class="mb-3 text-sm leading-relaxed text-muted-foreground">
+            "{c.quote}"
+          </p>
+          <footer class="text-sm">
+            <span class="font-semibold">{c.name}</span>
+            <span class="text-muted-foreground"> · {c.role}</span>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-24 text-center">
+    <h2 class="mb-6 text-3xl font-medium tracking-tight sm:text-4xl">
+      Let's craft a better future, together.
+    </h2>
+    <div class="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+      <a
+        href={siteConfig.social.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-foreground"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={siteConfig.social.newsletter}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-foreground"
+      >
+        Newsletter
+      </a>
+      <a
+        href={siteConfig.social.x}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-foreground"
+      >
+        X
+      </a>
     </div>
   </section>
 </PageLayout>
