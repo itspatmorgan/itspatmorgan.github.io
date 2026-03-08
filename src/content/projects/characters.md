@@ -8,9 +8,7 @@ sortOrder: 4
 draft: false
 ---
 
-## Challenge Statement
-
-How might I expand my collaborations with Claude in an approachable but scalable way?
+> How might I expand my collaborations with Claude in an approachable but scalable way?
 
 ## Inspiration
 

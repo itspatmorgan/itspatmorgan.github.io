@@ -8,9 +8,7 @@ sortOrder: 2
 draft: false
 ---
 
-## Challenge Statement
-
-How might we leverage existing platform capabilities to support emerging security use cases without building separate point solutions?
+> How might we leverage existing platform capabilities to support emerging security use cases without building separate point solutions?
 
 ## Challenge
 

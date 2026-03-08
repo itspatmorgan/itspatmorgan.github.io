@@ -8,9 +8,7 @@ sortOrder: 1
 draft: false
 ---
 
-## Challenge Statement
-
-How might we help new users understand and leverage JupiterOne's graph query capabilities without compromising power and flexibility?
+> How might we help new users understand and leverage JupiterOne's graph query capabilities without compromising power and flexibility?
 
 ## Challenge
 

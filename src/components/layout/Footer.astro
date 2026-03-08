@@ -48,6 +48,14 @@ import { siteConfig } from "@/data/site-config";
       >
         X
       </a>
+      {import.meta.env.DEV && (
+        <a
+          href="/style-guide"
+          class="font-mono text-xs transition-colors hover:text-foreground"
+        >
+          Style Guide
+        </a>
+      )}
     </div>
   </div>
 </footer>

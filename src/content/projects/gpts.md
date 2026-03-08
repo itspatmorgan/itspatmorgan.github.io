@@ -8,9 +8,7 @@ sortOrder: 5
 draft: false
 ---
 
-## Challenge Statement
-
-How might we develop a scalable system to generate clear, comprehensive user guides for GPTs?
+> How might we develop a scalable system to generate clear, comprehensive user guides for GPTs?
 
 ## Inspiration
 

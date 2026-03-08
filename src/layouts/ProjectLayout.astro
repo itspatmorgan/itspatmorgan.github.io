@@ -1,0 +1,57 @@
+---
+import PageLayout from "./PageLayout.astro";
+import { Badge } from "@/components/ui/badge";
+
+interface Props {
+  title: string;
+  description: string;
+  type: "professional" | "experiment";
+  skills: string[];
+  thumbnail: string;
+}
+
+const { title, description, type, skills, thumbnail } = Astro.props;
+---
+
+<PageLayout title={title} description={description}>
+  <article class="mx-auto max-w-3xl px-6 py-16">
+    {/* Back link */}
+    <a
+      href="/"
+      class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back
+    </a>
+
+    {/* Hero */}
+    <header class="mb-12">
+      <h1 class="mb-6 text-4xl font-medium tracking-tight sm:text-5xl">
+        {title}
+      </h1>
+      <div class="mb-8 flex flex-wrap gap-2">
+        {skills.map((skill) => (
+          <Badge variant="secondary" className="font-mono text-xs">
+            {skill}
+          </Badge>
+        ))}
+      </div>
+
+      {/* Featured image */}
+      <div class="mb-8 overflow-hidden rounded-lg border border-border bg-card">
+        <img
+          src={thumbnail}
+          alt={title}
+          class="w-full object-cover"
+        />
+      </div>
+    </header>
+
+    {/* Markdown body */}
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</PageLayout>

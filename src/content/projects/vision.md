@@ -8,9 +8,7 @@ sortOrder: 3
 draft: false
 ---
 
-## Challenge Statement
-
-How might we transform scattered customer feedback into a unified product vision that aligns technical and business stakeholders?
+> How might we transform scattered customer feedback into a unified product vision that aligns technical and business stakeholders?
 
 ## Impact
 
