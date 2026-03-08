@@ -36,6 +36,22 @@ Ideas and tasks for the portfolio site.
 
 - [ ] **Midjourney textures from Unknown Arts** — Explore incorporating the AI-generated textures/imagery created for newsletter feature images into this site's visual language — e.g., as background elements, section dividers, card backgrounds, or decorative accents to tie the Unknown Arts aesthetic into the portfolio.
 
+## Tooling
+
+- [ ] **Add relevant Claude skills** — Set up Claude Code skills (`.claude/skills/`) for common workflows in this repo — e.g., adding a new writing article, adding a new project, deploying, running quality checks, etc.
+
+## Branding
+
+- [ ] **Replace favicon with PM logo** — The current favicon is still the generic Astro default. Replace it with the PM logo (create appropriate sizes: 16x16, 32x32, apple-touch-icon, etc.) and update `BaseLayout.astro` references.
+
+## Cleanup
+
+- [ ] **Swap feature/thumbnail image prefixes** — The `feature-*` and `thumbnail.*` image naming conventions are currently swapped. Images prefixed with `feature-` should be renamed to `thumbnail-*` (and vice versa), then update all references throughout the codebase (project frontmatter, components, CLAUDE.md image conventions table).
+
+## Documentation
+
+- [ ] **Contributor guide** — Have Claude write a walkthrough guide for new maintainers/contributors that explains how to operate the environment end-to-end: setup, dev workflow, adding content (articles, projects), deployment, key conventions, and where things live.
+
 ## Content
 
 - [ ] **Migrate relevant writing** — Bring over additional articles (from Unknown Arts or other publications) that are most relevant to live on the Writing section of this site.
