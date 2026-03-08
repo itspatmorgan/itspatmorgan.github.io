@@ -1,0 +1,78 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import LogoCarousel from "@/components/LogoCarousel.astro";
+import { bulletPoints, roles, sections } from "@/data/experience";
+---
+
+<PageLayout title="Resume — Patrick Morgan" description="12+ years merging design, technology, and storytelling to create human-centered experiences.">
+  {/* Hero */}
+  <section class="mx-auto max-w-3xl px-6 pt-24 pb-12">
+    <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">Resume</h1>
+    <p class="max-w-lg text-lg text-muted-foreground">
+      12+ years merging design, technology, and storytelling to create human-centered experiences.
+    </p>
+  </section>
+
+  {/* Career Logos */}
+  <section class="mx-auto max-w-3xl px-6 pb-16">
+    <LogoCarousel />
+  </section>
+
+  {/* The Bullet Points */}
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+      The Bullet Points
+    </h2>
+    <div class="flex flex-col gap-5">
+      {bulletPoints.map((bp) => (
+        <div>
+          <h3 class="mb-1 text-sm font-semibold">{bp.title}</h3>
+          <p class="text-sm leading-relaxed text-muted-foreground">{bp.description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* Career Sections */}
+  {sections.map((section, i) => {
+    const sectionRoles = roles.filter((r) => r.section === section);
+    const isLast = i === sections.length - 1;
+    return (
+      <section class:list={["mx-auto max-w-3xl border-t border-border px-6 py-16", isLast && "pb-24"]}>
+        <h2 class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          {section}
+        </h2>
+        <div class="flex flex-col gap-10">
+          {sectionRoles.map((role) => (
+            <div class="flex gap-6 sm:gap-10">
+              {/* Date range */}
+              <div class="w-24 shrink-0 pt-1">
+                <p class="font-mono text-xs text-muted-foreground">{role.dateRange}</p>
+              </div>
+              {/* Role details */}
+              <div class="flex-1">
+                <div class="mb-4 flex items-center gap-3">
+                  {role.logo && (
+                    <img
+                      src={role.logo}
+                      alt={role.company}
+                      class="logo-adaptive h-5"
+                    />
+                  )}
+                </div>
+                <p class="mb-2 text-sm font-semibold">{role.role}</p>
+                <ul class="flex flex-col gap-2">
+                  {role.descriptions.map((desc) => (
+                    <li class="text-sm leading-relaxed text-muted-foreground">
+                      {desc}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  })}
+</PageLayout>

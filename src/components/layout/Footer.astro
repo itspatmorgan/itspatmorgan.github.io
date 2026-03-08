@@ -2,50 +2,49 @@
 import { siteConfig } from "@/data/site-config";
 ---
 
-<footer class="border-t border-border py-12">
+<footer class="border-t border-border py-16">
   <div class="mx-auto max-w-3xl px-6">
-    <p class="mb-6 text-sm text-muted-foreground">
-      Crafting intuitive software and content fostering the creativity in
-      everyone.
+    <h2 class="mb-3 text-2xl font-medium tracking-tight">Get in touch!</h2>
+    <p class="mb-8 max-w-lg text-sm leading-relaxed text-muted-foreground">
+      Always excited to connect with fellow curious minds and creators&mdash;let's make something great together!
     </p>
-    <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-      <a href="/" class="transition-colors hover:text-foreground">Home</a>
-      {siteConfig.nav.map((link) => (
+    <div class="mb-10">
+      <h3 class="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">Links</h3>
+      <div class="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+        <a href="/" class="transition-colors hover:text-accent">Home</a>
         <a
-          href={link.href}
-          class="transition-colors hover:text-foreground"
+          href={siteConfig.social.newsletter}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-accent"
         >
-          {link.label}
+          Newsletter &#8599;
         </a>
-      ))}
-      <span class="h-3.5 w-px bg-border" aria-hidden="true"></span>
-      <a
-        href={siteConfig.social.newsletter}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-      >
-        Newsletter
-      </a>
-      <a
-        href={siteConfig.social.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-      >
-        LinkedIn
-      </a>
-      <a
-        href={siteConfig.social.x}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-      >
-        X
-      </a>
+        <a href="/resume" class="transition-colors hover:text-accent">Resume</a>
+        <a
+          href={siteConfig.social.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-accent"
+        >
+          LinkedIn &#8599;
+        </a>
+        <a href="/writing" class="transition-colors hover:text-accent">Writing</a>
+        <a
+          href={siteConfig.social.x}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-accent"
+        >
+          X &#8599;
+        </a>
+      </div>
+    </div>
+    <div class="flex items-center justify-between text-xs text-muted-foreground">
+      <p>&copy; {new Date().getFullYear()} Patrick Morgan</p>
       <a
         href="/style-guide"
-        class="ml-auto px-2 py-1 text-lg text-muted-foreground/40 transition-colors hover:text-foreground"
+        class="px-2 py-1 text-lg text-muted-foreground/40 transition-colors hover:text-foreground"
       >
         ✦
       </a>

@@ -3,11 +3,11 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import LogoCarousel from "@/components/LogoCarousel.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { siteConfig } from "@/data/site-config";
-import { homeCommendations } from "@/data/commendations";
+import { commendations } from "@/data/commendations";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
-const blogPosts = (await getCollection("blog", ({ data }) => !data.draft))
+const writingPosts = (await getCollection("writing", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
 const professionalProjects = allProjects
   .filter((p) => p.data.type === "professional")
@@ -37,7 +37,7 @@ const impactStatements: Record<string, string> = {
         <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">Patrick Morgan</h1>
       </div>
     </div>
-    <p class="mb-6 max-w-xl text-lg text-muted-foreground">
+    <p class="mb-6 max-w-xl text-md text-muted-foreground">
       Product designer crafting intuitive experiences for high-impact technology. Building AI-powered tools at
       <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>.
       Writing
@@ -114,12 +114,12 @@ const impactStatements: Record<string, string> = {
     </div>
   </section>
 
-  {/* Unknown Arts */}
+  {/* Writing */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Unknown Arts
+      Writing
     </h2>
-    <div class="flex flex-col gap-6 sm:flex-row sm:gap-8">
+    <div class="mb-10 flex flex-col gap-6 sm:flex-row sm:gap-8">
       <div class="shrink-0 overflow-hidden rounded-lg border border-border sm:w-48">
         <img
           src="/images/unknown-arts/thumbnail.jpg"
@@ -156,16 +156,9 @@ const impactStatements: Record<string, string> = {
         </p>
       </div>
     </div>
-  </section>
-
-  {/* Articles */}
-  <section class="mx-auto max-w-3xl px-6 pt-8 pb-16">
-    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Articles
-    </h2>
     <div class="flex flex-col gap-6">
-      {blogPosts.map((post) => (
-        <a href={`/blog/${post.id}`} class="group block">
+      {writingPosts.slice(0, 4).map((post) => (
+        <a href={`/writing/${post.id}`} class="group block">
           <article class="flex items-baseline justify-between gap-4">
             <div class="min-w-0">
               <h3 class="mb-1 text-base font-semibold tracking-tight transition-colors group-hover:text-accent">
@@ -185,23 +178,34 @@ const impactStatements: Record<string, string> = {
         </a>
       ))}
     </div>
+    <div class="mt-8 flex items-center gap-6 text-sm">
+      <a href="/writing" class="transition-colors hover:text-accent">View all articles &rarr;</a>
+      <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Read the newsletter &rarr;</a>
+    </div>
   </section>
 
-  {/* Commendations */}
+  {/* Kind Words */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Commendations
+      Kind Words
     </h2>
-    <div class="grid gap-6 sm:grid-cols-2">
-      {homeCommendations.map((c) => (
-        <blockquote class="rounded-lg border border-border bg-card p-5">
-          <p class="mb-3 text-sm leading-relaxed text-muted-foreground">
-            "{c.quote}"
+    <div class="columns-1 gap-4 sm:columns-2">
+      {commendations.map((c) => (
+        <blockquote class="mb-4 break-inside-avoid rounded-lg border border-border bg-card p-5">
+          <div class="mb-3 flex items-center gap-3">
+            <img
+              src={c.image}
+              alt={c.name}
+              class="h-10 w-10 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-sm font-semibold leading-tight">{c.name}</p>
+              <p class="text-xs text-muted-foreground">{c.role}</p>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed text-muted-foreground">
+            {c.quote}
           </p>
-          <footer class="text-sm">
-            <span class="font-semibold">{c.name}</span>
-            <span class="text-muted-foreground"> · {c.role}</span>
-          </footer>
         </blockquote>
       ))}
     </div>

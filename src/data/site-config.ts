@@ -5,8 +5,8 @@ export const siteConfig = {
     "Technical product designer with 12+ years merging design, technology, and storytelling to create human-centered experiences.",
   url: "https://patrickmorgan.org",
   nav: [
-    { label: "Experience", href: "/experience" },
-    { label: "Blog", href: "/blog" },
+    { label: "Resume", href: "/resume" },
+    { label: "Writing", href: "/writing" },
   ],
   social: {
     x: "https://x.com/itspatmorgan",
