@@ -125,8 +125,8 @@ Project detail pages support YouTube and Figma Slides embeds via MDX:
 
 | Pattern | Size | Purpose |
 |---|---|---|
-| `feature-*` | 2400x2400 (square) | Home page project cards |
-| `thumbnail.*` | 1920x1080 (16:9) | Project detail page hero via `heroImage` field |
+| `thumbnail-*` | 2400x2400 (square) | Home page project cards |
+| `feature-*` | 1920x1080 (16:9) | Project detail page hero via `heroImage` field |
 | `career-*.svg` | Variable | Logo carousel (white SVGs, inverted in light mode via `.logo-adaptive`) |
 | Profile images in `/images/profiles/` | Variable | Commendation author headshots |
 

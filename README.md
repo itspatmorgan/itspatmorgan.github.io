@@ -101,8 +101,8 @@ title: "Project Title"
 type: "professional" | "experiment"
 description: "Short description"
 skills: ["Skill 1", "Skill 2"]
-thumbnail: "/images/projects/slug/feature-image.jpg"  # Square image for home page card
-heroImage: "/images/projects/slug/thumbnail.jpg"       # Optional — if omitted, no hero image renders
+thumbnail: "/images/projects/slug/thumbnail-image.jpg"  # Square image for home page card
+heroImage: "/images/projects/slug/feature-image.jpg"    # Optional — if omitted, no hero image renders
 sortOrder: 1
 draft: false
 ```
@@ -124,8 +124,8 @@ draft: false
 
 | Prefix/name | Dimensions | Usage |
 |---|---|---|
-| `feature-*` | 2400x2400 (square) | Home page project cards |
-| `thumbnail.*` | 1920x1080 (16:9) | Project detail page hero |
+| `thumbnail-*` | 2400x2400 (square) | Home page project cards |
+| `feature-*` | 1920x1080 (16:9) | Project detail page hero |
 | `career-*.svg` | Variable | Logo carousel |
 | Profile images | Variable | Commendation cards |
 
