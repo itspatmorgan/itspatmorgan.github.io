@@ -10,7 +10,7 @@ export const siteConfig = {
   ],
   social: {
     x: "https://x.com/itspatmorgan",
-    linkedin: "https://linkedin.com/in/itspatmorgan",
+    linkedin: "https://www.linkedin.com/in/itspatmorgan",
     newsletter: "https://www.unknownarts.co",
     email: "itspatmorgan@gmail.com",
   },
