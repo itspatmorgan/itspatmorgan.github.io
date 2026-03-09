@@ -31,24 +31,33 @@ const impactStatements: Record<string, string> = {
 <PageLayout>
   {/* Hero */}
   <section class="mx-auto max-w-3xl px-6 pt-24 pb-12">
-    <div class="mb-8 flex items-start gap-6" data-hero-entrance style="opacity: 0;">
+    <div class="mb-8 flex items-start gap-6">
       <img
         src="/images/brand/profile-picture.jpg"
         alt="Patrick Morgan"
         class="h-20 w-20 rounded-full object-cover"
+        data-hero-photo
+        style="opacity: 0;"
       />
       <div>
-        <p class="mb-1 font-mono text-sm text-muted-foreground">Software Designer</p>
-        <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">Patrick Morgan</h1>
+        <p class="mb-1 font-mono text-sm text-muted-foreground" data-hero-label style="opacity: 0;">Software Designer</p>
+        <h1 class="text-4xl font-medium tracking-tight sm:text-5xl" aria-label="Patrick Morgan" data-pixel-wave="hero"
+          >{"Patrick Morgan".split("").map((char) => (
+            <span class="relative inline-block" style={char === " " ? "width: 0.3em;" : ""}>
+              <span class="invisible">{char === " " ? "\u00A0" : char}</span>
+              <span class="absolute inset-0 font-pixel" data-pw-pixel>{char === " " ? "\u00A0" : char}</span>
+              <span class="absolute inset-0" data-pw-sans style="opacity: 0;">{char === " " ? "\u00A0" : char}</span>
+            </span>
+          ))}</h1>
       </div>
     </div>
-    <p class="mb-6 max-w-2xl text-md text-muted-foreground" data-hero-entrance style="opacity: 0;">
+    <p class="mb-6 max-w-2xl text-md text-muted-foreground" data-hero-desc style="opacity: 0;">
       Building AI-powered cybersecurity tools at
       <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a> and writing
       <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>
       — a newsletter for builders exploring the creative frontier.
     </p>
-    <div class="flex items-center gap-3 text-muted-foreground" data-hero-entrance style="opacity: 0;">
+    <div class="flex items-center gap-3 text-muted-foreground" data-hero-icons style="opacity: 0;">
       <a
         href={siteConfig.social.newsletter}
         target="_blank"
@@ -79,15 +88,10 @@ const impactStatements: Record<string, string> = {
     </div>
   </section>
 
-  {/* Career Logos */}
-  <section class="mx-auto max-w-3xl pb-16">
-    <LogoCarousel />
-  </section>
-
   {/* Product Design */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Product Design
+      Projects
     </h2>
     <div class="flex flex-col gap-8">
       {professionalProjects.map((project, i) => (
@@ -109,7 +113,7 @@ const impactStatements: Record<string, string> = {
   </section>
 
   {/* AI Experiments */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       AI Experiments
     </h2>
@@ -133,7 +137,7 @@ const impactStatements: Record<string, string> = {
   </section>
 
   {/* Writing */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Writing
     </h2>
@@ -206,7 +210,7 @@ const impactStatements: Record<string, string> = {
   </section>
 
   {/* Kind Words */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Kind Words
     </h2>
@@ -233,73 +237,18 @@ const impactStatements: Record<string, string> = {
   </section>
 
   {/* CTA */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-24 text-center">
-    <p class="text-3xl font-medium tracking-tight sm:text-4xl">
-      Let's craft a better future, together.
-    </p>
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-24 text-center" data-cta-section>
+    <p class="text-3xl font-medium tracking-tight sm:text-4xl" data-pixel-wave="cta"
+      >{"Let's craft a better future, together.".split("").map((char) => (
+        <span class="relative inline-block" style={char === " " ? "width: 0.3em;" : ""}>
+          <span class="invisible">{char === " " ? "\u00A0" : char}</span>
+          <span class="absolute inset-0 font-pixel" data-pw-pixel>{char === " " ? "\u00A0" : char}</span>
+          <span class="absolute inset-0" data-pw-sans style="opacity: 0;">{char === " " ? "\u00A0" : char}</span>
+        </span>
+      ))}</p>
   </section>
 
   <script>
-    import { animate } from "motion";
-
-    function init() {
-      // Hero entrance: staggered spring-in on page load
-      const heroEls = document.querySelectorAll('[data-hero-entrance]') as NodeListOf<HTMLElement>;
-      heroEls.forEach((el, i) => {
-        animate(
-          el,
-          { opacity: [0, 1], y: [16, 0] },
-          { type: "spring", stiffness: 160, damping: 20, mass: 0.8, delay: i * 0.12 }
-        );
-      });
-
-      // Scroll-triggered staggered entrance — groups items by their parent section
-      function observeSections(selector: string, opts: { yOffset?: number; stagger?: number; threshold?: number } = {}) {
-        const allItems = document.querySelectorAll(selector) as NodeListOf<HTMLElement>;
-        if (!allItems.length) return;
-        const { yOffset = 20, stagger = 0.08, threshold = 0.15 } = opts;
-
-        // Group items by their closest section
-        const sectionMap = new Map<Element, HTMLElement[]>();
-        allItems.forEach((el) => {
-          const section = el.closest('section');
-          if (!section) return;
-          if (!sectionMap.has(section)) sectionMap.set(section, []);
-          sectionMap.get(section)!.push(el);
-        });
-
-        // Create an observer per section
-        sectionMap.forEach((items, section) => {
-          let revealed = false;
-          const obs = new IntersectionObserver((entries) => {
-            if (revealed) return;
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                revealed = true;
-                obs.disconnect();
-                items.forEach((el, i) => {
-                  animate(
-                    el,
-                    { opacity: [0, 1], y: [yOffset, 0] },
-                    { type: "spring", stiffness: 140, damping: 18, mass: 0.8, delay: i * stagger }
-                  );
-                });
-                break;
-              }
-            }
-          }, { threshold });
-          obs.observe(section);
-        });
-      }
-
-      // Project cards entrance (both Product Design and AI Experiments sections)
-      observeSections('[data-project-card-item]', { yOffset: 24, stagger: 0.1 });
-
-      // Kind Words entrance
-      observeSections('[data-kind-words-item]', { yOffset: 20, stagger: 0.06 });
-    }
-
-    init();
-    document.addEventListener('astro:after-swap', init);
+    import "@/scripts/home-animations";
   </script>
 </PageLayout>
