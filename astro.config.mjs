@@ -7,7 +7,7 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://itspatmorgan.github.io',
+  site: 'https://itspatmorgan.com',
   output: 'static',
   integrations: [react(), mdx()],
   vite: {
