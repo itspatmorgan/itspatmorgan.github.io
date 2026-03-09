@@ -163,3 +163,17 @@
 .dark .logo-adaptive {
   filter: none;
 }
+
+/* Textured background for card image areas */
+.texture-bg {
+  background-image:
+    linear-gradient(oklch(0.93 0.01 80 / 0.55), oklch(0.93 0.01 80 / 0.55)),
+    url('/images/textures/debut_light.png');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+.dark .texture-bg {
+  background-image:
+    linear-gradient(oklch(0.16 0.01 60 / 0.7), oklch(0.16 0.01 60 / 0.7)),
+    url('/images/textures/debut_dark.png');
+}

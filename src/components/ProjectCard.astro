@@ -6,39 +6,105 @@ interface Props {
   description: string;
   skills: string[];
   thumbnail: string;
+  thumbnailDark?: string;
   slug: string;
   impact?: string;
+  index?: number;
+  variant?: "full" | "compact";
+  icon?: string;
 }
 
-const { title, description, skills, thumbnail, slug, impact } = Astro.props;
+const {
+  title,
+  description,
+  skills,
+  thumbnail,
+  thumbnailDark,
+  slug,
+  impact,
+  index = 0,
+  variant = "full",
+  icon,
+} = Astro.props;
+
+const isReversed = variant === "full" && index % 2 === 1;
 ---
 
-<a href={`/projects/${slug}`} class="group block">
-  <article class="flex flex-col gap-5 sm:flex-row sm:gap-6">
-    <div class="shrink-0 overflow-hidden rounded-lg border border-border sm:w-48">
-      <img
-        src={thumbnail}
-        alt={title}
-        class="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-      />
-    </div>
-    <div class="min-w-0 flex-1">
-      <h3 class="mb-2 text-base font-semibold tracking-tight transition-colors group-hover:text-accent">
-        {title}
-      </h3>
-      <div class="mb-3 flex flex-wrap gap-1.5">
-        {skills.map((skill) => (
-          <Badge variant="secondary" className="text-[11px]">{skill}</Badge>
-        ))}
+{variant === "full" ? (
+  <a href={`/projects/${slug}`} class="group block" data-project-card>
+    <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
+      <div class={`flex flex-col ${isReversed ? "md:flex-row-reverse" : "md:flex-row"}`}>
+        <div class="texture-bg overflow-hidden md:w-[40%]">
+          <img
+            src={thumbnail}
+            alt={title}
+            class:list={["aspect-video h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]", thumbnailDark && "dark:hidden"]}
+          />
+          {thumbnailDark && (
+            <img
+              src={thumbnailDark}
+              alt={title}
+              class="hidden aspect-video h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block"
+            />
+          )}
+        </div>
+        <div class="flex flex-1 flex-col justify-center p-6">
+          <h3 class="mb-3 text-lg font-semibold tracking-tight transition-colors duration-300 group-hover:text-accent">
+            {title}
+          </h3>
+          <div class="mb-3 flex flex-wrap gap-1.5">
+            {skills.map((skill) => (
+              <Badge variant="secondary" className="text-[11px]">{skill}</Badge>
+            ))}
+          </div>
+          <p class="text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+          {impact && (
+            <blockquote class="mt-4 border-l-2 border-accent pl-3 text-sm font-medium text-foreground">
+              {impact}
+            </blockquote>
+          )}
+        </div>
       </div>
-      <p class="mb-3 text-sm leading-relaxed text-muted-foreground">
-        {description}
-      </p>
-      {impact && (
-        <p class="text-sm font-medium text-foreground">
-          {impact}
-        </p>
-      )}
-    </div>
-  </article>
-</a>
+    </article>
+  </a>
+) : (
+  <a href={`/projects/${slug}`} class="group block" data-project-card>
+    <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
+      <div class="texture-bg overflow-hidden">
+        <img
+          src={thumbnail}
+          alt={title}
+          class:list={["aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]", thumbnailDark && "dark:hidden"]}
+        />
+        {thumbnailDark && (
+          <img
+            src={thumbnailDark}
+            alt={title}
+            class="hidden aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block"
+          />
+        )}
+      </div>
+      <div class="p-4">
+        <div class="mb-2 flex items-center gap-2">
+          {icon && (
+            <img
+              src={icon}
+              alt=""
+              class="logo-adaptive h-5 w-5 shrink-0"
+            />
+          )}
+          <h3 class="text-base font-semibold tracking-tight transition-colors duration-300 group-hover:text-accent">
+            {title}
+          </h3>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          {skills.map((skill) => (
+            <Badge variant="secondary" className="text-[11px]">{skill}</Badge>
+          ))}
+        </div>
+      </div>
+    </article>
+  </a>
+)}

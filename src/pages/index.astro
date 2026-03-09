@@ -16,6 +16,11 @@ const experimentProjects = allProjects
   .filter((p) => p.data.type === "experiment")
   .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
 
+const experimentIcons: Record<string, string> = {
+  "characters": "/images/logos/square-claude.svg",
+  "gpts": "/images/logos/square-chatgpt.svg",
+};
+
 const impactStatements: Record<string, string> = {
   "query-language": "Reduced new users' time to build a custom query from 21 days to 1.",
   "expansion": "Established scalable product architecture that enabled rapid market expansion.",
@@ -37,8 +42,8 @@ const impactStatements: Record<string, string> = {
         <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">Patrick Morgan</h1>
       </div>
     </div>
-    <p class="mb-6 max-w-xl text-md text-muted-foreground" data-hero-entrance style="opacity: 0;">
-      Product designer crafting intuitive experiences for high-impact technology. Building AI-powered tools at
+    <p class="mb-6 max-w-2xl text-md text-muted-foreground" data-hero-entrance style="opacity: 0;">
+      Product designer building AI-powered cybersecurity tools at
       <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>.
       Writing
       <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>
@@ -82,16 +87,21 @@ const impactStatements: Record<string, string> = {
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Product Design
     </h2>
-    <div class="flex flex-col gap-10">
-      {professionalProjects.map((project) => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          skills={project.data.skills}
-          thumbnail={project.data.thumbnail}
-          slug={project.id}
-          impact={impactStatements[project.id]}
-        />
+    <div class="flex flex-col gap-8">
+      {professionalProjects.map((project, i) => (
+        <div data-project-card-item style="opacity: 0;">
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            skills={project.data.skills}
+            thumbnail={project.data.thumbnail}
+            thumbnailDark={project.data.thumbnailDark}
+            slug={project.id}
+            impact={impactStatements[project.id]}
+            index={i}
+            variant="full"
+          />
+        </div>
       ))}
     </div>
   </section>
@@ -101,15 +111,21 @@ const impactStatements: Record<string, string> = {
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       AI Experiments
     </h2>
-    <div class="flex flex-col gap-10">
-      {experimentProjects.map((project) => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          skills={project.data.skills}
-          thumbnail={project.data.thumbnail}
-          slug={project.id}
-        />
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {experimentProjects.map((project, i) => (
+        <div data-project-card-item style="opacity: 0;">
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            skills={project.data.skills}
+            thumbnail={project.data.thumbnail}
+            thumbnailDark={project.data.thumbnailDark}
+            slug={project.id}
+            index={i}
+            variant="compact"
+            icon={experimentIcons[project.id]}
+          />
+        </div>
       ))}
     </div>
   </section>
@@ -235,32 +251,50 @@ const impactStatements: Record<string, string> = {
         );
       });
 
-      // Kind Words: scroll-triggered staggered entrance
-      const kindWordsItems = document.querySelectorAll('[data-kind-words-item]') as NodeListOf<HTMLElement>;
-      if (!kindWordsItems.length) return;
+      // Scroll-triggered staggered entrance — groups items by their parent section
+      function observeSections(selector: string, opts: { yOffset?: number; stagger?: number; threshold?: number } = {}) {
+        const allItems = document.querySelectorAll(selector) as NodeListOf<HTMLElement>;
+        if (!allItems.length) return;
+        const { yOffset = 20, stagger = 0.08, threshold = 0.15 } = opts;
 
-      let revealed = false;
-      const observer = new IntersectionObserver((entries) => {
-        if (revealed) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            revealed = true;
-            observer.disconnect();
-            kindWordsItems.forEach((el, i) => {
-              animate(
-                el,
-                { opacity: [0, 1], y: [20, 0] },
-                { type: "spring", stiffness: 140, damping: 18, mass: 0.8, delay: i * 0.06 }
-              );
-            });
-            break;
-          }
-        }
-      }, { threshold: 0.15 });
+        // Group items by their closest section
+        const sectionMap = new Map<Element, HTMLElement[]>();
+        allItems.forEach((el) => {
+          const section = el.closest('section');
+          if (!section) return;
+          if (!sectionMap.has(section)) sectionMap.set(section, []);
+          sectionMap.get(section)!.push(el);
+        });
 
-      // Observe the section, not individual cards
-      const kindWordsSection = kindWordsItems[0]?.closest('section');
-      if (kindWordsSection) observer.observe(kindWordsSection);
+        // Create an observer per section
+        sectionMap.forEach((items, section) => {
+          let revealed = false;
+          const obs = new IntersectionObserver((entries) => {
+            if (revealed) return;
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                revealed = true;
+                obs.disconnect();
+                items.forEach((el, i) => {
+                  animate(
+                    el,
+                    { opacity: [0, 1], y: [yOffset, 0] },
+                    { type: "spring", stiffness: 140, damping: 18, mass: 0.8, delay: i * stagger }
+                  );
+                });
+                break;
+              }
+            }
+          }, { threshold });
+          obs.observe(section);
+        });
+      }
+
+      // Project cards entrance (both Product Design and AI Experiments sections)
+      observeSections('[data-project-card-item]', { yOffset: 24, stagger: 0.1 });
+
+      // Kind Words entrance
+      observeSections('[data-kind-words-item]', { yOffset: 20, stagger: 0.06 });
     }
 
     init();
