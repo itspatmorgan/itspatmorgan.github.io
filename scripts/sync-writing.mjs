@@ -139,7 +139,9 @@ function syncFile(filePath, fileName) {
   const slug = slugOverride || slugify(fields.title);
   const outPath = join(OUTPUT_DIR, `${slug}.md`);
   const newFrontmatter = serializeFrontmatter(fields);
-  const newContent = `---\n${newFrontmatter}\n---\n${parsed.body}`;
+  // Strip leading H1 — WritingLayout renders the title frontmatter field as <h1>
+  const body = parsed.body.replace(/^#[^#][^\n]*\n?/, '');
+  const newContent = `---\n${newFrontmatter}\n---\n${body}`;
 
   if (existsSync(outPath) && readFileSync(outPath, 'utf8') === newContent) {
     skipped++;

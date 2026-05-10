@@ -11,7 +11,6 @@ tags:
 image: /images/writing/img-your-instructions.jpg
 draft: false
 ---
-# Your Instructions Now Run Like Code
 
 ### Why your plain-English documentation is more valuable than ever
 

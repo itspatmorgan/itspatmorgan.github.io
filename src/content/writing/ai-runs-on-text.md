@@ -11,7 +11,6 @@ tags:
 image: /images/writing/img-ai-runs-on-text.jpg
 draft: false
 ---
-# AI Runs on Text. So Should You.
 *Where human thinking and AI capability naturally meet*
 
 If you’ve followed the AI discourse so far this year, you’ve probably noticed [Claude Code](https://www.youtube.com/live/6eBSHbLKuN0?si=KcFPzqihF1tFd1xQ) becoming a focal point. Not because it’s flashier than other solutions, but because it’s starting to connect dots in the AI workflow that allow for doing real work over time.
