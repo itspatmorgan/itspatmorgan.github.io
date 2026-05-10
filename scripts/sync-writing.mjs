@@ -20,7 +20,7 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const VAULT = process.env.OBSIDIAN_VAULT ?? join(homedir(), 'Obsidian/itspatmorgan-obsidian');
 const NEWSLETTERS_DIR = join(VAULT, 'Writing/Newsletters');
 const OUTPUT_DIR = resolve('src/content/writing');
-const OBSIDIAN_ONLY = new Set(['created', 'website', 'author', 'slug']);
+const OBSIDIAN_ONLY = new Set(['created', 'website', 'author']);
 const REQUIRED = ['title', 'description', 'publishedDate'];
 
 let synced = 0, skipped = 0, errors = 0;
@@ -66,6 +66,13 @@ function parseSimpleYaml(raw) {
   return fields;
 }
 
+// Convert kebab-case tags to display format (e.g. "context-engineering" → "Context Engineering").
+// Single-word tags pass through unchanged, preserving casing like "AI".
+function displayTag(tag) {
+  if (!tag.includes('-')) return tag;
+  return tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
 function slugify(title) {
   return title
     .toLowerCase()
@@ -95,8 +102,9 @@ function serializeFrontmatter(fields) {
 
 function appendField(lines, key, val) {
   if (Array.isArray(val)) {
+    const items = key === 'tags' ? val.map(displayTag) : val;
     lines.push(`${key}:`);
-    for (const item of val) lines.push(`  - ${item}`);
+    for (const item of items) lines.push(`  - ${item}`);
   } else if (typeof val === 'boolean') {
     lines.push(`${key}: ${val}`);
   } else if (val === '' || val === null || val === undefined) {
@@ -142,9 +150,6 @@ function syncFile(filePath, fileName) {
     return;
   }
 
-  // Capture slug override before stripping Obsidian-only fields
-  const slugOverride = fields.slug;
-
   // Strip Obsidian-only fields
   for (const key of OBSIDIAN_ONLY) delete fields[key];
 
@@ -153,7 +158,7 @@ function syncFile(filePath, fileName) {
     fields.draft = fields.draft === 'false' ? false : true;
   }
 
-  const slug = slugOverride || slugify(fields.title);
+  const slug = slugify(fields.title);
   const outPath = join(OUTPUT_DIR, `${slug}.md`);
   const newFrontmatter = serializeFrontmatter(fields);
   const body = cleanBody(parsed.body);

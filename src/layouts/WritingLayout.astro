@@ -40,7 +40,7 @@ const { title, description, publishedDate, tags, image, canonicalUrl } = Astro.p
           datetime={publishedDate.toISOString()}
           class="font-mono text-sm text-muted-foreground"
         >
-          {publishedDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+          {publishedDate.toLocaleDateString("en-US", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" })}
         </time>
         {tags.length > 0 && (
           <>

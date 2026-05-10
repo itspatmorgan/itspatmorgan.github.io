@@ -17,7 +17,7 @@ The key decision isn’t what to include. It’s what to deliberately leave out.
 
 Prototype code and production code serve fundamentally different purposes. That’s not a new idea. But vibe coding tools are making it dangerously easy to forget, tricking people into thinking they should generate code and ship it in one motion. That sounds like efficiency, but it often means skipping a crucial step that developers have understood for decades.
 
-### Prototype code explores. Production code endures.
+## Prototype code explores. Production code endures.
 
 Prototype code is exploratory. Its job is to make an idea tangible enough to react to, share, and refine. There’s often no backend, just static mock data standing in for the real thing. You’re not thinking about scale or security. You’re hacking, in the best sense of the word: making the thing exist so you can start to test it.
 
@@ -25,7 +25,7 @@ Kent Beck captured the right sequence in the context of test-driven development:
 
 Crafting production code for major applications is a different beast. You’re building for systems that other systems depend on. That means thinking carefully about scale, performance, security, edge cases, and the engineering constraints of whatever framework you’re operating inside. It’s not just having higher standards for the same code; it’s often a genuinely different kind of code.
 
-### The stakes clarify the separation
+## The stakes clarify the separation
 
 I’ve spent the last nine years designing cybersecurity software, where the distinction between prototype and production carries real weight.
 
@@ -37,7 +37,7 @@ However, operating purely within that production mindset means you don’t give 
 
 The goal should be two protected spaces with a deliberate pathway between them. The exploratory, expressive work stays in the prototype environment, doing its job by being unconstrained. And core elements from that workflow transfer over to the production environment to jumpstart the rigorous engineering process.
 
-### This pattern is older than vibe coding
+## This pattern is older than vibe coding
 
 My first job in tech was as a front-end developer embedded on a product design team at American Express. We built a standalone prototyping environment using [Jekyll](https://jekyllrb.com/), with styles and scripts synced to and from production.
 
@@ -45,7 +45,7 @@ We built freely outside the Microsoft ASP.NET production pipeline AmEx ran on, a
 
 The separation was intentional, and it worked. The problem was that it required a team of five design engineers to make it happen. You needed dedicated specialists to write that prototype code. Most companies couldn’t staff for that, so despite its benefits, most design organizations didn’t follow this process.
 
-### The specialist requirement has changed. The distinction didn’t.
+## The specialist requirement has changed. The distinction didn’t.
 
 The distinction between prototype code and production code is as true as it’s ever been. What’s changed is how you can act on it.
 
@@ -57,6 +57,7 @@ Until next time,
 Patrick
 
 ---
+## In Practice
 
 ### 🎯 Try this
 

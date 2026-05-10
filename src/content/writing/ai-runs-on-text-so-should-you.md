@@ -9,6 +9,7 @@ tags:
   - Markdown
   - Knowledge Management
 image: /images/writing/img-ai-runs-on-text.jpg
+canonicalUrl: "https://www.unknownarts.co/p/ai-runs-on-text-so-should-you"
 draft: false
 ---
 If you’ve followed the AI discourse so far this year, you’ve probably noticed [Claude Code](https://www.youtube.com/live/6eBSHbLKuN0?si=KcFPzqihF1tFd1xQ) becoming a focal point. Not because it’s flashier than other solutions, but because it’s starting to connect dots in the AI workflow that allow for doing real work over time.
@@ -44,11 +45,8 @@ What matters is that the ideas are there, externalized, in a form both you and A
 When your thinking lives in text, things that used to feel like a big lift now become almost trivial thanks to AI leverage. AI can:
 
 - Synthesize patterns across years of notes and find connections you didn’t see
-    
 - Reorganize and restructure in seconds
-    
 - Draft new work based on your documented taste and processes
-    
 
 The goal here isn’t to replace your own thinking. It’s to better understand it and put it into action.
 

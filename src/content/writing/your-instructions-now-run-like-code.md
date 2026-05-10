@@ -9,6 +9,7 @@ tags:
   - Documentation
   - Operations
 image: /images/writing/img-your-instructions.jpg
+canonicalUrl: "https://www.unknownarts.co/p/your-instructions-now-run-like-code"
 draft: false
 ---
 Ray Kroc’s genius wasn’t the hamburger.

@@ -194,7 +194,7 @@ const impactStatements: Record<string, string> = {
               datetime={post.data.publishedDate.toISOString()}
               class="mb-2 font-mono text-xs text-muted-foreground"
             >
-              {post.data.publishedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+              {post.data.publishedDate.toLocaleDateString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" })}
             </time>
             <h3 class="mb-1 text-base font-semibold tracking-tight transition-colors group-hover:text-accent">
               {post.data.title}

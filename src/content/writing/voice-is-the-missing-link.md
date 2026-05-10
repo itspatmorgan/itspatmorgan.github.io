@@ -9,6 +9,7 @@ tags:
   - Voice
   - Productivity
 image: /images/writing/img-voice.jpg
+canonicalUrl: "https://www.unknownarts.co/p/voice-is-the-missing-link"
 draft: false
 ---
 Last week, I wrote about [why text matters for your AI workflow](https://www.unknownarts.co/p/ai-runs-on-text-so-should-you): it’s the format where human thinking and AI capability naturally meet.
@@ -120,7 +121,3 @@ Best for: Getting AI to synthesize your rambling into something more structured.
     - Explores the cognitive science behind verbal thinking—why speaking activates working memory and the self-explanation effect differently than writing.
 - **["Vibe Code With Your Voice in Google AI Studio"](https://www.youtube.com/watch?v=ZHpT3ev2XLA)** (Google, YouTube) 
 	- A one-minute demo of using voice dictation for vibe coding. While I don't use Google AI Studio, this short video shows the basic workflow that applies to dictation across any AI tool
-
----
-
-Original thought: [[2026-01-19 1228 - Turn voice memos into reusable assets]]
