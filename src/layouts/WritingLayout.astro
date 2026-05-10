@@ -29,9 +29,12 @@ const { title, description, publishedDate, tags, image, canonicalUrl } = Astro.p
 
     {/* Header */}
     <header class="mb-12">
-      <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">
+      <h1 class="mb-3 text-4xl font-medium tracking-tight sm:text-5xl">
         {title}
       </h1>
+      <p class="mb-5 text-lg leading-snug text-muted-foreground">
+        {description}
+      </p>
       <div class="flex flex-wrap items-center gap-3">
         <time
           datetime={publishedDate.toISOString()}

@@ -12,10 +12,6 @@ image: /images/writing/img-curate-your-context.jpg
 canonicalUrl: "https://www.unknownarts.co/p/context-is-your-creative-leverage"
 draft: false
 ---
-![](https://substackcdn.com/image/fetch/$s_!EGnQ!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a576cda-446f-4a4e-b078-5308e180ec8d_1232x928.png)
-
-Curating your personal archive. Made by the author with Midjourney.
-
 Your AI is only as good as the context you give it.
 
 Too little context and it guesses wildly. Too much and it drowns in noise. But get it just right and suddenly the work hits the mark.
@@ -65,11 +61,7 @@ That’s a whole lot of new value from adding just a bit more intentionality to 
 Until next time,  
 Patrick
 
-![](https://substackcdn.com/image/fetch/$s_!MoPF!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F97d07155-938d-4969-a422-586a0df15f58_2200x320.png)
-
 ---
-
-![](https://substackcdn.com/image/fetch/$s_!9E4d!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1093606f-e1ec-4929-bf02-17693f851aed_2200x356.jpeg)
 
 ### 🎯 Try this
 

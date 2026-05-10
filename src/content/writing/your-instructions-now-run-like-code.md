@@ -11,11 +11,6 @@ tags:
 image: /images/writing/img-your-instructions.jpg
 draft: false
 ---
-
-### Why your plain-English documentation is more valuable than ever
-
----
-
 Ray Kroc’s genius wasn’t the hamburger.
 
 When he built McDonald’s into a global franchise in the 1950s and 60s, his real innovation was the system. He created a strict operations manual and a training program so thorough that just about anyone could open a location and deliver a consistent experience. No extensive culinary training required. No institutional knowledge passed down by word of mouth. The business lived in the documentation. Anyone who could read it could run it.

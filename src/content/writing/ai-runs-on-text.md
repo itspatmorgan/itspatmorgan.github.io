@@ -11,8 +11,6 @@ tags:
 image: /images/writing/img-ai-runs-on-text.jpg
 draft: false
 ---
-*Where human thinking and AI capability naturally meet*
-
 If you’ve followed the AI discourse so far this year, you’ve probably noticed [Claude Code](https://www.youtube.com/live/6eBSHbLKuN0?si=KcFPzqihF1tFd1xQ) becoming a focal point. Not because it’s flashier than other solutions, but because it’s starting to connect dots in the AI workflow that allow for doing real work over time.
 
 For the first time, more people are seeing AI systems work directly with their existing files on their computer. The AI reads, writes, and modifies the same files you’ve been managing for years. So it’s not just that the model is smarter. It’s that it’s becoming fluent in the ways we’re accustomed to working.

@@ -11,16 +11,6 @@ image: /images/writing/img-prototype-code.jpg
 canonicalUrl: "https://www.unknownarts.co/p/prototype-code-is-not-production"
 draft: false
 ---
-### Why the most important distinction in vibe coding is the one nobody's talking about
-
-*Welcome to Unknown Arts — I’m Patrick, your field guide to the creative frontier. Join thousands of builders around the world navigating what’s next.*
-
----
-
-![](https://substackcdn.com/image/fetch/$s_!GYKX!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6377cc43-105f-4e25-b8e2-946896529380_1232x928.png)
-
-A concept car is not a production car. Made by the author with Midjourney.
-
 I’m building a design prototyping environment for my team right now. Using Claude Code, I’m pulling select primitives from our production system, standing up a space where designers can work in real code without touching the production pipeline.
 
 The key decision isn’t what to include. It’s what to deliberately leave out.
@@ -66,11 +56,7 @@ My advice for teams right now? Invest in building this type of prototyping envir
 Until next time,  
 Patrick
 
-![](https://substackcdn.com/image/fetch/$s_!MoPF!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F97d07155-938d-4969-a422-586a0df15f58_2200x320.png)
-
 ---
-
-![](https://substackcdn.com/image/fetch/$s_!9E4d!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1093606f-e1ec-4929-bf02-17693f851aed_2200x356.jpeg)
 
 ### 🎯 Try this
 
@@ -90,10 +76,6 @@ Map your workflow from first idea to final handoff. Find the blur between explor
 	- Keith nails the mindset distinction at the heart of this essay. His test for whether you’re in the wrong mode is simple and useful: if you’re building a prototype and catch yourself thinking about the right class name for a component, you’ve drifted into production thinking.
 - [“Make It Work, Make It Right, Make It Fast”](https://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast=) — C2 Wiki
 	- The canonical discussion of the sequence referenced in today’s essay. Attributed to Kent Beck, with roots in Unix philosophy going back to the early 1980s. A quick read that unpacks what each phase actually means in practice.
-
-***Find this useful? Share it with someone who might also get value.***
-
-**Not subscribed yet? Get my writing directly — 7k+ already do.**
 
 ### Similar Posts[![The End of Design Certainty](https://substackcdn.com/image/fetch/$s_!lIIP!,w_140,h_140,c_fill,f_webp,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbf6e8a17-35e7-461f-95b2-2ef9e22a1be7_1232x928.png)](https://www.unknownarts.co/p/the-end-of-design-certainty)
 
