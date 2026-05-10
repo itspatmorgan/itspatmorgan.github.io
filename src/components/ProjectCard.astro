@@ -7,6 +7,8 @@ interface Props {
   skills: string[];
   thumbnail: string;
   thumbnailDark?: string;
+  thumbnailWide?: string;
+  thumbnailWideDark?: string;
   slug: string;
   impact?: string;
   index?: number;
@@ -20,6 +22,8 @@ const {
   skills,
   thumbnail,
   thumbnailDark,
+  thumbnailWide,
+  thumbnailWideDark,
   slug,
   impact,
   index = 0,
@@ -35,16 +39,32 @@ const isReversed = variant === "full" && index % 2 === 1;
     <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
       <div class={`flex flex-col ${isReversed ? "md:flex-row-reverse" : "md:flex-row"}`}>
         <div class="texture-bg overflow-hidden md:w-[40%]">
+          {/* Mobile: wide image (16:9), hidden on md+ */}
+          {thumbnailWide && (
+            <img
+              src={thumbnailWide}
+              alt={title}
+              class:list={["aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] md:hidden", thumbnailWideDark && "dark:hidden"]}
+            />
+          )}
+          {thumbnailWide && thumbnailWideDark && (
+            <img
+              src={thumbnailWideDark}
+              alt={title}
+              class="hidden aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block md:dark:hidden"
+            />
+          )}
+          {/* Desktop: square image, hidden below md */}
           <img
             src={thumbnail}
             alt={title}
-            class:list={["aspect-video h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]", thumbnailDark && "dark:hidden"]}
+            class:list={[thumbnailWide ? "hidden md:block" : "", "w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] md:h-full", thumbnailDark && "dark:hidden"]}
           />
           {thumbnailDark && (
             <img
               src={thumbnailDark}
               alt={title}
-              class="hidden aspect-video h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block"
+              class:list={["w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] md:h-full dark:block", thumbnailWide ? "hidden md:dark:block" : "hidden"]}
             />
           )}
         </div>

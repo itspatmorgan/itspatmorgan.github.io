@@ -10,6 +10,8 @@ const projects = defineCollection({
     skills: z.array(z.string()),
     thumbnail: z.string(),
     thumbnailDark: z.string().optional(),
+    thumbnailWide: z.string().optional(),
+    thumbnailWideDark: z.string().optional(),
     heroImage: z.string().optional(),
     sortOrder: z.number(),
     draft: z.boolean().default(false),

@@ -44,9 +44,9 @@ import { bulletPoints, roles, sections } from "@/data/experience";
         </h2>
         <div class="flex flex-col gap-10">
           {sectionRoles.map((role) => (
-            <div class="flex gap-6 sm:gap-10">
+            <div class="flex flex-col gap-3 sm:flex-row sm:gap-10">
               {/* Date range */}
-              <div class="w-24 shrink-0 pt-1">
+              <div class="sm:w-24 sm:shrink-0 sm:pt-1">
                 <p class="font-mono text-xs text-muted-foreground">{role.dateRange}</p>
               </div>
               {/* Role details */}
