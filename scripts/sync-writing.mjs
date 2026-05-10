@@ -20,7 +20,7 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const VAULT = process.env.OBSIDIAN_VAULT ?? join(homedir(), 'Obsidian/itspatmorgan-obsidian');
 const NEWSLETTERS_DIR = join(VAULT, 'Writing/Newsletters');
 const OUTPUT_DIR = resolve('src/content/writing');
-const OBSIDIAN_ONLY = new Set(['created', 'website', 'author']);
+const OBSIDIAN_ONLY = new Set(['created', 'website', 'author', 'slug']);
 const REQUIRED = ['title', 'description', 'publishedDate'];
 
 let synced = 0, skipped = 0, errors = 0;
@@ -100,7 +100,8 @@ function appendField(lines, key, val) {
   } else if (typeof val === 'boolean') {
     lines.push(`${key}: ${val}`);
   } else if (val === '' || val === null || val === undefined) {
-    lines.push(`${key}: `);
+    // Skip empty optional fields — absent is cleaner than a blank value
+    // and prevents Zod url()/date() validators from rejecting empty strings.
   } else {
     const needsQuotes = /[:#\[\]{}&*!|>'"%@`]/.test(String(val)) || String(val).startsWith(' ');
     lines.push(`${key}: ${needsQuotes ? `"${String(val).replace(/"/g, '\\"')}"` : val}`);
@@ -124,6 +125,9 @@ function syncFile(filePath, fileName) {
     return;
   }
 
+  // Capture slug override before stripping Obsidian-only fields
+  const slugOverride = fields.slug;
+
   // Strip Obsidian-only fields
   for (const key of OBSIDIAN_ONLY) delete fields[key];
 
@@ -132,7 +136,7 @@ function syncFile(filePath, fileName) {
     fields.draft = fields.draft === 'false' ? false : true;
   }
 
-  const slug = slugify(fields.title);
+  const slug = slugOverride || slugify(fields.title);
   const outPath = join(OUTPUT_DIR, `${slug}.md`);
   const newFrontmatter = serializeFrontmatter(fields);
   const newContent = `---\n${newFrontmatter}\n---\n${parsed.body}`;
