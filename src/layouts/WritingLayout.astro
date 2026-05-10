@@ -8,12 +8,13 @@ interface Props {
   publishedDate: Date;
   tags: string[];
   image?: string;
+  canonicalUrl?: string;
 }
 
-const { title, description, publishedDate, tags, image } = Astro.props;
+const { title, description, publishedDate, tags, image, canonicalUrl } = Astro.props;
 ---
 
-<PageLayout title={title} description={description}>
+<PageLayout title={title} description={description} canonicalUrl={canonicalUrl}>
   <article class="mx-auto max-w-3xl px-6 py-16">
     {/* Back link */}
     <a
@@ -28,15 +29,18 @@ const { title, description, publishedDate, tags, image } = Astro.props;
 
     {/* Header */}
     <header class="mb-12">
-      <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">
+      <h1 class="mb-3 text-4xl font-medium tracking-tight sm:text-5xl">
         {title}
       </h1>
+      <p class="mb-5 text-lg leading-snug text-muted-foreground">
+        {description}
+      </p>
       <div class="flex flex-wrap items-center gap-3">
         <time
           datetime={publishedDate.toISOString()}
           class="font-mono text-sm text-muted-foreground"
         >
-          {publishedDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+          {publishedDate.toLocaleDateString("en-US", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" })}
         </time>
         {tags.length > 0 && (
           <>
