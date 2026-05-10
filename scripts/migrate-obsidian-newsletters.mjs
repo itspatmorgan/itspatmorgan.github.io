@@ -151,10 +151,12 @@ function migrateFile(filePath) {
     }
   }
 
-  // Remove author
-  if ('author' in fields) {
-    delete fields.author;
-    changed = true;
+  // Remove author and series
+  for (const key of ['author', 'series']) {
+    if (key in fields) {
+      delete fields[key];
+      changed = true;
+    }
   }
 
   // Add website if missing
