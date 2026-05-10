@@ -116,6 +116,8 @@ function cleanBody(body) {
     .replace(/^!\[.*?\]\(https:\/\/substackcdn\.com\/[^\)]*\)\n?/gm, '')
     // Strip "Welcome to Unknown Arts" newsletter boilerplate
     .replace(/^\*Welcome to Unknown Arts[^\n]*\n?/gm, '')
+    // Strip "Similar Posts" section and everything after (Substack recommendation embeds)
+    .replace(/\n#{2,3}\s*Similar Posts[\s\S]*/i, '')
     // Strip subscription CTAs
     .replace(/^\*{1,3}(Find this useful|Not subscribed yet)[^\n]*\*{1,3}\n?/gm, '')
     // Collapse 3+ consecutive blank lines down to 2
