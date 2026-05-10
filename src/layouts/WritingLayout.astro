@@ -8,12 +8,13 @@ interface Props {
   publishedDate: Date;
   tags: string[];
   image?: string;
+  canonicalUrl?: string;
 }
 
-const { title, description, publishedDate, tags, image } = Astro.props;
+const { title, description, publishedDate, tags, image, canonicalUrl } = Astro.props;
 ---
 
-<PageLayout title={title} description={description}>
+<PageLayout title={title} description={description} canonicalUrl={canonicalUrl}>
   <article class="mx-auto max-w-3xl px-6 py-16">
     {/* Back link */}
     <a

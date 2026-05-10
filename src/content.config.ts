@@ -27,6 +27,7 @@ const writing = defineCollection({
     categories: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
+    canonicalUrl: z.string().url().optional(),
     draft: z.boolean().default(false),
   }),
 });

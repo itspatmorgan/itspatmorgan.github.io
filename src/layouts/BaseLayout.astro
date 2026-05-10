@@ -6,13 +6,14 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  canonicalUrl?: string;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, canonicalUrl } = Astro.props;
 
 const pageTitle = title ?? siteConfig.title;
 const pageDescription = description ?? siteConfig.description;
-const canonicalURL = new URL(Astro.url.pathname, siteConfig.url);
+const canonicalURL = canonicalUrl ?? new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig.url).toString();
 ---
 
@@ -27,7 +28,7 @@ const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="canonical" href={canonicalURL.toString()} />
+    <link rel="canonical" href={canonicalURL} />
     <title>{pageTitle}</title>
 
     {/* Open Graph */}
