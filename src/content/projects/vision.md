@@ -5,6 +5,8 @@ description: "At Signal Sciences, we transformed customer advisory board feedbac
 skills: ["UX Strategy", "Workshop Facilitation", "Storyboarding"]
 thumbnail: "/images/projects/vision/thumbnail-vision-light.png"
 thumbnailDark: "/images/projects/vision/thumbnail-vision-dark.png"
+thumbnailWide: "/images/projects/vision/thumbnail-vision-light-wide.png"
+thumbnailWideDark: "/images/projects/vision/thumbnail-vision-dark-wide.png"
 heroImage: "/images/projects/vision/vision-hero.png"
 sortOrder: 3
 draft: false

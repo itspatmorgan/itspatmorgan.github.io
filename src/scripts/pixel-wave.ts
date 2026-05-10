@@ -23,7 +23,7 @@ const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
  */
 export function pixelWave(container: HTMLElement, delay: number) {
   const chars = container.querySelectorAll(
-    ":scope > span"
+    "[data-pw-char]"
   ) as NodeListOf<HTMLElement>;
 
   chars.forEach((wrapper, i) => {
@@ -67,7 +67,7 @@ export function pixelWave(container: HTMLElement, delay: number) {
  */
 export function enablePixelHover(container: HTMLElement) {
   const chars = Array.from(
-    container.querySelectorAll(":scope > span") as NodeListOf<HTMLElement>
+    container.querySelectorAll("[data-pw-char]") as NodeListOf<HTMLElement>
   );
 
   // Pre-compute pixel/sans refs and add CSS transitions for smooth GPU animation
