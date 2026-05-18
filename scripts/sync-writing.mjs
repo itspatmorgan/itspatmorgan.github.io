@@ -102,6 +102,7 @@ function serializeFrontmatter(fields) {
 
 function appendField(lines, key, val) {
   if (Array.isArray(val)) {
+    if (val.length === 0) return;
     const items = key === 'tags' ? val.map(displayTag) : val;
     lines.push(`${key}:`);
     for (const item of items) lines.push(`  - ${item}`);
