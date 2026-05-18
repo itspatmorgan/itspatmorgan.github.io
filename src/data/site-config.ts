@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Patrick Morgan",
   title: "Patrick Morgan — Product Designer",
   description:
-    "Technical product designer with 12+ years merging design, technology, and storytelling to create human-centered experiences.",
+    "Staff product designer building AI-powered tools at Sublime Security and writing Unknown Arts — a newsletter for creative builders in the age of AI.",
   url: "https://itspatmorgan.github.io",
   nav: [
     { label: "Resume", href: "/resume" },
