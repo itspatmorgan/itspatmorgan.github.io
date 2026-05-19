@@ -157,7 +157,7 @@ const impactStatements: Record<string, string> = {
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Writing
     </h2>
-    <div class="group mb-10 overflow-hidden rounded-lg border border-border">
+    <div class="group mb-10 overflow-hidden rounded-lg border border-border transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
       <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="block overflow-hidden">
         <img
           src="/images/unknown-arts/banner.webp"
@@ -167,9 +167,7 @@ const impactStatements: Record<string, string> = {
       </a>
       <div class="p-5 sm:p-6">
         <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-          <p class="text-sm leading-relaxed text-muted-foreground sm:flex-1">
-            <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a> is my newsletter for creative builders in the age of AI.
-          </p>
+          <h3 class="text-lg font-semibold tracking-tight sm:flex-1">Unknown Arts Newsletter</h3>
           <div class="flex gap-6 sm:shrink-0">
             <div>
               <p class="text-lg font-semibold tracking-tight">7,500+</p>
@@ -220,21 +218,19 @@ const impactStatements: Record<string, string> = {
     </h2>
     <div class="columns-1 gap-4 sm:columns-2">
       {commendations.map((c) => (
-        <blockquote class="mb-4 break-inside-avoid rounded-lg border border-border bg-card p-5" data-kind-words-item style="opacity: 0;">
-          <div class="mb-3 flex items-center gap-3">
+        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-kind-words-item style="opacity: 0;">
+          <p class="mb-4 font-mono text-[13px] leading-relaxed text-foreground">{c.quote}</p>
+          <footer class="flex items-center gap-3">
             <img
               src={c.image}
               alt={c.name}
-              class="h-10 w-10 rounded-full object-cover"
+              class="h-8 w-8 shrink-0 rounded-full object-cover"
             />
             <div>
-              <p class="text-sm font-semibold leading-tight">{c.name}</p>
+              <p class="text-sm font-medium leading-tight">{c.name}</p>
               <p class="text-xs text-muted-foreground">{c.role}</p>
             </div>
-          </div>
-          <p class="text-sm leading-relaxed text-muted-foreground">
-            {c.quote}
-          </p>
+          </footer>
         </blockquote>
       ))}
     </div>
