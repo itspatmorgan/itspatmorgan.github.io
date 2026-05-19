@@ -62,7 +62,7 @@ function init() {
       pixelWave(heroWave, 300);
       if (desc) springIn(desc, 1200);
       if (icons) springIn(icons, 1350);
-      setTimeout(revealSections, 1500);
+      setTimeout(revealSections, 600);
     } else {
       if (desc) springIn(desc, 240);
       if (icons) springIn(icons, 360);

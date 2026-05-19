@@ -64,7 +64,7 @@ const isReversed = variant === "full" && index % 2 === 1;
             <img
               src={thumbnailDark}
               alt={title}
-              class:list={["w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] md:h-full dark:block", thumbnailWide ? "hidden md:dark:block" : "hidden"]}
+              class:list={["w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] md:h-full", thumbnailWide ? "hidden md:dark:block" : "hidden dark:block"]}
             />
           )}
         </div>
