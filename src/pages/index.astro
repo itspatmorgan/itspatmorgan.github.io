@@ -1,6 +1,7 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
 import LogoCarousel from "@/components/LogoCarousel.astro";
+import ArticleListItem from "@/components/ArticleListItem.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { siteConfig } from "@/data/site-config";
 import { commendations } from "@/data/commendations";
@@ -195,24 +196,15 @@ const impactStatements: Record<string, string> = {
         </p>
       </div>
     </div>
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-2">
       {writingPosts.slice(0, 4).map((post) => (
-        <a href={`/writing/${post.id}`} class="group block">
-          <article>
-            <time
-              datetime={post.data.publishedDate.toISOString()}
-              class="mb-2 font-mono text-xs text-muted-foreground"
-            >
-              {post.data.publishedDate.toLocaleDateString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" })}
-            </time>
-            <h3 class="mb-1 text-base font-semibold tracking-tight transition-colors group-hover:text-accent">
-              {post.data.title}
-            </h3>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              {post.data.description}
-            </p>
-          </article>
-        </a>
+        <ArticleListItem
+          id={post.id}
+          title={post.data.title}
+          description={post.data.description}
+          publishedDate={post.data.publishedDate}
+          headingLevel="h3"
+        />
       ))}
     </div>
     <div class="mt-8 flex items-center gap-6 text-sm">
