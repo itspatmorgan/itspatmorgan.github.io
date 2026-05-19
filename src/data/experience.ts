@@ -36,7 +36,7 @@ export const bulletPoints: BulletPoint[] = [
   {
     title: "Empowering Creators in AI",
     description:
-      "Created Unknown Arts, a newsletter for creative builders exploring AI design and the creative frontier. Also organized events fostering community connection and growth.",
+      "Created Unknown Arts, a newsletter for creative builders in the age of AI, growing to 7,500+ subscribers. Also organized events fostering community connection and growth.",
   },
 ];
 
@@ -46,10 +46,10 @@ export const roles: Role[] = [
     section: "Product Design",
     company: "Sublime Security",
     logo: "/images/logos/career-sublime.svg",
-    role: "Product Designer",
+    role: "Staff Product Designer",
     dateRange: "Current",
     descriptions: [
-      "Joined as the first product designer in March 2025. Now a senior staff IC on a 5-person product design team.",
+      "Joined as the first product designer in March 2025. Now a senior staff IC.",
     ],
   },
   {
@@ -104,7 +104,7 @@ export const roles: Role[] = [
     role: "Founder & Writer",
     dateRange: "2022\u2013Present",
     descriptions: [
-      "Created a newsletter on tech, creativity, and AI, growing to 7,000+ subscribers and ~40% open rate.",
+      "Created a newsletter growing to 7,500+ subscribers and ~40% open rate.",
       "Featured in top industry publications, reaching a global audience across 128 countries.",
       "Organized events fostering community connection and growth.",
     ],
