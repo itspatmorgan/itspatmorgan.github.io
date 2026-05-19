@@ -21,7 +21,7 @@ export const commendations: Commendation[] = [
   },
   {
     name: "Michael Riddering",
-    role: "Founder @ Figma Academy",
+    role: "Founder @ Dive Club",
     image: "/images/profiles/michael.avif",
     quote:
       "You're definitely in my top ~3 writers bucket right now. Genuinely look forward to everything you post and the quality is consistently top-notch.",

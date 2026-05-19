@@ -36,7 +36,7 @@ function init() {
       animate(section, { opacity: [0, 1] }, { duration: 0.3, easing: "ease-out" });
     });
     observeSections("[data-project-card-item]", { yOffset: 24, stagger: 0.1 });
-    observeSections("[data-kind-words-item]", { yOffset: 20, stagger: 0.06 });
+    observeSections("[data-kind-words-item]", { yOffset: 10, stagger: 0.04 });
   }
 
   if (seen) {
