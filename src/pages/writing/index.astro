@@ -1,6 +1,5 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
-import WordCarousel from "@/components/WordCarousel.astro";
 import { siteConfig } from "@/data/site-config";
 import { getCollection } from "astro:content";
 
@@ -21,11 +20,6 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft))
         class="text-foreground underline underline-offset-4 transition-colors hover:text-accent"
       >Unknown Arts</a> for weekly updates.
     </p>
-  </section>
-
-  {/* Word Carousel */}
-  <section class="mx-auto max-w-3xl pb-12">
-    <WordCarousel />
   </section>
 
   {/* Articles */}
