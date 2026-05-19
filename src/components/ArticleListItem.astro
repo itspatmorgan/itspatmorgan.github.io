@@ -1,0 +1,42 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  publishedDate: Date;
+  image?: string;
+  headingLevel?: "h2" | "h3";
+}
+
+const { id, title, description, publishedDate, image, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+---
+
+<a href={`/writing/${id}`} class="group -mx-3 block rounded-lg p-3 transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-muted/50">
+  <article class="flex gap-5">
+    {image && (
+      <div class="hidden shrink-0 overflow-hidden rounded-lg border border-border sm:block sm:w-36 md:w-44">
+        <img
+          src={image}
+          alt=""
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          loading="lazy"
+        />
+      </div>
+    )}
+    <div class="flex min-w-0 flex-1 flex-col justify-center">
+      <time
+        datetime={publishedDate.toISOString()}
+        class="mb-2 font-mono text-xs text-muted-foreground"
+      >
+        {publishedDate.toLocaleDateString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" })}
+      </time>
+      <Heading class="mb-1 text-base font-semibold tracking-tight">
+        {title}
+      </Heading>
+      <p class="text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+    </div>
+  </article>
+</a>
