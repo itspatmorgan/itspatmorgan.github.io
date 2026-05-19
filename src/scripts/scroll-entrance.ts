@@ -34,6 +34,29 @@ export function observeSections(
 
   // Create an observer per section
   sectionMap.forEach((items, section) => {
+    const revealItems = (startIndex = 0) => {
+      items.forEach((el, i) => {
+        animate(
+          el,
+          { opacity: [0, 1], y: [yOffset, 0] },
+          {
+            type: "spring",
+            stiffness: 140,
+            damping: 18,
+            mass: 0.8,
+            delay: (i - startIndex) * stagger,
+          }
+        );
+      });
+    };
+
+    // If the section top is already above the viewport bottom, animate immediately
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      revealItems();
+      return;
+    }
+
     let revealed = false;
     const obs = new IntersectionObserver(
       (entries) => {
@@ -42,19 +65,7 @@ export function observeSections(
           if (entry.isIntersecting) {
             revealed = true;
             obs.disconnect();
-            items.forEach((el, i) => {
-              animate(
-                el,
-                { opacity: [0, 1], y: [yOffset, 0] },
-                {
-                  type: "spring",
-                  stiffness: 140,
-                  damping: 18,
-                  mass: 0.8,
-                  delay: i * stagger,
-                }
-              );
-            });
+            revealItems();
             break;
           }
         }
