@@ -10,7 +10,7 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft))
 
 <PageLayout title="Writing — Patrick Morgan" description="Articles on AI, design, and the creative frontier.">
   {/* Hero */}
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-8 sm:pt-24 sm:pb-12">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-8 sm:pt-24 sm:pb-12" data-writing-hero style="opacity: 0">
     <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">Writing</h1>
     <p class="max-w-lg text-lg text-muted-foreground">
       Thoughts on AI, design, and the creative frontier. Subscribe to
@@ -24,7 +24,7 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft))
   </section>
 
   {/* Articles */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16 pb-24">
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16 pb-24" data-writing-list style="opacity: 0">
     <div class="flex flex-col gap-2">
       {posts.map((post) => (
         <ArticleListItem
@@ -38,3 +38,19 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft))
     </div>
   </section>
 </PageLayout>
+
+<script>
+  import { animate } from "motion";
+
+  function init() {
+    const hero = document.querySelector<HTMLElement>("[data-writing-hero]");
+    const list = document.querySelector<HTMLElement>("[data-writing-list]");
+    const spring = { type: "spring" as const, stiffness: 160, damping: 20, mass: 0.8 };
+
+    if (hero) animate(hero, { opacity: [0, 1], y: [16, 0] }, { ...spring });
+    if (list) animate(list, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.2 });
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>
