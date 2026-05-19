@@ -11,9 +11,20 @@ export function ThemeToggle() {
 
   function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.classList.toggle("dark", next === "dark");
-    localStorage.setItem("theme", next);
+
+    const apply = () => {
+      setTheme(next);
+      document.documentElement.classList.toggle("dark", next === "dark");
+      localStorage.setItem("theme", next);
+    };
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduced && "startViewTransition" in document) {
+      (document as Document & { startViewTransition: (cb: () => void) => void })
+        .startViewTransition(apply);
+    } else {
+      apply();
+    }
   }
 
   return (
