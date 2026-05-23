@@ -4,6 +4,7 @@ description: Your AI is only as good as the context you give it. Learn how curat
 publishedDate: 2026-02-16
 categories:
   - Newsletter
+theme: AI
 tags:
   - AI
   - Context Engineering

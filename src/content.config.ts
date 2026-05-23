@@ -25,6 +25,7 @@ const writing = defineCollection({
     description: z.string(),
     publishedDate: z.coerce.date(),
     categories: z.array(z.string()).default([]),
+    theme: z.string().optional(),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
     canonicalUrl: z.string().url().optional(),

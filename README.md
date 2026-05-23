@@ -94,6 +94,21 @@ public/
 
 Content is managed through [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) with Zod-validated frontmatter.
 
+### Syncing writing from Obsidian
+
+Newsletter articles are synced from the local Obsidian vault with:
+
+```bash
+pnpm sync-writing
+pnpm build
+```
+
+The sync script scans `Writing/Newsletters/` in the Obsidian vault and publishes only articles marked with `website: true` in frontmatter. Titles, descriptions, dates, canonical URLs, editorial themes, tags, and body content come from the source frontmatter/body. The script intentionally skips empty optional arrays so Astro does not receive bare YAML keys such as `tags:`.
+
+Use `theme` for the broad reader-facing catalog entry point, such as `AI`, `Design`, `Systems Thinking`, or `Creative Practice`. Use `tags` for lower-level metadata.
+
+Article imagery is handled separately from writing sync. Synced articles may omit `image`; the writing index and article layout both support image-less posts.
+
 ### Projects (`src/content/projects/*.{md,mdx}`)
 
 ```yaml
@@ -116,6 +131,7 @@ title: "Article Title"
 description: "Short description"
 publishedDate: 2026-02-22
 categories: ["Category"]
+theme: "AI"
 tags: ["tag1", "tag2"]
 draft: false
 ```
