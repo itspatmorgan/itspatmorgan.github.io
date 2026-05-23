@@ -1,46 +1,10 @@
 import { useMemo } from 'react';
 import { CANVAS_W, CANVAS_H, resolveLayerColor, type FlowFieldConfig } from '../themes';
+import { noise, makeRng } from './noise';
 
 const W = CANVAS_W;
 const H = CANVAS_H;
 const STEP_PX = 4; // fixed world-space step per iteration
-
-// ── Foundation noise ──────────────────────────────────────────────────────────
-
-function fade(t: number): number {
-  return t * t * t * (t * (t * 6 - 15) + 10);
-}
-
-function lerp(a: number, b: number, t: number): number {
-  return a + t * (b - a);
-}
-
-// Deterministic hash → [0, 1)
-function hash(ix: number, iy: number, seed: number): number {
-  const n = Math.sin(ix * 127.1 + iy * 311.7 + seed * 74.3) * 43758.5453;
-  return n - Math.floor(n);
-}
-
-// Smooth value noise [0, 1)
-function noise(x: number, y: number, seed: number): number {
-  const xi = Math.floor(x), yi = Math.floor(y);
-  const xf = fade(x - xi), yf = fade(y - yi);
-  return lerp(
-    lerp(hash(xi, yi, seed),     hash(xi + 1, yi, seed),     xf),
-    lerp(hash(xi, yi + 1, seed), hash(xi + 1, yi + 1, seed), xf),
-    yf,
-  );
-}
-
-// ── Seeded RNG ─────────────────────────────────────────────────────────────────
-
-function makeRng(seed: number) {
-  let s = ((seed * 1664525 + 1013904223) >>> 0);
-  return (): number => {
-    s = ((s * 1664525 + 1013904223) >>> 0);
-    return s / 0x100000000;
-  };
-}
 
 // ── Path generation ───────────────────────────────────────────────────────────
 

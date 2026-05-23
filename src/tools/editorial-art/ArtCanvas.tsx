@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { UAMark } from './UAMark';
 import { FlowField } from './foundations/FlowField';
+import { DotGrid } from './foundations/DotGrid';
 import {
   brand,
   isColorDark,
@@ -9,14 +10,14 @@ import {
   CANVAS_W,
   CANVAS_H,
   type Composition,
-  type FlowFieldConfig,
+  type FoundationConfig,
   type TextFont,
 } from './themes';
 
 export interface CanvasProps {
   title: string;
   bgColor: string;
-  field: FlowFieldConfig;
+  foundation: FoundationConfig;
   texture: number;    // 0–100 slider
   grain: number;      // 0–100 slider
   showLogo: boolean;
@@ -52,7 +53,7 @@ const titleFonts: Record<TextFont, React.CSSProperties> = {
 };
 
 export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCanvas(
-  { title, bgColor, field, texture, grain, showLogo, showText, composition, textFont },
+  { title, bgColor, foundation, texture, grain, showLogo, showText, composition, textFont },
   ref
 ) {
   const isDark = isColorDark(bgColor);
@@ -126,8 +127,9 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         </svg>
       )}
 
-      {/* Flow field */}
-      <FlowField {...field} />
+      {/* Generative foundation — dispatch by type */}
+      {foundation.type === 'flow-field' && <FlowField {...foundation} />}
+      {foundation.type === 'dot-grid'   && <DotGrid   {...foundation} />}
 
       {/* Text (optional) */}
       {showText && (

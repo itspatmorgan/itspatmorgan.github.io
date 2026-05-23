@@ -53,8 +53,11 @@ export function sliderToGrainOpacity(v: number): number {
   return (v / 100) * 0.75;
 }
 
-// Flow field generative system config
+// ── Generative foundation configs ─────────────────────────────────────────────
+// Each config interface owns its `type` discriminant so the union narrows cleanly.
+
 export interface FlowFieldConfig {
+  type: 'flow-field';
   seed: number;        // 1–999, controls noise field
   density: number;     // 50–600, particle count
   steps: number;       // 20–200, path length per particle
@@ -65,11 +68,24 @@ export interface FlowFieldConfig {
   color: LayerColor;
 }
 
+export interface DotGridConfig {
+  type: 'dot-grid';
+  seed: number;        // 1–999, controls noise field
+  spacing: number;     // 12–48px, grid cell size (hex-offset rows)
+  scale: number;       // 100–600, noise frequency (higher = smoother blobs)
+  dotSize: number;     // 10–100, max dot radius as % of half-spacing
+  opacity: number;     // 0–100 slider
+  color: LayerColor;
+}
+
+export type FoundationType = 'flow-field' | 'dot-grid';
+export type FoundationConfig = FlowFieldConfig | DotGridConfig;
+
 export interface ThemeConfig {
   id: ThemeId;
   label: string;
   defaultBgColor: string;
-  defaultField: FlowFieldConfig;
+  defaultFoundation: FoundationConfig;
   defaultTexture: number;
   defaultComposition: Composition;
 }
@@ -79,7 +95,7 @@ export const themeList: ThemeConfig[] = [
     id: 'ai',
     label: 'AI',
     defaultBgColor: brand.warmDarkGray,
-    defaultField: { seed: 42,  density: 180, steps: 90,  scale: 220, curl: 0,   strokeWidth: 0.7, opacity: 50, color: 'copper' },
+    defaultFoundation: { type: 'flow-field', seed: 42,  density: 180, steps: 90,  scale: 220, curl: 0,   strokeWidth: 0.7, opacity: 50, color: 'copper' },
     defaultTexture: 20,
     defaultComposition: 'left',
   },
@@ -87,7 +103,7 @@ export const themeList: ThemeConfig[] = [
     id: 'design',
     label: 'Design',
     defaultBgColor: brand.paper,
-    defaultField: { seed: 137, density: 80,  steps: 120, scale: 400, curl: 15,  strokeWidth: 0.6, opacity: 35, color: 'muted' },
+    defaultFoundation: { type: 'flow-field', seed: 137, density: 80,  steps: 120, scale: 400, curl: 15,  strokeWidth: 0.6, opacity: 35, color: 'muted' },
     defaultTexture: 0,
     defaultComposition: 'left',
   },
@@ -95,7 +111,7 @@ export const themeList: ThemeConfig[] = [
     id: 'systems',
     label: 'Systems',
     defaultBgColor: brand.warmDarkGray,
-    defaultField: { seed: 73,  density: 300, steps: 60,  scale: 160, curl: -20, strokeWidth: 0.5, opacity: 45, color: 'copper' },
+    defaultFoundation: { type: 'flow-field', seed: 73,  density: 300, steps: 60,  scale: 160, curl: -20, strokeWidth: 0.5, opacity: 45, color: 'copper' },
     defaultTexture: 0,
     defaultComposition: 'left',
   },
@@ -103,7 +119,7 @@ export const themeList: ThemeConfig[] = [
     id: 'creative',
     label: 'Creative Practice',
     defaultBgColor: brand.champagneLight,
-    defaultField: { seed: 256, density: 150, steps: 100, scale: 320, curl: 30,  strokeWidth: 1.0, opacity: 40, color: 'copper' },
+    defaultFoundation: { type: 'flow-field', seed: 256, density: 150, steps: 100, scale: 320, curl: 30,  strokeWidth: 1.0, opacity: 40, color: 'copper' },
     defaultTexture: 55,
     defaultComposition: 'centered',
   },
@@ -111,7 +127,7 @@ export const themeList: ThemeConfig[] = [
     id: 'career',
     label: 'Career',
     defaultBgColor: brand.paper,
-    defaultField: { seed: 512, density: 100, steps: 80,  scale: 350, curl: -10, strokeWidth: 0.6, opacity: 30, color: 'dark' },
+    defaultFoundation: { type: 'flow-field', seed: 512, density: 100, steps: 80,  scale: 350, curl: -10, strokeWidth: 0.6, opacity: 30, color: 'dark' },
     defaultTexture: 0,
     defaultComposition: 'left',
   },

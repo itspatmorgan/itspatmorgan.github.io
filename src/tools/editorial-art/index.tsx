@@ -11,7 +11,10 @@ import {
   type ThemeId,
   type LayerColor,
   type Composition,
+  type FoundationConfig,
+  type FoundationType,
   type FlowFieldConfig,
+  type DotGridConfig,
   type TextFont,
 } from './themes';
 
@@ -20,7 +23,7 @@ import {
 interface AppState {
   themeId: ThemeId;
   bgColor: string;
-  field: FlowFieldConfig;
+  foundation: FoundationConfig;
   texture: number;
   grain: number;
   showLogo: boolean;
@@ -38,6 +41,11 @@ const CANVAS_W = 1200;
 const CANVAS_H = 630;
 const PANEL_W  = 340;
 const CONTROL_LABEL_W = 'w-[4.75rem]';
+
+const FOUNDATION_TYPES: { value: FoundationType; label: string }[] = [
+  { value: 'flow-field', label: 'Flow Field' },
+  { value: 'dot-grid',   label: 'Dot Grid'   },
+];
 
 const COMPOSITIONS: { value: Composition; label: string }[] = [
   { value: 'left',     label: 'Left'   },
@@ -89,7 +97,7 @@ function defaultState(themeId: ThemeId): AppState {
   return {
     themeId,
     bgColor: t.defaultBgColor,
-    field: { ...t.defaultField },
+    foundation: { ...t.defaultFoundation },
     texture: t.defaultTexture,
     grain: 24,
     showLogo: false,
@@ -102,8 +110,36 @@ function defaultState(themeId: ThemeId): AppState {
   };
 }
 
-function randomField(): FlowFieldConfig {
+// Switch foundation type while preserving shared params (seed, scale, color, opacity)
+function switchFoundationType(current: FoundationConfig, toType: FoundationType): FoundationConfig {
+  if (toType === current.type) return current;
+  if (toType === 'dot-grid') {
+    return {
+      type: 'dot-grid',
+      seed:    current.seed,
+      spacing: 20,
+      scale:   Math.max(100, Math.min(600, current.scale)),
+      dotSize: 75,
+      opacity: current.opacity,
+      color:   current.color,
+    } satisfies DotGridConfig;
+  }
   return {
+    type: 'flow-field',
+    seed:        current.seed,
+    density:     180,
+    steps:       90,
+    scale:       Math.max(80, Math.min(600, current.scale)),
+    curl:        0,
+    strokeWidth: 0.7,
+    opacity:     current.opacity,
+    color:       current.color,
+  } satisfies FlowFieldConfig;
+}
+
+function randomFlowField(): FlowFieldConfig {
+  return {
+    type:        'flow-field',
     seed:        ri(1, 999),
     density:     ri(60, 350),
     steps:       ri(40, 160),
@@ -113,6 +149,22 @@ function randomField(): FlowFieldConfig {
     opacity:     ri(25, 60),
     color:       pick(COLORS).value,
   };
+}
+
+function randomDotGrid(): DotGridConfig {
+  return {
+    type:    'dot-grid',
+    seed:    ri(1, 999),
+    spacing: ri(12, 36),
+    scale:   ri(150, 500),
+    dotSize: ri(50, 95),
+    opacity: ri(30, 70),
+    color:   pick(COLORS).value,
+  };
+}
+
+function randomFoundation(type: FoundationType): FoundationConfig {
+  return type === 'flow-field' ? randomFlowField() : randomDotGrid();
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
@@ -310,8 +362,11 @@ export default function EditorialArtTool() {
     });
   }, []);
 
-  const setField = useCallback((patch: Partial<FlowFieldConfig>) => {
-    setState((prev) => ({ ...prev, field: { ...prev.field, ...patch } }));
+  const patchFoundation = useCallback((patch: Record<string, unknown>) => {
+    setState((prev) => ({
+      ...prev,
+      foundation: { ...prev.foundation, ...patch } as FoundationConfig,
+    }));
   }, []);
 
   const updatePanelScrollThumb = useCallback(() => {
@@ -390,7 +445,7 @@ export default function EditorialArtTool() {
     setState((prev) => ({
       ...prev,
       bgColor: pick(bgPalette).value,
-      field: randomField(),
+      foundation: randomFoundation(prev.foundation.type),
     }));
   }, []);
 
@@ -409,7 +464,7 @@ export default function EditorialArtTool() {
     }
   }, [state.slug]);
 
-  const { field, bgColor } = state;
+  const { foundation, bgColor } = state;
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
@@ -492,18 +547,31 @@ export default function EditorialArtTool() {
             </div>
               </PanelSection>
 
-              <PanelSection title="Flow Field">
+              <PanelSection title="Foundation">
+            {/* Foundation type picker */}
+            <SegmentedControl
+              value={foundation.type}
+              options={FOUNDATION_TYPES}
+              onChange={(type) =>
+                setState((prev) => ({
+                  ...prev,
+                  foundation: switchFoundationType(prev.foundation, type),
+                }))
+              }
+            />
+
+            {/* Seed — shared by all foundation types */}
             <div className="flex items-center gap-2">
               <span className={`${CONTROL_LABEL_W} shrink-0 font-mono text-[11px] text-muted-foreground`}>Seed</span>
               <div className="flex flex-1 gap-1">
                 <input
-                  type="number" min={1} max={999} value={field.seed}
-                  onChange={(e) => setField({ seed: Math.max(1, Math.min(999, Number(e.target.value))) })}
+                  type="number" min={1} max={999} value={foundation.seed}
+                  onChange={(e) => patchFoundation({ seed: Math.max(1, Math.min(999, Number(e.target.value))) })}
                   className="h-9 min-w-0 flex-1 cursor-text rounded-md border border-transparent bg-muted px-3 py-0 font-mono text-[12px] leading-9 text-foreground focus:border-border focus:bg-background focus:outline-none"
                 />
                 <button
                   type="button"
-                  onClick={() => setField({ seed: ri(1, 999) })}
+                  onClick={() => patchFoundation({ seed: ri(1, 999) })}
                   title="New seed"
                   className="h-9 w-9 shrink-0 cursor-pointer rounded-md bg-muted font-mono text-[12px] text-muted-foreground transition-colors hover:text-foreground"
                 >
@@ -511,13 +579,31 @@ export default function EditorialArtTool() {
                 </button>
               </div>
             </div>
-            <SliderRow label="Density"  value={field.density}     min={30}   max={600} onChange={(v) => setField({ density: v })} />
-            <SliderRow label="Steps"    value={field.steps}       min={20}   max={200} onChange={(v) => setField({ steps: v })} />
-            <SliderRow label="Scale"    value={field.scale}       min={80}   max={600} onChange={(v) => setField({ scale: v })} />
-            <SliderRow label="Curl"     value={field.curl}        min={-180} max={180} onChange={(v) => setField({ curl: v })} format={(v) => `${v}°`} />
-            <SliderRow label="Weight"   value={field.strokeWidth} min={0.3}  max={2.0} step={0.1} onChange={(v) => setField({ strokeWidth: v })} />
-            <ColorDots value={field.color} onChange={(v) => setField({ color: v })} bgColor={bgColor} />
-            <SliderRow label="Opacity" value={field.opacity} min={0} max={100} onChange={(v) => setField({ opacity: v })} />
+
+            {/* Flow Field — specific controls */}
+            {foundation.type === 'flow-field' && (<>
+              <SliderRow label="Density" value={foundation.density}     min={30}   max={600} onChange={(v) => patchFoundation({ density: v })} />
+              <SliderRow label="Steps"   value={foundation.steps}       min={20}   max={200} onChange={(v) => patchFoundation({ steps: v })} />
+            </>)}
+
+            {/* Dot Grid — specific controls */}
+            {foundation.type === 'dot-grid' && (<>
+              <SliderRow label="Spacing" value={foundation.spacing} min={12} max={48} onChange={(v) => patchFoundation({ spacing: v })} />
+              <SliderRow label="Dot Size" value={foundation.dotSize} min={10} max={100} onChange={(v) => patchFoundation({ dotSize: v })} />
+            </>)}
+
+            {/* Scale — shared */}
+            <SliderRow label="Scale" value={foundation.scale} min={foundation.type === 'flow-field' ? 80 : 100} max={600} onChange={(v) => patchFoundation({ scale: v })} />
+
+            {/* Flow Field — curl + weight */}
+            {foundation.type === 'flow-field' && (<>
+              <SliderRow label="Curl"   value={foundation.curl}        min={-180} max={180} onChange={(v) => patchFoundation({ curl: v })} format={(v) => `${v}°`} />
+              <SliderRow label="Weight" value={foundation.strokeWidth} min={0.3}  max={2.0} step={0.1} onChange={(v) => patchFoundation({ strokeWidth: v })} />
+            </>)}
+
+            {/* Color + Opacity — shared */}
+            <ColorDots value={foundation.color} onChange={(v) => patchFoundation({ color: v })} bgColor={bgColor} />
+            <SliderRow label="Opacity" value={foundation.opacity} min={0} max={100} onChange={(v) => patchFoundation({ opacity: v })} />
               </PanelSection>
 
               <PanelSection title="Canvas Style">
@@ -669,7 +755,7 @@ export default function EditorialArtTool() {
             ref={canvasRef}
             title={state.title}
             bgColor={bgColor}
-            field={field}
+            foundation={foundation}
             texture={state.texture}
             grain={state.grain}
             showLogo={state.showLogo}
