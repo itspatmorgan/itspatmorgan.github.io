@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import EditorialArtTool from '@/tools/editorial-art/index';
+---
+
+<BaseLayout
+  title="Editorial Art Tool — Patrick Morgan"
+  description="Generate editorial feature images for Unknown Arts articles."
+>
+  <Header />
+  <EditorialArtTool client:only="react" />
+</BaseLayout>
