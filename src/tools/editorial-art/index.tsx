@@ -5,7 +5,7 @@ import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
   bgPalette,
-  brand,
+  brandAccent,
   resolveLayerColor,
   isColorDark,
   type ThemeId,
@@ -46,10 +46,10 @@ const COMPOSITIONS: { value: Composition; label: string }[] = [
 ];
 
 const COLORS: { value: LayerColor; label: string }[] = [
-  { value: 'copper', label: 'Copper' },
-  { value: 'light',  label: 'Light'  },
-  { value: 'dark',   label: 'Dark'   },
-  { value: 'muted',  label: 'Muted'  },
+  { value: 'copper', label: 'Champagne' },
+  { value: 'light',  label: 'Paper' },
+  { value: 'dark',   label: 'Dark' },
+  { value: 'muted',  label: 'Stone' },
 ];
 
 const TEXT_FONTS: { value: TextFont; label: string }[] = [
@@ -243,7 +243,7 @@ function ColorDots({
               style={{
                 backgroundColor: hex,
                 boxShadow: active
-                  ? `0 0 0 2px ${brand.copper}`
+                  ? `0 0 0 2px ${brandAccent}`
                   : '0 0 0 1px rgba(0,0,0,0.18)',
               }}
               className="h-5 w-5 shrink-0 cursor-pointer rounded-full transition-all"
@@ -532,7 +532,7 @@ export default function EditorialArtTool() {
                     style={{
                       backgroundColor: s.value,
                       boxShadow: bgColor === s.value
-                        ? `0 0 0 2px ${brand.copper}`
+                        ? `0 0 0 2px ${brandAccent}`
                         : '0 0 0 1px rgba(0,0,0,0.12)',
                     }}
                     className="h-5 w-5 cursor-pointer rounded-full transition-all"

@@ -7,22 +7,26 @@ export const CANVAS_W = 1200;
 export const CANVAS_H = 630;
 
 export const brand = {
-  cream:      '#faf8f4',
-  warmBlack:  '#221d19',
-  copper:     '#c9956a',
-  offWhite:   '#ede9e3',
-  darkText:   '#241f1b',
-  mutedLight: '#7a7068',
-  mutedDark:  '#a09488',
+  paper:             '#faf8f4',
+  champagneLight:   '#f7ccab',
+  champagneBronze:  '#b38b6d',
+  warmDarkGray:     '#171716',
+  offWhite:         '#ede9e3',
+  sageGray:         '#8b9690',
+  weatheredStone:   '#6f6860',
+  mutedLight:       '#6f6860',
+  mutedDark:        '#a79b8f',
 } as const;
 
+export const brandAccent = brand.champagneLight;
+
 export const bgPalette = [
-  { name: 'Cream',       value: '#faf8f4', dark: false },
-  { name: 'Copper Pale', value: '#f0e4d8', dark: false },
-  { name: 'Warm Gray',   value: '#c5b8b0', dark: false },
-  { name: 'Stone',       value: '#6b5f58', dark: true  },
-  { name: 'Deep',        value: '#2d2420', dark: true  },
-  { name: 'Warm Black',  value: '#221d19', dark: true  },
+  { name: 'Paper',              value: brand.paper, dark: false },
+  { name: 'Champagne Light',    value: brand.champagneLight, dark: false },
+  { name: 'Champagne Bronze',   value: brand.champagneBronze, dark: false },
+  { name: 'Sage Gray',          value: brand.sageGray, dark: false },
+  { name: 'Weathered Stone',    value: brand.weatheredStone, dark: true  },
+  { name: 'Warm Dark Gray',     value: brand.warmDarkGray, dark: true  },
 ] as const;
 
 export function isColorDark(hex: string): boolean {
@@ -34,19 +38,19 @@ export function isColorDark(hex: string): boolean {
 
 export function resolveLayerColor(color: LayerColor): string {
   switch (color) {
-    case 'copper': return brand.copper;
-    case 'light':  return '#f7f2e8';
-    case 'dark':   return brand.darkText;
-    case 'muted':  return '#82776f';
+    case 'copper': return brand.champagneLight;
+    case 'light':  return brand.paper;
+    case 'dark':   return brand.warmDarkGray;
+    case 'muted':  return brand.weatheredStone;
   }
 }
 
 export function sliderToTextureOpacity(v: number): number {
-  return (v / 100) * 0.65;
+  return (v / 100) * 0.85;
 }
 
 export function sliderToGrainOpacity(v: number): number {
-  return (v / 100) * 0.38;
+  return (v / 100) * 0.75;
 }
 
 // Flow field generative system config
@@ -74,7 +78,7 @@ export const themeList: ThemeConfig[] = [
   {
     id: 'ai',
     label: 'AI',
-    defaultBgColor: brand.warmBlack,
+    defaultBgColor: brand.warmDarkGray,
     defaultField: { seed: 42,  density: 180, steps: 90,  scale: 220, curl: 0,   strokeWidth: 0.7, opacity: 50, color: 'copper' },
     defaultTexture: 20,
     defaultComposition: 'left',
@@ -82,7 +86,7 @@ export const themeList: ThemeConfig[] = [
   {
     id: 'design',
     label: 'Design',
-    defaultBgColor: brand.cream,
+    defaultBgColor: brand.paper,
     defaultField: { seed: 137, density: 80,  steps: 120, scale: 400, curl: 15,  strokeWidth: 0.6, opacity: 35, color: 'muted' },
     defaultTexture: 0,
     defaultComposition: 'left',
@@ -90,7 +94,7 @@ export const themeList: ThemeConfig[] = [
   {
     id: 'systems',
     label: 'Systems',
-    defaultBgColor: '#2d2420',
+    defaultBgColor: brand.warmDarkGray,
     defaultField: { seed: 73,  density: 300, steps: 60,  scale: 160, curl: -20, strokeWidth: 0.5, opacity: 45, color: 'copper' },
     defaultTexture: 0,
     defaultComposition: 'left',
@@ -98,7 +102,7 @@ export const themeList: ThemeConfig[] = [
   {
     id: 'creative',
     label: 'Creative Practice',
-    defaultBgColor: '#f0e4d8',
+    defaultBgColor: brand.champagneLight,
     defaultField: { seed: 256, density: 150, steps: 100, scale: 320, curl: 30,  strokeWidth: 1.0, opacity: 40, color: 'copper' },
     defaultTexture: 55,
     defaultComposition: 'centered',
@@ -106,7 +110,7 @@ export const themeList: ThemeConfig[] = [
   {
     id: 'career',
     label: 'Career',
-    defaultBgColor: brand.cream,
+    defaultBgColor: brand.paper,
     defaultField: { seed: 512, density: 100, steps: 80,  scale: 350, curl: -10, strokeWidth: 0.6, opacity: 30, color: 'dark' },
     defaultTexture: 0,
     defaultComposition: 'left',

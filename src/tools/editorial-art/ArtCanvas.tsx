@@ -56,7 +56,7 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
   ref
 ) {
   const isDark = isColorDark(bgColor);
-  const fgColor    = isDark ? brand.offWhite   : brand.darkText;
+  const fgColor    = isDark ? brand.offWhite   : brand.warmDarkGray;
   const textureSrc = isDark
     ? '/images/textures/debut_dark.png'
     : '/images/textures/debut_light.png';
@@ -95,19 +95,35 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         }} />
       )}
 
-      {/* Grain overlay */}
+      {/* Grain overlay — SVG feTurbulence for real film grain noise */}
       {grainOpacity > 0 && (
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: [
-            'radial-gradient(circle at 20% 30%, rgba(255,255,255,0.65) 0 0.7px, transparent 0.8px)',
-            'radial-gradient(circle at 70% 60%, rgba(0,0,0,0.55) 0 0.65px, transparent 0.75px)',
-            'linear-gradient(90deg, rgba(255,255,255,0.16), rgba(0,0,0,0.12))',
-          ].join(', '),
-          backgroundSize: '7px 7px, 9px 9px, 3px 3px',
-          opacity: grainOpacity,
-          mixBlendMode: isDark ? 'screen' : 'multiply',
-        }} />
+        <svg
+          style={{
+            position: 'absolute', inset: 0,
+            mixBlendMode: isDark ? 'screen' : 'multiply',
+            pointerEvents: 'none',
+          }}
+          width={CANVAS_W} height={CANVAS_H}
+          viewBox={`0 0 ${CANVAS_W} ${CANVAS_H}`}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <filter id="ea-grain" x="0%" y="0%" width="100%" height="100%">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.72 0.68"
+                numOctaves="4"
+                stitchTiles="stitch"
+              />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+          </defs>
+          <rect
+            x="0" y="0" width={CANVAS_W} height={CANVAS_H}
+            filter="url(#ea-grain)"
+            opacity={grainOpacity}
+          />
+        </svg>
       )}
 
       {/* Flow field */}
@@ -128,7 +144,7 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
       {/* UA mark — bottom right */}
       {showLogo && (
         <div style={{ position: 'absolute', bottom: 52, right: 52, opacity: logoOpacity }}>
-          <UAMark color={brand.copper} height={22} />
+          <UAMark color={brand.champagneLight} height={22} />
         </div>
       )}
     </div>

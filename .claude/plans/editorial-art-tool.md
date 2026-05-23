@@ -14,17 +14,18 @@ Related issue: [#40](https://github.com/itspatmorgan/itspatmorgan.github.io/issu
 
 ## Brand foundation
 
-Extracted directly from the site's existing design system:
+Grounded in the exact Unknown Arts brand colors, with supporting neutrals drawn from the reference collage imagery:
 
-**Color tokens (OKLCH):**
+**Color tokens:**
 | Token | Value | Role |
 |---|---|---|
-| Cream | `oklch(0.98 0.004 80)` | Light background |
-| Warm black | `oklch(0.14 0.01 60)` | Dark background |
-| Copper accent | `oklch(0.72 0.10 75)` | UA brand color — used across all themes |
-| Warm off-white | `oklch(0.92 0.01 80)` | Text on dark |
-| Dark text | `oklch(0.15 0.01 60)` | Text on light |
-| Muted | `oklch(0.50 0.01 60)` | Secondary labels |
+| Champagne light | `#F7CCAB` | Primary brand accent, UA mark, active control ring |
+| Champagne bronze | `#B38B6D` | Secondary brand surface / warmer image-reference tone |
+| Warm dark gray | `#171716` | Dark background and text on light |
+| Paper | `#faf8f4` | Light background |
+| Warm off-white | `#ede9e3` | Text on dark |
+| Sage gray | `#8b9690` | Supporting reference-image tone |
+| Weathered stone | `#6f6860` | Muted layer / supporting reference-image tone |
 
 **Fonts:**
 - Geist Variable — article title (editorial weight)

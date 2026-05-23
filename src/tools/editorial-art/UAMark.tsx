@@ -10,7 +10,7 @@ const CROP_Y = 74;
 const CROP_W = 198;
 const CROP_H = 118;
 
-export function UAMark({ color = '#c9956a', height = 48 }: UAMarkProps) {
+export function UAMark({ color = '#f7ccab', height = 48 }: UAMarkProps) {
   const width = Math.round(height * (CROP_W / CROP_H));
   return (
     <svg
