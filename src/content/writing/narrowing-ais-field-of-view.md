@@ -36,8 +36,6 @@ This focused approach transformed generic AI responses into targeted insights pe
 
 ---
 
-Annotated screenshot of my Claude Project, working on portfolio revisions.
-
 ## 🗝️ Artifact of the Week
 
 This week's artifact is the Claude Project I've been using to guide my portfolio revision. While the best way to understand Claude Projects and OpenAI GPTs is to create one, here are some documentation links that might come in handy.
@@ -86,11 +84,3 @@ Now that's the kind of specialist I want in my corner.
 Until next time,
 
 Patrick
-
-**Help grow the Unknown Arts AI Knowledge Base**
-
-*I’m curating a thoughtful collection of resources to promote the true creative power of AI. Browse [the website](https://ai.unknownarts.co/) or [the Github repo](https://github.com/itspatmorgan/unknown-arts-ai), and if you have an AI resource that genuinely helped you, I’d love to hear about it.*
-
-***Get some value from this? Share it with a friend.***
-
-***Follow me on [X](https://x.com/itspatmorgan), [LinkedIn](https://www.linkedin.com/in/itspatmorgan/), or [Threads](https://www.threads.net/@itspatmorgan) for more insights.***
