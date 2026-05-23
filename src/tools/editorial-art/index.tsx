@@ -327,12 +327,14 @@ export default function EditorialArtTool() {
   const canvasRef    = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const themeMenuRef = useRef<HTMLDivElement>(null);
+  const foundationMenuRef = useRef<HTMLDivElement>(null);
   const panelScrollRef = useRef<HTMLDivElement>(null);
   const panelContentRef = useRef<HTMLDivElement>(null);
   const panelScrollIdleRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
   const [scale, setScale]             = useState(0.6);
   const [downloading, setDownloading] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [foundationMenuOpen, setFoundationMenuOpen] = useState(false);
   const [panelScrolling, setPanelScrolling] = useState(false);
   const [panelScrollThumb, setPanelScrollThumb] = useState({ height: 0, top: 0, visible: false });
   const [state, setState]             = useState<AppState>(() => defaultState('ai'));
@@ -430,16 +432,25 @@ export default function EditorialArtTool() {
 
   useEffect(() => {
     if (!themeMenuOpen) return;
-
     const handlePointerDown = (event: PointerEvent) => {
       if (!themeMenuRef.current?.contains(event.target as Node)) {
         setThemeMenuOpen(false);
       }
     };
-
     window.addEventListener('pointerdown', handlePointerDown);
     return () => window.removeEventListener('pointerdown', handlePointerDown);
   }, [themeMenuOpen]);
+
+  useEffect(() => {
+    if (!foundationMenuOpen) return;
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!foundationMenuRef.current?.contains(event.target as Node)) {
+        setFoundationMenuOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handlePointerDown);
+    return () => window.removeEventListener('pointerdown', handlePointerDown);
+  }, [foundationMenuOpen]);
 
   const handleRandomize = useCallback(() => {
     setState((prev) => ({
@@ -549,16 +560,53 @@ export default function EditorialArtTool() {
 
               <PanelSection title="Foundation">
             {/* Foundation type picker */}
-            <SegmentedControl
-              value={foundation.type}
-              options={FOUNDATION_TYPES}
-              onChange={(type) =>
-                setState((prev) => ({
-                  ...prev,
-                  foundation: switchFoundationType(prev.foundation, type),
-                }))
-              }
-            />
+            <div ref={foundationMenuRef} className="relative">
+              <button
+                type="button"
+                aria-label="Foundation selector"
+                aria-haspopup="listbox"
+                aria-expanded={foundationMenuOpen}
+                onClick={() => setFoundationMenuOpen((open) => !open)}
+                className="flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-transparent bg-muted px-3 font-mono text-[12px] text-foreground focus:border-border focus:bg-background focus:outline-none"
+              >
+                <span>{FOUNDATION_TYPES.find((f) => f.value === foundation.type)?.label}</span>
+                <ChevronDown className="size-4 text-foreground" strokeWidth={2} />
+              </button>
+
+              {foundationMenuOpen && (
+                <div
+                  role="listbox"
+                  className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-md border border-border bg-background p-1 shadow-lg"
+                >
+                  {FOUNDATION_TYPES.map((f) => {
+                    const active = f.value === foundation.type;
+                    return (
+                      <button
+                        key={f.value}
+                        type="button"
+                        role="option"
+                        aria-selected={active}
+                        onClick={() => {
+                          setState((prev) => ({
+                            ...prev,
+                            foundation: switchFoundationType(prev.foundation, f.value),
+                          }));
+                          setFoundationMenuOpen(false);
+                        }}
+                        className={[
+                          'flex w-full cursor-pointer items-center rounded-[5px] px-2.5 py-2 text-left font-mono text-[12px] transition-colors',
+                          active
+                            ? 'bg-foreground text-background'
+                            : 'text-foreground hover:bg-muted',
+                        ].join(' ')}
+                      >
+                        {f.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             {/* Seed — shared by all foundation types */}
             <div className="flex items-center gap-2">
