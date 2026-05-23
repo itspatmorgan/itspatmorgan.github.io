@@ -4,9 +4,11 @@ description: "Why the most important distinction in vibe coding is the one nobod
 publishedDate: 2026-03-02
 categories:
   - Newsletter
+theme: Systems Thinking
 tags:
   - AI
   - Prototyping
+  - Code
 image: /images/writing/img-prototype-code.jpg
 canonicalUrl: "https://www.unknownarts.co/p/prototype-code-is-not-production"
 draft: false

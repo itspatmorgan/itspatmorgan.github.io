@@ -5,14 +5,20 @@ interface Props {
   description: string;
   publishedDate: Date;
   image?: string;
+  theme?: string;
   headingLevel?: "h2" | "h3";
 }
 
-const { id, title, description, publishedDate, image, headingLevel = "h2" } = Astro.props;
+const { id, title, description, publishedDate, image, theme, headingLevel = "h2" } = Astro.props;
 const Heading = headingLevel;
 ---
 
-<a href={`/writing/${id}`} class="group -mx-3 block rounded-lg p-3 transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-muted/50">
+<a
+  href={`/writing/${id}`}
+  class="group -mx-3 block rounded-lg p-3 transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-muted/50"
+  data-article-item
+  data-theme={theme}
+>
   <article class="flex gap-5">
     {image && (
       <div class="hidden shrink-0 overflow-hidden rounded-lg border border-border sm:block sm:w-36 md:w-44">

@@ -6,21 +6,57 @@ import { getCollection } from "astro:content";
 
 const posts = (await getCollection("writing", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const themeCounts = posts.reduce((counts, post) => {
+  if (!post.data.theme) return counts;
+  counts.set(post.data.theme, (counts.get(post.data.theme) ?? 0) + 1);
+  return counts;
+}, new Map<string, number>());
+const filterThemes = [
+  "AI",
+  "Design",
+  "Systems Thinking",
+  "Creative Practice",
+].filter((theme) => themeCounts.has(theme));
 ---
 
 <PageLayout title="Writing — Patrick Morgan" description="Articles on AI, design, and the creative frontier.">
   {/* Hero */}
   <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24 sm:pb-12" data-writing-hero style="opacity: 0">
     <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">Writing</h1>
-    <p class="max-w-lg text-lg text-muted-foreground">
-      Thoughts on AI, design, and the creative frontier. Subscribe to
+    <p class="max-w-xl text-lg text-muted-foreground">
+      A sample of articles focused on AI, design, and systems thinking. Subscribe to
       <a
         href={siteConfig.social.newsletter}
         target="_blank"
         rel="noopener noreferrer"
         class="text-foreground underline underline-offset-4 transition-colors hover:text-accent"
-      >Unknown Arts</a> for weekly updates.
+      >Unknown Arts</a> for my entire catalog of 200+ articles.
     </p>
+    {filterThemes.length > 0 && (
+      <div
+        class="mt-8 flex flex-wrap gap-2"
+        aria-label="Filter articles by theme"
+      >
+        <button
+          type="button"
+          class="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground hover:text-foreground aria-pressed:bg-muted aria-pressed:text-foreground"
+          data-theme-filter="all"
+          aria-pressed="true"
+        >
+          All <span class="text-muted-foreground/70">{posts.length}</span>
+        </button>
+        {filterThemes.map((theme) => (
+          <button
+            type="button"
+            class="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground hover:text-foreground aria-pressed:bg-muted aria-pressed:text-foreground"
+            data-theme-filter={theme}
+            aria-pressed="false"
+          >
+            {theme} <span class="text-muted-foreground/70">{themeCounts.get(theme)}</span>
+          </button>
+        ))}
+      </div>
+    )}
   </section>
 
   {/* Articles */}
@@ -32,7 +68,7 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft))
           title={post.data.title}
           description={post.data.description}
           publishedDate={post.data.publishedDate}
-          image={post.data.image}
+          theme={post.data.theme}
         />
       ))}
     </div>
@@ -49,6 +85,26 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft))
 
     if (hero) animate(hero, { opacity: [0, 1], y: [16, 0] }, { ...spring });
     if (list) animate(list, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.2 });
+
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-theme-filter]");
+    const articles = document.querySelectorAll<HTMLElement>("[data-article-item]");
+
+    function setActiveButton(activeButton: HTMLButtonElement) {
+      filterButtons.forEach((button) => {
+        const isActive = button === activeButton;
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.themeFilter;
+        setActiveButton(button);
+        articles.forEach((article) => {
+          article.hidden = Boolean(filter && filter !== "all" && article.dataset.theme !== filter);
+        });
+      });
+    });
   }
 
   init();

@@ -6,12 +6,13 @@ interface Props {
   title: string;
   description: string;
   publishedDate: Date;
+  theme?: string;
   tags: string[];
   image?: string;
   canonicalUrl?: string;
 }
 
-const { title, description, publishedDate, tags, image, canonicalUrl } = Astro.props;
+const { title, description, publishedDate, theme, image, canonicalUrl } = Astro.props;
 ---
 
 <PageLayout title={title} description={description} canonicalUrl={canonicalUrl}>
@@ -42,14 +43,12 @@ const { title, description, publishedDate, tags, image, canonicalUrl } = Astro.p
         >
           {publishedDate.toLocaleDateString("en-US", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" })}
         </time>
-        {tags.length > 0 && (
+        {theme && (
           <>
             <span class="h-3.5 w-px bg-border" aria-hidden="true"></span>
-            {tags.map((tag) => (
-              <Badge variant="secondary" className="font-mono text-xs">
-                {tag}
-              </Badge>
-            ))}
+            <Badge variant="secondary" className="font-mono text-xs">
+              {theme}
+            </Badge>
           </>
         )}
       </div>

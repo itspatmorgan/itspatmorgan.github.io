@@ -4,10 +4,11 @@ description: Why your plain-English documentation is more valuable than ever.
 publishedDate: 2026-02-23
 categories:
   - Newsletter
+theme: AI
 tags:
   - AI
   - Documentation
-  - Operations
+  - Systems
 image: /images/writing/img-your-instructions.jpg
 canonicalUrl: "https://www.unknownarts.co/p/your-instructions-now-run-like-code"
 draft: false
