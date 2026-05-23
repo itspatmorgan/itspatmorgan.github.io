@@ -65,7 +65,7 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
   const texOpacity = sliderToTextureOpacity(texture);
   const grainOpacity = sliderToGrainOpacity(grain);
   const fontSize   = titleFontSize(title);
-  const logoOpacity = isDark ? 0.78 : 0.9;
+  const logoMarkColor = isDark ? brand.champagneLight : brand.warmDarkGray;
 
   const textStyle: React.CSSProperties =
     composition === 'centered'
@@ -143,10 +143,20 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         </div>
       )}
 
-      {/* UA mark — bottom right */}
+      {/* UA mark — bottom right, in a pill so it reads on any pattern */}
       {showLogo && (
-        <div style={{ position: 'absolute', bottom: 52, right: 52, opacity: logoOpacity }}>
-          <UAMark color={brand.champagneLight} height={22} />
+        <div style={{ position: 'absolute', bottom: 48, right: 48 }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 72,
+            height: 72,
+            borderRadius: 10,
+            backgroundColor: bgColor,
+          }}>
+            <UAMark color={logoMarkColor} height={34} />
+          </div>
         </div>
       )}
     </div>

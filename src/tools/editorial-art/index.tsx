@@ -54,10 +54,12 @@ const COMPOSITIONS: { value: Composition; label: string }[] = [
 ];
 
 const COLORS: { value: LayerColor; label: string }[] = [
-  { value: 'copper', label: 'Champagne' },
-  { value: 'light',  label: 'Paper' },
-  { value: 'dark',   label: 'Dark' },
-  { value: 'muted',  label: 'Stone' },
+  { value: 'copper', label: 'Copper'  },
+  { value: 'light',  label: 'White'   },
+  { value: 'sage',   label: 'Sage'    },
+  { value: 'muted',  label: 'Stone'   },
+  { value: 'bronze', label: 'Bronze'  },
+  { value: 'dark',   label: 'Dark'    },
 ];
 
 const TEXT_FONTS: { value: TextFont; label: string }[] = [

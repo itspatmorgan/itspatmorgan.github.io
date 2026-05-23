@@ -1,6 +1,6 @@
 export type ThemeId = 'ai' | 'design' | 'systems' | 'creative' | 'career';
 export type Composition = 'centered' | 'left' | 'offset';
-export type LayerColor = 'copper' | 'light' | 'dark' | 'muted';
+export type LayerColor = 'copper' | 'light' | 'dark' | 'muted' | 'sage' | 'bronze';
 export type TextFont = 'sans' | 'mono' | 'pixel';
 
 export const CANVAS_W = 1200;
@@ -21,12 +21,9 @@ export const brand = {
 export const brandAccent = brand.champagneLight;
 
 export const bgPalette = [
-  { name: 'Paper',              value: brand.paper, dark: false },
-  { name: 'Champagne Light',    value: brand.champagneLight, dark: false },
-  { name: 'Champagne Bronze',   value: brand.champagneBronze, dark: false },
-  { name: 'Sage Gray',          value: brand.sageGray, dark: false },
-  { name: 'Weathered Stone',    value: brand.weatheredStone, dark: true  },
-  { name: 'Warm Dark Gray',     value: brand.warmDarkGray, dark: true  },
+  { name: 'White', value: brand.paper,        dark: false },
+  { name: 'Cream', value: brand.offWhite,     dark: false },
+  { name: 'Dark',  value: brand.warmDarkGray, dark: true  },
 ] as const;
 
 export function isColorDark(hex: string): boolean {
@@ -42,6 +39,8 @@ export function resolveLayerColor(color: LayerColor): string {
     case 'light':  return brand.paper;
     case 'dark':   return brand.warmDarkGray;
     case 'muted':  return brand.weatheredStone;
+    case 'sage':   return brand.sageGray;
+    case 'bronze': return brand.champagneBronze;
   }
 }
 
@@ -118,8 +117,8 @@ export const themeList: ThemeConfig[] = [
   {
     id: 'creative',
     label: 'Creative Practice',
-    defaultBgColor: brand.champagneLight,
-    defaultFoundation: { type: 'flow-field', seed: 256, density: 150, steps: 100, scale: 320, curl: 30,  strokeWidth: 1.0, opacity: 40, color: 'copper' },
+    defaultBgColor: brand.offWhite,
+    defaultFoundation: { type: 'flow-field', seed: 256, density: 150, steps: 100, scale: 320, curl: 30,  strokeWidth: 1.0, opacity: 40, color: 'bronze' },
     defaultTexture: 55,
     defaultComposition: 'centered',
   },
