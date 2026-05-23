@@ -2,7 +2,7 @@
 
 ## Context
 
-Feature images for Writing section articles are currently Midjourney-generated collages. They're warm and editorial but manual, inconsistent in naming, and not reproducible. This tool replaces that workflow with a browser-based design tool that generates deterministic, on-brand PNGs from article metadata.
+Feature images for Writing section articles are currently Midjourney-generated collages. They're warm and editorial but manual, inconsistent in naming, and not reproducible. This tool starts replacing that workflow with a browser-based design tool that generates deterministic, on-brand PNGs.
 
 The output serves two surfaces: the personal website (`/writing/[slug]`, OG tags) and Unknown Arts Substack article headers. Both use the same 1200×630 format.
 
@@ -29,7 +29,7 @@ Extracted directly from the site's existing design system:
 **Fonts:**
 - Geist Variable — article title (editorial weight)
 - Geist Mono Variable — theme label, metadata (small caps, tracked)
-- Geist Pixel Square — AI theme pattern layer (already in site)
+- Geist Pixel Square — available for future layer options if needed
 
 **Textures:** `debut_light.png` + `debut_dark.png` already used in site cards — available as overlay layers.
 
@@ -43,7 +43,7 @@ Extracted directly from the site's existing design system:
 
 A single React island (`client:only`) inside an Astro page at `/tools/editorial-art`. The tool is split into two panels:
 
-- **Left panel** — controls (title input, theme, background, pattern, layers, export)
+- **Left panel** — controls (title input, theme, background, generative foundation, layer options, export)
 - **Right panel** — live canvas preview at 1200×630, scaled to fit viewport
 
 Canvas is a styled `div` — no `<canvas>` element. Layers are stacked HTML/CSS/SVG. Export uses `html-to-image` to capture the canvas div at 2× pixel ratio, producing a 2400×1260px PNG (displayed at 1200×630).
@@ -53,26 +53,26 @@ Canvas is a styled `div` — no `<canvas>` element. Layers are stacked HTML/CSS/
 Each layer is independently toggleable and has intensity controls:
 
 ```
-5. UA mark          (SVG, corner-anchored, always on)
-4. Type layer       (title + theme label; size/weight/position vary by composition)
-3. Pattern layer    (SVG pattern per theme — see themes below)
-2. Texture layer    (debut PNG overlay at variable opacity)
-1. Background       (solid color — cream or warm black)
+5. UA mark               (SVG, corner-anchored, always on)
+4. Type layer            (title + theme label; size/weight/position vary by composition)
+3. Layerable options     (texture, grain, overlays, masks, and future motif layers)
+2. Generative foundation (flow field now; isolines, attractors, Voronoi, etc. later)
+1. Background            (solid color — cream or warm black)
 ```
 
 ### The 5 themes
 
 Theme presets define the default state of all controls. User can adjust any control after selecting a theme.
 
-| Theme | Default bg | Pattern | Pattern accent | Geist Pixel? |
-|---|---|---|---|---|
-| **AI** | Dark (warm black) | Signal grid — binary character rain using Geist Pixel Square | Copper | Yes |
-| **Design** | Light (cream) | Composition grid — golden ratio / rule-of-thirds lines | Copper | No |
-| **Systems Thinking** | Dark (warm black) | Network — nodes + connector lines forming an abstract graph | Copper | No |
-| **Creative Practice** | Light (cream) | Texture-forward — debut texture at high opacity, minimal geometry | Copper | No |
-| **Career** | Light (cream) | Timeline — horizontal rule progression with milestone marks | Copper | No |
+| Theme | Default bg | Generative direction | Accent |
+|---|---|---|---|
+| **AI** | Dark (warm black) | Dense computational motion, signal-like structure | Copper |
+| **Design** | Light (cream) | Cleaner fields, more open negative space | Copper / muted |
+| **Systems Thinking** | Dark (warm black) | Denser, networked, higher-interaction fields | Copper |
+| **Creative Practice** | Light (cream) | Texture-forward, warmer, more organic movement | Copper |
+| **Career** | Light (cream) | Restrained, directional, quieter compositions | Dark / muted |
 
-All themes use copper as the single brand accent. Variation comes from background, pattern style, and type composition — not separate accent colors.
+All themes use the same brand palette. Variation comes from foundation parameters, background, layer options, and type composition, not one-off static pattern components.
 
 ### Controls (left panel)
 
@@ -83,8 +83,9 @@ Filename slug         [auto-derived, editable]
 Theme                 [AI | Design | Systems | Creative | Career]
 
 Background            [Light | Dark]
-Pattern style         [3–4 named variants per theme]
-Pattern intensity     [Subtle | Medium | Bold]
+Foundation            [Flow field now; more foundations later]
+Foundation controls   [Seed, density, steps, scale, curl, stroke, opacity]
+Layer options         [Texture/grain now; more overlays later]
 Texture               [Off | Subtle | Heavy]
 Grain                 [Off | Subtle | Heavy]
 Composition           [Centered | Left-weighted | Offset]
@@ -114,22 +115,16 @@ src/
     editorial-art/
       index.tsx                 # Main React component — panel layout, state
       ArtCanvas.tsx             # The live canvas div — receives props, renders layers
-      ControlPanel.tsx          # Left panel — all controls
       UAMark.tsx                # Inline SVG UA mark (shield + triangle)
       themes.ts                 # Theme config objects — defaults for all 5 themes
-      patterns/
-        SignalGrid.tsx          # AI — Geist Pixel character grid
-        CompositionGrid.tsx     # Design — golden ratio / rule-of-thirds lines
-        NetworkGraph.tsx        # Systems Thinking — nodes + connector edges
-        TextureField.tsx        # Creative Practice — texture-forward layer
-        Timeline.tsx            # Career — horizontal progression marks
+      foundations/
+        FlowField.tsx           # Current generative foundation
 ```
 
 ## Files to modify
 
 | File | Change |
 |---|---|
-| `src/content.config.ts` | Add optional `visualTheme` and `visualVariant` fields to writing schema |
 | `src/data/site-config.ts` | Add tools nav entry if appropriate |
 
 ---
@@ -148,44 +143,34 @@ src/
 7. Add theme label — Geist Mono, small-caps, tracked, muted color
 8. Test title wrapping, overflow, and size scaling for long titles
 
-### Phase 3 — Pattern layers
-9. Build `SignalGrid.tsx` (AI) — grid of Geist Pixel Square characters, opacity-faded
-10. Build `CompositionGrid.tsx` (Design) — SVG lines at golden ratio breakpoints
-11. Build `NetworkGraph.tsx` (Systems) — procedural nodes + edges using deterministic positions derived from title string
-12. Build `TextureField.tsx` (Creative Practice) — debut texture at variable opacity, with subtle geometric accent
-13. Build `Timeline.tsx` (Career) — horizontal rule with evenly-spaced tick marks
+### Phase 3 — Generative foundation
+9. Build `FlowField.tsx` — seeded particle paths through a deterministic noise field
+10. Wire theme defaults to flow-field parameters
+11. Add controls for seed, density, steps, scale, curl, stroke, color, and opacity
+12. Keep additional visual treatment as layer options that can stack with any foundation
 
 ### Phase 4 — Theme configs + control panel
-14. Write `themes.ts` — 5 config objects with all default values
-15. Build `ControlPanel.tsx` — all controls wired to parent state
-16. Connect theme selector to defaults (selecting a theme resets controls to that theme's defaults, then user can override)
+13. Write `themes.ts` — 5 config objects with all default values
+14. Build the left control panel — all controls wired to parent state
+15. Connect theme selector to defaults (selecting a theme resets controls to that theme's defaults, then user can override)
 
 ### Phase 5 — Export + polish
-17. Wire Download PNG button to `html-to-image` capture
-18. Test export quality across all 5 themes — check font rendering, pattern sharpness
-19. Add grain layer (CSS SVG filter `feTurbulence` on a `::after` overlay)
-20. Final visual pass — spacing, type sizing, mark sizing across all themes
-
-### Phase 6 — Content integration
-21. Update `src/content.config.ts` with optional `visualTheme`/`visualVariant` fields
-22. Generate feature images for all 14 existing articles, one theme at a time
-23. Move generated PNGs to `public/images/writing/{slug}/feature.png`
-24. Update all article frontmatter `image:` fields to new paths
-25. Remove old flat images from `public/images/writing/`
+16. Wire Download PNG button to `html-to-image` capture
+17. Test export quality across all 5 themes — check font rendering, texture rendering, and mark sizing
+18. Add more layer options only when they work across foundations
+19. Final visual pass — spacing, type sizing, mark sizing across all themes
 
 ---
 
 ## Verification
 
 - [ ] Tool loads at `/tools/editorial-art` without errors
-- [ ] All 5 theme presets render distinctly and on-brand
+- [ ] All 5 theme presets render distinct flow-field defaults
 - [ ] Title input updates canvas in real time
 - [ ] Long titles (50+ chars) wrap gracefully without breaking layout
 - [ ] Download PNG produces a 2400×1260 file (2× of 1200×630)
-- [ ] Fonts render correctly in exported PNG (Geist, Geist Mono, Geist Pixel)
+- [ ] Fonts render correctly in exported PNG (Geist, Geist Mono)
 - [ ] UA mark is visible and correctly proportioned in all exports
-- [ ] Images work in website writing cards and article hero positions
-- [ ] At least one image tested as a Substack article header
 
 ---
 
@@ -193,6 +178,8 @@ src/
 
 - OG image variant (same tool, different crop/composition)
 - Substack-specific size variant (if needed)
-- Pattern variants beyond the first per theme
+- Content/frontmatter integration for generated writing images
+- More generative foundations: isolines, strange attractors, Voronoi
+- Layerable options: masks, line overlays, annotation marks, metadata labels
 - Noise/displacement SVG filter layers
 - Deploy tool to a public URL for sharing

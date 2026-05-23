@@ -1,6 +1,7 @@
 export type ThemeId = 'ai' | 'design' | 'systems' | 'creative' | 'career';
 export type Composition = 'centered' | 'left' | 'offset';
 export type LayerColor = 'copper' | 'light' | 'dark' | 'muted';
+export type TextFont = 'sans' | 'mono' | 'pixel';
 
 export const CANVAS_W = 1200;
 export const CANVAS_H = 630;
@@ -34,14 +35,18 @@ export function isColorDark(hex: string): boolean {
 export function resolveLayerColor(color: LayerColor): string {
   switch (color) {
     case 'copper': return brand.copper;
-    case 'light':  return brand.offWhite;
+    case 'light':  return '#f7f2e8';
     case 'dark':   return brand.darkText;
-    case 'muted':  return brand.mutedLight;
+    case 'muted':  return '#82776f';
   }
 }
 
 export function sliderToTextureOpacity(v: number): number {
-  return (v / 100) * 0.50;
+  return (v / 100) * 0.65;
+}
+
+export function sliderToGrainOpacity(v: number): number {
+  return (v / 100) * 0.38;
 }
 
 // Flow field generative system config

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { toPng } from 'html-to-image';
+import { ChevronDown } from 'lucide-react';
 import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
@@ -11,6 +12,7 @@ import {
   type LayerColor,
   type Composition,
   type FlowFieldConfig,
+  type TextFont,
 } from './themes';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -20,18 +22,22 @@ interface AppState {
   bgColor: string;
   field: FlowFieldConfig;
   texture: number;
+  grain: number;
+  showLogo: boolean;
   showText: boolean;
   title: string;
   slug: string;
   slugEdited: boolean;
   composition: Composition;
+  textFont: TextFont;
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const CANVAS_W = 1200;
 const CANVAS_H = 630;
-const PANEL_W  = 300;
+const PANEL_W  = 340;
+const CONTROL_LABEL_W = 'w-[4.75rem]';
 
 const COMPOSITIONS: { value: Composition; label: string }[] = [
   { value: 'left',     label: 'Left'   },
@@ -45,6 +51,20 @@ const COLORS: { value: LayerColor; label: string }[] = [
   { value: 'dark',   label: 'Dark'   },
   { value: 'muted',  label: 'Muted'  },
 ];
+
+const TEXT_FONTS: { value: TextFont; label: string }[] = [
+  { value: 'sans',  label: 'Sans'  },
+  { value: 'mono',  label: 'Mono'  },
+  { value: 'pixel', label: 'Pixel' },
+];
+
+const SURFACE_PRESETS = [
+  { label: 'Off', value: 0 },
+  { label: 'Soft', value: 35 },
+  { label: 'Heavy', value: 75 },
+] as const;
+
+const SCROLL_THUMB_INSET = 8;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -71,11 +91,14 @@ function defaultState(themeId: ThemeId): AppState {
     bgColor: t.defaultBgColor,
     field: { ...t.defaultField },
     texture: t.defaultTexture,
+    grain: 24,
+    showLogo: false,
     showText: false,
     title: '',
     slug: '',
     slugEdited: false,
     composition: t.defaultComposition,
+    textFont: 'sans',
   };
 }
 
@@ -94,16 +117,80 @@ function randomField(): FlowFieldConfig {
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function PanelSection({
+  title, action, compact = false, children,
+}: {
+  title: string;
+  action?: React.ReactNode;
+  compact?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="mb-2.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground select-none">
-      {children}
+    <section className={['border-b border-border px-6', compact ? 'py-3.5' : 'py-6'].join(' ')}>
+      <div className={[compact ? 'mb-0' : 'mb-3', 'flex items-center justify-between gap-3'].join(' ')}>
+        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-wide text-foreground">{title}</h2>
+        {action}
+      </div>
+      <div className="space-y-3">{children}</div>
+    </section>
+  );
+}
+
+function SegmentedControl<T extends string>({
+  value, options, onChange,
+}: {
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (v: T) => void;
+}) {
+  return (
+    <div className="flex rounded-md bg-muted p-0.5">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => onChange(option.value)}
+          className={[
+            'flex-1 cursor-pointer rounded-[5px] border border-transparent py-1.5 font-mono text-[11px] transition-colors',
+            value === option.value
+              ? 'border-border bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground',
+          ].join(' ')}
+        >
+          {option.label}
+        </button>
+      ))}
     </div>
   );
 }
 
-function Divider() {
-  return <div className="my-4 border-t border-border" />;
+function PresetButtons({
+  label, value, onChange,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="flex rounded-md bg-muted p-0.5">
+      {SURFACE_PRESETS.map((preset) => (
+        <button
+          key={preset.label}
+          type="button"
+          aria-label={`${label} ${preset.label}`}
+          onClick={() => onChange(preset.value)}
+          className={[
+            'flex-1 cursor-pointer rounded-[5px] border border-transparent py-1.5 font-mono text-[11px] transition-colors',
+            value === preset.value
+              ? 'border-border bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground',
+          ].join(' ')}
+        >
+          {preset.label}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 function SliderRow({
@@ -119,30 +206,31 @@ function SliderRow({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="w-14 shrink-0 font-mono text-[10px] text-muted-foreground">{label}</span>
-      <input
-        type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="h-0.5 flex-1 cursor-pointer appearance-none rounded-full bg-border
-          [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5
-          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
-          [&::-webkit-slider-thumb]:bg-foreground"
-      />
-      <span className="w-10 shrink-0 text-right font-mono text-[10px] text-muted-foreground">
-        {format ? format(value) : value}
-      </span>
+      <span className={`${CONTROL_LABEL_W} shrink-0 font-mono text-[11px] text-muted-foreground`}>{label}</span>
+      <div className="flex flex-1 items-center gap-2 rounded-md bg-muted px-2 py-2">
+        <input
+          type="range" min={min} max={max} step={step} value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="h-0.5 flex-1 cursor-ew-resize appearance-none rounded-full bg-border
+            [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:w-2.5
+            [&::-webkit-slider-thumb]:cursor-ew-resize [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+            [&::-webkit-slider-thumb]:bg-foreground"
+        />
+        <span className="w-10 shrink-0 text-right font-mono text-[11px] text-muted-foreground">
+          {format ? format(value) : value}
+        </span>
+      </div>
     </div>
   );
 }
 
 function ColorDots({
-  value, onChange, bgColor,
+  value, onChange,
 }: { value: LayerColor; onChange: (v: LayerColor) => void; bgColor: string }) {
-  const isDark = isColorDark(bgColor);
   return (
     <div className="flex items-center gap-2">
-      <span className="w-14 shrink-0 font-mono text-[10px] text-muted-foreground">Color</span>
-      <div className="flex gap-2">
+      <span className={`${CONTROL_LABEL_W} shrink-0 font-mono text-[11px] text-muted-foreground`}>Color</span>
+      <div className="flex flex-1 items-center gap-3 rounded-md bg-muted px-2 py-2">
         {COLORS.map((c) => {
           const hex = resolveLayerColor(c.value);
           const active = value === c.value;
@@ -155,14 +243,28 @@ function ColorDots({
               style={{
                 backgroundColor: hex,
                 boxShadow: active
-                  ? `0 0 0 2px ${isDark ? brand.offWhite : brand.darkText}`
-                  : `0 0 0 1px ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)'}`,
+                  ? `0 0 0 2px ${brand.copper}`
+                  : '0 0 0 1px rgba(0,0,0,0.18)',
               }}
-              className="h-4 w-4 rounded-full transition-all"
+              className="h-5 w-5 shrink-0 cursor-pointer rounded-full transition-all"
             />
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function SettingsRow({
+  label, children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className={`${CONTROL_LABEL_W} shrink-0 font-mono text-[11px] text-muted-foreground`}>{label}</span>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }
@@ -172,8 +274,15 @@ function ColorDots({
 export default function EditorialArtTool() {
   const canvasRef    = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const themeMenuRef = useRef<HTMLDivElement>(null);
+  const panelScrollRef = useRef<HTMLDivElement>(null);
+  const panelContentRef = useRef<HTMLDivElement>(null);
+  const panelScrollIdleRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
   const [scale, setScale]             = useState(0.6);
   const [downloading, setDownloading] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [panelScrolling, setPanelScrolling] = useState(false);
+  const [panelScrollThumb, setPanelScrollThumb] = useState({ height: 0, top: 0, visible: false });
   const [state, setState]             = useState<AppState>(() => defaultState('ai'));
 
   useEffect(() => {
@@ -204,6 +313,78 @@ export default function EditorialArtTool() {
   const setField = useCallback((patch: Partial<FlowFieldConfig>) => {
     setState((prev) => ({ ...prev, field: { ...prev.field, ...patch } }));
   }, []);
+
+  const updatePanelScrollThumb = useCallback(() => {
+    const scrollEl = panelScrollRef.current;
+    if (!scrollEl) return;
+
+    const { clientHeight, scrollHeight, scrollTop } = scrollEl;
+    const visible = scrollHeight > clientHeight + 1;
+
+    if (!visible) {
+      setPanelScrollThumb({ height: 0, top: 0, visible: false });
+      return;
+    }
+
+    const trackHeight = Math.max(0, clientHeight - SCROLL_THUMB_INSET * 2);
+    const height = Math.max(28, (clientHeight / scrollHeight) * trackHeight);
+    const maxScrollTop = scrollHeight - clientHeight;
+    const maxThumbTop = trackHeight - height;
+    const top = SCROLL_THUMB_INSET + (maxScrollTop > 0 ? (scrollTop / maxScrollTop) * maxThumbTop : 0);
+
+    setPanelScrollThumb({
+      height,
+      top,
+      visible,
+    });
+  }, []);
+
+  const handlePanelScroll = useCallback(() => {
+    updatePanelScrollThumb();
+    setPanelScrolling(true);
+
+    if (panelScrollIdleRef.current) {
+      window.clearTimeout(panelScrollIdleRef.current);
+    }
+
+    panelScrollIdleRef.current = window.setTimeout(() => {
+      setPanelScrolling(false);
+      panelScrollIdleRef.current = null;
+    }, 700);
+  }, [updatePanelScrollThumb]);
+
+  useEffect(() => {
+    updatePanelScrollThumb();
+
+    const scrollEl = panelScrollRef.current;
+    if (!scrollEl) return;
+
+    const ro = new ResizeObserver(updatePanelScrollThumb);
+    ro.observe(scrollEl);
+    if (panelContentRef.current) ro.observe(panelContentRef.current);
+    window.addEventListener('resize', updatePanelScrollThumb);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', updatePanelScrollThumb);
+      if (panelScrollIdleRef.current) {
+        window.clearTimeout(panelScrollIdleRef.current);
+      }
+    };
+  }, [updatePanelScrollThumb]);
+
+  useEffect(() => {
+    if (!themeMenuOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!themeMenuRef.current?.contains(event.target as Node)) {
+        setThemeMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('pointerdown', handlePointerDown);
+    return () => window.removeEventListener('pointerdown', handlePointerDown);
+  }, [themeMenuOpen]);
 
   const handleRandomize = useCallback(() => {
     setState((prev) => ({
@@ -243,7 +424,7 @@ export default function EditorialArtTool() {
           <div className="flex items-start justify-between gap-2">
             <div>
               <p className="text-base font-medium text-foreground leading-tight">Editorial Art Tool</p>
-              <p className="mt-1 text-xs text-muted-foreground leading-snug">Generative feature images for Unknown Arts articles.</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-snug">Generative feature images for my articles.</p>
             </div>
             <button
               type="button"
@@ -257,94 +438,151 @@ export default function EditorialArtTool() {
         </div>
 
         {/* Scrollable controls */}
-        <div className="flex-1 overflow-y-auto px-5 py-5">
-
-          <SectionLabel>Theme</SectionLabel>
-          <select
-            value={state.themeId}
-            onChange={(e) => set({ themeId: e.target.value as ThemeId })}
-            className="w-full rounded border border-border bg-background pl-2 pr-7 py-1.5 font-mono text-[11px] text-foreground focus:border-foreground focus:outline-none"
+        <div className="relative flex-1 overflow-hidden">
+          <div
+            ref={panelScrollRef}
+            onScroll={handlePanelScroll}
+            className="h-full overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {Object.values(themes).map((t) => (
-              <option key={t.id} value={t.id}>{t.label}</option>
-            ))}
-          </select>
-
-          <Divider />
-
-          <SectionLabel>Flow Field</SectionLabel>
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="w-14 shrink-0 font-mono text-[10px] text-muted-foreground">Seed</span>
-              <input
-                type="number" min={1} max={999} value={field.seed}
-                onChange={(e) => setField({ seed: Math.max(1, Math.min(999, Number(e.target.value))) })}
-                className="flex-1 rounded border border-border bg-background px-2 py-0.5 font-mono text-[11px] text-foreground focus:border-foreground focus:outline-none"
-              />
+            <div ref={panelContentRef}>
+              <PanelSection title="Theme">
+            <div ref={themeMenuRef} className="relative">
               <button
                 type="button"
-                onClick={() => setField({ seed: ri(1, 999) })}
-                title="New seed"
-                className="shrink-0 rounded border border-border px-2 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                aria-label="Theme selector"
+                aria-haspopup="listbox"
+                aria-expanded={themeMenuOpen}
+                onClick={() => setThemeMenuOpen((open) => !open)}
+                className="flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-transparent bg-muted px-3 font-mono text-[12px] text-foreground focus:border-border focus:bg-background focus:outline-none"
               >
-                ↻
+                <span>{themes[state.themeId].label}</span>
+                <ChevronDown className="size-4 text-foreground" strokeWidth={2} />
               </button>
+
+              {themeMenuOpen && (
+                <div
+                  role="listbox"
+                  className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-md border border-border bg-background p-1 shadow-lg"
+                >
+                  {Object.values(themes).map((theme) => {
+                    const active = theme.id === state.themeId;
+                    return (
+                      <button
+                        key={theme.id}
+                        type="button"
+                        role="option"
+                        aria-selected={active}
+                        onClick={() => {
+                          set({ themeId: theme.id });
+                          setThemeMenuOpen(false);
+                        }}
+                        className={[
+                          'flex w-full cursor-pointer items-center rounded-[5px] px-2.5 py-2 text-left font-mono text-[12px] transition-colors',
+                          active
+                            ? 'bg-foreground text-background'
+                            : 'text-foreground hover:bg-muted',
+                        ].join(' ')}
+                      >
+                        {theme.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+              </PanelSection>
+
+              <PanelSection title="Flow Field">
+            <div className="flex items-center gap-2">
+              <span className={`${CONTROL_LABEL_W} shrink-0 font-mono text-[11px] text-muted-foreground`}>Seed</span>
+              <div className="flex flex-1 gap-1">
+                <input
+                  type="number" min={1} max={999} value={field.seed}
+                  onChange={(e) => setField({ seed: Math.max(1, Math.min(999, Number(e.target.value))) })}
+                  className="h-9 min-w-0 flex-1 cursor-text rounded-md border border-transparent bg-muted px-3 py-0 font-mono text-[12px] leading-9 text-foreground focus:border-border focus:bg-background focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setField({ seed: ri(1, 999) })}
+                  title="New seed"
+                  className="h-9 w-9 shrink-0 cursor-pointer rounded-md bg-muted font-mono text-[12px] text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  ↻
+                </button>
+              </div>
             </div>
             <SliderRow label="Density"  value={field.density}     min={30}   max={600} onChange={(v) => setField({ density: v })} />
             <SliderRow label="Steps"    value={field.steps}       min={20}   max={200} onChange={(v) => setField({ steps: v })} />
             <SliderRow label="Scale"    value={field.scale}       min={80}   max={600} onChange={(v) => setField({ scale: v })} />
             <SliderRow label="Curl"     value={field.curl}        min={-180} max={180} onChange={(v) => setField({ curl: v })} format={(v) => `${v}°`} />
             <SliderRow label="Weight"   value={field.strokeWidth} min={0.3}  max={2.0} step={0.1} onChange={(v) => setField({ strokeWidth: v })} />
-          </div>
-
-          <Divider />
-
-          <SectionLabel>Appearance</SectionLabel>
-          <div className="space-y-3">
             <ColorDots value={field.color} onChange={(v) => setField({ color: v })} bgColor={bgColor} />
             <SliderRow label="Opacity" value={field.opacity} min={0} max={100} onChange={(v) => setField({ opacity: v })} />
-          </div>
+              </PanelSection>
 
-          <Divider />
-
-          <SectionLabel>Background</SectionLabel>
-          <div className="space-y-3">
-            <div className="flex flex-wrap gap-2">
-              {bgPalette.map((s) => (
-                <button
-                  key={s.value}
-                  type="button"
-                  title={s.name}
-                  onClick={() => set({ bgColor: s.value })}
-                  style={{
-                    backgroundColor: s.value,
-                    boxShadow: bgColor === s.value
-                      ? `0 0 0 2px ${brand.copper}`
-                      : '0 0 0 1px rgba(0,0,0,0.12)',
-                  }}
-                  className="h-6 w-6 rounded-full transition-all"
-                />
-              ))}
+              <PanelSection title="Canvas Style">
+            <SettingsRow label="Color">
+              <div className="flex items-center gap-3 rounded-md bg-muted px-2 py-2">
+                {bgPalette.map((s) => (
+                  <button
+                    key={s.value}
+                    type="button"
+                    title={s.name}
+                    onClick={() => set({ bgColor: s.value })}
+                    style={{
+                      backgroundColor: s.value,
+                      boxShadow: bgColor === s.value
+                        ? `0 0 0 2px ${brand.copper}`
+                        : '0 0 0 1px rgba(0,0,0,0.12)',
+                    }}
+                    className="h-5 w-5 cursor-pointer rounded-full transition-all"
+                  />
+                ))}
+              </div>
+            </SettingsRow>
+            <SettingsRow label="Logo">
+              <SegmentedControl
+                value={state.showLogo ? 'on' : 'off'}
+                options={[
+                  { value: 'off', label: 'Off' },
+                  { value: 'on', label: 'On' },
+                ]}
+                onChange={(value) => set({ showLogo: value === 'on' })}
+              />
+            </SettingsRow>
+            <div className="space-y-2">
+              <SliderRow label="Texture" value={state.texture} min={0} max={100} onChange={(v) => set({ texture: v })} />
+              <SettingsRow label="">
+                <PresetButtons label="Texture" value={state.texture} onChange={(v) => set({ texture: v })} />
+              </SettingsRow>
             </div>
-            <SliderRow label="Grain" value={state.texture} min={0} max={100} onChange={(v) => set({ texture: v })} />
-          </div>
+            <div className="space-y-2">
+              <SliderRow label="Grain" value={state.grain} min={0} max={100} onChange={(v) => set({ grain: v })} />
+              <SettingsRow label="">
+                <PresetButtons label="Grain" value={state.grain} onChange={(v) => set({ grain: v })} />
+              </SettingsRow>
+            </div>
+              </PanelSection>
 
-          <Divider />
-
-          <SectionLabel>Text</SectionLabel>
-          <div className="space-y-2.5">
-            <button
-              type="button"
-              onClick={() => set({ showText: !state.showText })}
-              className={[
-                'rounded border px-2.5 py-1 font-mono text-[10px] transition-colors',
-                state.showText
-                  ? 'border-foreground bg-foreground text-background'
-                  : 'border-border text-muted-foreground hover:border-foreground hover:text-foreground',
-              ].join(' ')}
-            >
-              {state.showText ? 'On' : 'Off'}
-            </button>
+              <PanelSection
+            title="Text"
+            compact={!state.showText}
+            action={
+              <button
+                type="button"
+                aria-label={state.showText ? 'Hide text' : 'Show text'}
+                onClick={() => set({ showText: !state.showText })}
+                className={[
+                  'cursor-pointer rounded-md px-2.5 py-1 font-mono text-[11px] transition-colors',
+                  state.showText
+                    ? 'bg-foreground text-background'
+                    : 'bg-muted text-muted-foreground hover:text-foreground',
+                ].join(' ')}
+              >
+                {state.showText ? 'On' : 'Off'}
+              </button>
+            }
+          >
             {state.showText && (
               <>
                 <input
@@ -355,53 +593,59 @@ export default function EditorialArtTool() {
                     set({ title, slug: state.slugEdited ? state.slug : toSlug(title) });
                   }}
                   placeholder="Article title…"
-                  className="w-full rounded border border-border bg-background px-2.5 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-foreground focus:outline-none"
+                  className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-border focus:bg-background focus:outline-none"
                 />
-                <div className="flex gap-1">
-                  {COMPOSITIONS.map((c) => (
-                    <button
-                      key={c.value}
-                      type="button"
-                      onClick={() => set({ composition: c.value })}
-                      className={[
-                        'flex-1 rounded border py-1 font-mono text-[10px] transition-colors',
-                        state.composition === c.value
-                          ? 'border-foreground bg-foreground text-background'
-                          : 'border-border text-muted-foreground hover:border-foreground hover:text-foreground',
-                      ].join(' ')}
-                    >
-                      {c.label}
-                    </button>
-                  ))}
-                </div>
+                <SegmentedControl
+                  value={state.textFont}
+                  options={TEXT_FONTS}
+                  onChange={(textFont) => set({ textFont })}
+                />
+                <SegmentedControl
+                  value={state.composition}
+                  options={COMPOSITIONS}
+                  onChange={(composition) => set({ composition })}
+                />
               </>
             )}
+              </PanelSection>
+
+              <PanelSection title="Export">
+            <input
+              type="text"
+              value={state.slug}
+              onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
+              onFocus={() => { if (!state.slug && state.title) setState((p) => ({ ...p, slug: toSlug(p.title) })); }}
+              placeholder="filename-slug"
+              className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 font-mono text-[12px] text-foreground placeholder:text-muted-foreground/35 focus:border-border focus:bg-background focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={handleDownload}
+              disabled={downloading}
+              className="w-full cursor-pointer rounded-md bg-foreground py-2 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {downloading ? 'Generating…' : 'Download PNG'}
+            </button>
+            <p className="font-mono text-[10px] text-muted-foreground/60">
+              1200 × 630 · 2× export = 2400 × 1260 px
+            </p>
+              </PanelSection>
+            </div>
           </div>
 
-        </div>
-
-        {/* Export — pinned to panel bottom */}
-        <div className="shrink-0 border-t border-border px-5 py-4 space-y-2.5">
-          <SectionLabel>Export</SectionLabel>
-          <input
-            type="text"
-            value={state.slug}
-            onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
-            onFocus={() => { if (!state.slug && state.title) setState((p) => ({ ...p, slug: toSlug(p.title) })); }}
-            placeholder="filename-slug"
-            className="w-full rounded border border-border bg-background px-2.5 py-1.5 font-mono text-[11px] text-foreground placeholder:text-muted-foreground/35 focus:border-foreground focus:outline-none"
-          />
-          <button
-            type="button"
-            onClick={handleDownload}
-            disabled={downloading}
-            className="w-full rounded bg-foreground py-1.5 text-xs font-medium text-background transition-opacity disabled:opacity-40 hover:opacity-80"
-          >
-            {downloading ? 'Generating…' : 'Download PNG'}
-          </button>
-          <p className="font-mono text-[9px] text-muted-foreground/40">
-            1200 × 630 · 2× export = 2400 × 1260 px
-          </p>
+          {panelScrollThumb.visible && (
+            <div
+              aria-hidden="true"
+              className={[
+                'pointer-events-none absolute right-1.5 top-0 z-30 w-1.5 rounded-full bg-muted-foreground/20 transition-opacity duration-200',
+                panelScrolling ? 'opacity-100' : 'opacity-0',
+              ].join(' ')}
+              style={{
+                height: panelScrollThumb.height,
+                transform: `translateY(${panelScrollThumb.top}px)`,
+              }}
+            />
+          )}
         </div>
       </div>
 
@@ -424,12 +668,14 @@ export default function EditorialArtTool() {
           <ArtCanvas
             ref={canvasRef}
             title={state.title}
-            themeId={state.themeId}
             bgColor={bgColor}
             field={field}
             texture={state.texture}
+            grain={state.grain}
+            showLogo={state.showLogo}
             showText={state.showText}
             composition={state.composition}
+            textFont={state.textFont}
           />
         </div>
       </div>

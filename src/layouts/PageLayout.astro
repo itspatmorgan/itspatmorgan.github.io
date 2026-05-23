@@ -8,12 +8,13 @@ interface Props {
   description?: string;
   image?: string;
   canonicalUrl?: string;
+  noindex?: boolean;
 }
 
-const { title, description, image, canonicalUrl } = Astro.props;
+const { title, description, image, canonicalUrl, noindex } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} image={image} canonicalUrl={canonicalUrl}>
+<BaseLayout title={title} description={description} image={image} canonicalUrl={canonicalUrl} noindex={noindex}>
   <Header />
   <main class="min-h-[calc(100vh-3.5rem)]">
     <slot />

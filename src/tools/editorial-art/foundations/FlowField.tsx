@@ -5,7 +5,7 @@ const W = CANVAS_W;
 const H = CANVAS_H;
 const STEP_PX = 4; // fixed world-space step per iteration
 
-// ── Noise ─────────────────────────────────────────────────────────────────────
+// ── Foundation noise ──────────────────────────────────────────────────────────
 
 function fade(t: number): number {
   return t * t * t * (t * (t * 6 - 15) + 10);
