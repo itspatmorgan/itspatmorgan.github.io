@@ -77,8 +77,18 @@ export interface DotGridConfig {
   color: LayerColor;
 }
 
-export type FoundationType = 'flow-field' | 'dot-grid';
-export type FoundationConfig = FlowFieldConfig | DotGridConfig;
+export interface IsolineConfig {
+  type: 'isoline';
+  seed: number;        // 1–999, controls noise field
+  levels: number;      // 3–20, number of contour lines
+  scale: number;       // 100–600, noise frequency (higher = smoother, wider contours)
+  strokeWidth: number; // 0.3–2.0
+  opacity: number;     // 0–100 slider
+  color: LayerColor;
+}
+
+export type FoundationType = 'flow-field' | 'dot-grid' | 'isoline';
+export type FoundationConfig = FlowFieldConfig | DotGridConfig | IsolineConfig;
 
 export interface ThemeConfig {
   id: ThemeId;

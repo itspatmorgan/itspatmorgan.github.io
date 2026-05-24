@@ -15,6 +15,7 @@ import {
   type FoundationType,
   type FlowFieldConfig,
   type DotGridConfig,
+  type IsolineConfig,
   type TextFont,
 } from './themes';
 
@@ -45,6 +46,7 @@ const CONTROL_LABEL_W = 'w-[4.75rem]';
 const FOUNDATION_TYPES: { value: FoundationType; label: string }[] = [
   { value: 'flow-field', label: 'Flow Field' },
   { value: 'dot-grid',   label: 'Dot Grid'   },
+  { value: 'isoline',    label: 'Isoline'    },
 ];
 
 const COMPOSITIONS: { value: Composition; label: string }[] = [
@@ -126,14 +128,25 @@ function switchFoundationType(current: FoundationConfig, toType: FoundationType)
       color:   current.color,
     } satisfies DotGridConfig;
   }
+  if (toType === 'isoline') {
+    return {
+      type:        'isoline',
+      seed:        current.seed,
+      levels:      10,
+      scale:       Math.max(100, Math.min(600, current.scale)),
+      strokeWidth: 'strokeWidth' in current ? (current as FlowFieldConfig).strokeWidth : 0.8,
+      opacity:     current.opacity,
+      color:       current.color,
+    } satisfies IsolineConfig;
+  }
   return {
-    type: 'flow-field',
+    type:        'flow-field',
     seed:        current.seed,
     density:     180,
     steps:       90,
     scale:       Math.max(80, Math.min(600, current.scale)),
     curl:        0,
-    strokeWidth: 0.7,
+    strokeWidth: 'strokeWidth' in current ? (current as FlowFieldConfig | IsolineConfig).strokeWidth : 0.7,
     opacity:     current.opacity,
     color:       current.color,
   } satisfies FlowFieldConfig;
@@ -165,8 +178,22 @@ function randomDotGrid(): DotGridConfig {
   };
 }
 
+function randomIsoline(): IsolineConfig {
+  return {
+    type:        'isoline',
+    seed:        ri(1, 999),
+    levels:      ri(5, 18),
+    scale:       ri(150, 500),
+    strokeWidth: rf(0.4, 1.5),
+    opacity:     ri(30, 70),
+    color:       pick(COLORS).value,
+  };
+}
+
 function randomFoundation(type: FoundationType): FoundationConfig {
-  return type === 'flow-field' ? randomFlowField() : randomDotGrid();
+  if (type === 'flow-field') return randomFlowField();
+  if (type === 'dot-grid')   return randomDotGrid();
+  return randomIsoline();
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
@@ -638,9 +665,14 @@ export default function EditorialArtTool() {
 
             {/* Dot Grid — specific controls */}
             {foundation.type === 'dot-grid' && (<>
-              <SliderRow label="Spacing" value={foundation.spacing} min={12} max={48} onChange={(v) => patchFoundation({ spacing: v })} />
+              <SliderRow label="Spacing"  value={foundation.spacing} min={12} max={48}  onChange={(v) => patchFoundation({ spacing: v })} />
               <SliderRow label="Dot Size" value={foundation.dotSize} min={10} max={100} onChange={(v) => patchFoundation({ dotSize: v })} />
             </>)}
+
+            {/* Isoline — specific controls */}
+            {foundation.type === 'isoline' && (
+              <SliderRow label="Levels" value={foundation.levels} min={3} max={20} onChange={(v) => patchFoundation({ levels: v })} />
+            )}
 
             {/* Scale — shared */}
             <SliderRow label="Scale" value={foundation.scale} min={foundation.type === 'flow-field' ? 80 : 100} max={600} onChange={(v) => patchFoundation({ scale: v })} />
@@ -650,6 +682,11 @@ export default function EditorialArtTool() {
               <SliderRow label="Curl"   value={foundation.curl}        min={-180} max={180} onChange={(v) => patchFoundation({ curl: v })} format={(v) => `${v}°`} />
               <SliderRow label="Weight" value={foundation.strokeWidth} min={0.3}  max={2.0} step={0.1} onChange={(v) => patchFoundation({ strokeWidth: v })} />
             </>)}
+
+            {/* Isoline — weight (shared concept with flow field) */}
+            {foundation.type === 'isoline' && (
+              <SliderRow label="Weight" value={foundation.strokeWidth} min={0.3} max={2.0} step={0.1} onChange={(v) => patchFoundation({ strokeWidth: v })} />
+            )}
 
             {/* Color + Opacity — shared */}
             <ColorDots value={foundation.color} onChange={(v) => patchFoundation({ color: v })} bgColor={bgColor} />
