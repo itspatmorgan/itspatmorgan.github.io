@@ -136,6 +136,13 @@ function bgColorFromParam(value: string | null, fallback: string): string {
   return fallback;
 }
 
+function currentColorModeTone(): { bgColor: string; color: LayerColor } {
+  const dark = document.documentElement.classList.contains('dark');
+  return dark
+    ? { bgColor: brand.warmDarkGray, color: 'copper' }
+    : { bgColor: brand.paper, color: 'bronze' };
+}
+
 function numberParam(params: URLSearchParams, key: string, fallback: number): number {
   const value = Number(params.get(key));
   return Number.isFinite(value) ? value : fallback;
@@ -203,11 +210,16 @@ function initialStateFromUrl(): AppState {
   const themeId = themeIdFromParam(params.get('theme'));
   const state = defaultState(themeId);
   if (!window.location.search) return state;
+  const foundation = parseFoundation(params, state.foundation);
+  const autoTone = params.get('tone') === 'auto' ? currentColorModeTone() : null;
 
   return {
     ...state,
-    bgColor: bgColorFromParam(params.get('bg'), state.bgColor),
-    foundation: parseFoundation(params, state.foundation),
+    bgColor: autoTone?.bgColor ?? bgColorFromParam(params.get('bg'), state.bgColor),
+    foundation: {
+      ...foundation,
+      ...(autoTone ? { color: autoTone.color } : {}),
+    } as FoundationConfig,
     texture: numberParam(params, 'texture', state.texture),
     grain: numberParam(params, 'grain', state.grain),
   };

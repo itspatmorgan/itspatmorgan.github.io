@@ -69,6 +69,7 @@ function visualToolHref(visual: Props["visual"], articleTheme: string | undefine
   const params = new URLSearchParams();
 
   addParam(params, "theme", toolThemeId(visual.theme) ?? toolThemeId(articleTheme));
+  addParam(params, "tone", "auto");
   addParam(params, "bg", visual.background);
   addParam(params, "foundation", generator.type);
   addParam(params, "seed", generator.seed);

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArtCanvas } from './ArtCanvas';
 import {
   brand,
@@ -18,12 +18,6 @@ interface Props {
   visual: VisualConfig;
 }
 
-function backgroundColor(background: string | undefined): string {
-  if (background === 'paper') return brand.paper;
-  if (background === 'off-white') return brand.offWhite;
-  return brand.warmDarkGray;
-}
-
 export function LiveEditorialVisual({ visual }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
@@ -41,6 +35,15 @@ export function LiveEditorialVisual({ visual }: Props) {
     return () => observer.disconnect();
   }, []);
 
+  const lightFoundation = useMemo(
+    () => ({ ...visual.generator, color: 'bronze' }) as FoundationConfig,
+    [visual.generator],
+  );
+  const darkFoundation = useMemo(
+    () => ({ ...visual.generator, color: 'copper' }) as FoundationConfig,
+    [visual.generator],
+  );
+
   return (
     <div
       ref={containerRef}
@@ -53,6 +56,7 @@ export function LiveEditorialVisual({ visual }: Props) {
       }}
     >
       <div
+        className="editorial-live-visual__tone editorial-live-visual__tone--light"
         style={{
           width: CANVAS_W,
           height: CANVAS_H,
@@ -62,8 +66,29 @@ export function LiveEditorialVisual({ visual }: Props) {
       >
         <ArtCanvas
           title=""
-          bgColor={backgroundColor(visual.background)}
-          foundation={visual.generator}
+          bgColor={brand.paper}
+          foundation={lightFoundation}
+          texture={visual.texture ?? 0}
+          grain={visual.grain ?? 0}
+          showCaption={false}
+          showText={false}
+          composition="left"
+          textFont="sans"
+        />
+      </div>
+      <div
+        className="editorial-live-visual__tone editorial-live-visual__tone--dark"
+        style={{
+          width: CANVAS_W,
+          height: CANVAS_H,
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+        }}
+      >
+        <ArtCanvas
+          title=""
+          bgColor={brand.warmDarkGray}
+          foundation={darkFoundation}
           texture={visual.texture ?? 0}
           grain={visual.grain ?? 0}
           showCaption={false}
