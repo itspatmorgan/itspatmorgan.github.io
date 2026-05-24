@@ -4,6 +4,7 @@ import { ChevronDown, RefreshCw } from 'lucide-react';
 import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
+  brand,
   bgPalette,
   brandAccent,
   resolveLayerColor,
@@ -635,6 +636,23 @@ export default function EditorialArtTool() {
                 </div>
               )}
             </div>
+              <SegmentedControl
+                value={isColorDark(state.bgColor) ? 'dark' : 'light'}
+                options={[
+                  { value: 'dark',  label: 'Dark'  },
+                  { value: 'light', label: 'Light' },
+                ]}
+                onChange={(tone) => {
+                  setState((prev) => ({
+                    ...prev,
+                    bgColor: tone === 'dark' ? brand.warmDarkGray : brand.paper,
+                    foundation: {
+                      ...prev.foundation,
+                      color: tone === 'dark' ? 'copper' : 'bronze',
+                    } as FoundationConfig,
+                  }));
+                }}
+              />
               </PanelSection>
 
               <PanelSection title="Foundation">
