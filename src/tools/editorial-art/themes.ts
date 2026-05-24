@@ -97,8 +97,15 @@ export interface VoronoiConfig {
   color: LayerColor;
 }
 
-export type FoundationType = 'flow-field' | 'dot-grid' | 'isoline' | 'voronoi';
-export type FoundationConfig = FlowFieldConfig | DotGridConfig | IsolineConfig | VoronoiConfig;
+export interface StrangeAttractorConfig {
+  type: 'strange-attractor';
+  seed: number;    // 1–999, maps to Clifford attractor parameters (a, b, c, d)
+  opacity: number; // 0–100 slider
+  color: LayerColor;
+}
+
+export type FoundationType = 'flow-field' | 'dot-grid' | 'isoline' | 'voronoi' | 'strange-attractor';
+export type FoundationConfig = FlowFieldConfig | DotGridConfig | IsolineConfig | VoronoiConfig | StrangeAttractorConfig;
 
 export interface ThemeConfig {
   id: ThemeId;

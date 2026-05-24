@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { toPng } from 'html-to-image';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, RefreshCw } from 'lucide-react';
 import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
@@ -17,6 +17,7 @@ import {
   type DotGridConfig,
   type IsolineConfig,
   type VoronoiConfig,
+  type StrangeAttractorConfig,
   type TextFont,
 } from './themes';
 
@@ -28,7 +29,7 @@ interface AppState {
   foundation: FoundationConfig;
   texture: number;
   grain: number;
-  showLogo: boolean;
+  showCaption: boolean;
   showText: boolean;
   title: string;
   slug: string;
@@ -45,10 +46,11 @@ const PANEL_W  = 340;
 const CONTROL_LABEL_W = 'w-[4.75rem]';
 
 const FOUNDATION_TYPES: { value: FoundationType; label: string }[] = [
-  { value: 'flow-field', label: 'Flow Field' },
-  { value: 'dot-grid',   label: 'Dot Grid'   },
-  { value: 'isoline',    label: 'Isoline'    },
-  { value: 'voronoi',    label: 'Voronoi'    },
+  { value: 'flow-field',        label: 'Flow Field'        },
+  { value: 'dot-grid',          label: 'Dot Grid'          },
+  { value: 'isoline',           label: 'Isoline'           },
+  { value: 'voronoi',           label: 'Voronoi'           },
+  { value: 'strange-attractor', label: 'Strange Attractor' },
 ];
 
 const COMPOSITIONS: { value: Composition; label: string }[] = [
@@ -106,7 +108,7 @@ function defaultState(themeId: ThemeId): AppState {
     foundation: { ...t.defaultFoundation },
     texture: t.defaultTexture,
     grain: 24,
-    showLogo: false,
+    showCaption: false,
     showText: false,
     title: '',
     slug: '',
@@ -119,12 +121,16 @@ function defaultState(themeId: ThemeId): AppState {
 // Switch foundation type while preserving shared params (seed, scale, color, opacity)
 function switchFoundationType(current: FoundationConfig, toType: FoundationType): FoundationConfig {
   if (toType === current.type) return current;
+  // Safely read scale from configs that have it; fall back to sensible defaults.
+  const currentScale = 'scale' in current ? (current as { scale: number }).scale : 300;
+  const currentStrokeWidth = 'strokeWidth' in current ? (current as { strokeWidth: number }).strokeWidth : 0.7;
+
   if (toType === 'dot-grid') {
     return {
       type: 'dot-grid',
       seed:    current.seed,
       spacing: 20,
-      scale:   Math.max(100, Math.min(600, current.scale)),
+      scale:   Math.max(100, Math.min(600, currentScale)),
       dotSize: 75,
       opacity: current.opacity,
       color:   current.color,
@@ -135,8 +141,8 @@ function switchFoundationType(current: FoundationConfig, toType: FoundationType)
       type:        'isoline',
       seed:        current.seed,
       levels:      10,
-      scale:       Math.max(100, Math.min(600, current.scale)),
-      strokeWidth: 'strokeWidth' in current ? (current as FlowFieldConfig).strokeWidth : 0.8,
+      scale:       Math.max(100, Math.min(600, currentScale)),
+      strokeWidth: currentStrokeWidth,
       opacity:     current.opacity,
       color:       current.color,
     } satisfies IsolineConfig;
@@ -147,19 +153,27 @@ function switchFoundationType(current: FoundationConfig, toType: FoundationType)
       seed:        current.seed,
       count:       80,
       jitter:      75,
-      strokeWidth: 'strokeWidth' in current ? (current as FlowFieldConfig | IsolineConfig).strokeWidth : 0.6,
+      strokeWidth: currentStrokeWidth,
       opacity:     current.opacity,
       color:       current.color,
     } satisfies VoronoiConfig;
+  }
+  if (toType === 'strange-attractor') {
+    return {
+      type:    'strange-attractor',
+      seed:    current.seed,
+      opacity: current.opacity,
+      color:   current.color,
+    } satisfies StrangeAttractorConfig;
   }
   return {
     type:        'flow-field',
     seed:        current.seed,
     density:     180,
     steps:       90,
-    scale:       Math.max(80, Math.min(600, current.scale)),
+    scale:       Math.max(80, Math.min(600, currentScale)),
     curl:        0,
-    strokeWidth: 'strokeWidth' in current ? (current as FlowFieldConfig | IsolineConfig).strokeWidth : 0.7,
+    strokeWidth: currentStrokeWidth,
     opacity:     current.opacity,
     color:       current.color,
   } satisfies FlowFieldConfig;
@@ -215,10 +229,20 @@ function randomVoronoi(): VoronoiConfig {
   };
 }
 
+function randomStrangeAttractor(): StrangeAttractorConfig {
+  return {
+    type:    'strange-attractor',
+    seed:    ri(1, 999),
+    opacity: ri(40, 80),
+    color:   pick(COLORS).value,
+  };
+}
+
 function randomFoundation(type: FoundationType): FoundationConfig {
-  if (type === 'flow-field') return randomFlowField();
-  if (type === 'dot-grid')   return randomDotGrid();
-  if (type === 'isoline')    return randomIsoline();
+  if (type === 'flow-field')        return randomFlowField();
+  if (type === 'dot-grid')          return randomDotGrid();
+  if (type === 'isoline')           return randomIsoline();
+  if (type === 'strange-attractor') return randomStrangeAttractor();
   return randomVoronoi();
 }
 
@@ -551,9 +575,9 @@ export default function EditorialArtTool() {
               type="button"
               onClick={handleRandomize}
               title="Randomize everything"
-              className="mt-0.5 shrink-0 rounded border border-border px-2 py-0.5 font-mono text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+              className="mt-0.5 shrink-0 rounded border border-border p-1.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
             >
-              ↻
+              <RefreshCw className="size-3.5" strokeWidth={2} />
             </button>
           </div>
         </div>
@@ -676,9 +700,9 @@ export default function EditorialArtTool() {
                   type="button"
                   onClick={() => patchFoundation({ seed: ri(1, 999) })}
                   title="New seed"
-                  className="h-9 w-9 shrink-0 cursor-pointer rounded-md bg-muted font-mono text-[12px] text-muted-foreground transition-colors hover:text-foreground"
+                  className="h-9 w-9 shrink-0 cursor-pointer rounded-md bg-muted text-muted-foreground transition-colors hover:text-foreground flex items-center justify-center"
                 >
-                  ↻
+                  <RefreshCw className="size-3.5" strokeWidth={2} />
                 </button>
               </div>
             </div>
@@ -706,7 +730,14 @@ export default function EditorialArtTool() {
               <SliderRow label="Jitter" value={foundation.jitter} min={0}  max={100} onChange={(v) => patchFoundation({ jitter: v })} />
             </>)}
 
-            {/* Scale — shared by flow-field, dot-grid, isoline (not voronoi — size comes from count) */}
+            {/* Strange Attractor — seed is the creative control; no extra params needed */}
+            {foundation.type === 'strange-attractor' && (
+              <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
+                Clifford attractor. Each seed maps to a unique orbit.
+              </p>
+            )}
+
+            {/* Scale — shared by flow-field, dot-grid, isoline (not voronoi/strange-attractor) */}
             {'scale' in foundation && (
               <SliderRow label="Scale" value={(foundation as { scale: number }).scale} min={foundation.type === 'flow-field' ? 80 : 100} max={600} onChange={(v) => patchFoundation({ scale: v })} />
             )}
@@ -747,14 +778,14 @@ export default function EditorialArtTool() {
                 ))}
               </div>
             </SettingsRow>
-            <SettingsRow label="Logo">
+            <SettingsRow label="Caption">
               <SegmentedControl
-                value={state.showLogo ? 'on' : 'off'}
+                value={state.showCaption ? 'on' : 'off'}
                 options={[
                   { value: 'off', label: 'Off' },
                   { value: 'on', label: 'On' },
                 ]}
-                onChange={(value) => set({ showLogo: value === 'on' })}
+                onChange={(value) => set({ showCaption: value === 'on' })}
               />
             </SettingsRow>
             <div className="space-y-2">
@@ -879,7 +910,7 @@ export default function EditorialArtTool() {
             foundation={foundation}
             texture={state.texture}
             grain={state.grain}
-            showLogo={state.showLogo}
+            showCaption={state.showCaption}
             showText={state.showText}
             composition={state.composition}
             textFont={state.textFont}

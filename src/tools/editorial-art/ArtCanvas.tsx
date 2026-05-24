@@ -4,6 +4,7 @@ import { FlowField } from './foundations/FlowField';
 import { DotGrid } from './foundations/DotGrid';
 import { Isoline } from './foundations/Isoline';
 import { Voronoi } from './foundations/Voronoi';
+import { StrangeAttractor } from './foundations/StrangeAttractor';
 import {
   brand,
   isColorDark,
@@ -20,13 +21,47 @@ export interface CanvasProps {
   title: string;
   bgColor: string;
   foundation: FoundationConfig;
-  texture: number;    // 0–100 slider
-  grain: number;      // 0–100 slider
-  showLogo: boolean;
+  texture: number;         // 0–100 slider
+  grain: number;           // 0–100 slider
+  showCaption: boolean;
   showText: boolean;
   composition: Composition;
   textFont: TextFont;
 }
+
+// ── Caption text ──────────────────────────────────────────────────────────────
+
+function captionText(foundation: FoundationConfig): { title: string; params: string } {
+  switch (foundation.type) {
+    case 'flow-field':
+      return {
+        title: 'Flow Field',
+        params: `seed ${foundation.seed} · density ${foundation.density} · scale ${foundation.scale}`,
+      };
+    case 'dot-grid':
+      return {
+        title: 'Dot Grid',
+        params: `seed ${foundation.seed} · spacing ${foundation.spacing}px · size ${foundation.dotSize}%`,
+      };
+    case 'isoline':
+      return {
+        title: 'Isoline',
+        params: `seed ${foundation.seed} · levels ${foundation.levels} · scale ${foundation.scale}`,
+      };
+    case 'voronoi':
+      return {
+        title: 'Voronoi',
+        params: `seed ${foundation.seed} · cells ${foundation.count} · jitter ${foundation.jitter}%`,
+      };
+    case 'strange-attractor':
+      return {
+        title: 'Strange Attractor',
+        params: `seed ${foundation.seed}`,
+      };
+  }
+}
+
+// ── Font size ─────────────────────────────────────────────────────────────────
 
 function titleFontSize(title: string): number {
   const len = title.length;
@@ -54,8 +89,10 @@ const titleFonts: Record<TextFont, React.CSSProperties> = {
   },
 };
 
+// ── Canvas ────────────────────────────────────────────────────────────────────
+
 export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCanvas(
-  { title, bgColor, foundation, texture, grain, showLogo, showText, composition, textFont },
+  { title, bgColor, foundation, texture, grain, showCaption, showText, composition, textFont },
   ref
 ) {
   const isDark = isColorDark(bgColor);
@@ -64,10 +101,13 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
     ? '/images/textures/debut_dark.png'
     : '/images/textures/debut_light.png';
   const textureBlend: React.CSSProperties['mixBlendMode'] = isDark ? 'screen' : 'multiply';
-  const texOpacity = sliderToTextureOpacity(texture);
-  const grainOpacity = sliderToGrainOpacity(grain);
-  const fontSize   = titleFontSize(title);
-  const logoMarkColor = isDark ? brand.champagneLight : brand.warmDarkGray;
+  const texOpacity    = sliderToTextureOpacity(texture);
+  const grainOpacity  = sliderToGrainOpacity(grain);
+  const fontSize      = titleFontSize(title);
+  const markColor     = isDark ? brand.champagneLight : brand.warmDarkGray;
+  const caption       = captionText(foundation);
+
+  const monoStack = "'Geist Mono Variable', ui-monospace, monospace";
 
   const textStyle: React.CSSProperties =
     composition === 'centered'
@@ -130,12 +170,13 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
       )}
 
       {/* Generative foundation — dispatch by type */}
-      {foundation.type === 'flow-field' && <FlowField {...foundation} />}
-      {foundation.type === 'dot-grid'   && <DotGrid   {...foundation} />}
-      {foundation.type === 'isoline'    && <Isoline   {...foundation} />}
-      {foundation.type === 'voronoi'    && <Voronoi   {...foundation} />}
+      {foundation.type === 'flow-field'        && <FlowField        {...foundation} />}
+      {foundation.type === 'dot-grid'          && <DotGrid          {...foundation} />}
+      {foundation.type === 'isoline'           && <Isoline          {...foundation} />}
+      {foundation.type === 'voronoi'           && <Voronoi          {...foundation} />}
+      {foundation.type === 'strange-attractor' && <StrangeAttractor {...foundation} />}
 
-      {/* Text (optional) */}
+      {/* Article title (optional) */}
       {showText && (
         <div style={textStyle}>
           <div style={{
@@ -147,19 +188,39 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         </div>
       )}
 
-      {/* UA mark — bottom right, in a pill so it reads on any pattern */}
-      {showLogo && (
-        <div style={{ position: 'absolute', bottom: 48, right: 48 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 72,
-            height: 72,
-            borderRadius: 10,
-            backgroundColor: bgColor,
-          }}>
-            <UAMark color={logoMarkColor} height={34} />
+      {/* Caption — UA mark + foundation info in one opaque badge, bottom right */}
+      {showCaption && (
+        <div style={{
+          position: 'absolute', bottom: 48, right: 48,
+          backgroundColor: bgColor,
+          borderRadius: 10,
+          padding: '12px 16px',
+          display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 14,
+        }}>
+          <UAMark color={markColor} height={30} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{
+              fontFamily: monoStack,
+              fontSize: 15,
+              fontWeight: 500,
+              letterSpacing: '0.01em',
+              color: fgColor,
+              opacity: 0.85,
+              lineHeight: 1,
+            }}>
+              {caption.title}
+            </div>
+            <div style={{
+              fontFamily: monoStack,
+              fontSize: 12,
+              fontWeight: 400,
+              letterSpacing: '0.01em',
+              color: fgColor,
+              opacity: 0.5,
+              lineHeight: 1,
+            }}>
+              {caption.params} · @itspatmorgan
+            </div>
           </div>
         </div>
       )}
