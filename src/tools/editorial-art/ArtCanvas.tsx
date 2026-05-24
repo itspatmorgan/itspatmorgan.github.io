@@ -3,6 +3,7 @@ import { UAMark } from './UAMark';
 import { FlowField } from './foundations/FlowField';
 import { DotGrid } from './foundations/DotGrid';
 import { Isoline } from './foundations/Isoline';
+import { Voronoi } from './foundations/Voronoi';
 import {
   brand,
   isColorDark,
@@ -132,6 +133,7 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
       {foundation.type === 'flow-field' && <FlowField {...foundation} />}
       {foundation.type === 'dot-grid'   && <DotGrid   {...foundation} />}
       {foundation.type === 'isoline'    && <Isoline   {...foundation} />}
+      {foundation.type === 'voronoi'    && <Voronoi   {...foundation} />}
 
       {/* Text (optional) */}
       {showText && (
