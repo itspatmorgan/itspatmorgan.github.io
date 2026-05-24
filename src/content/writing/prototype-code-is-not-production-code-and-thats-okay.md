@@ -9,7 +9,21 @@ tags:
   - AI
   - Prototyping
   - Code
-image: /images/writing/img-prototype-code.jpg
+visual:
+  version: 1
+  theme: Systems Thinking
+  background: warm-dark-gray
+  generator:
+    type: voronoi
+    seed: 882
+    count: 60
+    jitter: 60
+    strokeWidth: 0.6
+    opacity: 75
+    color: copper
+  texture: 0
+  grain: 24
+image: /images/writing/prototype-code-is-not-production-code-and-thats-okay/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/prototype-code-is-not-production"
 draft: false
 ---

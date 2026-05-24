@@ -9,6 +9,18 @@ tags:
   - AI
   - Prompting
   - Systems
+visual:
+  version: 1
+  theme: AI
+  background: warm-dark-gray
+  generator:
+    type: strange-attractor
+    seed: 583
+    opacity: 85
+    color: copper
+  texture: 20
+  grain: 24
+image: /images/writing/promptings-split-personality/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/promptings-split-personality"
 draft: false
 ---

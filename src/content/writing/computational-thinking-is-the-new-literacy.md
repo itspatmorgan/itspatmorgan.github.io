@@ -9,6 +9,21 @@ tags:
   - AI
   - Technical Design
   - Software
+visual:
+  version: 1
+  theme: Systems Thinking
+  background: warm-dark-gray
+  generator:
+    type: voronoi
+    seed: 463
+    count: 60
+    jitter: 60
+    strokeWidth: 0.6
+    opacity: 75
+    color: copper
+  texture: 0
+  grain: 24
+image: /images/writing/computational-thinking-is-the-new-literacy/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/computational-thinking-is-the-new"
 draft: false
 ---

@@ -9,6 +9,21 @@ tags:
   - Product Strategy
   - Research
   - Enterprise
+visual:
+  version: 1
+  theme: Design
+  background: warm-dark-gray
+  generator:
+    type: isoline
+    seed: 659
+    levels: 12
+    scale: 350
+    strokeWidth: 0.7
+    opacity: 75
+    color: copper
+  texture: 0
+  grain: 24
+image: /images/writing/design-to-win-using-the-competition-to-unlock-better-design/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/how-i-use-the-power-of-competition"
 draft: false
 ---

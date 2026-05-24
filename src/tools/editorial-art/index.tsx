@@ -119,6 +119,100 @@ function defaultState(themeId: ThemeId): AppState {
   };
 }
 
+function themeIdFromParam(value: string | null): ThemeId {
+  if (!value) return 'ai';
+  const normalized = value.toLowerCase().replace(/\s+/g, '-');
+  const matched = Object.values(themes).find((theme) =>
+    theme.id === normalized || theme.label.toLowerCase().replace(/\s+/g, '-') === normalized
+  );
+  return matched?.id ?? 'ai';
+}
+
+function bgColorFromParam(value: string | null, fallback: string): string {
+  if (value === 'paper') return brand.paper;
+  if (value === 'off-white') return brand.offWhite;
+  if (value === 'warm-dark-gray' || value === 'dark') return brand.warmDarkGray;
+  if (value && /^#[0-9a-f]{6}$/i.test(value)) return value;
+  return fallback;
+}
+
+function numberParam(params: URLSearchParams, key: string, fallback: number): number {
+  const value = Number(params.get(key));
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function colorParam(value: string | null, fallback: LayerColor): LayerColor {
+  return COLORS.some((color) => color.value === value) ? value as LayerColor : fallback;
+}
+
+function parseFoundation(params: URLSearchParams, fallback: FoundationConfig): FoundationConfig {
+  const typeParam = params.get('foundation') ?? params.get('type');
+  const type = FOUNDATION_TYPES.some((item) => item.value === typeParam)
+    ? typeParam as FoundationType
+    : fallback.type;
+  const base = switchFoundationType(fallback, type);
+  const shared = {
+    seed: numberParam(params, 'seed', base.seed),
+    opacity: numberParam(params, 'opacity', base.opacity),
+    color: colorParam(params.get('color'), base.color),
+  };
+
+  if (base.type === 'flow-field') {
+    return {
+      ...base,
+      ...shared,
+      density: numberParam(params, 'density', base.density),
+      steps: numberParam(params, 'steps', base.steps),
+      scale: numberParam(params, 'scale', base.scale),
+      curl: numberParam(params, 'curl', base.curl),
+      strokeWidth: numberParam(params, 'strokeWidth', base.strokeWidth),
+    };
+  }
+  if (base.type === 'dot-grid') {
+    return {
+      ...base,
+      ...shared,
+      spacing: numberParam(params, 'spacing', base.spacing),
+      scale: numberParam(params, 'scale', base.scale),
+      dotSize: numberParam(params, 'dotSize', base.dotSize),
+    };
+  }
+  if (base.type === 'isoline') {
+    return {
+      ...base,
+      ...shared,
+      levels: numberParam(params, 'levels', base.levels),
+      scale: numberParam(params, 'scale', base.scale),
+      strokeWidth: numberParam(params, 'strokeWidth', base.strokeWidth),
+    };
+  }
+  if (base.type === 'voronoi') {
+    return {
+      ...base,
+      ...shared,
+      count: numberParam(params, 'count', base.count),
+      jitter: numberParam(params, 'jitter', base.jitter),
+      strokeWidth: numberParam(params, 'strokeWidth', base.strokeWidth),
+    };
+  }
+  return { ...base, ...shared };
+}
+
+function initialStateFromUrl(): AppState {
+  const params = new URLSearchParams(window.location.search);
+  const themeId = themeIdFromParam(params.get('theme'));
+  const state = defaultState(themeId);
+  if (!window.location.search) return state;
+
+  return {
+    ...state,
+    bgColor: bgColorFromParam(params.get('bg'), state.bgColor),
+    foundation: parseFoundation(params, state.foundation),
+    texture: numberParam(params, 'texture', state.texture),
+    grain: numberParam(params, 'grain', state.grain),
+  };
+}
+
 // Switch foundation type while preserving shared params (seed, scale, color, opacity)
 function switchFoundationType(current: FoundationConfig, toType: FoundationType): FoundationConfig {
   if (toType === current.type) return current;
@@ -417,7 +511,7 @@ export default function EditorialArtTool() {
   const [foundationMenuOpen, setFoundationMenuOpen] = useState(false);
   const [panelScrolling, setPanelScrolling] = useState(false);
   const [panelScrollThumb, setPanelScrollThumb] = useState({ height: 0, top: 0, visible: false });
-  const [state, setState]             = useState<AppState>(() => defaultState('ai'));
+  const [state, setState]             = useState<AppState>(initialStateFromUrl);
 
   useEffect(() => {
     const update = () => {

@@ -9,6 +9,21 @@ tags:
   - Software
   - Technical Design
   - Product Strategy
+visual:
+  version: 1
+  theme: Systems Thinking
+  background: warm-dark-gray
+  generator:
+    type: voronoi
+    seed: 300
+    count: 60
+    jitter: 60
+    strokeWidth: 0.6
+    opacity: 75
+    color: copper
+  texture: 0
+  grain: 24
+image: /images/writing/3-models-for-framing-software-complexity/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/3-models-for-framing-software-complexity"
 draft: false
 ---

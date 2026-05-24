@@ -9,7 +9,18 @@ tags:
   - AI
   - Context Engineering
   - Curation
-image: /images/writing/img-curate-your-context.jpg
+visual:
+  version: 1
+  theme: AI
+  background: warm-dark-gray
+  generator:
+    type: strange-attractor
+    seed: 118
+    opacity: 85
+    color: copper
+  texture: 20
+  grain: 24
+image: /images/writing/curate-your-context/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/context-is-your-creative-leverage"
 draft: false
 ---

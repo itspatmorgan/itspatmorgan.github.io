@@ -9,6 +9,21 @@ tags:
   - B2B
   - Enterprise
   - Product Design
+visual:
+  version: 1
+  theme: Design
+  background: warm-dark-gray
+  generator:
+    type: isoline
+    seed: 582
+    levels: 12
+    scale: 350
+    strokeWidth: 0.7
+    opacity: 75
+    color: copper
+  texture: 0
+  grain: 24
+image: /images/writing/7-insights-for-navigating-b2b-design/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/7-insights-for-navigating-b2b-design"
 draft: false
 ---

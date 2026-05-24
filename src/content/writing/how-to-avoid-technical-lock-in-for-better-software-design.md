@@ -9,6 +9,21 @@ tags:
   - Software
   - Technical Design
   - Design Systems
+visual:
+  version: 1
+  theme: Systems Thinking
+  background: warm-dark-gray
+  generator:
+    type: voronoi
+    seed: 669
+    count: 60
+    jitter: 60
+    strokeWidth: 0.6
+    opacity: 75
+    color: copper
+  texture: 0
+  grain: 24
+image: /images/writing/how-to-avoid-technical-lock-in-for-better-software-design/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/the-subtle-art-of-keeping-your-options"
 draft: false
 ---
