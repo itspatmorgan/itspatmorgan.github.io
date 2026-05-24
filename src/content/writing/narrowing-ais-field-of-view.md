@@ -9,6 +9,27 @@ tags:
   - AI
   - Context Engineering
   - Portfolio
+visual:
+  version: 1
+  theme: Creative Practice
+  background: warm-dark-gray
+  generator:
+    type: flow-field
+    seed: 748
+    density: 150
+    steps: 100
+    scale: 320
+    curl: 30
+    strokeWidth: 1
+    opacity: 75
+    color: copper
+  lightMode:
+    color: bronze
+    opacity: 100
+    strokeWidth: 1.5
+  texture: 20
+  grain: 24
+image: /images/writing/narrowing-ais-field-of-view/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/narrowing-ais-field-of-view"
 draft: false
 ---

@@ -6,7 +6,8 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains("dark");
-    setTheme(isDark ? "dark" : "light");
+    const current = isDark ? "dark" : "light";
+    setTheme(current);
   }, []);
 
   function toggleTheme() {

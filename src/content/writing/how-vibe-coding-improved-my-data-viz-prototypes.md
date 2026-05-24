@@ -9,6 +9,25 @@ tags:
   - AI
   - Prototyping
   - Data Visualization
+visual:
+  version: 1
+  theme: Design
+  background: warm-dark-gray
+  generator:
+    type: isoline
+    seed: 716
+    levels: 12
+    scale: 350
+    strokeWidth: 0.7
+    opacity: 75
+    color: copper
+  lightMode:
+    color: bronze
+    opacity: 100
+    strokeWidth: 1.05
+  texture: 0
+  grain: 24
+image: /images/writing/how-vibe-coding-improved-my-data-viz-prototypes/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/the-first-time-vibe-coding-actually"
 draft: false
 ---

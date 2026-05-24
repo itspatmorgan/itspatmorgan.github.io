@@ -9,7 +9,21 @@ tags:
   - AI
   - Documentation
   - Systems
-image: /images/writing/img-your-instructions.jpg
+visual:
+  version: 1
+  theme: AI
+  background: warm-dark-gray
+  generator:
+    type: strange-attractor
+    seed: 942
+    opacity: 85
+    color: copper
+  lightMode:
+    color: bronze
+    opacity: 100
+  texture: 20
+  grain: 24
+image: /images/writing/your-instructions-now-run-like-code/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/your-instructions-now-run-like-code"
 draft: false
 ---

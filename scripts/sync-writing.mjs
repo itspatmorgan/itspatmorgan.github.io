@@ -15,6 +15,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 import { homedir } from 'os';
+import YAML from 'yaml';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const VAULT = process.env.OBSIDIAN_VAULT ?? join(homedir(), 'Obsidian/itspatmorgan-obsidian');
@@ -22,6 +23,7 @@ const NEWSLETTERS_DIR = join(VAULT, 'Writing/Newsletters');
 const OUTPUT_DIR = resolve('src/content/writing');
 const OBSIDIAN_ONLY = new Set(['created', 'website', 'author']);
 const REQUIRED = ['title', 'description', 'publishedDate'];
+const WEBSITE_OWNED = ['visual'];
 
 let synced = 0, skipped = 0, errors = 0;
 
@@ -31,39 +33,8 @@ function parseFrontmatter(content) {
   return { raw: match[1], body: match[2] };
 }
 
-function parseSimpleYaml(raw) {
-  const fields = {};
-  const lines = raw.split('\n');
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    const arrayKey = line.match(/^(\w+):\s*$/);
-    if (arrayKey && i + 1 < lines.length && lines[i + 1].match(/^\s+-/)) {
-      const key = arrayKey[1];
-      const items = [];
-      i++;
-      while (i < lines.length && lines[i].match(/^\s+-/)) {
-        items.push(lines[i].replace(/^\s+-\s*/, '').trim());
-        i++;
-      }
-      fields[key] = items;
-      continue;
-    }
-    const inlineArray = line.match(/^(\w+):\s*\[(.*)]\s*$/);
-    if (inlineArray) {
-      fields[inlineArray[1]] = inlineArray[2].split(',').map(s => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
-      i++;
-      continue;
-    }
-    const scalar = line.match(/^(\w+):\s*(.*)\s*$/);
-    if (scalar) {
-      fields[scalar[1]] = scalar[2].replace(/^["']|["']$/g, '');
-      i++;
-      continue;
-    }
-    i++;
-  }
-  return fields;
+function parseYaml(raw) {
+  return YAML.parse(raw) ?? {};
 }
 
 // Convert kebab-case tags to display format (e.g. "context-engineering" → "Context Engineering").
@@ -84,7 +55,7 @@ function slugify(title) {
 function serializeFrontmatter(fields) {
   const ORDER = [
     'title', 'description', 'publishedDate', 'categories', 'theme', 'tags',
-    'image', 'canonicalUrl', 'draft',
+    'visual', 'image', 'canonicalUrl', 'draft',
   ];
   const lines = [];
   // Known fields in order
@@ -101,6 +72,12 @@ function serializeFrontmatter(fields) {
 }
 
 function appendField(lines, key, val) {
+  if (val === '' || val === null || val === undefined) {
+    // Skip empty optional fields — absent is cleaner than a blank value
+    // and prevents Zod url()/date() validators from rejecting empty strings.
+    return;
+  }
+
   if (Array.isArray(val)) {
     if (val.length === 0) return;
     const items = key === 'tags' ? val.map(displayTag) : val;
@@ -108,13 +85,25 @@ function appendField(lines, key, val) {
     for (const item of items) lines.push(`  - ${item}`);
   } else if (typeof val === 'boolean') {
     lines.push(`${key}: ${val}`);
-  } else if (val === '' || val === null || val === undefined) {
-    // Skip empty optional fields — absent is cleaner than a blank value
-    // and prevents Zod url()/date() validators from rejecting empty strings.
+  } else if (typeof val === 'object') {
+    lines.push(`${key}:`);
+    const nested = YAML.stringify(val, { lineWidth: 0 }).trimEnd();
+    for (const line of nested.split('\n')) lines.push(`  ${line}`);
   } else {
     const needsQuotes = /[:#\[\]{}&*!|>'"%@`]/.test(String(val)) || String(val).startsWith(' ');
     lines.push(`${key}: ${needsQuotes ? `"${String(val).replace(/"/g, '\\"')}"` : val}`);
   }
+}
+
+function readExistingFields(outPath) {
+  if (!existsSync(outPath)) return {};
+  const existing = parseFrontmatter(readFileSync(outPath, 'utf8'));
+  if (!existing) return {};
+  return parseYaml(existing.raw);
+}
+
+function isGeneratedImagePath(image, slug) {
+  return typeof image === 'string' && image.startsWith(`/images/writing/${slug}/feature.`);
 }
 
 function cleanBody(body) {
@@ -139,7 +128,7 @@ function syncFile(filePath, fileName) {
   const parsed = parseFrontmatter(content);
   if (!parsed) return;
 
-  const fields = parseSimpleYaml(parsed.raw);
+  const fields = parseYaml(parsed.raw);
   const websiteVal = fields.website;
   if (websiteVal !== 'true' && websiteVal !== true) return;
 
@@ -161,6 +150,15 @@ function syncFile(filePath, fileName) {
 
   const slug = slugify(fields.title);
   const outPath = join(OUTPUT_DIR, `${slug}.md`);
+  const existingFields = readExistingFields(outPath);
+
+  for (const key of WEBSITE_OWNED) {
+    if (existingFields[key] !== undefined) fields[key] = existingFields[key];
+  }
+  if (existingFields.visual && isGeneratedImagePath(existingFields.image, slug)) {
+    fields.image = existingFields.image;
+  }
+
   const newFrontmatter = serializeFrontmatter(fields);
   const body = cleanBody(parsed.body);
   const newContent = `---\n${newFrontmatter}\n---\n${body}`;

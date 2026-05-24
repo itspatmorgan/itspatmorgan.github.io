@@ -1,20 +1,116 @@
 ---
 import PageLayout from "./PageLayout.astro";
 import { Badge } from "@/components/ui/badge";
+import { LiveEditorialVisual } from "@/tools/editorial-art/LiveEditorialVisual";
 
 interface Props {
   title: string;
   description: string;
   publishedDate: Date;
   theme?: string;
+  visual?: {
+    theme?: string;
+    background?: string;
+    generator: Record<string, unknown> & { type: string; seed: number };
+    lightMode?: { color: string; opacity: number; strokeWidth?: number };
+    texture?: number;
+    grain?: number;
+  };
   image?: string;
   canonicalUrl?: string;
 }
 
-const { title, description, publishedDate, theme, image, canonicalUrl } = Astro.props;
+const { title, description, publishedDate, theme, visual, image, canonicalUrl } = Astro.props;
+const isGeneratedEditorialImage = image?.includes("/feature.");
+
+function generatorLabel(type: string): string {
+  return type.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+}
+
+function visualCaption(visual: Props["visual"]): string | undefined {
+  if (!visual) return undefined;
+  const generator = visual.generator;
+  if (generator.type === "flow-field") {
+    return `${generatorLabel(generator.type)} · seed ${generator.seed} · density ${generator.density} · scale ${generator.scale}`;
+  }
+  if (generator.type === "dot-grid") {
+    return `${generatorLabel(generator.type)} · seed ${generator.seed} · spacing ${generator.spacing}px · size ${generator.dotSize}%`;
+  }
+  if (generator.type === "isoline") {
+    return `${generatorLabel(generator.type)} · seed ${generator.seed} · levels ${generator.levels} · scale ${generator.scale}`;
+  }
+  if (generator.type === "voronoi") {
+    return `${generatorLabel(generator.type)} · seed ${generator.seed} · cells ${generator.count} · jitter ${generator.jitter}%`;
+  }
+  return `${generatorLabel(generator.type)} · seed ${generator.seed}`;
+}
+
+function toolThemeId(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const map: Record<string, string> = {
+    ai: "ai",
+    design: "design",
+    systems: "systems",
+    "systems thinking": "systems",
+    creative: "creative",
+    "creative practice": "creative",
+    career: "career",
+  };
+  return map[value.toLowerCase()];
+}
+
+function addParam(params: URLSearchParams, key: string, value: unknown): void {
+  if (value === undefined || value === null || value === "") return;
+  params.set(key, String(value));
+}
+
+function visualToolHref(visual: Props["visual"], articleTheme: string | undefined): string {
+  if (!visual) return "/tools/editorial-art";
+  const generator = visual.generator;
+  const params = new URLSearchParams();
+
+  addParam(params, "theme", toolThemeId(visual.theme) ?? toolThemeId(articleTheme));
+  addParam(params, "tone", "auto");
+  addParam(params, "bg", visual.background);
+  addParam(params, "generator", generator.type);
+  addParam(params, "seed", generator.seed);
+  addParam(params, "opacity", generator.opacity);
+  addParam(params, "color", generator.color);
+  addParam(params, "texture", visual.texture);
+  addParam(params, "grain", visual.grain);
+
+  if (generator.type === "flow-field") {
+    addParam(params, "density", generator.density);
+    addParam(params, "steps", generator.steps);
+    addParam(params, "scale", generator.scale);
+    addParam(params, "curl", generator.curl);
+    addParam(params, "strokeWidth", generator.strokeWidth);
+  }
+  if (generator.type === "dot-grid") {
+    addParam(params, "spacing", generator.spacing);
+    addParam(params, "scale", generator.scale);
+    addParam(params, "dotSize", generator.dotSize);
+  }
+  if (generator.type === "isoline") {
+    addParam(params, "levels", generator.levels);
+    addParam(params, "scale", generator.scale);
+    addParam(params, "strokeWidth", generator.strokeWidth);
+  }
+  if (generator.type === "voronoi") {
+    addParam(params, "count", generator.count);
+    addParam(params, "jitter", generator.jitter);
+    addParam(params, "strokeWidth", generator.strokeWidth);
+  }
+
+  const query = params.toString();
+  return query ? `/tools/editorial-art?${query}` : "/tools/editorial-art";
+}
+
+const generatedCaption = visualCaption(visual);
+const generatedToolHref = visualToolHref(visual, theme);
 ---
 
-<PageLayout title={title} description={description} canonicalUrl={canonicalUrl}>
+<PageLayout title={title} description={description} image={image} canonicalUrl={canonicalUrl}>
   <article class="mx-auto max-w-3xl px-6 py-16">
     {/* Back link */}
     <a
@@ -54,14 +150,23 @@ const { title, description, publishedDate, theme, image, canonicalUrl } = Astro.
     </header>
 
     {/* Hero image */}
-    {image && (
+    {visual && (
       <figure class="mb-12">
-        <div class="overflow-hidden rounded-lg border border-border">
-          <img
-            src={image}
-            alt={title}
-            class="w-full object-cover"
-          />
+        <div class="relative aspect-[1200/630] overflow-hidden rounded-lg border border-border bg-card">
+          <LiveEditorialVisual visual={visual} client:load />
+        </div>
+        <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
+          {generatedCaption} · generated with the{" "}
+          <a href={generatedToolHref} class="underline underline-offset-4 transition-colors hover:text-foreground">
+            Editorial Art Tool
+          </a>
+        </figcaption>
+      </figure>
+    )}
+    {image && !visual && (
+      <figure class="mb-12">
+        <div class="relative aspect-[1200/630] overflow-hidden rounded-lg border border-border bg-card">
+          <img src={image} alt={title} class="h-full w-full object-cover" />
         </div>
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
           Image by Patrick Morgan, created with Midjourney
