@@ -7,8 +7,6 @@ import { Voronoi } from './foundations/Voronoi';
 import {
   brand,
   isColorDark,
-  sliderToGrainOpacity,
-  sliderToTextureOpacity,
   type FoundationConfig,
 } from './themes';
 
@@ -55,13 +53,8 @@ export function LiveEditorialVisual({ visual }: Props) {
   const reducedMotion = useReducedMotion();
   const bgColor = backgroundColor(visual.background);
   const darkBg = isColorDark(bgColor);
-  const texture = visual.texture ?? 0;
   const grain = visual.grain ?? 0;
-  const textureOpacity = sliderToTextureOpacity(texture);
-  const grainOpacity = sliderToGrainOpacity(grain);
-  const textureSrc = darkBg
-    ? '/images/textures/debut_dark.png'
-    : '/images/textures/debut_light.png';
+  const grainOpacity = visual.generator.type === 'strange-attractor' ? 0 : (grain / 100) * 0.16;
 
   if (reducedMotion) return null;
 
@@ -77,20 +70,6 @@ export function LiveEditorialVisual({ visual }: Props) {
         pointerEvents: 'none',
       }}
     >
-      {textureOpacity > 0 && (
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${textureSrc})`,
-            backgroundRepeat: 'repeat',
-            backgroundSize: '120px 120px',
-            opacity: textureOpacity,
-            mixBlendMode: darkBg ? 'screen' : 'multiply',
-          }}
-        />
-      )}
-
       <div className={`editorial-live-visual__foundation editorial-live-visual__foundation--${visual.generator.type}`}>
         <FoundationLayer foundation={visual.generator} />
       </div>
