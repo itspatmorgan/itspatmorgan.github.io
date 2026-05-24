@@ -234,14 +234,3 @@
     linear-gradient(oklch(0.16 0.01 60 / 0.7), oklch(0.16 0.01 60 / 0.7)),
     url('/images/textures/debut_dark.png');
 }
-
-/* Live editorial article visuals */
-.editorial-live-visual {
-  opacity: 1;
-}
-
-.editorial-live-visual__foundation {
-  position: absolute;
-  inset: 0;
-  transform-origin: center;
-}

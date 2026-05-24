@@ -157,7 +157,7 @@ const generatedToolHref = visualToolHref(visual, theme);
             class="h-full w-full object-cover"
           />
           {isGeneratedEditorialImage && visual && (
-            <LiveEditorialVisual visual={visual} client:idle />
+            <LiveEditorialVisual visual={visual} client:load />
           )}
         </div>
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
