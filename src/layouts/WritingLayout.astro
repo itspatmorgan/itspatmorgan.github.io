@@ -1,6 +1,7 @@
 ---
 import PageLayout from "./PageLayout.astro";
 import { Badge } from "@/components/ui/badge";
+import { LiveEditorialVisual } from "@/tools/editorial-art/LiveEditorialVisual";
 
 interface Props {
   title: string;
@@ -149,12 +150,15 @@ const generatedToolHref = visualToolHref(visual, theme);
     {/* Hero image */}
     {image && (
       <figure class="mb-12">
-        <div class="overflow-hidden rounded-lg border border-border">
+        <div class="relative aspect-[1200/630] overflow-hidden rounded-lg border border-border bg-card">
           <img
             src={image}
             alt={title}
-            class="w-full object-cover"
+            class="h-full w-full object-cover"
           />
+          {isGeneratedEditorialImage && visual && (
+            <LiveEditorialVisual visual={visual} client:idle />
+          )}
         </div>
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
           {isGeneratedEditorialImage && generatedCaption ? (
