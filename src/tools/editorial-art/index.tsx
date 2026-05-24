@@ -12,8 +12,8 @@ import {
   type ThemeId,
   type LayerColor,
   type Composition,
-  type FoundationConfig,
-  type FoundationType,
+  type GeneratorConfig,
+  type GeneratorType,
   type FlowFieldConfig,
   type DotGridConfig,
   type IsolineConfig,
@@ -27,7 +27,7 @@ import {
 interface AppState {
   themeId: ThemeId;
   bgColor: string;
-  foundation: FoundationConfig;
+  generator: GeneratorConfig;
   texture: number;
   grain: number;
   showCaption: boolean;
@@ -46,7 +46,7 @@ const CANVAS_H = 630;
 const PANEL_W  = 340;
 const CONTROL_LABEL_W = 'w-[4.75rem]';
 
-const FOUNDATION_TYPES: { value: FoundationType; label: string }[] = [
+const GENERATOR_TYPES: { value: GeneratorType; label: string }[] = [
   { value: 'flow-field',        label: 'Flow Field'        },
   { value: 'dot-grid',          label: 'Dot Grid'          },
   { value: 'isoline',           label: 'Isoline'           },
@@ -106,7 +106,7 @@ function defaultState(themeId: ThemeId): AppState {
   return {
     themeId,
     bgColor: t.defaultBgColor,
-    foundation: { ...t.defaultFoundation },
+    generator: { ...t.defaultGenerator },
     texture: t.defaultTexture,
     grain: 24,
     showCaption: false,
@@ -152,12 +152,12 @@ function colorParam(value: string | null, fallback: LayerColor): LayerColor {
   return COLORS.some((color) => color.value === value) ? value as LayerColor : fallback;
 }
 
-function parseFoundation(params: URLSearchParams, fallback: FoundationConfig): FoundationConfig {
-  const typeParam = params.get('foundation') ?? params.get('type');
-  const type = FOUNDATION_TYPES.some((item) => item.value === typeParam)
-    ? typeParam as FoundationType
+function parseGenerator(params: URLSearchParams, fallback: GeneratorConfig): GeneratorConfig {
+  const typeParam = params.get('generator') ?? params.get('type');
+  const type = GENERATOR_TYPES.some((item) => item.value === typeParam)
+    ? typeParam as GeneratorType
     : fallback.type;
-  const base = switchFoundationType(fallback, type);
+  const base = switchGeneratorType(fallback, type);
   const shared = {
     seed: numberParam(params, 'seed', base.seed),
     opacity: numberParam(params, 'opacity', base.opacity),
@@ -210,23 +210,23 @@ function initialStateFromUrl(): AppState {
   const themeId = themeIdFromParam(params.get('theme'));
   const state = defaultState(themeId);
   if (!window.location.search) return state;
-  const foundation = parseFoundation(params, state.foundation);
+  const generator = parseGenerator(params, state.generator);
   const autoTone = params.get('tone') === 'auto' ? currentColorModeTone() : null;
 
   return {
     ...state,
     bgColor: autoTone?.bgColor ?? bgColorFromParam(params.get('bg'), state.bgColor),
-    foundation: {
-      ...foundation,
+    generator: {
+      ...generator,
       ...(autoTone ? { color: autoTone.color } : {}),
-    } as FoundationConfig,
+    } as GeneratorConfig,
     texture: numberParam(params, 'texture', state.texture),
     grain: numberParam(params, 'grain', state.grain),
   };
 }
 
 // Switch foundation type while preserving shared params (seed, scale, color, opacity)
-function switchFoundationType(current: FoundationConfig, toType: FoundationType): FoundationConfig {
+function switchGeneratorType(current: GeneratorConfig, toType: GeneratorType): GeneratorConfig {
   if (toType === current.type) return current;
   // Safely read scale from configs that have it; fall back to sensible defaults.
   const currentScale = 'scale' in current ? (current as { scale: number }).scale : 300;
@@ -345,7 +345,7 @@ function randomStrangeAttractor(): StrangeAttractorConfig {
   };
 }
 
-function randomFoundation(type: FoundationType): FoundationConfig {
+function randomGenerator(type: GeneratorType): GeneratorConfig {
   if (type === 'flow-field')        return randomFlowField();
   if (type === 'dot-grid')          return randomDotGrid();
   if (type === 'isoline')           return randomIsoline();
@@ -513,14 +513,14 @@ export default function EditorialArtTool() {
   const canvasRef    = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const themeMenuRef = useRef<HTMLDivElement>(null);
-  const foundationMenuRef = useRef<HTMLDivElement>(null);
+  const generatorMenuRef = useRef<HTMLDivElement>(null);
   const panelScrollRef = useRef<HTMLDivElement>(null);
   const panelContentRef = useRef<HTMLDivElement>(null);
   const panelScrollIdleRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
   const [scale, setScale]             = useState(0.6);
   const [downloading, setDownloading] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
-  const [foundationMenuOpen, setFoundationMenuOpen] = useState(false);
+  const [generatorMenuOpen, setGeneratorMenuOpen] = useState(false);
   const [panelScrolling, setPanelScrolling] = useState(false);
   const [panelScrollThumb, setPanelScrollThumb] = useState({ height: 0, top: 0, visible: false });
   const [state, setState]             = useState<AppState>(initialStateFromUrl);
@@ -550,10 +550,10 @@ export default function EditorialArtTool() {
     });
   }, []);
 
-  const patchFoundation = useCallback((patch: Record<string, unknown>) => {
+  const patchGenerator = useCallback((patch: Record<string, unknown>) => {
     setState((prev) => ({
       ...prev,
-      foundation: { ...prev.foundation, ...patch } as FoundationConfig,
+      generator: { ...prev.generator, ...patch } as GeneratorConfig,
     }));
   }, []);
 
@@ -628,21 +628,21 @@ export default function EditorialArtTool() {
   }, [themeMenuOpen]);
 
   useEffect(() => {
-    if (!foundationMenuOpen) return;
+    if (!generatorMenuOpen) return;
     const handlePointerDown = (event: PointerEvent) => {
-      if (!foundationMenuRef.current?.contains(event.target as Node)) {
-        setFoundationMenuOpen(false);
+      if (!generatorMenuRef.current?.contains(event.target as Node)) {
+        setGeneratorMenuOpen(false);
       }
     };
     window.addEventListener('pointerdown', handlePointerDown);
     return () => window.removeEventListener('pointerdown', handlePointerDown);
-  }, [foundationMenuOpen]);
+  }, [generatorMenuOpen]);
 
   const handleRandomize = useCallback(() => {
     setState((prev) => ({
       ...prev,
       bgColor: pick(bgPalette).value,
-      foundation: randomFoundation(prev.foundation.type),
+      generator: randomGenerator(prev.generator.type),
     }));
   }, []);
 
@@ -661,7 +661,7 @@ export default function EditorialArtTool() {
     }
   }, [state.slug]);
 
-  const { foundation, bgColor } = state;
+  const { generator, bgColor } = state;
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
@@ -752,37 +752,37 @@ export default function EditorialArtTool() {
                   setState((prev) => ({
                     ...prev,
                     bgColor: tone === 'dark' ? brand.warmDarkGray : brand.paper,
-                    foundation: {
-                      ...prev.foundation,
+                    generator: {
+                      ...prev.generator,
                       color: tone === 'dark' ? 'copper' : 'bronze',
-                    } as FoundationConfig,
+                    } as GeneratorConfig,
                   }));
                 }}
               />
               </PanelSection>
 
-              <PanelSection title="Foundation">
+              <PanelSection title="Generator">
             {/* Foundation type picker */}
-            <div ref={foundationMenuRef} className="relative">
+            <div ref={generatorMenuRef} className="relative">
               <button
                 type="button"
-                aria-label="Foundation selector"
+                aria-label="Generator selector"
                 aria-haspopup="listbox"
-                aria-expanded={foundationMenuOpen}
-                onClick={() => setFoundationMenuOpen((open) => !open)}
+                aria-expanded={generatorMenuOpen}
+                onClick={() => setGeneratorMenuOpen((open) => !open)}
                 className="flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-transparent bg-muted px-3 font-mono text-[12px] text-foreground focus:border-border focus:bg-background focus:outline-none"
               >
-                <span>{FOUNDATION_TYPES.find((f) => f.value === foundation.type)?.label}</span>
+                <span>{GENERATOR_TYPES.find((f) => f.value === generator.type)?.label}</span>
                 <ChevronDown className="size-4 text-foreground" strokeWidth={2} />
               </button>
 
-              {foundationMenuOpen && (
+              {generatorMenuOpen && (
                 <div
                   role="listbox"
                   className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-md border border-border bg-background p-1 shadow-lg"
                 >
-                  {FOUNDATION_TYPES.map((f) => {
-                    const active = f.value === foundation.type;
+                  {GENERATOR_TYPES.map((f) => {
+                    const active = f.value === generator.type;
                     return (
                       <button
                         key={f.value}
@@ -792,9 +792,9 @@ export default function EditorialArtTool() {
                         onClick={() => {
                           setState((prev) => ({
                             ...prev,
-                            foundation: switchFoundationType(prev.foundation, f.value),
+                            generator: switchGeneratorType(prev.generator, f.value),
                           }));
-                          setFoundationMenuOpen(false);
+                          setGeneratorMenuOpen(false);
                         }}
                         className={[
                           'flex w-full cursor-pointer items-center rounded-[5px] px-2.5 py-2 text-left font-mono text-[12px] transition-colors',
@@ -816,13 +816,13 @@ export default function EditorialArtTool() {
               <span className={`${CONTROL_LABEL_W} shrink-0 font-mono text-[11px] text-muted-foreground`}>Seed</span>
               <div className="flex flex-1 gap-1">
                 <input
-                  type="number" min={1} max={999} value={foundation.seed}
-                  onChange={(e) => patchFoundation({ seed: Math.max(1, Math.min(999, Number(e.target.value))) })}
+                  type="number" min={1} max={999} value={generator.seed}
+                  onChange={(e) => patchGenerator({ seed: Math.max(1, Math.min(999, Number(e.target.value))) })}
                   className="h-9 min-w-0 flex-1 cursor-text rounded-md border border-transparent bg-muted px-3 py-0 font-mono text-[12px] leading-9 text-foreground focus:border-border focus:bg-background focus:outline-none"
                 />
                 <button
                   type="button"
-                  onClick={() => patchFoundation({ seed: ri(1, 999) })}
+                  onClick={() => patchGenerator({ seed: ri(1, 999) })}
                   title="New seed"
                   className="h-9 w-9 shrink-0 cursor-pointer rounded-md bg-muted text-muted-foreground transition-colors hover:text-foreground flex items-center justify-center"
                 >
@@ -832,54 +832,54 @@ export default function EditorialArtTool() {
             </div>
 
             {/* Flow Field — specific controls */}
-            {foundation.type === 'flow-field' && (<>
-              <SliderRow label="Density" value={foundation.density}     min={30}   max={600} onChange={(v) => patchFoundation({ density: v })} />
-              <SliderRow label="Steps"   value={foundation.steps}       min={20}   max={200} onChange={(v) => patchFoundation({ steps: v })} />
+            {generator.type === 'flow-field' && (<>
+              <SliderRow label="Density" value={generator.density}     min={30}   max={600} onChange={(v) => patchGenerator({ density: v })} />
+              <SliderRow label="Steps"   value={generator.steps}       min={20}   max={200} onChange={(v) => patchGenerator({ steps: v })} />
             </>)}
 
             {/* Dot Grid — specific controls */}
-            {foundation.type === 'dot-grid' && (<>
-              <SliderRow label="Spacing"  value={foundation.spacing} min={12} max={48}  onChange={(v) => patchFoundation({ spacing: v })} />
-              <SliderRow label="Dot Size" value={foundation.dotSize} min={10} max={100} onChange={(v) => patchFoundation({ dotSize: v })} />
+            {generator.type === 'dot-grid' && (<>
+              <SliderRow label="Spacing"  value={generator.spacing} min={12} max={48}  onChange={(v) => patchGenerator({ spacing: v })} />
+              <SliderRow label="Dot Size" value={generator.dotSize} min={10} max={100} onChange={(v) => patchGenerator({ dotSize: v })} />
             </>)}
 
             {/* Isoline — specific controls */}
-            {foundation.type === 'isoline' && (
-              <SliderRow label="Levels" value={foundation.levels} min={3} max={20} onChange={(v) => patchFoundation({ levels: v })} />
+            {generator.type === 'isoline' && (
+              <SliderRow label="Levels" value={generator.levels} min={3} max={20} onChange={(v) => patchGenerator({ levels: v })} />
             )}
 
             {/* Voronoi — specific controls */}
-            {foundation.type === 'voronoi' && (<>
-              <SliderRow label="Cells"  value={foundation.count}  min={20} max={200} onChange={(v) => patchFoundation({ count: v })} />
-              <SliderRow label="Jitter" value={foundation.jitter} min={0}  max={100} onChange={(v) => patchFoundation({ jitter: v })} />
+            {generator.type === 'voronoi' && (<>
+              <SliderRow label="Cells"  value={generator.count}  min={20} max={200} onChange={(v) => patchGenerator({ count: v })} />
+              <SliderRow label="Jitter" value={generator.jitter} min={0}  max={100} onChange={(v) => patchGenerator({ jitter: v })} />
             </>)}
 
             {/* Strange Attractor — seed is the creative control; no extra params needed */}
-            {foundation.type === 'strange-attractor' && (
+            {generator.type === 'strange-attractor' && (
               <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
                 Clifford attractor. Each seed maps to a unique orbit.
               </p>
             )}
 
             {/* Scale — shared by flow-field, dot-grid, isoline (not voronoi/strange-attractor) */}
-            {'scale' in foundation && (
-              <SliderRow label="Scale" value={(foundation as { scale: number }).scale} min={foundation.type === 'flow-field' ? 80 : 100} max={600} onChange={(v) => patchFoundation({ scale: v })} />
+            {'scale' in generator && (
+              <SliderRow label="Scale" value={(generator as { scale: number }).scale} min={generator.type === 'flow-field' ? 80 : 100} max={600} onChange={(v) => patchGenerator({ scale: v })} />
             )}
 
             {/* Flow Field — curl + weight */}
-            {foundation.type === 'flow-field' && (<>
-              <SliderRow label="Curl"   value={foundation.curl}        min={-180} max={180} onChange={(v) => patchFoundation({ curl: v })} format={(v) => `${v}°`} />
-              <SliderRow label="Weight" value={foundation.strokeWidth} min={0.3}  max={2.0} step={0.1} onChange={(v) => patchFoundation({ strokeWidth: v })} />
+            {generator.type === 'flow-field' && (<>
+              <SliderRow label="Curl"   value={generator.curl}        min={-180} max={180} onChange={(v) => patchGenerator({ curl: v })} format={(v) => `${v}°`} />
+              <SliderRow label="Weight" value={generator.strokeWidth} min={0.3}  max={2.0} step={0.1} onChange={(v) => patchGenerator({ strokeWidth: v })} />
             </>)}
 
             {/* Weight — flow field, isoline, voronoi all have strokeWidth */}
-            {(foundation.type === 'isoline' || foundation.type === 'voronoi') && (
-              <SliderRow label="Weight" value={foundation.strokeWidth} min={0.3} max={2.0} step={0.1} onChange={(v) => patchFoundation({ strokeWidth: v })} />
+            {(generator.type === 'isoline' || generator.type === 'voronoi') && (
+              <SliderRow label="Weight" value={generator.strokeWidth} min={0.3} max={2.0} step={0.1} onChange={(v) => patchGenerator({ strokeWidth: v })} />
             )}
 
             {/* Color + Opacity — shared */}
-            <ColorDots value={foundation.color} onChange={(v) => patchFoundation({ color: v })} bgColor={bgColor} />
-            <SliderRow label="Opacity" value={foundation.opacity} min={0} max={100} onChange={(v) => patchFoundation({ opacity: v })} />
+            <ColorDots value={generator.color} onChange={(v) => patchGenerator({ color: v })} bgColor={bgColor} />
+            <SliderRow label="Opacity" value={generator.opacity} min={0} max={100} onChange={(v) => patchGenerator({ opacity: v })} />
               </PanelSection>
 
               <PanelSection title="Canvas Style">
@@ -1031,7 +1031,7 @@ export default function EditorialArtTool() {
             ref={canvasRef}
             title={state.title}
             bgColor={bgColor}
-            foundation={foundation}
+            generator={generator}
             texture={state.texture}
             grain={state.grain}
             showCaption={state.showCaption}

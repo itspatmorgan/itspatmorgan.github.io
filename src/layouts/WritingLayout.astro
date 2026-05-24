@@ -12,6 +12,7 @@ interface Props {
     theme?: string;
     background?: string;
     generator: Record<string, unknown> & { type: string; seed: number };
+    lightMode?: { color: string; opacity: number; strokeWidth?: number };
     texture?: number;
     grain?: number;
   };
@@ -71,7 +72,7 @@ function visualToolHref(visual: Props["visual"], articleTheme: string | undefine
   addParam(params, "theme", toolThemeId(visual.theme) ?? toolThemeId(articleTheme));
   addParam(params, "tone", "auto");
   addParam(params, "bg", visual.background);
-  addParam(params, "foundation", generator.type);
+  addParam(params, "generator", generator.type);
   addParam(params, "seed", generator.seed);
   addParam(params, "opacity", generator.opacity);
   addParam(params, "color", generator.color);
@@ -149,29 +150,26 @@ const generatedToolHref = visualToolHref(visual, theme);
     </header>
 
     {/* Hero image */}
-    {image && (
+    {visual && (
       <figure class="mb-12">
         <div class="relative aspect-[1200/630] overflow-hidden rounded-lg border border-border bg-card">
-          <img
-            src={image}
-            alt={title}
-            class="h-full w-full object-cover"
-          />
-          {isGeneratedEditorialImage && visual && (
-            <LiveEditorialVisual visual={visual} client:load />
-          )}
+          <LiveEditorialVisual visual={visual} client:load />
         </div>
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
-          {isGeneratedEditorialImage && generatedCaption ? (
-            <>
-              {generatedCaption} · generated with the{" "}
-              <a href={generatedToolHref} class="underline underline-offset-4 transition-colors hover:text-foreground">
-                Editorial Art Tool
-              </a>
-            </>
-          ) : (
-            "Image by Patrick Morgan, created with Midjourney"
-          )}
+          {generatedCaption} · generated with the{" "}
+          <a href={generatedToolHref} class="underline underline-offset-4 transition-colors hover:text-foreground">
+            Editorial Art Tool
+          </a>
+        </figcaption>
+      </figure>
+    )}
+    {image && !visual && (
+      <figure class="mb-12">
+        <div class="relative aspect-[1200/630] overflow-hidden rounded-lg border border-border bg-card">
+          <img src={image} alt={title} class="h-full w-full object-cover" />
+        </div>
+        <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
+          Image by Patrick Morgan, created with Midjourney
         </figcaption>
       </figure>
     )}

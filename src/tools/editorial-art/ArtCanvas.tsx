@@ -1,10 +1,6 @@
 import { forwardRef } from 'react';
 import { UAMark } from './UAMark';
-import { FlowField } from './foundations/FlowField';
-import { DotGrid } from './foundations/DotGrid';
-import { Isoline } from './foundations/Isoline';
-import { Voronoi } from './foundations/Voronoi';
-import { StrangeAttractor } from './foundations/StrangeAttractor';
+import { GenerativeCanvas } from './GenerativeCanvas';
 import {
   brand,
   isColorDark,
@@ -13,14 +9,14 @@ import {
   CANVAS_W,
   CANVAS_H,
   type Composition,
-  type FoundationConfig,
+  type GeneratorConfig,
   type TextFont,
 } from './themes';
 
 export interface CanvasProps {
   title: string;
   bgColor: string;
-  foundation: FoundationConfig;
+  generator: GeneratorConfig;
   texture: number;         // 0–100 slider
   grain: number;           // 0–100 slider
   showCaption: boolean;
@@ -31,32 +27,32 @@ export interface CanvasProps {
 
 // ── Caption text ──────────────────────────────────────────────────────────────
 
-function captionText(foundation: FoundationConfig): { title: string; params: string } {
-  switch (foundation.type) {
+function captionText(generator: GeneratorConfig): { title: string; params: string } {
+  switch (generator.type) {
     case 'flow-field':
       return {
         title: 'Flow Field',
-        params: `seed ${foundation.seed} · density ${foundation.density} · scale ${foundation.scale}`,
+        params: `seed ${generator.seed} · density ${generator.density} · scale ${generator.scale}`,
       };
     case 'dot-grid':
       return {
         title: 'Dot Grid',
-        params: `seed ${foundation.seed} · spacing ${foundation.spacing}px · size ${foundation.dotSize}%`,
+        params: `seed ${generator.seed} · spacing ${generator.spacing}px · size ${generator.dotSize}%`,
       };
     case 'isoline':
       return {
         title: 'Isoline',
-        params: `seed ${foundation.seed} · levels ${foundation.levels} · scale ${foundation.scale}`,
+        params: `seed ${generator.seed} · levels ${generator.levels} · scale ${generator.scale}`,
       };
     case 'voronoi':
       return {
         title: 'Voronoi',
-        params: `seed ${foundation.seed} · cells ${foundation.count} · jitter ${foundation.jitter}%`,
+        params: `seed ${generator.seed} · cells ${generator.count} · jitter ${generator.jitter}%`,
       };
     case 'strange-attractor':
       return {
         title: 'Strange Attractor',
-        params: `seed ${foundation.seed}`,
+        params: `seed ${generator.seed}`,
       };
   }
 }
@@ -92,7 +88,7 @@ const titleFonts: Record<TextFont, React.CSSProperties> = {
 // ── Canvas ────────────────────────────────────────────────────────────────────
 
 export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCanvas(
-  { title, bgColor, foundation, texture, grain, showCaption, showText, composition, textFont },
+  { title, bgColor, generator, texture, grain, showCaption, showText, composition, textFont },
   ref
 ) {
   const isDark = isColorDark(bgColor);
@@ -105,7 +101,7 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
   const grainOpacity  = sliderToGrainOpacity(grain);
   const fontSize      = titleFontSize(title);
   const markColor     = isDark ? brand.champagneLight : brand.warmDarkGray;
-  const caption       = captionText(foundation);
+  const caption       = captionText(generator);
 
   const monoStack = "'Geist Mono Variable', ui-monospace, monospace";
 
@@ -169,12 +165,12 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         </svg>
       )}
 
-      {/* Generative foundation — dispatch by type */}
-      {foundation.type === 'flow-field'        && <FlowField        {...foundation} />}
-      {foundation.type === 'dot-grid'          && <DotGrid          {...foundation} />}
-      {foundation.type === 'isoline'           && <Isoline          {...foundation} />}
-      {foundation.type === 'voronoi'           && <Voronoi          {...foundation} />}
-      {foundation.type === 'strange-attractor' && <StrangeAttractor {...foundation} />}
+      {/* Generative layer */}
+      <GenerativeCanvas
+        config={generator}
+        bgColor={bgColor}
+        style={{ position: 'absolute', inset: 0 }}
+      />
 
       {/* Article title (optional) */}
       {showText && (
@@ -188,7 +184,7 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         </div>
       )}
 
-      {/* Caption — UA mark + foundation info in one opaque badge, bottom right */}
+      {/* Caption — UA mark + generator info in one opaque badge, bottom right */}
       {showCaption && (
         <div style={{
           position: 'absolute', bottom: 48, right: 48,

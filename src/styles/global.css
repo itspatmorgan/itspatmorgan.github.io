@@ -234,15 +234,3 @@
     linear-gradient(oklch(0.16 0.01 60 / 0.7), oklch(0.16 0.01 60 / 0.7)),
     url('/images/textures/debut_dark.png');
 }
-
-.editorial-live-visual__tone--dark {
-  display: none;
-}
-
-.dark .editorial-live-visual__tone--light {
-  display: none;
-}
-
-.dark .editorial-live-visual__tone--dark {
-  display: block;
-}

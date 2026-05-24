@@ -23,6 +23,10 @@ visual:
     strokeWidth: 1
     opacity: 75
     color: copper
+  lightMode:
+    color: bronze
+    opacity: 100
+    strokeWidth: 1.5
   texture: 20
   grain: 24
 image: /images/writing/narrowing-ais-field-of-view/feature.jpg

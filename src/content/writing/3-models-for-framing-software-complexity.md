@@ -21,6 +21,10 @@ visual:
     strokeWidth: 0.6
     opacity: 75
     color: copper
+  lightMode:
+    color: bronze
+    opacity: 100
+    strokeWidth: 0.9
   texture: 0
   grain: 24
 image: /images/writing/3-models-for-framing-software-complexity/feature.jpg

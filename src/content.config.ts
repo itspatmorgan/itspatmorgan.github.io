@@ -65,11 +65,18 @@ const visualGenerator = z.discriminatedUnion("type", [
   }),
 ]);
 
+const visualLightMode = z.object({
+  color: z.string(),
+  opacity: z.number(),
+  strokeWidth: z.number().optional(),
+});
+
 const writingVisual = z.object({
   version: z.literal(1),
   theme: z.string(),
   background: z.string(),
   generator: visualGenerator,
+  lightMode: visualLightMode.optional(),
   texture: z.number(),
   grain: z.number(),
 });

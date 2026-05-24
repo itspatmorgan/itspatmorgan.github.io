@@ -18,6 +18,9 @@ visual:
     seed: 942
     opacity: 85
     color: copper
+  lightMode:
+    color: bronze
+    opacity: 100
   texture: 20
   grain: 24
 image: /images/writing/your-instructions-now-run-like-code/feature.jpg
