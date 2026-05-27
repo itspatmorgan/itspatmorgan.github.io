@@ -1,7 +1,7 @@
 ---
 import PageLayout from "./PageLayout.astro";
 import { Badge } from "@/components/ui/badge";
-import { LiveEditorialVisual } from "@/tools/editorial-art/LiveEditorialVisual";
+import { LiveEditorialVisual } from "@/lab/editorial-art/LiveEditorialVisual";
 
 interface Props {
   title: string;
@@ -65,7 +65,7 @@ function addParam(params: URLSearchParams, key: string, value: unknown): void {
 }
 
 function visualToolHref(visual: Props["visual"], articleTheme: string | undefined): string {
-  if (!visual) return "/tools/editorial-art";
+  if (!visual) return "/lab/editorial-art";
   const generator = visual.generator;
   const params = new URLSearchParams();
 
@@ -103,7 +103,7 @@ function visualToolHref(visual: Props["visual"], articleTheme: string | undefine
   }
 
   const query = params.toString();
-  return query ? `/tools/editorial-art?${query}` : "/tools/editorial-art";
+  return query ? `/lab/editorial-art?${query}` : "/lab/editorial-art";
 }
 
 const generatedCaption = visualCaption(visual);

@@ -1,0 +1,33 @@
+---
+import LabPreview from "@/components/lab/LabPreview.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  preview: string;
+  headingLevel?: "h2" | "h3";
+}
+
+const {
+  title,
+  description,
+  href,
+  preview,
+  headingLevel: Heading = "h2",
+} = Astro.props;
+---
+
+<a href={href} class="group block">
+  <article class="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
+    <LabPreview preview={preview} title={title} />
+    <div class="p-4">
+      <Heading class="mb-2 text-base font-semibold tracking-tight">
+        {title}
+      </Heading>
+      <p class="text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+    </div>
+  </article>
+</a>

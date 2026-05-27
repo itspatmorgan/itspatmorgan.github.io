@@ -1,0 +1,40 @@
+---
+interface Props {
+  text: string;
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+  wave?: string;
+  style?: string;
+  ariaLabel?: string;
+}
+
+const {
+  text,
+  as: Tag = "span",
+  class: className,
+  wave,
+  style,
+  ariaLabel = text,
+} = Astro.props;
+
+const words = text.split(" ");
+---
+
+<Tag
+  class={className}
+  aria-label={ariaLabel}
+  data-pixel-wave={wave}
+  style={style}
+>
+  {words.map((word, wi) => (
+    <span aria-hidden="true" class="inline-block whitespace-nowrap" style={wi < words.length - 1 ? "margin-right: 0.25em;" : ""}>
+      {word.split("").map((char) => (
+        <span class="relative inline-block" data-pw-char>
+          <span class="invisible">{char}</span>
+          <span class="absolute inset-0 font-pixel" data-pw-pixel>{char}</span>
+          <span class="absolute inset-0" data-pw-sans style="opacity: 0;">{char}</span>
+        </span>
+      ))}
+    </span>
+  ))}
+</Tag>
