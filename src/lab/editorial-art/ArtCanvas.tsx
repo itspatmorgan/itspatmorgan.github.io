@@ -10,6 +10,7 @@ import {
   CANVAS_H,
   type Composition,
   type GeneratorConfig,
+  type MotionConfig,
   type TextFont,
 } from './themes';
 
@@ -23,6 +24,8 @@ export interface CanvasProps {
   showText: boolean;
   composition: Composition;
   textFont: TextFont;
+  motion: MotionConfig;
+  motionReplayKey?: number;
 }
 
 // ── Caption text ──────────────────────────────────────────────────────────────
@@ -88,7 +91,7 @@ const titleFonts: Record<TextFont, React.CSSProperties> = {
 // ── Canvas ────────────────────────────────────────────────────────────────────
 
 export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCanvas(
-  { title, bgColor, generator, texture, grain, showCaption, showText, composition, textFont },
+  { title, bgColor, generator, texture, grain, showCaption, showText, composition, textFont, motion, motionReplayKey = 0 },
   ref
 ) {
   const isDark = isColorDark(bgColor);
@@ -167,8 +170,10 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
 
       {/* Generative layer */}
       <GenerativeCanvas
+        key={motionReplayKey}
         config={generator}
         bgColor={bgColor}
+        motion={motion}
         style={{ position: 'absolute', inset: 0 }}
       />
 

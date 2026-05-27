@@ -2,6 +2,7 @@ export type ThemeId = 'ai' | 'design' | 'systems' | 'creative' | 'career';
 export type Composition = 'centered' | 'left' | 'offset';
 export type LayerColor = 'copper' | 'light' | 'dark' | 'muted' | 'sage' | 'bronze';
 export type TextFont = 'sans' | 'mono' | 'pixel';
+export type MotionMode = 'static' | 'reveal' | 'ambient';
 
 export const CANVAS_W = 1200;
 export const CANVAS_H = 630;
@@ -25,6 +26,29 @@ export const bgPalette = [
   { name: 'Cream', value: brand.offWhite,     dark: false },
   { name: 'Dark',  value: brand.warmDarkGray, dark: true  },
 ] as const;
+
+export interface MotionConfig {
+  mode: MotionMode;
+  speed: number;
+  intensity: number;
+}
+
+export interface RenderContext {
+  progress: number;
+  time: number;
+  motion: MotionConfig;
+}
+
+export const staticMotion: MotionConfig = {
+  mode: 'static',
+  speed: 72,
+  intensity: 58,
+};
+
+export const revealMotion: MotionConfig = {
+  ...staticMotion,
+  mode: 'reveal',
+};
 
 export function isColorDark(hex: string): boolean {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -121,7 +145,7 @@ export const themeList: ThemeConfig[] = [
     id: 'ai',
     label: 'AI',
     defaultBgColor: brand.warmDarkGray,
-    defaultGenerator: { type: 'strange-attractor', seed: 42,  opacity: 85, color: 'copper' },
+    defaultGenerator: { type: 'strange-attractor', seed: 42,  opacity: 98, color: 'copper' },
     defaultTexture: 20,
     defaultComposition: 'left',
   },
@@ -129,7 +153,7 @@ export const themeList: ThemeConfig[] = [
     id: 'design',
     label: 'Design',
     defaultBgColor: brand.warmDarkGray,
-    defaultGenerator: { type: 'isoline',           seed: 137, levels: 12, scale: 350, strokeWidth: 0.7, opacity: 75, color: 'copper' },
+    defaultGenerator: { type: 'isoline',           seed: 137, levels: 14, scale: 300, strokeWidth: 1.2, opacity: 96, color: 'copper' },
     defaultTexture: 0,
     defaultComposition: 'left',
   },
@@ -137,7 +161,7 @@ export const themeList: ThemeConfig[] = [
     id: 'systems',
     label: 'Systems',
     defaultBgColor: brand.warmDarkGray,
-    defaultGenerator: { type: 'voronoi',            seed: 73,  count: 60, jitter: 60, strokeWidth: 0.6, opacity: 75, color: 'copper' },
+    defaultGenerator: { type: 'voronoi',            seed: 73,  count: 88, jitter: 70, strokeWidth: 1.1, opacity: 94, color: 'copper' },
     defaultTexture: 0,
     defaultComposition: 'left',
   },
@@ -145,7 +169,7 @@ export const themeList: ThemeConfig[] = [
     id: 'creative',
     label: 'Creative Practice',
     defaultBgColor: brand.warmDarkGray,
-    defaultGenerator: { type: 'flow-field',         seed: 256, density: 150, steps: 100, scale: 320, curl: 30, strokeWidth: 1.0, opacity: 75, color: 'copper' },
+    defaultGenerator: { type: 'flow-field',         seed: 256, density: 240, steps: 130, scale: 260, curl: 36, strokeWidth: 1.25, opacity: 94, color: 'copper' },
     defaultTexture: 20,
     defaultComposition: 'centered',
   },
@@ -153,7 +177,7 @@ export const themeList: ThemeConfig[] = [
     id: 'career',
     label: 'Career',
     defaultBgColor: brand.warmDarkGray,
-    defaultGenerator: { type: 'dot-grid',           seed: 512, spacing: 22, scale: 300, dotSize: 70, opacity: 70, color: 'copper' },
+    defaultGenerator: { type: 'dot-grid',           seed: 512, spacing: 18, scale: 240, dotSize: 92, opacity: 96, color: 'copper' },
     defaultTexture: 0,
     defaultComposition: 'left',
   },

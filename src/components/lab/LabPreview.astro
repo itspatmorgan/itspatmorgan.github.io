@@ -1,7 +1,7 @@
 ---
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import { GenerativeCanvas } from "@/lab/editorial-art/GenerativeCanvas";
-import { brand } from "@/lab/editorial-art/themes";
+import { brand, revealMotion } from "@/lab/editorial-art/themes";
 
 interface Props {
   preview: string;
@@ -21,7 +21,7 @@ const editorialPreview = {
 <div class="relative aspect-[1200/630] overflow-hidden bg-card texture-bg">
   {preview === "editorial-art" && (
     <div class="absolute inset-0 bg-[#171716]">
-      <GenerativeCanvas config={editorialPreview} bgColor={brand.warmDarkGray} animate client:load />
+      <GenerativeCanvas config={editorialPreview} bgColor={brand.warmDarkGray} motion={revealMotion} client:load />
       <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#171716]/95 via-[#171716]/15 to-transparent"></div>
       <div class="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-widest text-[#ede9e3]/70">
         <span>Strange Attractor</span>

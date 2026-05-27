@@ -9,11 +9,14 @@ import {
   brandAccent,
   resolveLayerColor,
   isColorDark,
+  staticMotion,
   type ThemeId,
   type LayerColor,
   type Composition,
   type GeneratorConfig,
   type GeneratorType,
+  type MotionConfig,
+  type MotionMode,
   type FlowFieldConfig,
   type DotGridConfig,
   type IsolineConfig,
@@ -37,6 +40,7 @@ interface AppState {
   slugEdited: boolean;
   composition: Composition;
   textFont: TextFont;
+  motion: MotionConfig;
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -73,6 +77,12 @@ const TEXT_FONTS: { value: TextFont; label: string }[] = [
   { value: 'sans',  label: 'Sans'  },
   { value: 'mono',  label: 'Mono'  },
   { value: 'pixel', label: 'Pixel' },
+];
+
+const MOTION_MODES: { value: MotionMode; label: string }[] = [
+  { value: 'static',  label: 'Static'  },
+  { value: 'reveal',  label: 'Reveal'  },
+  { value: 'ambient', label: 'Ambient' },
 ];
 
 const SURFACE_PRESETS = [
@@ -116,6 +126,7 @@ function defaultState(themeId: ThemeId): AppState {
     slugEdited: false,
     composition: t.defaultComposition,
     textFont: 'sans',
+    motion: { ...staticMotion },
   };
 }
 
@@ -150,6 +161,27 @@ function numberParam(params: URLSearchParams, key: string, fallback: number): nu
 
 function colorParam(value: string | null, fallback: LayerColor): LayerColor {
   return COLORS.some((color) => color.value === value) ? value as LayerColor : fallback;
+}
+
+function motionModeParam(value: string | null, fallback: MotionMode): MotionMode {
+  return MOTION_MODES.some((mode) => mode.value === value) ? value as MotionMode : fallback;
+}
+
+function parseMotion(params: URLSearchParams, fallback: MotionConfig): MotionConfig {
+  return {
+    mode: motionModeParam(params.get('motion'), fallback.mode),
+    speed: Math.max(0, Math.min(100, numberParam(params, 'motionSpeed', fallback.speed))),
+    intensity: Math.max(0, Math.min(100, numberParam(params, 'motionIntensity', fallback.intensity))),
+  };
+}
+
+function motionWithObviousDefaults(current: MotionConfig, mode: MotionMode): MotionConfig {
+  if (mode !== 'ambient') return { ...current, mode };
+  return {
+    mode,
+    speed: Math.max(current.speed, 72),
+    intensity: Math.max(current.intensity, 58),
+  };
 }
 
 function parseGenerator(params: URLSearchParams, fallback: GeneratorConfig): GeneratorConfig {
@@ -206,6 +238,7 @@ function parseGenerator(params: URLSearchParams, fallback: GeneratorConfig): Gen
 }
 
 function initialStateFromUrl(): AppState {
+  if (typeof window === 'undefined') return defaultState('ai');
   const params = new URLSearchParams(window.location.search);
   const themeId = themeIdFromParam(params.get('theme'));
   const state = defaultState(themeId);
@@ -222,6 +255,7 @@ function initialStateFromUrl(): AppState {
     } as GeneratorConfig,
     texture: numberParam(params, 'texture', state.texture),
     grain: numberParam(params, 'grain', state.grain),
+    motion: parseMotion(params, state.motion),
   };
 }
 
@@ -231,15 +265,17 @@ function switchGeneratorType(current: GeneratorConfig, toType: GeneratorType): G
   // Safely read scale from configs that have it; fall back to sensible defaults.
   const currentScale = 'scale' in current ? (current as { scale: number }).scale : 300;
   const currentStrokeWidth = 'strokeWidth' in current ? (current as { strokeWidth: number }).strokeWidth : 0.7;
+  const visibleOpacity = Math.max(current.opacity, 92);
+  const visibleStrokeWidth = Math.max(currentStrokeWidth, 1.1);
 
   if (toType === 'dot-grid') {
     return {
       type: 'dot-grid',
       seed:    current.seed,
-      spacing: 20,
-      scale:   Math.max(100, Math.min(600, currentScale)),
-      dotSize: 75,
-      opacity: current.opacity,
+      spacing: 18,
+      scale:   Math.max(100, Math.min(420, currentScale)),
+      dotSize: 92,
+      opacity: visibleOpacity,
       color:   current.color,
     } satisfies DotGridConfig;
   }
@@ -247,10 +283,10 @@ function switchGeneratorType(current: GeneratorConfig, toType: GeneratorType): G
     return {
       type:        'isoline',
       seed:        current.seed,
-      levels:      10,
-      scale:       Math.max(100, Math.min(600, currentScale)),
-      strokeWidth: currentStrokeWidth,
-      opacity:     current.opacity,
+      levels:      14,
+      scale:       Math.max(100, Math.min(420, currentScale)),
+      strokeWidth: visibleStrokeWidth,
+      opacity:     visibleOpacity,
       color:       current.color,
     } satisfies IsolineConfig;
   }
@@ -258,10 +294,10 @@ function switchGeneratorType(current: GeneratorConfig, toType: GeneratorType): G
     return {
       type:        'voronoi',
       seed:        current.seed,
-      count:       80,
-      jitter:      75,
-      strokeWidth: currentStrokeWidth,
-      opacity:     current.opacity,
+      count:       100,
+      jitter:      78,
+      strokeWidth: visibleStrokeWidth,
+      opacity:     visibleOpacity,
       color:       current.color,
     } satisfies VoronoiConfig;
   }
@@ -269,19 +305,19 @@ function switchGeneratorType(current: GeneratorConfig, toType: GeneratorType): G
     return {
       type:    'strange-attractor',
       seed:    current.seed,
-      opacity: current.opacity,
+      opacity: visibleOpacity,
       color:   current.color,
     } satisfies StrangeAttractorConfig;
   }
   return {
     type:        'flow-field',
     seed:        current.seed,
-    density:     180,
-    steps:       90,
-    scale:       Math.max(80, Math.min(600, currentScale)),
-    curl:        0,
-    strokeWidth: currentStrokeWidth,
-    opacity:     current.opacity,
+    density:     260,
+    steps:       130,
+    scale:       Math.max(80, Math.min(420, currentScale)),
+    curl:        28,
+    strokeWidth: visibleStrokeWidth,
+    opacity:     visibleOpacity,
     color:       current.color,
   } satisfies FlowFieldConfig;
 }
@@ -294,8 +330,8 @@ function randomFlowField(): FlowFieldConfig {
     steps:       ri(40, 160),
     scale:       ri(100, 500),
     curl:        ri(-60, 60),
-    strokeWidth: rf(0.4, 1.4),
-    opacity:     ri(25, 60),
+    strokeWidth: rf(0.9, 1.8),
+    opacity:     ri(72, 100),
     color:       pick(COLORS).value,
   };
 }
@@ -306,8 +342,8 @@ function randomDotGrid(): DotGridConfig {
     seed:    ri(1, 999),
     spacing: ri(12, 36),
     scale:   ri(150, 500),
-    dotSize: ri(50, 95),
-    opacity: ri(30, 70),
+    dotSize: ri(72, 100),
+    opacity: ri(72, 100),
     color:   pick(COLORS).value,
   };
 }
@@ -318,8 +354,8 @@ function randomIsoline(): IsolineConfig {
     seed:        ri(1, 999),
     levels:      ri(5, 18),
     scale:       ri(150, 500),
-    strokeWidth: rf(0.4, 1.5),
-    opacity:     ri(30, 70),
+    strokeWidth: rf(0.9, 1.9),
+    opacity:     ri(72, 100),
     color:       pick(COLORS).value,
   };
 }
@@ -330,8 +366,8 @@ function randomVoronoi(): VoronoiConfig {
     seed:        ri(1, 999),
     count:       ri(40, 160),
     jitter:      ri(50, 100),
-    strokeWidth: rf(0.3, 1.2),
-    opacity:     ri(25, 65),
+    strokeWidth: rf(0.8, 1.7),
+    opacity:     ri(70, 100),
     color:       pick(COLORS).value,
   };
 }
@@ -340,7 +376,7 @@ function randomStrangeAttractor(): StrangeAttractorConfig {
   return {
     type:    'strange-attractor',
     seed:    ri(1, 999),
-    opacity: ri(40, 80),
+    opacity: ri(76, 100),
     color:   pick(COLORS).value,
   };
 }
@@ -519,6 +555,8 @@ export default function EditorialArtTool() {
   const panelScrollIdleRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
   const [scale, setScale]             = useState(0.6);
   const [downloading, setDownloading] = useState(false);
+  const [exportingStill, setExportingStill] = useState(false);
+  const [motionReplayKey, setMotionReplayKey] = useState(0);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [generatorMenuOpen, setGeneratorMenuOpen] = useState(false);
   const [panelScrolling, setPanelScrolling] = useState(false);
@@ -544,6 +582,7 @@ export default function EditorialArtTool() {
           ...defaultState(patch.themeId),
           title: prev.title, slug: prev.slug,
           slugEdited: prev.slugEdited, showText: prev.showText,
+          motion: prev.motion,
         };
       }
       return { ...prev, ...patch };
@@ -649,7 +688,10 @@ export default function EditorialArtTool() {
   const handleDownload = useCallback(async () => {
     if (!canvasRef.current) return;
     setDownloading(true);
+    setExportingStill(true);
     try {
+      await new Promise(requestAnimationFrame);
+      await new Promise(requestAnimationFrame);
       await document.fonts.ready;
       const dataUrl = await toPng(canvasRef.current, { pixelRatio: 2 });
       const a = document.createElement('a');
@@ -657,6 +699,7 @@ export default function EditorialArtTool() {
       a.href = dataUrl;
       a.click();
     } finally {
+      setExportingStill(false);
       setDownloading(false);
     }
   }, [state.slug]);
@@ -882,6 +925,41 @@ export default function EditorialArtTool() {
             <SliderRow label="Opacity" value={generator.opacity} min={0} max={100} onChange={(v) => patchGenerator({ opacity: v })} />
               </PanelSection>
 
+              <PanelSection title="Motion">
+            <SettingsRow label="Mode">
+              <SegmentedControl
+                value={state.motion.mode}
+                options={MOTION_MODES}
+                onChange={(mode) => {
+                  if (mode === 'reveal' && state.motion.mode === 'reveal') {
+                    setMotionReplayKey((key) => key + 1);
+                    return;
+                  }
+                  set({ motion: motionWithObviousDefaults(state.motion, mode) });
+                }}
+              />
+            </SettingsRow>
+            <SliderRow
+              label="Speed"
+              value={state.motion.speed}
+              min={0}
+              max={100}
+              onChange={(speed) => set({ motion: { ...state.motion, speed } })}
+            />
+            <SliderRow
+              label="Intensity"
+              value={state.motion.intensity}
+              min={0}
+              max={100}
+              onChange={(intensity) => set({ motion: { ...state.motion, intensity } })}
+            />
+            {state.motion.mode === 'ambient' && !['dot-grid', 'isoline'].includes(generator.type) && (
+              <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
+                Ambient motion is active for Dot Grid and Isoline in this pass.
+              </p>
+            )}
+              </PanelSection>
+
               <PanelSection title="Canvas Style">
             <SettingsRow label="Color">
               <div className="flex items-center gap-3 rounded-md bg-muted px-2 py-2">
@@ -1038,6 +1116,8 @@ export default function EditorialArtTool() {
             showText={state.showText}
             composition={state.composition}
             textFont={state.textFont}
+            motion={exportingStill ? staticMotion : state.motion}
+            motionReplayKey={motionReplayKey}
           />
         </div>
       </div>

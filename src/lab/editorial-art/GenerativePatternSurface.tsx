@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { GenerativeCanvas } from './GenerativeCanvas';
-import { brand, type GeneratorConfig } from './themes';
+import { brand, revealMotion, type GeneratorConfig, type MotionConfig } from './themes';
 
 interface Props {
   name: string;
@@ -10,6 +10,7 @@ interface Props {
   className?: string;
   duration?: number;
   interactive?: boolean;
+  motion?: MotionConfig;
 }
 
 function readIsDark(): boolean {
@@ -39,6 +40,7 @@ export function GenerativePatternSurface({
   className,
   duration = 2600,
   interactive = false,
+  motion = revealMotion,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [isDark, setIsDark] = useState(readIsDark);
@@ -87,7 +89,7 @@ export function GenerativePatternSurface({
         key={`${name}-${isDark ? 'dark' : 'light'}-${replayKey}`}
         config={resolvedConfig}
         bgColor={bgColor}
-        animate
+        motion={motion}
         duration={duration}
         transparentBackground
       />
