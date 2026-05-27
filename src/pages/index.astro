@@ -3,11 +3,23 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import LogoCarousel from "@/components/LogoCarousel.astro";
 import ArticleListItem from "@/components/ArticleListItem.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
+import PixelWaveText from "@/components/PixelWaveText.astro";
+import LabCard from "@/components/lab/LabCard.astro";
 import { siteConfig } from "@/data/site-config";
 import { commendations } from "@/data/commendations";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
+const preferredLabOrder = ["editorial-art", "pixel-wave"];
+const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
+  .sort((a, b) => {
+    const aIndex = preferredLabOrder.indexOf(a.data.slug);
+    const bIndex = preferredLabOrder.indexOf(b.data.slug);
+    if (aIndex !== -1 || bIndex !== -1) {
+      return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) - (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
+    }
+    return a.data.title.localeCompare(b.data.title);
+  });
 const writingPosts = (await getCollection("writing", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
 const professionalProjects = allProjects
@@ -42,18 +54,13 @@ const impactStatements: Record<string, string> = {
       />
       <div>
         <p class="mb-1 font-mono text-sm text-muted-foreground" data-hero-label style="opacity: 0;">Software Designer</p>
-        <h1 class="text-3xl font-medium tracking-tight sm:text-5xl" aria-label="Patrick Morgan" data-pixel-wave="hero" style="opacity: 0;"
-          >{"Patrick Morgan".split(" ").map((word, wi, words) => (
-            <span class="inline-block whitespace-nowrap" style={wi < words.length - 1 ? "margin-right: 0.25em;" : ""}>
-              {word.split("").map((char) => (
-                <span class="relative inline-block" data-pw-char>
-                  <span class="invisible">{char}</span>
-                  <span class="absolute inset-0 font-pixel" data-pw-pixel>{char}</span>
-                  <span class="absolute inset-0" data-pw-sans style="opacity: 0;">{char}</span>
-                </span>
-              ))}
-            </span>
-          ))}</h1>
+        <PixelWaveText
+          text="Patrick Morgan"
+          as="h1"
+          wave="hero"
+          class="text-3xl font-medium tracking-tight sm:text-5xl"
+          style="opacity: 0;"
+        />
       </div>
     </div>
     <p class="mb-6 max-w-2xl text-md text-muted-foreground" data-hero-desc style="opacity: 0;">
@@ -152,6 +159,31 @@ const impactStatements: Record<string, string> = {
     </div>
   </section>
 
+  {/* Lab */}
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
+    <div class="mb-8 flex items-center justify-between gap-6">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+        Lab
+      </h2>
+      <a href="/lab" class="text-sm text-muted-foreground transition-colors hover:text-accent">
+        View all &rarr;
+      </a>
+    </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {labEntries.slice(0, 2).map((entry) => (
+        <div data-project-card-item style="opacity: 0;">
+          <LabCard
+            title={entry.data.title}
+            description={entry.data.description}
+            href={`/lab/${entry.data.slug}`}
+            preview={entry.data.preview}
+            headingLevel="h3"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
   {/* Writing */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -238,21 +270,16 @@ const impactStatements: Record<string, string> = {
 
   {/* CTA */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-24 text-center" data-cta-section>
-    <p class="text-3xl font-medium tracking-tight sm:text-4xl" data-pixel-wave="cta"
-      >{"Let's craft a better future, together.".split(" ").map((word, wi, words) => (
-        <span class="inline-block whitespace-nowrap" style={wi < words.length - 1 ? "margin-right: 0.25em;" : ""}>
-          {word.split("").map((char) => (
-            <span class="relative inline-block" data-pw-char>
-              <span class="invisible">{char}</span>
-              <span class="absolute inset-0 font-pixel" data-pw-pixel>{char}</span>
-              <span class="absolute inset-0" data-pw-sans style="opacity: 0;">{char}</span>
-            </span>
-          ))}
-        </span>
-      ))}</p>
+    <PixelWaveText
+      text="Let's craft a better future, together."
+      as="p"
+      wave="cta"
+      class="text-3xl font-medium tracking-tight sm:text-4xl"
+    />
   </section>
 
   <script>
     import "@/scripts/home-animations";
+    import "@/scripts/lab-previews";
   </script>
 </PageLayout>

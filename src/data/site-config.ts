@@ -7,6 +7,7 @@ export const siteConfig = {
   nav: [
     { label: "Resumé", href: "/resume" },
     { label: "Writing", href: "/writing" },
+    { label: "Lab", href: "/lab" },
   ],
   social: {
     x: "https://x.com/itspatmorgan",

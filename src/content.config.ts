@@ -97,4 +97,16 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { projects, writing };
+const lab = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/lab" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    slug: z.string(),
+    preview: z.string(),
+    experience: z.enum(["app", "demo"]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, writing, lab };

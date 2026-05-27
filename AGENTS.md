@@ -72,6 +72,7 @@ When completing issue work, use `Closes #N` in the implementation commit message
 | `.github/workflows/deploy.yml` | GitHub Pages deployment |
 | `public/images/` | Static image assets |
 | `scripts/sync-writing.mjs` | Obsidian-to-site writing sync |
+| `src/lab/` | Hosted Lab implementation code for tools, experiments, and interaction demos |
 | `src/components/` | Astro and React components |
 | `src/components/ui/` | shadcn/ui primitives |
 | `src/content/` | Projects and writing content |
@@ -143,7 +144,25 @@ Use the site's established public terminology:
 
 - "Resume", not "Experience"
 - "Writing", not "Blog"
+- "Lab", not "Tools", for hosted experiments, utilities, and interaction showcases
 - "Kind Words", not "Commendations" or "Testimonials"
+
+### Lab
+
+Lab entries live in `src/content/lab/*.mdx` and are hosted under `/lab/<slug>`. Use Lab for working artifacts that live on the site itself, including experiments, tools, and small interaction design showcases.
+
+Common frontmatter:
+
+```yaml
+title: "Lab Item"
+description: "Short description"
+slug: "lab-item"
+preview: "lab-item"
+experience: "demo"
+draft: false
+```
+
+Use `experience: "app"` for immersive tools and `experience: "demo"` for focused interaction showcases. Put implementation code under `src/lab/<slug>/` when an item needs dedicated components, React islands, or supporting logic.
 
 ## Styling Conventions
 
@@ -195,4 +214,3 @@ Known issue: `src/pages/style-guide.astro` has a pre-existing syntax error and m
 - Prefer existing local patterns over introducing new libraries or abstractions.
 - Update this file when durable repository conventions change.
 - Keep Claude-specific operational notes in `CLAUDE.md`; keep cross-agent project guidance here.
-
