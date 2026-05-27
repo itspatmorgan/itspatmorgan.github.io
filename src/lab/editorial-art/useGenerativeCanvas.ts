@@ -60,6 +60,7 @@ function renderData(
 export interface UseGenerativeCanvasOptions {
   animate?: boolean;   // play draw-in animation on mount/data change
   duration?: number;   // animation duration in ms (default 2500)
+  transparentBackground?: boolean;
 }
 
 export function useGenerativeCanvas(
@@ -70,6 +71,7 @@ export function useGenerativeCanvas(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animate = opts?.animate ?? false;
   const duration = opts?.duration ?? 2500;
+  const transparentBackground = opts?.transparentBackground ?? false;
 
   // Regenerate data only when structural params change
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,6 +84,8 @@ export function useGenerativeCanvas(
   configRef.current = config;
   const bgColorRef = useRef(bgColor);
   bgColorRef.current = bgColor;
+  const transparentBackgroundRef = useRef(transparentBackground);
+  transparentBackgroundRef.current = transparentBackground;
   // Tracks the last rendered progress so ResizeObserver and color changes redraw correctly
   const progressRef = useRef(animate ? 0 : 1);
 
@@ -97,8 +101,10 @@ export function useGenerativeCanvas(
 
     progressRef.current = p;
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = bgColorRef.current;
-    ctx.fillRect(0, 0, w, h);
+    if (!transparentBackgroundRef.current) {
+      ctx.fillStyle = bgColorRef.current;
+      ctx.fillRect(0, 0, w, h);
+    }
     renderData(ctx, generatedRef.current, configRef.current, w, h, p);
   }, []);
 
@@ -131,7 +137,7 @@ export function useGenerativeCanvas(
   // without restarting animation
   useEffect(() => {
     redraw(progressRef.current);
-  }, [config, bgColor, redraw]);
+  }, [config, bgColor, transparentBackground, redraw]);
 
   // Resize canvas to match container in device pixels, then redraw
   useEffect(() => {

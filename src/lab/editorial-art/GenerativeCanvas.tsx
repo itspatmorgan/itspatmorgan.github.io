@@ -7,12 +7,13 @@ interface Props {
   bgColor: string;
   animate?: boolean;
   duration?: number;
+  transparentBackground?: boolean;
   className?: string;
   style?: CSSProperties;
 }
 
-export function GenerativeCanvas({ config, bgColor, animate, duration, className, style }: Props) {
-  const { canvasRef } = useGenerativeCanvas(config, bgColor, { animate, duration });
+export function GenerativeCanvas({ config, bgColor, animate, duration, transparentBackground, className, style }: Props) {
+  const { canvasRef } = useGenerativeCanvas(config, bgColor, { animate, duration, transparentBackground });
   return (
     <canvas
       ref={canvasRef}
