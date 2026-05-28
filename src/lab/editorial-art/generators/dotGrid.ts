@@ -1,8 +1,17 @@
-import { CANVAS_W, CANVAS_H, type DotGridConfig } from '../themes';
+import { CANVAS_W, CANVAS_H, type DotGridConfig, type RenderContext } from '../themes';
 import { noise } from './noise';
 
 const W = CANVAS_W;
 const H = CANVAS_H;
+
+function clamp01(value: number): number {
+  return Math.max(0, Math.min(1, value));
+}
+
+function smoothstep(value: number): number {
+  const t = clamp01(value);
+  return t * t * (3 - 2 * t);
+}
 
 export interface Dot {
   cx: number;
@@ -42,20 +51,40 @@ export function drawDotGrid(
   opacity: number,
   w: number,
   h: number,
-  progress = 1,
+  render: RenderContext,
 ): void {
   const scaleX = w / W;
   const scaleY = h / H;
-  const end = Math.floor(dots.length * progress);
+  const ambient = render.motion.mode === 'ambient';
+  const speed = render.motion.speed / 100;
+  const intensity = Math.pow(render.motion.intensity / 100, 1.08);
+  const time = render.time * (0.00022 + speed * 0.00058);
 
   ctx.save();
-  ctx.globalAlpha = (opacity / 100) * 0.80;
   ctx.fillStyle = color;
+  const baseAlpha = (opacity / 100) * 0.80;
 
-  for (let i = 0; i < end; i++) {
+  for (let i = 0; i < dots.length; i++) {
     const { cx, cy, r } = dots[i];
+    const nx = cx / W;
+    const ny = cy / H;
+    const dx = nx - 0.42;
+    const dy = ny - 0.52;
+    const distanceDelay = Math.sqrt(dx * dx + dy * dy) / 0.72;
+    const fieldDelay = (Math.sin(cx * 0.017 + cy * 0.011) + 1) * 0.055;
+    const revealAlpha = render.progress >= 1
+      ? 1
+      : smoothstep((render.progress - distanceDelay * 0.78 - fieldDelay) / 0.22);
+    if (revealAlpha <= 0) continue;
+
+    const wave = ambient
+      ? Math.sin(time + cx * 0.014 + cy * 0.019)
+      : 0;
+    const animatedRadius = Math.max(0.3, r * (1 + wave * 0.24 * intensity));
+    const alphaScale = ambient ? 0.72 + (wave + 1) * 0.38 * intensity : 1;
+    ctx.globalAlpha = Math.max(0, Math.min(1, baseAlpha * revealAlpha * alphaScale));
     ctx.beginPath();
-    ctx.arc(cx * scaleX, cy * scaleY, r * Math.min(scaleX, scaleY), 0, Math.PI * 2);
+    ctx.arc(cx * scaleX, cy * scaleY, animatedRadius * Math.min(scaleX, scaleY), 0, Math.PI * 2);
     ctx.fill();
   }
 

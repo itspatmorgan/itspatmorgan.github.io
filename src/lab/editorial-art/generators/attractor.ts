@@ -1,4 +1,4 @@
-import { CANVAS_W, CANVAS_H, type StrangeAttractorConfig } from '../themes';
+import { CANVAS_W, CANVAS_H, type StrangeAttractorConfig, type RenderContext } from '../themes';
 import { makeRng } from './noise';
 
 const W = CANVAS_W;
@@ -87,7 +87,7 @@ export function drawAttractor(
   opacity: number,
   w: number,
   h: number,
-  progress = 1,
+  render: RenderContext,
 ): void {
   const { xs, ys, count, minX, maxX, minY, maxY } = data;
   const maxA = (opacity / 100) * 0.92;
@@ -96,7 +96,36 @@ export function drawAttractor(
   const g = parseInt(color.slice(3, 5), 16);
   const b = parseInt(color.slice(5, 7), 16);
 
-  const visibleCount = Math.floor(count * Math.min(progress, 1));
+  const ambient = render.motion.mode === 'ambient';
+
+  if (ambient) {
+    const speed = render.motion.speed / 100;
+    const intensity = Math.pow(render.motion.intensity / 100, 1.05);
+    const time = render.time * (0.00005 + speed * 0.00017);
+    const sampleCount = Math.min(count, Math.floor(70_000 + 110_000 * intensity));
+    const start = Math.floor((time % 1) * count);
+    const pointSize = Math.max(1, Math.round(Math.min(w, h) / CANVAS_H));
+
+    ctx.save();
+    ctx.fillStyle = color;
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (let i = 0; i < sampleCount; i++) {
+      const idx = (start + i) % count;
+      const px = Math.floor(toScreen(xs[idx], minX, maxX, w));
+      const py = Math.floor(toScreen(ys[idx], minY, maxY, h));
+      if (px < 0 || px >= w || py < 0 || py >= h) continue;
+      const local = i / sampleCount;
+      const envelope = Math.sin(local * Math.PI);
+      ctx.globalAlpha = Math.min(0.22, maxA * (0.035 + envelope * (0.08 + 0.14 * intensity)));
+      ctx.fillRect(px, py, pointSize, pointSize);
+    }
+
+    ctx.restore();
+    return;
+  }
+
+  const visibleCount = Math.floor(count * Math.min(render.progress, 1));
 
   // Always use density map so the animation is a smooth accumulation throughout
   const density = new Uint32Array(w * h);

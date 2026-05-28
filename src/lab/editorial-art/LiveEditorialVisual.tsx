@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { GenerativeCanvas } from './GenerativeCanvas';
-import { brand, type GeneratorConfig } from './themes';
+import { brand, revealMotion, type GeneratorConfig, type LayerColor } from './themes';
 
 interface LightModeConfig {
-  color: string;
+  color: LayerColor;
   opacity: number;
   strokeWidth?: number;
 }
@@ -57,7 +57,7 @@ export function LiveEditorialVisual({ visual }: Props) {
       aria-hidden="true"
       style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}
     >
-      <GenerativeCanvas config={generator} bgColor={bgColor} animate />
+      <GenerativeCanvas config={generator} bgColor={bgColor} motion={revealMotion} />
     </div>
   );
 }

@@ -5,6 +5,8 @@ import ArticleListItem from "@/components/ArticleListItem.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import LabCard from "@/components/lab/LabCard.astro";
+import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
+import { UAMark } from "@/lab/editorial-art/UAMark";
 import { siteConfig } from "@/data/site-config";
 import { commendations } from "@/data/commendations";
 import { getCollection } from "astro:content";
@@ -39,6 +41,30 @@ const impactStatements: Record<string, string> = {
   "expansion": "Established scalable product architecture that enabled rapid market expansion.",
   "vision": "Unified product teams around a shared vision driven by customer insights.",
 };
+
+const newsletterPattern = {
+  type: "isoline",
+  seed: 211,
+  levels: 9,
+  scale: 340,
+  strokeWidth: 0.9,
+  opacity: 66,
+  color: "copper",
+} as const;
+
+const newsletterLightPattern = {
+  ...newsletterPattern,
+  opacity: 76,
+  strokeWidth: 1.05,
+  color: "bronze",
+} as const;
+
+const newsletterMotion = {
+  mode: "ambient",
+  speed: 20,
+  intensity: 28,
+} as const;
+
 ---
 
 <PageLayout>
@@ -189,30 +215,56 @@ const impactStatements: Record<string, string> = {
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Writing
     </h2>
-    <div class="group mb-10 overflow-hidden rounded-lg border border-border transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
-      <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="block overflow-hidden">
-        <img
-          src="/images/unknown-arts/banner.webp"
-          alt="Unknown Arts newsletter"
-          class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-        />
+    <div class="group mb-10">
+      <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
+      <a
+        href={siteConfig.social.newsletter}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="block overflow-hidden"
+        aria-label="Unknown Arts newsletter"
+      >
+        <div class="relative aspect-video w-full overflow-hidden bg-card">
+          <GenerativePatternSurface
+            name="unknown-arts-newsletter"
+            config={newsletterPattern}
+            lightConfig={newsletterLightPattern}
+            motion={newsletterMotion}
+            duration={2800}
+            className="absolute inset-0 opacity-95 transition-all duration-300 group-hover:scale-[1.03] group-hover:opacity-100"
+            client:visible
+          />
+          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_38%,transparent_0%,transparent_32%,var(--background)_86%)] opacity-10 dark:opacity-35"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#171716]/92 via-[#171716]/12 to-transparent opacity-0 dark:opacity-100"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/68 via-background/0 to-transparent dark:hidden"></div>
+          <div class="pointer-events-none absolute bottom-5 left-5 right-5 flex items-end justify-between gap-6">
+            <div>
+              <div class="mb-4 text-[#b38b6d] dark:text-[#f7ccab]">
+                <UAMark color="currentColor" height={34} />
+              </div>
+              <p class="text-4xl font-medium leading-none tracking-tight text-foreground dark:text-[#ede9e3] sm:text-6xl">
+                Unknown Arts
+              </p>
+              <p class="mt-3 max-w-lg text-base leading-snug text-muted-foreground dark:text-[#ede9e3]/70 sm:text-lg">
+                The newsletter for creative builders in the age of AI.
+              </p>
+            </div>
+          </div>
+        </div>
       </a>
-      <div class="p-5 sm:p-6">
-        <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-          <h3 class="text-lg font-semibold tracking-tight sm:flex-1">Unknown Arts Newsletter</h3>
-          <div class="flex gap-6 sm:shrink-0">
-            <div>
-              <p class="text-lg font-semibold tracking-tight">7,500+</p>
-              <p class="font-mono text-xs text-muted-foreground">Subscribers</p>
-            </div>
-            <div>
-              <p class="text-lg font-semibold tracking-tight">200+</p>
-              <p class="font-mono text-xs text-muted-foreground">Articles</p>
-            </div>
-            <div>
-              <p class="text-lg font-semibold tracking-tight">128</p>
-              <p class="font-mono text-xs text-muted-foreground">Countries</p>
-            </div>
+      <div class="border-t border-border bg-background/70 p-5 dark:bg-background/45 sm:p-6">
+        <div class="mb-4 flex max-w-md gap-8">
+          <div>
+            <p class="text-lg font-semibold tracking-tight">7,500+</p>
+            <p class="font-mono text-xs text-muted-foreground">Subscribers</p>
+          </div>
+          <div>
+            <p class="text-lg font-semibold tracking-tight">200+</p>
+            <p class="font-mono text-xs text-muted-foreground">Articles</p>
+          </div>
+          <div>
+            <p class="text-lg font-semibold tracking-tight">128</p>
+            <p class="font-mono text-xs text-muted-foreground">Countries</p>
           </div>
         </div>
         <p class="text-sm leading-relaxed text-muted-foreground">
@@ -225,9 +277,10 @@ const impactStatements: Record<string, string> = {
           <a href="https://heydesigner.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">HeyDesigner</a>.
         </p>
       </div>
+      </article>
     </div>
     <div class="flex flex-col gap-2">
-      {writingPosts.slice(0, 4).map((post) => (
+      {writingPosts.slice(0, 3).map((post) => (
         <ArticleListItem
           id={post.id}
           title={post.data.title}
@@ -239,7 +292,6 @@ const impactStatements: Record<string, string> = {
     </div>
     <div class="mt-8 flex items-center gap-6 text-sm">
       <a href="/writing" class="transition-colors hover:text-accent">View all articles &rarr;</a>
-      <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Read the newsletter &rarr;</a>
     </div>
   </section>
 

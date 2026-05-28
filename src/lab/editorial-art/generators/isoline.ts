@@ -1,4 +1,4 @@
-import { CANVAS_W, CANVAS_H, type IsolineConfig } from '../themes';
+import { CANVAS_W, CANVAS_H, type IsolineConfig, type RenderContext } from '../themes';
 import { noise } from './noise';
 
 const W = CANVAS_W;
@@ -87,24 +87,40 @@ export function drawIsolines(
   strokeWidth: number,
   w: number,
   h: number,
-  progress = 1,
+  render: RenderContext,
 ): void {
   const scaleX = w / W;
   const scaleY = h / H;
-  const end = Math.max(1, Math.floor(levels.length * progress));
+  const end = Math.max(1, Math.floor(levels.length * render.progress));
+  const ambient = render.motion.mode === 'ambient';
+  const speed = render.motion.speed / 100;
+  const intensity = Math.pow(render.motion.intensity / 100, 1.08);
+  const time = render.time * (0.00012 + speed * 0.00032);
+  const drift = 24 * intensity * Math.min(scaleX, scaleY);
+
+  const point = (x: number, y: number, phase: number): [number, number] => {
+    const sx = x * scaleX;
+    const sy = y * scaleY;
+    if (!ambient || drift <= 0) return [sx, sy];
+    const waveA = Math.sin(time + phase + x * 0.012 + y * 0.006);
+    const waveB = Math.cos(time * 0.85 + phase + x * 0.004 - y * 0.014);
+    return [sx + waveA * drift, sy + waveB * drift];
+  };
 
   ctx.save();
   ctx.globalAlpha = (opacity / 100) * 0.70;
   ctx.strokeStyle = color;
-  ctx.lineWidth = strokeWidth;
+  ctx.lineWidth = ambient ? strokeWidth * (1 + 0.45 * intensity) : strokeWidth;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
   ctx.beginPath();
   for (let i = 0; i < end; i++) {
     for (const [x1, y1, x2, y2] of levels[i]) {
-      ctx.moveTo(x1 * scaleX, y1 * scaleY);
-      ctx.lineTo(x2 * scaleX, y2 * scaleY);
+      const [px1, py1] = point(x1, y1, i * 0.31);
+      const [px2, py2] = point(x2, y2, i * 0.31 + 0.17);
+      ctx.moveTo(px1, py1);
+      ctx.lineTo(px2, py2);
     }
   }
   ctx.stroke();

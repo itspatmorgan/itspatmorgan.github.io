@@ -1,18 +1,19 @@
 import type { CSSProperties } from 'react';
-import { type GeneratorConfig } from './themes';
-import { useGenerativeCanvas, type UseGenerativeCanvasOptions } from './useGenerativeCanvas';
+import { type GeneratorConfig, type MotionConfig } from './themes';
+import { useGenerativeCanvas } from './useGenerativeCanvas';
 
 interface Props {
   config: GeneratorConfig;
   bgColor: string;
-  animate?: boolean;
+  motion?: MotionConfig;
   duration?: number;
+  transparentBackground?: boolean;
   className?: string;
   style?: CSSProperties;
 }
 
-export function GenerativeCanvas({ config, bgColor, animate, duration, className, style }: Props) {
-  const { canvasRef } = useGenerativeCanvas(config, bgColor, { animate, duration });
+export function GenerativeCanvas({ config, bgColor, motion, duration, transparentBackground, className, style }: Props) {
+  const { canvasRef } = useGenerativeCanvas(config, bgColor, { motion, duration, transparentBackground });
   return (
     <canvas
       ref={canvasRef}

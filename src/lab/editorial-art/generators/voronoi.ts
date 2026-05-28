@@ -1,4 +1,4 @@
-import { CANVAS_W, CANVAS_H, type VoronoiConfig } from '../themes';
+import { CANVAS_W, CANVAS_H, type RenderContext, type VoronoiConfig } from '../themes';
 import { makeRng } from './noise';
 
 const W = CANVAS_W;
@@ -108,26 +108,56 @@ export function drawVoronoi(
   strokeWidth: number,
   w: number,
   h: number,
-  progress = 1,
+  render: RenderContext,
 ): void {
   const scaleX = w / W;
   const scaleY = h / H;
-  const end = Math.floor(edges.length * progress);
+  const ambient = render.motion.mode === 'ambient';
+  const speed = render.motion.speed / 100;
+  const intensity = Math.pow(render.motion.intensity / 100, 1.05);
+  const time = render.time * (0.00014 + speed * 0.00046);
+  const end = ambient ? edges.length : Math.floor(edges.length * render.progress);
+  const baseAlpha = (opacity / 100) * 0.75;
+  const baseWidth = strokeWidth * Math.min(scaleX, scaleY);
 
   ctx.save();
-  ctx.globalAlpha = (opacity / 100) * 0.75;
   ctx.strokeStyle = color;
-  ctx.lineWidth = strokeWidth;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
-  ctx.beginPath();
+  if (!ambient) {
+    ctx.globalAlpha = baseAlpha;
+    ctx.lineWidth = baseWidth;
+    ctx.beginPath();
+    for (let i = 0; i < end; i++) {
+      const [x1, y1, x2, y2] = edges[i];
+      ctx.moveTo(x1 * scaleX, y1 * scaleY);
+      ctx.lineTo(x2 * scaleX, y2 * scaleY);
+    }
+    ctx.stroke();
+    ctx.restore();
+    return;
+  }
+
   for (let i = 0; i < end; i++) {
     const [x1, y1, x2, y2] = edges[i];
-    ctx.moveTo(x1 * scaleX, y1 * scaleY);
-    ctx.lineTo(x2 * scaleX, y2 * scaleY);
+    const mx = (x1 + x2) * 0.5;
+    const my = (y1 + y2) * 0.5;
+    const wave = Math.sin(time + mx * 0.012 + my * 0.018 + i * 0.031);
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.hypot(dx, dy) || 1;
+    const offset = wave * 6 * intensity;
+    const ox = (-dy / len) * offset;
+    const oy = (dx / len) * offset;
+
+    ctx.globalAlpha = Math.max(0, Math.min(1, baseAlpha * (0.42 + (wave + 1) * 0.34 * intensity)));
+    ctx.lineWidth = baseWidth * (0.9 + (wave + 1) * 0.28 * intensity);
+    ctx.beginPath();
+    ctx.moveTo((x1 + ox) * scaleX, (y1 + oy) * scaleY);
+    ctx.lineTo((x2 + ox) * scaleX, (y2 + oy) * scaleY);
+    ctx.stroke();
   }
-  ctx.stroke();
 
   ctx.restore();
 }

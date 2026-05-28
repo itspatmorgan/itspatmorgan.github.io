@@ -13,5 +13,5 @@ const entry = (await getCollection("lab")).find((item) => item.data.slug === "ed
   noindex
 >
   <Header />
-  <EditorialArtTool client:only="react" />
+  <EditorialArtTool client:load />
 </BaseLayout>

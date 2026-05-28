@@ -1,6 +1,5 @@
-import { useRef, useEffect, useMemo, useCallback } from 'react';
-import type { RefObject } from 'react';
-import { type GeneratorConfig, resolveLayerColor } from './themes';
+import { useRef, useEffect, useMemo, useCallback, type RefObject } from 'react';
+import { staticMotion, type GeneratorConfig, type MotionConfig, type RenderContext, resolveLayerColor } from './themes';
 import { generateFlowField, drawFlowField, type FlowPath } from './generators/flowField';
 import { generateDotGrid, drawDotGrid, type Dot } from './generators/dotGrid';
 import { generateIsolines, drawIsolines, type IsolineLevel } from './generators/isoline';
@@ -41,35 +40,37 @@ function renderData(
   config: GeneratorConfig,
   w: number,
   h: number,
-  progress: number,
+  render: RenderContext,
 ): void {
   const color = resolveLayerColor(config.color);
   if (config.type === 'flow-field' && generated.type === 'flow-field') {
-    drawFlowField(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, progress);
+    drawFlowField(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, render);
   } else if (config.type === 'dot-grid' && generated.type === 'dot-grid') {
-    drawDotGrid(ctx, generated.data, color, config.opacity, w, h, progress);
+    drawDotGrid(ctx, generated.data, color, config.opacity, w, h, render);
   } else if (config.type === 'isoline' && generated.type === 'isoline') {
-    drawIsolines(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, progress);
+    drawIsolines(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, render);
   } else if (config.type === 'voronoi' && generated.type === 'voronoi') {
-    drawVoronoi(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, progress);
+    drawVoronoi(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, render);
   } else if (config.type === 'strange-attractor' && generated.type === 'strange-attractor') {
-    drawAttractor(ctx, generated.data, color, config.opacity, w, h, progress);
+    drawAttractor(ctx, generated.data, color, config.opacity, w, h, render);
   }
 }
 
 export interface UseGenerativeCanvasOptions {
-  animate?: boolean;   // play draw-in animation on mount/data change
+  motion?: MotionConfig;
   duration?: number;   // animation duration in ms (default 2500)
+  transparentBackground?: boolean;
 }
 
 export function useGenerativeCanvas(
   config: GeneratorConfig,
   bgColor: string,
   opts?: UseGenerativeCanvasOptions,
-): { canvasRef: RefObject<HTMLCanvasElement> } {
+): { canvasRef: RefObject<HTMLCanvasElement | null> } {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animate = opts?.animate ?? false;
+  const motion = opts?.motion ?? staticMotion;
   const duration = opts?.duration ?? 2500;
+  const transparentBackground = opts?.transparentBackground ?? false;
 
   // Regenerate data only when structural params change
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,11 +83,18 @@ export function useGenerativeCanvas(
   configRef.current = config;
   const bgColorRef = useRef(bgColor);
   bgColorRef.current = bgColor;
-  // Tracks the last rendered progress so ResizeObserver and color changes redraw correctly
-  const progressRef = useRef(animate ? 0 : 1);
+  const transparentBackgroundRef = useRef(transparentBackground);
+  transparentBackgroundRef.current = transparentBackground;
+  const motionRef = useRef(motion);
+  motionRef.current = motion;
+  const renderRef = useRef<RenderContext>({
+    progress: motion.mode === 'reveal' ? 0 : 1,
+    time: 0,
+    motion,
+  });
 
   // Stable redraw — always reads from refs, safe to use inside ResizeObserver/RAF
-  const redraw = useCallback((p: number) => {
+  const redraw = useCallback((render: RenderContext) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -95,11 +103,13 @@ export function useGenerativeCanvas(
     const h = canvas.height;
     if (w === 0 || h === 0) return;
 
-    progressRef.current = p;
+    renderRef.current = render;
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = bgColorRef.current;
-    ctx.fillRect(0, 0, w, h);
-    renderData(ctx, generatedRef.current, configRef.current, w, h, p);
+    if (!transparentBackgroundRef.current) {
+      ctx.fillStyle = bgColorRef.current;
+      ctx.fillRect(0, 0, w, h);
+    }
+    renderData(ctx, generatedRef.current, configRef.current, w, h, render);
   }, []);
 
   // Draw/animate effect: restarts when generated data changes (seed or structural params)
@@ -108,30 +118,43 @@ export function useGenerativeCanvas(
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!animate || prefersReduced) {
-      redraw(1);
+    const activeMotion = motionRef.current;
+
+    if (prefersReduced || activeMotion.mode === 'static') {
+      redraw({ progress: 1, time: 0, motion: activeMotion });
       return;
     }
 
     let rafId: number;
     let startTime: number | null = null;
 
+    if (activeMotion.mode === 'ambient') {
+      const tick = (ts: number) => {
+        if (!startTime) startTime = ts;
+        redraw({ progress: 1, time: ts - startTime, motion: motionRef.current });
+        rafId = requestAnimationFrame(tick);
+      };
+
+      rafId = requestAnimationFrame(tick);
+      return () => cancelAnimationFrame(rafId);
+    }
+
     function tick(ts: number) {
       if (!startTime) startTime = ts;
       const p = Math.min((ts - startTime) / duration, 1);
-      redraw(p);
+      redraw({ progress: p, time: 0, motion: motionRef.current });
       if (p < 1) rafId = requestAnimationFrame(tick);
     }
 
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [generated, animate, duration, redraw]);
+  }, [generated, motion.mode, duration, redraw]);
 
   // Re-render at current progress when visual style (color/opacity/strokeWidth/bg) changes
   // without restarting animation
   useEffect(() => {
-    redraw(progressRef.current);
-  }, [config, bgColor, redraw]);
+    redraw({ ...renderRef.current, motion });
+  }, [config, bgColor, transparentBackground, motion, redraw]);
 
   // Resize canvas to match container in device pixels, then redraw
   useEffect(() => {
@@ -147,7 +170,7 @@ export function useGenerativeCanvas(
         canvas.height = Math.round(height * dpr);
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
-        redraw(progressRef.current);
+        redraw(renderRef.current);
       }
     });
 

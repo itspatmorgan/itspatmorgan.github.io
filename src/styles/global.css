@@ -233,3 +233,31 @@
     linear-gradient(oklch(0.16 0.01 60 / 0.7), oklch(0.16 0.01 60 / 0.7)),
     url('/images/textures/debut_dark.png');
 }
+
+/* Subtle writing-list signal, inspired by the editorial generator language */
+[data-article-item] {
+  position: relative;
+  overflow: hidden;
+}
+[data-article-item]::before {
+  content: '';
+  position: absolute;
+  inset-block: 0.75rem;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    oklch(0.72 0.10 75 / 0.55),
+    transparent
+  );
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+[data-article-item]:hover::before,
+[data-article-item]:focus-visible::before {
+  opacity: 1;
+  transform: translateY(0);
+}
