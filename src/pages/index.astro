@@ -43,25 +43,26 @@ const impactStatements: Record<string, string> = {
 };
 
 const newsletterPattern = {
-  type: "dot-grid",
-  seed: 88,
-  spacing: 18,
-  scale: 240,
-  dotSize: 70,
-  opacity: 72,
+  type: "isoline",
+  seed: 211,
+  levels: 9,
+  scale: 340,
+  strokeWidth: 0.9,
+  opacity: 66,
   color: "copper",
 } as const;
 
 const newsletterLightPattern = {
   ...newsletterPattern,
-  opacity: 64,
+  opacity: 76,
+  strokeWidth: 1.05,
   color: "bronze",
 } as const;
 
 const newsletterMotion = {
   mode: "ambient",
-  speed: 42,
-  intensity: 30,
+  speed: 20,
+  intensity: 28,
 } as const;
 
 ---
@@ -214,7 +215,8 @@ const newsletterMotion = {
     <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
       Writing
     </h2>
-    <div class="group mb-10 overflow-hidden rounded-lg border border-border transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
+    <div class="group mb-10">
+      <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
       <a
         href={siteConfig.social.newsletter}
         target="_blank"
@@ -222,19 +224,19 @@ const newsletterMotion = {
         class="block overflow-hidden"
         aria-label="Unknown Arts newsletter"
       >
-        <div class="relative aspect-video w-full overflow-hidden bg-card transition-transform duration-300 group-hover:scale-[1.01]">
+        <div class="relative aspect-video w-full overflow-hidden bg-card">
           <GenerativePatternSurface
             name="unknown-arts-newsletter"
             config={newsletterPattern}
             lightConfig={newsletterLightPattern}
             motion={newsletterMotion}
             duration={2800}
-            className="absolute inset-0 opacity-90 transition-opacity duration-300 group-hover:opacity-95"
+            className="absolute inset-0 opacity-95 transition-all duration-300 group-hover:scale-[1.03] group-hover:opacity-100"
             client:visible
           />
-          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_34%,transparent_0%,transparent_28%,var(--background)_82%)] opacity-35 dark:opacity-50"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#171716]/90 via-[#171716]/10 to-transparent opacity-0 dark:opacity-100"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/5 to-transparent dark:hidden"></div>
+          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_38%,transparent_0%,transparent_32%,var(--background)_86%)] opacity-10 dark:opacity-35"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#171716]/92 via-[#171716]/12 to-transparent opacity-0 dark:opacity-100"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/68 via-background/0 to-transparent dark:hidden"></div>
           <div class="pointer-events-none absolute bottom-5 left-5 right-5 flex items-end justify-between gap-6">
             <div>
               <div class="mb-4 text-[#b38b6d] dark:text-[#f7ccab]">
@@ -275,6 +277,7 @@ const newsletterMotion = {
           <a href="https://heydesigner.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">HeyDesigner</a>.
         </p>
       </div>
+      </article>
     </div>
     <div class="flex flex-col gap-2">
       {writingPosts.slice(0, 3).map((post) => (

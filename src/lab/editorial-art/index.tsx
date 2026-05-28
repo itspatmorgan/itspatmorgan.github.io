@@ -80,22 +80,10 @@ const TEXT_FONTS: { value: TextFont; label: string }[] = [
 ];
 
 const MOTION_MODES: { value: MotionMode; label: string }[] = [
-  { value: 'static',  label: 'Static'  },
+  { value: 'static',  label: 'Off'     },
   { value: 'reveal',  label: 'Reveal'  },
   { value: 'ambient', label: 'Ambient' },
 ];
-
-const MOTION_PRESETS = [
-  { label: 'Subtle', speed: 36, intensity: 24 },
-  { label: 'Visible', speed: 64, intensity: 52 },
-  { label: 'Stress', speed: 92, intensity: 90 },
-] as const;
-
-const SURFACE_PRESETS = [
-  { label: 'Off', value: 0 },
-  { label: 'Soft', value: 35 },
-  { label: 'Heavy', value: 75 },
-] as const;
 
 const SCROLL_THUMB_INSET = 8;
 
@@ -444,35 +432,6 @@ function SegmentedControl<T extends string>({
   );
 }
 
-function PresetButtons({
-  label, value, onChange,
-}: {
-  label: string;
-  value: number;
-  onChange: (v: number) => void;
-}) {
-  return (
-    <div className="flex rounded-md bg-muted p-0.5">
-      {SURFACE_PRESETS.map((preset) => (
-        <button
-          key={preset.label}
-          type="button"
-          aria-label={`${label} ${preset.label}`}
-          onClick={() => onChange(preset.value)}
-          className={[
-            'flex-1 cursor-pointer rounded-[5px] border border-transparent py-1.5 font-mono text-[11px] transition-colors',
-            value === preset.value
-              ? 'border-border bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground',
-          ].join(' ')}
-        >
-          {preset.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 function SliderRow({
   label, value, min, max, step = 1, onChange, format,
 }: {
@@ -554,7 +513,6 @@ function SettingsRow({
 export default function EditorialArtTool() {
   const canvasRef    = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const themeMenuRef = useRef<HTMLDivElement>(null);
   const generatorMenuRef = useRef<HTMLDivElement>(null);
   const panelScrollRef = useRef<HTMLDivElement>(null);
   const panelContentRef = useRef<HTMLDivElement>(null);
@@ -563,7 +521,6 @@ export default function EditorialArtTool() {
   const [downloading, setDownloading] = useState(false);
   const [exportingStill, setExportingStill] = useState(false);
   const [motionReplayKey, setMotionReplayKey] = useState(0);
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [generatorMenuOpen, setGeneratorMenuOpen] = useState(false);
   const [panelScrolling, setPanelScrolling] = useState(false);
   const [panelScrollThumb, setPanelScrollThumb] = useState({ height: 0, top: 0, visible: false });
@@ -662,17 +619,6 @@ export default function EditorialArtTool() {
   }, [updatePanelScrollThumb]);
 
   useEffect(() => {
-    if (!themeMenuOpen) return;
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!themeMenuRef.current?.contains(event.target as Node)) {
-        setThemeMenuOpen(false);
-      }
-    };
-    window.addEventListener('pointerdown', handlePointerDown);
-    return () => window.removeEventListener('pointerdown', handlePointerDown);
-  }, [themeMenuOpen]);
-
-  useEffect(() => {
     if (!generatorMenuOpen) return;
     const handlePointerDown = (event: PointerEvent) => {
       if (!generatorMenuRef.current?.contains(event.target as Node)) {
@@ -746,70 +692,6 @@ export default function EditorialArtTool() {
             className="h-full overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             <div ref={panelContentRef}>
-              <PanelSection title="Theme">
-            <div ref={themeMenuRef} className="relative">
-              <button
-                type="button"
-                aria-label="Theme selector"
-                aria-haspopup="listbox"
-                aria-expanded={themeMenuOpen}
-                onClick={() => setThemeMenuOpen((open) => !open)}
-                className="flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-transparent bg-muted px-3 font-mono text-[12px] text-foreground focus:border-border focus:bg-background focus:outline-none"
-              >
-                <span>{themes[state.themeId].label}</span>
-                <ChevronDown className="size-4 text-foreground" strokeWidth={2} />
-              </button>
-
-              {themeMenuOpen && (
-                <div
-                  role="listbox"
-                  className="absolute left-0 right-0 top-[calc(100%+4px)] z-20 rounded-md border border-border bg-background p-1 shadow-lg"
-                >
-                  {Object.values(themes).map((theme) => {
-                    const active = theme.id === state.themeId;
-                    return (
-                      <button
-                        key={theme.id}
-                        type="button"
-                        role="option"
-                        aria-selected={active}
-                        onClick={() => {
-                          set({ themeId: theme.id });
-                          setThemeMenuOpen(false);
-                        }}
-                        className={[
-                          'flex w-full cursor-pointer items-center rounded-[5px] px-2.5 py-2 text-left font-mono text-[12px] transition-colors',
-                          active
-                            ? 'bg-foreground text-background'
-                            : 'text-foreground hover:bg-muted',
-                        ].join(' ')}
-                      >
-                        {theme.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-              <SegmentedControl
-                value={isColorDark(state.bgColor) ? 'dark' : 'light'}
-                options={[
-                  { value: 'dark',  label: 'Dark'  },
-                  { value: 'light', label: 'Light' },
-                ]}
-                onChange={(tone) => {
-                  setState((prev) => ({
-                    ...prev,
-                    bgColor: tone === 'dark' ? brand.warmDarkGray : brand.paper,
-                    generator: {
-                      ...prev.generator,
-                      color: tone === 'dark' ? 'copper' : 'bronze',
-                    } as GeneratorConfig,
-                  }));
-                }}
-              />
-              </PanelSection>
-
               <PanelSection title="Generator">
             {/* Foundation type picker */}
             <div ref={generatorMenuRef} className="relative">
@@ -903,13 +785,6 @@ export default function EditorialArtTool() {
               <SliderRow label="Jitter" value={generator.jitter} min={0}  max={100} onChange={(v) => patchGenerator({ jitter: v })} />
             </>)}
 
-            {/* Strange Attractor — seed is the creative control; no extra params needed */}
-            {generator.type === 'strange-attractor' && (
-              <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
-                Clifford attractor. Each seed maps to a unique orbit.
-              </p>
-            )}
-
             {/* Scale — shared by flow-field, dot-grid, isoline (not voronoi/strange-attractor) */}
             {'scale' in generator && (
               <SliderRow label="Scale" value={(generator as { scale: number }).scale} min={generator.type === 'flow-field' ? 80 : 100} max={600} onChange={(v) => patchGenerator({ scale: v })} />
@@ -926,9 +801,6 @@ export default function EditorialArtTool() {
               <SliderRow label="Weight" value={generator.strokeWidth} min={0.3} max={2.0} step={0.1} onChange={(v) => patchGenerator({ strokeWidth: v })} />
             )}
 
-            {/* Color + Opacity — shared */}
-            <ColorDots value={generator.color} onChange={(v) => patchGenerator({ color: v })} bgColor={bgColor} />
-            <SliderRow label="Opacity" value={generator.opacity} min={0} max={100} onChange={(v) => patchGenerator({ opacity: v })} />
               </PanelSection>
 
               <PanelSection title="Motion">
@@ -945,40 +817,47 @@ export default function EditorialArtTool() {
                 }}
               />
             </SettingsRow>
-            <SliderRow
-              label="Speed"
-              value={state.motion.speed}
-              min={0}
-              max={100}
-              onChange={(speed) => set({ motion: { ...state.motion, speed } })}
-            />
-            <SliderRow
-              label="Intensity"
-              value={state.motion.intensity}
-              min={0}
-              max={100}
-              onChange={(intensity) => set({ motion: { ...state.motion, intensity } })}
-            />
             {state.motion.mode === 'ambient' && (
-              <SettingsRow label="Preset">
-                <div className="flex rounded-md bg-muted p-0.5">
-                  {MOTION_PRESETS.map((preset) => (
-                    <button
-                      key={preset.label}
-                      type="button"
-                      onClick={() => set({ motion: { ...state.motion, speed: preset.speed, intensity: preset.intensity } })}
-                      className="flex-1 cursor-pointer rounded-[5px] border border-transparent py-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
-              </SettingsRow>
+              <>
+                <SliderRow
+                  label="Speed"
+                  value={state.motion.speed}
+                  min={0}
+                  max={100}
+                  onChange={(speed) => set({ motion: { ...state.motion, speed } })}
+                />
+                <SliderRow
+                  label="Intensity"
+                  value={state.motion.intensity}
+                  min={0}
+                  max={100}
+                  onChange={(intensity) => set({ motion: { ...state.motion, intensity } })}
+                />
+              </>
             )}
               </PanelSection>
 
-              <PanelSection title="Canvas Style">
-            <SettingsRow label="Color">
+              <PanelSection title="Appearance">
+            <SettingsRow label="Tone">
+              <SegmentedControl
+                value={isColorDark(state.bgColor) ? 'dark' : 'light'}
+                options={[
+                  { value: 'dark',  label: 'Dark'  },
+                  { value: 'light', label: 'Light' },
+                ]}
+                onChange={(tone) => {
+                  setState((prev) => ({
+                    ...prev,
+                    bgColor: tone === 'dark' ? brand.warmDarkGray : brand.paper,
+                    generator: {
+                      ...prev.generator,
+                      color: tone === 'dark' ? 'copper' : 'bronze',
+                    } as GeneratorConfig,
+                  }));
+                }}
+              />
+            </SettingsRow>
+            <SettingsRow label="Surface">
               <div className="flex items-center gap-3 rounded-md bg-muted px-2 py-2">
                 {bgPalette.map((s) => (
                   <button
@@ -997,28 +876,10 @@ export default function EditorialArtTool() {
                 ))}
               </div>
             </SettingsRow>
-            <SettingsRow label="Caption">
-              <SegmentedControl
-                value={state.showCaption ? 'on' : 'off'}
-                options={[
-                  { value: 'off', label: 'Off' },
-                  { value: 'on', label: 'On' },
-                ]}
-                onChange={(value) => set({ showCaption: value === 'on' })}
-              />
-            </SettingsRow>
-            <div className="space-y-2">
-              <SliderRow label="Texture" value={state.texture} min={0} max={100} onChange={(v) => set({ texture: v })} />
-              <SettingsRow label="">
-                <PresetButtons label="Texture" value={state.texture} onChange={(v) => set({ texture: v })} />
-              </SettingsRow>
-            </div>
-            <div className="space-y-2">
-              <SliderRow label="Grain" value={state.grain} min={0} max={100} onChange={(v) => set({ grain: v })} />
-              <SettingsRow label="">
-                <PresetButtons label="Grain" value={state.grain} onChange={(v) => set({ grain: v })} />
-              </SettingsRow>
-            </div>
+            <ColorDots value={generator.color} onChange={(v) => patchGenerator({ color: v })} bgColor={bgColor} />
+            <SliderRow label="Opacity" value={generator.opacity} min={0} max={100} onChange={(v) => patchGenerator({ opacity: v })} />
+            <SliderRow label="Texture" value={state.texture} min={0} max={100} onChange={(v) => set({ texture: v })} />
+            <SliderRow label="Grain" value={state.grain} min={0} max={100} onChange={(v) => set({ grain: v })} />
               </PanelSection>
 
               <PanelSection
@@ -1062,6 +923,16 @@ export default function EditorialArtTool() {
                   options={COMPOSITIONS}
                   onChange={(composition) => set({ composition })}
                 />
+                <SettingsRow label="Caption">
+                  <SegmentedControl
+                    value={state.showCaption ? 'on' : 'off'}
+                    options={[
+                      { value: 'off', label: 'Off' },
+                      { value: 'on', label: 'On' },
+                    ]}
+                    onChange={(value) => set({ showCaption: value === 'on' })}
+                  />
+                </SettingsRow>
               </>
             )}
               </PanelSection>
