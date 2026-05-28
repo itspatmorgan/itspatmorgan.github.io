@@ -1,0 +1,96 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { getCollection, render } from "astro:content";
+import { MarkStates, ScaleStrip, MarkVariants } from "@/lab/dot-mark/MarkStates";
+
+const entry = (await getCollection("lab")).find((item) => item.data.slug === "dot-mark");
+if (!entry) throw new Error("Missing Lab entry: dot-mark");
+
+const { Content } = await render(entry);
+---
+
+<PageLayout
+  title={`${entry.data.title} — Patrick Morgan`}
+  description={entry.data.description}
+  noindex
+>
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24">
+    <a
+      href="/lab"
+      class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      Lab
+    </a>
+    <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">{entry.data.title}</h1>
+    <p class="mb-8 max-w-xl text-lg text-muted-foreground">{entry.data.description}</p>
+    <div class="prose">
+      <Content />
+    </div>
+  </section>
+
+  <!-- Hero display -->
+  <section>
+    <div class="mx-auto max-w-3xl px-6 pb-16">
+      <div class="flex min-h-48 items-center justify-center rounded-lg border border-border bg-card">
+        <svg
+          id="hero-mark"
+          width="96"
+          height="96"
+          viewBox="0 0 28 28"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-label="Dot mark"
+        >
+          <rect class="fill-foreground" width="28" height="28" rx="6.2" />
+          <circle class="hero-dot hero-dot-1" cx="10.5" cy="7"  r="2.5"/>
+          <circle class="hero-dot hero-dot-2" cx="17.5" cy="7"  r="2.5"/>
+          <circle class="hero-dot hero-dot-3" cx="10.5" cy="14" r="2.5"/>
+          <circle class="hero-dot hero-dot-4" cx="10.5" cy="21" r="2.5"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scale system -->
+  <section>
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <h2 class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">Scale</h2>
+      <ScaleStrip client:load />
+    </div>
+  </section>
+
+  <!-- Variants -->
+  <section>
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <h2 class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">Variants</h2>
+      <MarkVariants client:load />
+    </div>
+  </section>
+
+  <!-- Interaction states -->
+  <section>
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <h2 class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">Interaction States</h2>
+      <MarkStates client:load />
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .hero-dot { fill: var(--color-background); }
+  .hero-dot-1 { animation: hero-dot-in 0.4s cubic-bezier(0.16,1,0.3,1)   0ms both; transform-origin: 10.5px  7px; }
+  .hero-dot-2 { animation: hero-dot-in 0.4s cubic-bezier(0.16,1,0.3,1) 100ms both; transform-origin: 17.5px  7px; }
+  .hero-dot-3 { animation: hero-dot-in 0.4s cubic-bezier(0.16,1,0.3,1) 200ms both; transform-origin: 10.5px 14px; }
+  .hero-dot-4 { animation: hero-dot-in 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both; transform-origin: 10.5px 21px; }
+
+  @keyframes hero-dot-in {
+    from { opacity: 0; transform: scale(0); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-dot-1, .hero-dot-2, .hero-dot-3, .hero-dot-4 { animation: none; }
+  }
+</style>
