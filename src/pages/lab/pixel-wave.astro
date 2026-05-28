@@ -31,26 +31,29 @@ const { Content } = await render(entry);
 
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-pixel-wave-demo>
     <div class="grid gap-8">
-      <div class="flex min-h-[22rem] items-center justify-center rounded-lg border border-border bg-card px-6 py-16 text-center texture-bg">
+      <div class="relative flex min-h-[22rem] items-center justify-center rounded-lg border border-border bg-card px-6 py-16 text-center texture-bg">
         <PixelWaveText
           text="A tactile text reveal for crafted interfaces."
           as="p"
           wave="demo"
           class="max-w-3xl text-4xl font-medium leading-tight tracking-tight sm:text-6xl"
         />
+        <button
+          type="button"
+          aria-label="Play"
+          class="absolute bottom-3 right-3 flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground transition-colors hover:border-foreground hover:text-foreground disabled:opacity-40"
+          data-pixel-wave-replay
+        >
+          <svg width="8" height="10" viewBox="0 0 8 10" fill="currentColor" aria-hidden>
+            <path d="M0 0l8 5-8 5V0z" />
+          </svg>
+        </button>
       </div>
 
       <div>
         <div class="prose mb-6">
           <Content />
         </div>
-        <button
-          type="button"
-          class="rounded-md border border-border px-3 py-2 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
-          data-pixel-wave-replay
-        >
-          Replay
-        </button>
       </div>
     </div>
   </section>
@@ -86,20 +89,25 @@ const { Content } = await render(entry);
     const replay = document.querySelector<HTMLButtonElement>("[data-pixel-wave-replay]");
     if (!container) return;
 
+    const play = (delay: number) => {
+      if (replay) replay.disabled = true;
+      resetWave(container);
+      pixelWave(container, delay);
+      window.setTimeout(() => {
+        enablePixelHover(container);
+        if (replay) replay.disabled = false;
+      }, delay + 5000);
+    };
+
     if (sessionStorage.getItem(SESSION_KEY)) {
       resolveWave(container);
       window.setTimeout(() => enablePixelHover(container), 100);
     } else {
       sessionStorage.setItem(SESSION_KEY, "1");
-      resetWave(container);
-      pixelWave(container, 250);
-      window.setTimeout(() => enablePixelHover(container), 5200);
+      play(250);
     }
 
-    replay?.addEventListener("click", () => {
-      resetWave(container);
-      pixelWave(container, 0);
-    });
+    if (replay) replay.onclick = () => play(0);
   }
 
   initPixelWaveDemo();

@@ -44,19 +44,19 @@ const editorialPreview = {
     </div>
   )}
 
-  {preview === "dot-mark" && (
+  {preview === "pixel-mark" && (
     <div class="flex h-full items-center justify-center bg-background">
       <svg width="72" height="72" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden>
         <rect class="fill-foreground" width="28" height="28" rx="6.2"/>
-        <circle class="fill-background" cx="10.5"  cy="7"  r="2.5"/>
-        <circle class="fill-background" cx="17.5" cy="7"  r="2.5"/>
-        <circle class="fill-background" cx="10.5"  cy="14" r="2.5"/>
-        <circle class="fill-background" cx="10.5"  cy="21" r="2.5"/>
+        <rect class="fill-background" x="8"  y="4.5"  width="5" height="5" rx="0.6"/>
+        <rect class="fill-background" x="15" y="4.5"  width="5" height="5" rx="0.6"/>
+        <rect class="fill-background" x="8"  y="11.5" width="5" height="5" rx="0.6"/>
+        <rect class="fill-background" x="8"  y="18.5" width="5" height="5" rx="0.6"/>
       </svg>
     </div>
   )}
 
-  {preview !== "editorial-art" && preview !== "pixel-wave" && preview !== "dot-mark" && (
+  {preview !== "editorial-art" && preview !== "pixel-wave" && preview !== "pixel-mark" && (
     <div class="flex h-full items-center justify-center px-6 text-center">
       <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">{title}</p>
     </div>

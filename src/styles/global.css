@@ -180,7 +180,7 @@
   @apply italic;
 }
 .prose a {
-  @apply text-accent underline underline-offset-4 transition-colors hover:text-foreground;
+  @apply underline underline-offset-4 transition-colors hover:text-foreground;
 }
 .prose blockquote {
   @apply my-6 border-l-2 border-accent pl-4 italic text-muted-foreground;
