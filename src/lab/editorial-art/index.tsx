@@ -85,6 +85,12 @@ const MOTION_MODES: { value: MotionMode; label: string }[] = [
   { value: 'ambient', label: 'Ambient' },
 ];
 
+const MOTION_PRESETS = [
+  { label: 'Subtle', speed: 36, intensity: 24 },
+  { label: 'Visible', speed: 64, intensity: 52 },
+  { label: 'Stress', speed: 92, intensity: 90 },
+] as const;
+
 const SURFACE_PRESETS = [
   { label: 'Off', value: 0 },
   { label: 'Soft', value: 35 },
@@ -173,6 +179,10 @@ function parseMotion(params: URLSearchParams, fallback: MotionConfig): MotionCon
     speed: Math.max(0, Math.min(100, numberParam(params, 'motionSpeed', fallback.speed))),
     intensity: Math.max(0, Math.min(100, numberParam(params, 'motionIntensity', fallback.intensity))),
   };
+}
+
+function supportsAmbientMotion(type: GeneratorType): boolean {
+  return type !== 'voronoi';
 }
 
 function motionWithObviousDefaults(current: MotionConfig, mode: MotionMode): MotionConfig {
@@ -953,9 +963,25 @@ export default function EditorialArtTool() {
               max={100}
               onChange={(intensity) => set({ motion: { ...state.motion, intensity } })}
             />
-            {state.motion.mode === 'ambient' && !['dot-grid', 'isoline'].includes(generator.type) && (
+            {state.motion.mode === 'ambient' && (
+              <SettingsRow label="Preset">
+                <div className="flex rounded-md bg-muted p-0.5">
+                  {MOTION_PRESETS.map((preset) => (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => set({ motion: { ...state.motion, speed: preset.speed, intensity: preset.intensity } })}
+                      className="flex-1 cursor-pointer rounded-[5px] border border-transparent py-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </SettingsRow>
+            )}
+            {state.motion.mode === 'ambient' && !supportsAmbientMotion(generator.type) && (
               <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
-                Ambient motion is active for Dot Grid and Isoline in this pass.
+                Voronoi stays static in Ambient for this pass. Use Reveal to test its motion.
               </p>
             )}
               </PanelSection>
@@ -1067,7 +1093,7 @@ export default function EditorialArtTool() {
               {downloading ? 'Generating…' : 'Download PNG'}
             </button>
             <p className="font-mono text-[10px] text-muted-foreground/60">
-              1200 × 630 · 2× export = 2400 × 1260 px
+              1200 × 630 · exports use the canonical static frame
             </p>
               </PanelSection>
             </div>
