@@ -1,22 +1,23 @@
 import { useState, useRef, useCallback } from "react";
 
-// ─── Braille P geometry ───────────────────────────────────────────────────────
-// Standard 6-dot braille cell. Letter P = dots 1,2,3,4.
+// ─── Pixel P geometry ────────────────────────────────────────────────────────
+// Standard 6-position braille cell. Letter P = positions 1,2,3,4.
 // Grid: col1=x10.5, col2=x17.5 · row1=y7, row2=y14, row3=y21
 // Spacing = 7 in all directions. Bounding box centered at (14,14) in 28×28 viewBox.
 
-const DOT_R = 2.5;
+const PIXEL_SIZE = 5;
+const PIXEL_RADIUS = 0.6;
 
 const BRAILLE_P: [number, number][] = [
-  [10.5, 7],  // dot 1 — top-left
-  [17.5, 7],  // dot 4 — top-right
-  [10.5, 14], // dot 2 — mid-left
-  [10.5, 21], // dot 3 — bot-left
+  [10.5, 7],  // position 1 — top-left
+  [17.5, 7],  // position 4 — top-right
+  [10.5, 14], // position 2 — mid-left
+  [10.5, 21], // position 3 — bot-left
 ];
 
 const GHOST: [number, number][] = [
-  [17.5, 14], // dot 5 — mid-right
-  [17.5, 21], // dot 6 — bot-right
+  [17.5, 14], // position 5 — mid-right
+  [17.5, 21], // position 6 — bot-right
 ];
 
 const ROLL_CONFIGS: [number, number][][] = [
@@ -28,51 +29,38 @@ const ROLL_CONFIGS: [number, number][][] = [
   BRAILLE_P,
 ];
 
-// ─── Block mark ───────────────────────────────────────────────────────────────
-
-type DotShape = "circle" | "square";
+// ─── Pixel mark ───────────────────────────────────────────────────────────────
 
 interface BlockMarkProps {
   size?: number;
   bgColor?: string;
-  dotColor?: string;
+  pixelColor?: string;
   bgStroke?: string;
   showGhost?: boolean;
   ghostOpacity?: number;
-  dots?: [number, number][];
-  shape?: DotShape;
+  pixels?: [number, number][];
 }
 
 export function BlockMark({
   size = 48,
   bgColor = "var(--color-foreground)",
-  dotColor = "var(--color-background)",
+  pixelColor = "var(--color-background)",
   bgStroke,
   showGhost = false,
   ghostOpacity = 0.18,
-  dots = BRAILLE_P,
-  shape = "circle",
+  pixels = BRAILLE_P,
 }: BlockMarkProps) {
-  const renderDot = (cx: number, cy: number, i: number, opacity?: number) =>
-    shape === "square" ? (
-      <rect
-        key={i}
-        x={cx - DOT_R}
-        y={cy - DOT_R}
-        width={DOT_R * 2}
-        height={DOT_R * 2}
-        rx={0.6}
-        style={{ fill: dotColor, opacity }}
-      />
-    ) : (
-      <circle
-        key={i}
-        cx={cx}
-        cy={cy}
-        r={DOT_R}
-        style={{ fill: dotColor, opacity }}
-      />
-    );
+  const renderPixel = (cx: number, cy: number, i: number, opacity?: number) => (
+    <rect
+      key={i}
+      x={cx - PIXEL_SIZE / 2}
+      y={cy - PIXEL_SIZE / 2}
+      width={PIXEL_SIZE}
+      height={PIXEL_SIZE}
+      rx={PIXEL_RADIUS}
+      style={{ fill: pixelColor, opacity }}
+    />
+  );
 
   return (
     <svg
@@ -91,8 +79,8 @@ export function BlockMark({
         rx={bgStroke ? 5.8 : 6.2}
         style={{ fill: bgColor, stroke: bgStroke, strokeWidth: bgStroke ? 1.5 : 0 }}
       />
-      {showGhost && GHOST.map(([cx, cy], i) => renderDot(cx, cy, i, ghostOpacity))}
-      {dots.map(([cx, cy], i) => renderDot(cx, cy, i))}
+      {showGhost && GHOST.map(([cx, cy], i) => renderPixel(cx, cy, i, ghostOpacity))}
+      {pixels.map(([cx, cy], i) => renderPixel(cx, cy, i))}
     </svg>
   );
 }
@@ -177,21 +165,23 @@ function EntranceMark() {
       <svg width={48} height={48} viewBox="0 0 28 28" aria-hidden>
         <rect width="28" height="28" rx={6.2} style={{ fill: "var(--color-foreground)" }} />
         {BRAILLE_P.map(([cx, cy], i) => (
-          <circle
+          <rect
             key={i}
-            cx={cx}
-            cy={cy}
-            r={DOT_R}
+            x={cx - PIXEL_SIZE / 2}
+            y={cy - PIXEL_SIZE / 2}
+            width={PIXEL_SIZE}
+            height={PIXEL_SIZE}
+            rx={PIXEL_RADIUS}
             style={{
               fill: "var(--color-background)",
-              animation: `dot-in 0.4s cubic-bezier(0.16,1,0.3,1) ${delays[i]}ms both`,
+              animation: `pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) ${delays[i]}ms both`,
               transformOrigin: `${cx}px ${cy}px`,
             }}
           />
         ))}
       </svg>
       <style>{`
-        @keyframes dot-in {
+        @keyframes pixel-in {
           from { opacity: 0; transform: scale(0); }
           to   { opacity: 1; transform: scale(1); }
         }
@@ -219,11 +209,13 @@ function AccentState() {
           }}
         />
         {BRAILLE_P.map(([cx, cy], i) => (
-          <circle
+          <rect
             key={i}
-            cx={cx}
-            cy={cy}
-            r={DOT_R}
+            x={cx - PIXEL_SIZE / 2}
+            y={cy - PIXEL_SIZE / 2}
+            width={PIXEL_SIZE}
+            height={PIXEL_SIZE}
+            rx={PIXEL_RADIUS}
             style={{
               fill: hovered
                 ? "var(--color-accent-foreground)"
@@ -246,7 +238,7 @@ function RollMark({ rolling, configIdx }: { rolling: boolean; configIdx: number 
           transformOrigin: "center",
         }}
       >
-        <BlockMark size={48} dots={ROLL_CONFIGS[configIdx]} />
+        <BlockMark size={48} pixels={ROLL_CONFIGS[configIdx]} />
       </div>
       <style>{`
         @keyframes die-roll {
@@ -294,56 +286,44 @@ export function ScaleStrip() {
 const COLOR_VARIANTS: {
   label: string;
   bgColor: string;
-  dotColor: string;
+  pixelColor: string;
   bgStroke?: string;
 }[] = [
   {
     label: "Default",
     bgColor: "var(--color-foreground)",
-    dotColor: "var(--color-background)",
+    pixelColor: "var(--color-background)",
   },
   {
     label: "Accent",
     bgColor: "var(--color-accent)",
-    dotColor: "var(--color-accent-foreground)",
+    pixelColor: "var(--color-accent-foreground)",
   },
   {
     label: "Soft",
     bgColor: "var(--color-secondary)",
-    dotColor: "var(--color-secondary-foreground)",
+    pixelColor: "var(--color-secondary-foreground)",
   },
   {
     label: "Outline",
     bgColor: "var(--color-background)",
-    dotColor: "var(--color-foreground)",
+    pixelColor: "var(--color-foreground)",
     bgStroke: "var(--color-border)",
   },
 ];
 
 export function MarkVariants() {
   return (
-    <div className="grid grid-cols-[auto_1fr_1fr_1fr_1fr] items-center gap-x-8 gap-y-8">
-      {/* Header row */}
-      <div />
+    <div className="grid grid-cols-4 items-center gap-x-8 gap-y-8">
       {COLOR_VARIANTS.map((v) => (
         <div key={`header-${v.label}`} className="flex justify-center">
           <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">{v.label}</span>
         </div>
       ))}
 
-      {/* Round row */}
-      <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Round</span>
-      {COLOR_VARIANTS.map((v) => (
-        <div key={v.label} className="flex justify-center">
-          <BlockMark size={48} shape="circle" bgColor={v.bgColor} dotColor={v.dotColor} bgStroke={v.bgStroke} />
-        </div>
-      ))}
-
-      {/* Square row */}
-      <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Square</span>
       {COLOR_VARIANTS.map((v) => (
         <div key={`sq-${v.label}`} className="flex justify-center">
-          <BlockMark size={48} shape="square" bgColor={v.bgColor} dotColor={v.dotColor} bgStroke={v.bgStroke} />
+          <BlockMark size={48} bgColor={v.bgColor} pixelColor={v.pixelColor} bgStroke={v.bgStroke} />
         </div>
       ))}
     </div>

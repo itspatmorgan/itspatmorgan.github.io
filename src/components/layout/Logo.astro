@@ -15,34 +15,34 @@ const { class: className } = Astro.props;
 >
   <style>
     .logo-bg {
-      fill: var(--color-foreground);
+      fill: var(--color-secondary);
       transition: fill 0.5s ease;
     }
-    .logo-dot {
-      fill: var(--color-background);
+    .logo-pixel {
+      fill: var(--color-secondary-foreground);
       transition: fill 0.5s ease;
     }
-    .logo-dot-1 { animation: dot-in 0.4s cubic-bezier(0.16,1,0.3,1)   0ms both; transform-origin: 10.5px  7px; }
-    .logo-dot-2 { animation: dot-in 0.4s cubic-bezier(0.16,1,0.3,1) 100ms both; transform-origin: 17.5px  7px; }
-    .logo-dot-3 { animation: dot-in 0.4s cubic-bezier(0.16,1,0.3,1) 200ms both; transform-origin: 10.5px 14px; }
-    .logo-dot-4 { animation: dot-in 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both; transform-origin: 10.5px 21px; }
+    .logo-pixel-1 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1)   0ms both; transform-origin: 10.5px  7px; }
+    .logo-pixel-2 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 100ms both; transform-origin: 17.5px  7px; }
+    .logo-pixel-3 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 200ms both; transform-origin: 10.5px 14px; }
+    .logo-pixel-4 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both; transform-origin: 10.5px 21px; }
 
-    @keyframes dot-in {
+    @keyframes pixel-in {
       from { opacity: 0; transform: scale(0); }
       to   { opacity: 1; transform: scale(1); }
     }
 
     .logo-root:hover .logo-bg  { fill: var(--color-accent); }
-    .logo-root:hover .logo-dot { fill: var(--color-accent-foreground); }
+    .logo-root:hover .logo-pixel { fill: var(--color-accent-foreground); }
 
     @media (prefers-reduced-motion: reduce) {
-      .logo-dot-1, .logo-dot-2, .logo-dot-3, .logo-dot-4 { animation: none; }
+      .logo-pixel-1, .logo-pixel-2, .logo-pixel-3, .logo-pixel-4 { animation: none; }
     }
   </style>
 
   <rect class="logo-bg" width="28" height="28" rx="6.2"/>
-  <circle class="logo-dot logo-dot-1" cx="10.5" cy="7"  r="2.5"/>
-  <circle class="logo-dot logo-dot-2" cx="17.5" cy="7"  r="2.5"/>
-  <circle class="logo-dot logo-dot-3" cx="10.5" cy="14" r="2.5"/>
-  <circle class="logo-dot logo-dot-4" cx="10.5" cy="21" r="2.5"/>
+  <rect class="logo-pixel logo-pixel-1" x="8"  y="4.5"  width="5" height="5" rx="0.6"/>
+  <rect class="logo-pixel logo-pixel-2" x="15" y="4.5"  width="5" height="5" rx="0.6"/>
+  <rect class="logo-pixel logo-pixel-3" x="8"  y="11.5" width="5" height="5" rx="0.6"/>
+  <rect class="logo-pixel logo-pixel-4" x="8"  y="18.5" width="5" height="5" rx="0.6"/>
 </svg>

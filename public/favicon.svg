@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
   <style>
     .bg  { fill: #1f1c14; }
-    .dot { fill: #f7f3ec; }
+    .pixel { fill: #f7f3ec; }
     @media (prefers-color-scheme: dark) {
       .bg  { fill: #f7f3ec; }
-      .dot { fill: #1f1c14; }
+      .pixel { fill: #1f1c14; }
     }
   </style>
   <!-- Braille P: equidistant grid, spacing=7, centered at (14,14) -->
   <rect class="bg" width="28" height="28" rx="6.2"/>
-  <circle class="dot" cx="10.5" cy="7"  r="2.5"/>
-  <circle class="dot" cx="17.5" cy="7"  r="2.5"/>
-  <circle class="dot" cx="10.5" cy="14" r="2.5"/>
-  <circle class="dot" cx="10.5" cy="21" r="2.5"/>
+  <rect class="pixel" x="8"  y="4.5"  width="5" height="5" rx="0.6"/>
+  <rect class="pixel" x="15" y="4.5"  width="5" height="5" rx="0.6"/>
+  <rect class="pixel" x="8"  y="11.5" width="5" height="5" rx="0.6"/>
+  <rect class="pixel" x="8"  y="18.5" width="5" height="5" rx="0.6"/>
 </svg>
