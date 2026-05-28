@@ -77,16 +77,12 @@ export function drawDotGrid(
       : smoothstep((render.progress - distanceDelay * 0.78 - fieldDelay) / 0.22);
     if (revealAlpha <= 0) continue;
 
-    const pulse = ambient
-      ? Math.sin(time + cx * 0.018 + cy * 0.023) * Math.cos(time * 0.7 + cx * 0.007)
+    const wave = ambient
+      ? Math.sin(time + cx * 0.014 + cy * 0.019)
       : 0;
-    const shimmer = ambient
-      ? Math.sin(time * 1.3 + cx * 0.011 - cy * 0.019)
-      : 0;
-    const animatedRadius = Math.max(0.3, r * (1 + pulse * 0.42 * intensity));
-    ctx.globalAlpha = ambient
-      ? Math.max(0.08, Math.min(1, baseAlpha * revealAlpha * (1 + shimmer * 0.9 * intensity)))
-      : baseAlpha * revealAlpha;
+    const animatedRadius = Math.max(0.3, r * (1 + wave * 0.24 * intensity));
+    const alphaScale = ambient ? 0.72 + (wave + 1) * 0.38 * intensity : 1;
+    ctx.globalAlpha = Math.max(0, Math.min(1, baseAlpha * revealAlpha * alphaScale));
     ctx.beginPath();
     ctx.arc(cx * scaleX, cy * scaleY, animatedRadius * Math.min(scaleX, scaleY), 0, Math.PI * 2);
     ctx.fill();

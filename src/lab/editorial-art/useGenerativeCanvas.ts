@@ -50,7 +50,7 @@ function renderData(
   } else if (config.type === 'isoline' && generated.type === 'isoline') {
     drawIsolines(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, render);
   } else if (config.type === 'voronoi' && generated.type === 'voronoi') {
-    drawVoronoi(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, render.progress);
+    drawVoronoi(ctx, generated.data, color, config.opacity, config.strokeWidth, w, h, render);
   } else if (config.type === 'strange-attractor' && generated.type === 'strange-attractor') {
     drawAttractor(ctx, generated.data, color, config.opacity, w, h, render);
   }

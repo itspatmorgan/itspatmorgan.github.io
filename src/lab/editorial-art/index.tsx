@@ -181,10 +181,6 @@ function parseMotion(params: URLSearchParams, fallback: MotionConfig): MotionCon
   };
 }
 
-function supportsAmbientMotion(type: GeneratorType): boolean {
-  return type !== 'voronoi';
-}
-
 function motionWithObviousDefaults(current: MotionConfig, mode: MotionMode): MotionConfig {
   if (mode !== 'ambient') return { ...current, mode };
   return {
@@ -978,11 +974,6 @@ export default function EditorialArtTool() {
                   ))}
                 </div>
               </SettingsRow>
-            )}
-            {state.motion.mode === 'ambient' && !supportsAmbientMotion(generator.type) && (
-              <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
-                Voronoi stays static in Ambient for this pass. Use Reveal to test its motion.
-              </p>
             )}
               </PanelSection>
 
