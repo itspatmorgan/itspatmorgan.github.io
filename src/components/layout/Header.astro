@@ -1,21 +1,13 @@
 ---
 import { siteConfig } from "@/data/site-config";
 import { ThemeToggle } from "./ThemeToggle";
+import Logo from "./Logo.astro";
 ---
 
 <header class="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
   <nav class="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
-    <a href="/" class="block">
-      <img
-        src="/images/brand/logo-light-256.png"
-        alt={siteConfig.name}
-        class="block h-7 rounded-sm dark:hidden"
-      />
-      <img
-        src="/images/brand/logo-dark-256.png"
-        alt={siteConfig.name}
-        class="hidden h-7 rounded-sm dark:block"
-      />
+    <a href="/" class="block no-underline">
+      <Logo />
     </a>
 
     <div class="flex items-center gap-4">

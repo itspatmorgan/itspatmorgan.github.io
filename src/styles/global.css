@@ -3,7 +3,6 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
-
 @font-face {
   font-family: 'Geist Pixel Square';
   src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
