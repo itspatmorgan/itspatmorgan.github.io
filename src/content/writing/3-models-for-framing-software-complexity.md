@@ -31,6 +31,7 @@ image: /images/writing/3-models-for-framing-software-complexity/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/3-models-for-framing-software-complexity"
 draft: false
 ---
+
 The complexity of software is often hidden and abstract, making it hard to develop a sense of the scope of work implied by a design.
 
 This skill is hard-earned - it's a mix of foundational knowledge about software structure and years of experience learning how certain projects surface specific problems.

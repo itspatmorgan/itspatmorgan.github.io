@@ -188,6 +188,15 @@
 .prose img {
   @apply my-8 w-full rounded-lg border border-border;
 }
+.prose figure {
+  @apply my-8;
+}
+.prose figure img {
+  @apply my-0;
+}
+.prose figcaption {
+  @apply mt-2 text-center text-sm text-muted-foreground;
+}
 .prose hr {
   @apply my-10 border-border;
 }

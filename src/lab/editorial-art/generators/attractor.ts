@@ -127,25 +127,29 @@ export function drawAttractor(
 
   const visibleCount = Math.floor(count * Math.min(render.progress, 1));
 
-  // Always use density map so the animation is a smooth accumulation throughout
-  const density = new Uint32Array(w * h);
+  // Accumulate density at logical resolution so richness is canvas-size-independent
+  const logW = W;
+  const logH = H;
+  const density = new Uint32Array(logW * logH);
   let maxDensity = 0;
 
   for (let i = 0; i < visibleCount; i++) {
-    const px = Math.floor(toScreen(xs[i], minX, maxX, w));
-    const py = Math.floor(toScreen(ys[i], minY, maxY, h));
-    if (px >= 0 && px < w && py >= 0 && py < h) {
-      const idx = py * w + px;
+    const px = Math.floor(toScreen(xs[i], minX, maxX, logW));
+    const py = Math.floor(toScreen(ys[i], minY, maxY, logH));
+    if (px >= 0 && px < logW && py >= 0 && py < logH) {
+      const idx = py * logW + px;
       const val = ++density[idx];
       if (val > maxDensity) maxDensity = val;
     }
   }
 
-  const imageData = ctx.createImageData(w, h);
-  const pixels = imageData.data;
   const logMax = Math.log1p(maxDensity) || 1;
+  const offscreen = new OffscreenCanvas(logW, logH);
+  const offCtx = offscreen.getContext('2d') as OffscreenCanvasRenderingContext2D;
+  const imageData = offCtx.createImageData(logW, logH);
+  const pixels = imageData.data;
 
-  for (let i = 0; i < w * h; i++) {
+  for (let i = 0; i < logW * logH; i++) {
     if (!density[i]) continue;
     const t = Math.log1p(density[i]) / logMax;
     const px = i * 4;
@@ -154,5 +158,8 @@ export function drawAttractor(
     pixels[px + 2] = b;
     pixels[px + 3] = Math.round(t * maxA * 255);
   }
-  ctx.putImageData(imageData, 0, 0);
+  offCtx.putImageData(imageData, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(offscreen, 0, 0, w, h);
 }
