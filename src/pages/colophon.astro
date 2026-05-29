@@ -1,0 +1,105 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="Colophon — Patrick Morgan"
+  description="The tools, stack, and workflow behind this site."
+>
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24">
+    <h1 class="mb-3 text-4xl font-medium tracking-tight sm:text-5xl">Colophon</h1>
+    <p class="mb-16 text-base leading-relaxed text-muted-foreground">
+      What this site is made of and how it gets built. The full story is in{" "}
+      <a
+        href="/writing/how-i-rebuilt-my-portfolio-with-claude-code"
+        class="underline underline-offset-2 transition-colors hover:text-accent"
+      >
+        How I Rebuilt My Portfolio With Claude Code
+      </a>.
+    </p>
+
+    <div class="space-y-12">
+      <div>
+        <p class="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Stack</p>
+        <dl class="space-y-5">
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://astro.build/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Astro v5</a>
+            </dt>
+            <dd class="leading-relaxed">Framework. Ships zero JS by default; content collections enforce schema-validated frontmatter at build time.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Tailwind CSS v4</a>
+            </dt>
+            <dd class="leading-relaxed">Styling. CSS custom properties for theming; OKLCH color tokens for perceptually-uniform light and dark palettes.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">shadcn/ui</a>
+            </dt>
+            <dd class="leading-relaxed">Component library. Base-nova style, built on Radix UI primitives. Themed to match the site's warm, minimal aesthetic.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">React</a>
+            </dt>
+            <dd class="leading-relaxed">Used only where interactivity requires it — the theme toggle, the generative art surfaces, and the local time widget in the footer.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://vercel.com/font" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Geist</a>
+            </dt>
+            <dd class="leading-relaxed">
+              <a href="https://vercel.com/font" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Sans</a> for body,{" "}
+              <a href="https://vercel.com/font?type=mono" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Mono</a> for labels and code,{" "}
+              <a href="https://vercel.com/font?type=pixel" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Pixel</a> for the hero animation. All from Vercel.
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="border-t border-border pt-12">
+        <p class="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">AI Agents</p>
+        <dl class="space-y-5">
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">Claude Code</a>
+            </dt>
+            <dd class="leading-relaxed">AI coding agent for interactive sessions — designing and building features collaboratively in the terminal.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://openai.com/codex" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">OpenAI Codex</a>
+            </dt>
+            <dd class="leading-relaxed">AI coding agent for autonomous background tasks — running longer agentic loops without occupying a terminal session.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="border-t border-border pt-12">
+        <p class="mb-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">Infrastructure</p>
+        <dl class="space-y-5">
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">GitHub Pages</a>
+            </dt>
+            <dd class="leading-relaxed">Static hosting. Free, native to where the code lives.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">GitHub Actions</a>
+            </dt>
+            <dd class="leading-relaxed">Automated deployment on push to <code class="font-mono text-xs">main</code>.</dd>
+          </div>
+          <div class="grid grid-cols-[10rem_1fr] gap-4 text-sm sm:grid-cols-[12rem_1fr]">
+            <dt class="font-mono text-xs text-muted-foreground pt-0.5">
+              <a href="https://github.com/features/issues" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-accent">GitHub Issues</a>
+            </dt>
+            <dd class="leading-relaxed">Task tracking. Every enhancement starts as an issue, gets a plan, ships on a feature branch, and merges via PR.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</PageLayout>

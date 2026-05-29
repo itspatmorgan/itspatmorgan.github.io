@@ -1,24 +1,22 @@
 ---
 import { siteConfig } from "@/data/site-config";
 import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
+import { LocalTime } from "@/components/LocalTime";
 
 const footerPattern = {
-  type: "flow-field",
-  seed: 614,
-  density: 170,
-  steps: 80,
-  scale: 420,
-  curl: -22,
-  strokeWidth: 0.9,
-  opacity: 52,
-  color: "copper",
+  type: "dot-grid",
+  seed: 247,
+  spacing: 16,
+  scale: 340,
+  dotSize: 58,
+  opacity: 30,
+  color: "muted",
 } as const;
 
 const footerLightPattern = {
   ...footerPattern,
-  opacity: 42,
+  opacity: 62,
   color: "bronze",
-  strokeWidth: 1.2,
 } as const;
 ---
 
@@ -78,13 +76,14 @@ const footerLightPattern = {
       </div>
     </div>
     <div class="flex items-center justify-between text-xs text-muted-foreground">
-      <p>&copy; {new Date().getFullYear()} Patrick Morgan</p>
-      <a
-        href="/style-guide"
-        class="px-2 py-1 text-lg text-muted-foreground/40 transition-colors hover:text-foreground"
-      >
-        ✦
-      </a>
+      <div class="flex items-center gap-3">
+        <p>&copy; {new Date().getFullYear()} Patrick Morgan</p>
+        <span class="text-muted-foreground/30">&middot;</span>
+        <a href="/colophon" class="transition-colors hover:text-accent">Colophon</a>
+        <span class="text-muted-foreground/30">&middot;</span>
+        <a href="/style-guide" class="transition-colors hover:text-accent">Style Guide</a>
+      </div>
+      <LocalTime client:load />
     </div>
   </div>
 </footer>
