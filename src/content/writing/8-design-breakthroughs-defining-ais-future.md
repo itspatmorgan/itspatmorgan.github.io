@@ -31,6 +31,8 @@ image: /images/writing/8-design-breakthroughs-defining-ais-future/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/8-design-breakthroughs-defining-ais"
 draft: false
 ---
+Made with Midjourney.
+
 Interface designers are navigating uncharted territory.
 
 For the first time in over a decade, we're facing a truly greenfield space in user experience design. There's no playbook, no established patterns to fall back on. Even the frontier AI labs are learning through experimentation, watching to see what resonates as they introduce new ways to interact.

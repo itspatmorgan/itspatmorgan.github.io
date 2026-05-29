@@ -50,6 +50,11 @@ export const revealMotion: MotionConfig = {
   mode: 'reveal',
 };
 
+export const ambientMotion: MotionConfig = {
+  ...staticMotion,
+  mode: 'ambient',
+};
+
 export function isColorDark(hex: string): boolean {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);

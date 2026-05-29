@@ -31,6 +31,7 @@ image: /images/writing/7-insights-for-navigating-b2b-design/feature.jpg
 canonicalUrl: "https://www.unknownarts.co/p/7-insights-for-navigating-b2b-design"
 draft: false
 ---
+
 Shifting from B2C to B2B software design isn't just a change of audience — it's a whole new playing field.
 
 Today I’ll expand on [my reply to Linear CEO Karri Saarinen’s post](https://twitter.com/itspatmorgan/status/1763655052206711092) on this topic and highlight 7 key insights that helped me navigate the shift in my career.
@@ -59,7 +60,7 @@ Now let’s dig into a few key insights that helped me navigate this landscape.
 
 ## Key Insights
 
-### 1. Frontstage vs. Backstage Customer Service
+### 1\. Frontstage vs. Backstage Customer Service
 
 B2B organizations look different than B2C ones.
 
@@ -80,7 +81,7 @@ In this context, shipping new software to the customer isn’t always the best w
 
 Frontstage and backstage need to work together to deliver a great user experience but it can be tricky because there’s a lot to coordinate. I like to capture these collaborative workflows in [Service Blueprints](https://www.nngroup.com/articles/service-blueprints-definition/), which you can think of as a [user journey](https://www.nngroup.com/articles/journey-mapping-101/) with an added dimension that maps your organization and services onto the user’s journey to visualize how you deliver on their needs from end to end.
 
-### 2. The User vs. The Buyer
+### 2\. The User vs. The Buyer
 
 In consumer software, the person who buys the product tends to be the one who uses it.
 
@@ -99,7 +100,7 @@ Be careful not to neglect either one of these personas. Designers gravitate towa
 
 There are also sometimes third parties (neither the user nor the buyer) who can torpedo the sales process. For instance, a CTO who refuses to integrate your service in their tech stack no matter how good your solution is.
 
-### 3. Long-term Relationships with Clients
+### 3\. Long-term Relationships with Clients
 
 Enterprise software often involves long-term client relationships.
 
@@ -115,7 +116,7 @@ Leaning into the collaborative process of designing and building ***with*** your
 
 It’s pretty much the definition of “win-win.”
 
-### 4. Different "Voices of the Customer"
+### 4\. Different "Voices of the Customer"
 
 As a junior designer, I was taught that design should be the “voice of the customer.”
 
@@ -127,7 +128,7 @@ Instead, I shifted my focus to interpreting the constant flow of feedback coming
 
 Establishing the customer feedback loop from frontstage teams to design opens the product design flywheel. B2B companies have the gift of continuous feedback. Don’t waste it just because you’re hung up on the idea that only design can represent the customer’s needs.
 
-### 5. Qualitative data > Quantitative data
+### 5\. Qualitative data > Quantitative data
 
 Quantitative data can be harder to come by in a B2B context because the number of users tends to be much smaller than B2C. You’re likely working with tens or hundreds of customers rather than thousands or millions.
 
@@ -141,7 +142,7 @@ As I mentioned earlier, B2B environments are rich with qualitative feedback comi
 
 This makes them a surprisingly good place for designers to flex their skills, which tend to be grounded in qualitative methods.
 
-### 6. Compliance Requirements
+### 6\. Compliance Requirements
 
 Enterprise software has stricter requirements for security, compliance, and accessibility.
 
@@ -162,7 +163,7 @@ However, if you accept these as inevitable and create your UI with flexibility a
 
 You might not get the full version of your ideal design, but you don’t have to ship a scary Frankenstein either. I promise.
 
-### 7. High Stakes Changes
+### 7\. High Stakes Changes
 
 The stakes of making changes in B2B software can be very high.
 

@@ -4,7 +4,7 @@ description: Why I skipped Figma and rebuilt my data viz workflow in code instea
 publishedDate: 2025-05-11
 categories:
   - Newsletter
-theme: Design
+theme: AI
 tags:
   - AI
   - Prototyping
@@ -31,6 +31,7 @@ image: /images/writing/how-vibe-coding-improved-my-data-viz-prototypes/feature.j
 canonicalUrl: "https://www.unknownarts.co/p/the-first-time-vibe-coding-actually"
 draft: false
 ---
+
 Not all vibe coding is useful. But sometimes, it actually helps you do the job better, faster.
 
 Over the past year, I explored a lot of AI tooling during my sabbatical, mostly for personal creative work. I was excited but skeptical about the benefits for my professional product design workflow.

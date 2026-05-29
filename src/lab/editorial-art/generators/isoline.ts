@@ -110,7 +110,8 @@ export function drawIsolines(
   ctx.save();
   ctx.globalAlpha = (opacity / 100) * 0.70;
   ctx.strokeStyle = color;
-  ctx.lineWidth = ambient ? strokeWidth * (1 + 0.45 * intensity) : strokeWidth;
+  const scaledStroke = strokeWidth * Math.min(scaleX, scaleY);
+  ctx.lineWidth = ambient ? scaledStroke * (1 + 0.45 * intensity) : scaledStroke;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
