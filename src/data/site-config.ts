@@ -5,9 +5,11 @@ export const siteConfig = {
     "Software designer building AI-powered tools at Sublime Security and writing Unknown Arts — a newsletter for creative builders in the age of AI.",
   url: "https://itspatmorgan.github.io",
   nav: [
-    { label: "Resumé", href: "/resume" },
+    { label: "Home", href: "/" },
     { label: "Writing", href: "/writing" },
     { label: "Lab", href: "/lab" },
+    { label: "Community", href: "/community" },
+    { label: "Resumé", href: "/resume" },
   ],
   social: {
     x: "https://x.com/itspatmorgan",

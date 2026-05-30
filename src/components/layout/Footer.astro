@@ -20,7 +20,7 @@ const footerLightPattern = {
 } as const;
 ---
 
-<footer class="relative overflow-hidden border-t border-border py-16" data-generative-pattern-trigger>
+<footer class="relative overflow-hidden border-t border-border py-6" data-generative-pattern-trigger>
   <GenerativePatternSurface
     name="site-footer"
     config={footerPattern}
@@ -30,60 +30,16 @@ const footerLightPattern = {
     client:visible
   />
   <div class="relative z-10 mx-auto max-w-3xl px-6">
-    <h2 class="mb-3 text-2xl font-medium tracking-tight">Get in touch!</h2>
-    <p class="mb-8 max-w-lg text-sm leading-relaxed text-muted-foreground">
-      Always excited to connect with fellow creators and curious minds.
-    </p>
-    <div class="mb-10">
-      <h3 class="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">Links</h3>
-      <div class="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
-        <a href="/" class="transition-colors hover:text-accent">Home</a>
-        <a
-          href={siteConfig.social.newsletter}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          Newsletter &#8599;
-        </a>
-        <a href="/resume" class="transition-colors hover:text-accent">Resume</a>
-        <a
-          href={siteConfig.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          LinkedIn &#8599;
-        </a>
-        <a href="/writing" class="transition-colors hover:text-accent">Writing</a>
-        <a
-          href={siteConfig.social.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          X &#8599;
-        </a>
-        <a href="/lab" class="transition-colors hover:text-accent">Lab</a>
-        <a
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          GitHub &#8599;
-        </a>
-      </div>
-    </div>
-    <div class="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-center gap-3">
         <p>&copy; {new Date().getFullYear()} Patrick Morgan</p>
         <span class="text-muted-foreground/30">&middot;</span>
         <a href="/colophon" class="transition-colors hover:text-accent">Colophon</a>
-        <span class="text-muted-foreground/30">&middot;</span>
-        <a href="/style-guide" class="transition-colors hover:text-accent">Style Guide</a>
       </div>
-      <LocalTime client:load />
+      {/* Local time: visible on mobile only — sidebar shows it on desktop */}
+      <span class="md:hidden">
+        <LocalTime client:load />
+      </span>
     </div>
   </div>
 </footer>

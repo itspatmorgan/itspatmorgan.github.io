@@ -56,6 +56,10 @@ const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig
       ) {
         document.documentElement.classList.add("dark");
       }
+
+      if (localStorage.getItem("sidebar-collapsed") === "true") {
+        document.documentElement.classList.add("sidebar-collapsed");
+      }
     </script>
   </head>
   <body>

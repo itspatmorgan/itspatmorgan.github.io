@@ -1,0 +1,102 @@
+---
+import { siteConfig } from "@/data/site-config";
+import Logo from "./Logo.astro";
+
+const elsewhere = [
+  { label: "Substack", href: siteConfig.social.newsletter },
+  { label: "LinkedIn", href: siteConfig.social.linkedin },
+  { label: "X", href: siteConfig.social.x },
+  { label: "GitHub", href: siteConfig.social.github },
+];
+---
+
+<div
+  id="mobile-nav"
+  class="fixed inset-0 z-[100] bg-background flex flex-col md:hidden"
+  style="display: none;"
+  aria-modal="true"
+  role="dialog"
+  aria-label="Navigation"
+>
+  {/* Top bar */}
+  <div class="flex h-14 items-center justify-between px-4 border-b border-border shrink-0">
+    <a href="/" class="block no-underline" aria-label="Home">
+      <Logo />
+    </a>
+    <button
+      id="mobile-nav-close"
+      class="h-9 w-9 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+      aria-label="Close navigation"
+    >
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  {/* Main nav */}
+  <nav class="flex-1 flex flex-col justify-center px-8" aria-label="Main navigation">
+    <ul class="flex flex-col">
+      {siteConfig.nav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="block py-4 text-3xl font-medium text-muted-foreground hover:text-foreground transition-colors border-b border-border/50 last:border-0"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  {/* Elsewhere */}
+  <div class="px-8 py-8 border-t border-border shrink-0">
+    <p class="mb-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">Elsewhere</p>
+    <ul class="grid grid-cols-2 gap-x-6 gap-y-3">
+      {elsewhere.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {item.label}
+            <svg class="h-3 w-3 opacity-50 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M7 7h10v10"/>
+            </svg>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script>
+  function initMobileNav() {
+    const toggle = document.getElementById("mobile-nav-toggle");
+    const close = document.getElementById("mobile-nav-close");
+    const nav = document.getElementById("mobile-nav");
+
+    function open() {
+      if (!nav) return;
+      nav.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeNav() {
+      if (!nav) return;
+      nav.style.display = "none";
+      document.body.style.overflow = "";
+    }
+
+    toggle?.addEventListener("click", open);
+    close?.addEventListener("click", closeNav);
+    nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeNav(); });
+  }
+
+  initMobileNav();
+  document.addEventListener("astro:after-swap", initMobileNav);
+</script>

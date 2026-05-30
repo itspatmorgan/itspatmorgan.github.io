@@ -1,23 +1,19 @@
 import { useState, useEffect } from "react";
 
-export function LocalTime() {
-  const [time, setTime] = useState("");
+interface Props {
+  compact?: boolean;
+}
+
+export function LocalTime({ compact = false }: Props) {
+  const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
     const update = () => {
-      setTime(
-        new Date().toLocaleTimeString("en-US", {
-          timeZone: "America/Los_Angeles",
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        })
-      );
+      setNow(new Date());
     };
 
     update();
 
-    // Align subsequent ticks to the top of each minute
     const now = new Date();
     const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
     let intervalId: ReturnType<typeof setInterval>;
@@ -32,7 +28,22 @@ export function LocalTime() {
     };
   }, []);
 
-  if (!time) return null;
+  if (!now) return null;
+
+  const time = now.toLocaleTimeString("en-US", {
+    timeZone: "America/Los_Angeles",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  if (compact) {
+    return (
+      <span className="font-mono text-xs text-muted-foreground tabular-nums whitespace-nowrap">
+        LA&nbsp;&middot;&nbsp;{time}
+      </span>
+    );
+  }
 
   return (
     <span className="font-mono text-xs text-muted-foreground tabular-nums">

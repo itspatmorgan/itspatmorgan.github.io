@@ -1,0 +1,35 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { commendations } from "@/data/commendations";
+---
+
+<PageLayout title="Community — Patrick Morgan" description="Kind words from collaborators, readers, and the design community.">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-8 sm:pt-24">
+    <h1 class="mb-3 text-4xl font-medium tracking-tight sm:text-5xl">Community</h1>
+    <p class="text-lg text-muted-foreground">
+      Showing up for the people and ideas that matter — kind words from collaborators, readers, and the design community.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16">
+    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">Kind Words</h2>
+    <div class="columns-1 gap-4 sm:columns-2">
+      {commendations.map((c) => (
+        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg">
+          <p class="mb-4 font-mono text-[13px] leading-relaxed text-foreground">{c.quote}</p>
+          <footer class="flex items-center gap-3">
+            <img
+              src={c.image}
+              alt={c.name}
+              class="h-8 w-8 shrink-0 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-sm font-medium leading-tight">{c.name}</p>
+              <p class="text-xs text-muted-foreground">{c.role}</p>
+            </div>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </section>
+</PageLayout>
