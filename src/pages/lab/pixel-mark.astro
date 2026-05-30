@@ -14,7 +14,7 @@ const { Content } = await render(entry);
   description={entry.data.description}
   noindex
 >
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-lab-hero style="opacity: 0">
     <a
       href="/lab"
       class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -32,7 +32,7 @@ const { Content } = await render(entry);
   </section>
 
   <!-- Hero display -->
-  <section>
+  <section data-lab-content style="opacity: 0">
     <div class="mx-auto max-w-3xl px-6 pb-16">
       <div class="flex min-h-48 items-center justify-center rounded-lg border border-border bg-card">
         <svg
@@ -77,6 +77,21 @@ const { Content } = await render(entry);
     </div>
   </section>
 </PageLayout>
+
+<script>
+  import { animate } from "motion";
+
+  function init() {
+    const hero = document.querySelector<HTMLElement>("[data-lab-hero]");
+    const content = document.querySelector<HTMLElement>("[data-lab-content]");
+    const spring = { type: "spring" as const, stiffness: 160, damping: 20, mass: 0.8 };
+    if (hero) animate(hero, { opacity: [0, 1], y: [16, 0] }, { ...spring });
+    if (content) animate(content, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.2 });
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>
 
 <style>
   .hero-pixel { fill: var(--color-background); }

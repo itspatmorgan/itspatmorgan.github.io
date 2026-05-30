@@ -518,6 +518,7 @@ export default function EditorialArtTool() {
   const panelContentRef = useRef<HTMLDivElement>(null);
   const panelScrollIdleRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
   const [scale, setScale]             = useState(0.6);
+  const [canvasReady, setCanvasReady] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [exportingStill, setExportingStill] = useState(false);
   const [motionReplayKey, setMotionReplayKey] = useState(0);
@@ -533,6 +534,7 @@ export default function EditorialArtTool() {
       setScale(Math.min((width - 48) / CANVAS_W, (height - 48) / CANVAS_H, 1));
     };
     update();
+    setCanvasReady(true);
     const ro = new ResizeObserver(update);
     if (containerRef.current) ro.observe(containerRef.current);
     return () => ro.disconnect();
@@ -991,6 +993,8 @@ export default function EditorialArtTool() {
             flexShrink: 0,
             boxShadow: '0 2px 24px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06)',
             borderRadius: 2,
+            opacity: canvasReady ? 1 : 0,
+            transition: 'opacity 0.4s ease-out',
           }}
         >
           <ArtCanvas

@@ -110,10 +110,4 @@ export const commendations: Commendation[] = [
     quote:
       "SUPER highly recommend subscribing to @itspatmorgan's newsletter. It's always filled with really insightful nuggets of wisdom about design, entrepreneurship, business and more!",
   },
-  {
-    name: "Ehsan Nour",
-    role: "Product Design @ Eraser",
-    image: "/images/profiles/ehsan.avif",
-    quote: "Patrick turned it up to 11 recently.",
-  },
 ];
