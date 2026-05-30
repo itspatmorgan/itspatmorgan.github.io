@@ -27,14 +27,6 @@ const writingPosts = (await getCollection("writing", ({ data }) => !data.draft))
 const professionalProjects = allProjects
   .filter((p) => p.data.type === "professional")
   .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
-const experimentProjects = allProjects
-  .filter((p) => p.data.type === "experiment")
-  .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
-
-const experimentIcons: Record<string, string> = {
-  "characters": "/images/logos/square-claude.svg",
-  "gpts": "/images/logos/square-chatgpt.svg",
-};
 
 const impactStatements: Record<string, string> = {
   "query-language": "Reduced new users' time to build a custom query from 21 days to 1.",
@@ -161,40 +153,11 @@ const newsletterMotion = {
     </div>
   </section>
 
-  {/* AI Experiments */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
-    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      AI Experiments
-    </h2>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {experimentProjects.map((project, i) => (
-        <div data-project-card-item style="opacity: 0;">
-          <ProjectCard
-            title={project.data.title}
-            description={project.data.description}
-            skills={project.data.skills}
-            thumbnail={project.data.thumbnail}
-            thumbnailDark={project.data.thumbnailDark}
-            slug={project.id}
-            index={i}
-            variant="compact"
-            icon={experimentIcons[project.id]}
-          />
-        </div>
-      ))}
-    </div>
-  </section>
-
   {/* Lab */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
-    <div class="mb-8 flex items-center justify-between gap-6">
-      <h2 class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-        Lab
-      </h2>
-      <a href="/lab" class="text-sm text-muted-foreground transition-colors hover:text-accent">
-        View all &rarr;
-      </a>
-    </div>
+    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+      Lab
+    </h2>
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {labEntries.slice(0, 2).map((entry) => (
         <div data-project-card-item style="opacity: 0;">
@@ -207,6 +170,9 @@ const newsletterMotion = {
           />
         </div>
       ))}
+    </div>
+    <div class="mt-8 flex items-center gap-6 text-sm">
+      <a href="/lab" class="transition-colors hover:text-accent">View all &rarr;</a>
     </div>
   </section>
 
@@ -291,7 +257,7 @@ const newsletterMotion = {
       ))}
     </div>
     <div class="mt-8 flex items-center gap-6 text-sm">
-      <a href="/writing" class="transition-colors hover:text-accent">View all articles &rarr;</a>
+      <a href="/writing" class="transition-colors hover:text-accent">View all &rarr;</a>
     </div>
   </section>
 

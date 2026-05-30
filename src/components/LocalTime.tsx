@@ -14,9 +14,22 @@ export function LocalTime() {
         })
       );
     };
+
     update();
-    const id = setInterval(update, 60_000);
-    return () => clearInterval(id);
+
+    // Align subsequent ticks to the top of each minute
+    const now = new Date();
+    const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+    let intervalId: ReturnType<typeof setInterval>;
+    const timeoutId = setTimeout(() => {
+      update();
+      intervalId = setInterval(update, 60_000);
+    }, msUntilNextMinute);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
   }, []);
 
   if (!time) return null;
