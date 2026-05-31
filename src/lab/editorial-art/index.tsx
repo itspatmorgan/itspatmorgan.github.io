@@ -239,13 +239,15 @@ function initialStateFromUrl(): AppState {
   if (!window.location.search) return state;
   const generator = parseGenerator(params, state.generator);
   const autoTone = params.get('tone') === 'auto' ? currentColorModeTone() : null;
+  const bgColor = bgColorFromParam(params.get('bg'), autoTone?.bgColor ?? state.bgColor);
+  const generatorColor = params.get('color') === null && autoTone ? { color: autoTone.color } : {};
 
   return {
     ...state,
-    bgColor: autoTone?.bgColor ?? bgColorFromParam(params.get('bg'), state.bgColor),
+    bgColor,
     generator: {
       ...generator,
-      ...(autoTone ? { color: autoTone.color } : {}),
+      ...generatorColor,
     } as GeneratorConfig,
     texture: numberParam(params, 'texture', state.texture),
     grain: numberParam(params, 'grain', state.grain),
