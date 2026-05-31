@@ -10,7 +10,6 @@ import {
   resolveLayerColor,
   isColorDark,
   staticMotion,
-  type ThemeId,
   type LayerColor,
   type Composition,
   type GeneratorConfig,
@@ -28,7 +27,6 @@ import {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface AppState {
-  themeId: ThemeId;
   bgColor: string;
   generator: GeneratorConfig;
   texture: number;
@@ -105,10 +103,9 @@ function rf(min: number, max: number, dec = 1): number {
   return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
 }
 
-function defaultState(themeId: ThemeId): AppState {
-  const t = themes[themeId];
+function defaultState(): AppState {
+  const t = themes.ai;
   return {
-    themeId,
     bgColor: t.defaultBgColor,
     generator: { ...t.defaultGenerator },
     texture: t.defaultTexture,
@@ -124,28 +121,12 @@ function defaultState(themeId: ThemeId): AppState {
   };
 }
 
-function themeIdFromParam(value: string | null): ThemeId {
-  if (!value) return 'ai';
-  const normalized = value.toLowerCase().replace(/\s+/g, '-');
-  const matched = Object.values(themes).find((theme) =>
-    theme.id === normalized || theme.label.toLowerCase().replace(/\s+/g, '-') === normalized
-  );
-  return matched?.id ?? 'ai';
-}
-
 function bgColorFromParam(value: string | null, fallback: string): string {
   if (value === 'paper') return brand.paper;
   if (value === 'off-white') return brand.offWhite;
   if (value === 'warm-dark-gray' || value === 'dark') return brand.warmDarkGray;
   if (value && /^#[0-9a-f]{6}$/i.test(value)) return value;
   return fallback;
-}
-
-function currentColorModeTone(): { bgColor: string; color: LayerColor } {
-  const dark = document.documentElement.classList.contains('dark');
-  return dark
-    ? { bgColor: brand.warmDarkGray, color: 'copper' }
-    : { bgColor: brand.paper, color: 'bronze' };
 }
 
 function numberParam(params: URLSearchParams, key: string, fallback: number): number {
@@ -232,23 +213,16 @@ function parseGenerator(params: URLSearchParams, fallback: GeneratorConfig): Gen
 }
 
 function initialStateFromUrl(): AppState {
-  if (typeof window === 'undefined') return defaultState('ai');
+  if (typeof window === 'undefined') return defaultState();
   const params = new URLSearchParams(window.location.search);
-  const themeId = themeIdFromParam(params.get('theme'));
-  const state = defaultState(themeId);
+  const state = defaultState();
   if (!window.location.search) return state;
   const generator = parseGenerator(params, state.generator);
-  const autoTone = params.get('tone') === 'auto' ? currentColorModeTone() : null;
-  const bgColor = bgColorFromParam(params.get('bg'), autoTone?.bgColor ?? state.bgColor);
-  const generatorColor = params.get('color') === null && autoTone ? { color: autoTone.color } : {};
 
   return {
     ...state,
-    bgColor,
-    generator: {
-      ...generator,
-      ...generatorColor,
-    } as GeneratorConfig,
+    bgColor: bgColorFromParam(params.get('bg'), state.bgColor),
+    generator,
     texture: numberParam(params, 'texture', state.texture),
     grain: numberParam(params, 'grain', state.grain),
     motion: parseMotion(params, state.motion),
@@ -544,14 +518,6 @@ export default function EditorialArtTool() {
 
   const set = useCallback((patch: Partial<AppState>) => {
     setState((prev) => {
-      if (patch.themeId && patch.themeId !== prev.themeId) {
-        return {
-          ...defaultState(patch.themeId),
-          title: prev.title, slug: prev.slug,
-          slugEdited: prev.slugEdited, showText: prev.showText,
-          motion: prev.motion,
-        };
-      }
       return { ...prev, ...patch };
     });
   }, []);
