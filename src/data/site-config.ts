@@ -6,6 +6,7 @@ export const siteConfig = {
   url: "https://itspatmorgan.github.io",
   nav: [
     { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
     { label: "Work", href: "/work" },
     { label: "Lab", href: "/lab" },
     { label: "Writing", href: "/writing" },

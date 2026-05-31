@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from "@/data/site-config";
 import Logo from "./Logo.astro";
-import { FileText, FlaskConical, Globe2, House, PenLine, UsersRound } from "lucide-react";
+import { FileText, FlaskConical, Globe2, House, PenLine, UserRound, UsersRound } from "lucide-react";
 
 const currentPath = Astro.url.pathname;
 
@@ -15,6 +15,11 @@ const navItems = [
     label: "Home",
     href: "/",
     Icon: House,
+  },
+  {
+    label: "About",
+    href: "/about",
+    Icon: UserRound,
   },
   {
     label: "Work",
