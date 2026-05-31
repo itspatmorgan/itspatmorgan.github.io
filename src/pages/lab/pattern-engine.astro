@@ -1,20 +1,20 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/layout/Header.astro';
-import EditorialArtTool from '@/lab/editorial-art/index';
+import PatternEngine from '@/lab/editorial-art/index';
 import { getCollection } from "astro:content";
 
-const entry = (await getCollection("lab")).find((item) => item.data.slug === "editorial-art");
+const entry = (await getCollection("lab")).find((item) => item.data.slug === "pattern-engine");
 ---
 
 <BaseLayout
-  title={`${entry?.data.title ?? "Editorial Art Tool"} — Patrick Morgan`}
-  description={entry?.data.description ?? "Generate editorial feature images for Unknown Arts articles."}
+  title={`${entry?.data.title ?? "Pattern Engine"} — Patrick Morgan`}
+  description={entry?.data.description ?? "Generate deterministic visual patterns for Unknown Arts articles and publishing assets."}
   noindex
 >
   <Header />
   <div class="lab-tool-fade">
-    <EditorialArtTool client:load />
+    <PatternEngine client:load />
   </div>
 </BaseLayout>
 
