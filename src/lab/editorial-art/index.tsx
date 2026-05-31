@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { toPng } from 'html-to-image';
-import { ChevronDown, Download, RefreshCw, SlidersHorizontal, X } from 'lucide-react';
+import { ChevronDown, RefreshCw, SlidersHorizontal, X } from 'lucide-react';
 import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
@@ -932,26 +932,28 @@ export default function EditorialArtTool() {
             )}
               </PanelSection>
 
-              <PanelSection title="Export">
-            <input
-              type="text"
-              value={state.slugEdited ? state.slug : defaultFilename(generator)}
-              onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
-              placeholder={defaultFilename(generator)}
-              className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 font-mono text-[12px] text-foreground placeholder:text-muted-foreground/35 focus:border-border focus:bg-background focus:outline-none"
-            />
-            <button
-              type="button"
-              onClick={handleDownload}
-              disabled={downloading}
-              className="w-full cursor-pointer rounded-md bg-foreground py-2 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {downloading ? 'Generating…' : 'Download PNG'}
-            </button>
-            <p className="font-mono text-[10px] text-muted-foreground/60">
-              1200 × 630 PNG
-            </p>
-              </PanelSection>
+              <div className="hidden md:block">
+                <PanelSection title="Export">
+                  <input
+                    type="text"
+                    value={state.slugEdited ? state.slug : defaultFilename(generator)}
+                    onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
+                    placeholder={defaultFilename(generator)}
+                    className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 font-mono text-[12px] text-foreground placeholder:text-muted-foreground/35 focus:border-border focus:bg-background focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleDownload}
+                    disabled={downloading}
+                    className="w-full cursor-pointer rounded-md bg-foreground py-2 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {downloading ? 'Generating…' : 'Download PNG'}
+                  </button>
+                  <p className="font-mono text-[10px] text-muted-foreground/60">
+                    1200 × 630 PNG
+                  </p>
+                </PanelSection>
+              </div>
             </div>
           </div>
 
@@ -1006,7 +1008,7 @@ export default function EditorialArtTool() {
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 px-3 py-2 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 px-6 py-2 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
         <div className="flex items-center gap-2">
           <div className="min-w-0 flex-1">
             <p className="truncate font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
@@ -1020,15 +1022,6 @@ export default function EditorialArtTool() {
           >
             <SlidersHorizontal className="size-3.5" strokeWidth={2} />
             Controls
-          </button>
-          <button
-            type="button"
-            onClick={handleDownload}
-            disabled={downloading}
-            aria-label="Download PNG"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-foreground text-background disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Download className="size-4" strokeWidth={2} />
           </button>
         </div>
       </div>
