@@ -60,6 +60,8 @@ export interface UseGenerativeCanvasOptions {
   motion?: MotionConfig;
   duration?: number;   // animation duration in ms (default 2500)
   transparentBackground?: boolean;
+  width?: number;
+  height?: number;
 }
 
 export function useGenerativeCanvas(
@@ -71,6 +73,8 @@ export function useGenerativeCanvas(
   const motion = opts?.motion ?? staticMotion;
   const duration = opts?.duration ?? 2500;
   const transparentBackground = opts?.transparentBackground ?? false;
+  const explicitWidth = opts?.width;
+  const explicitHeight = opts?.height;
 
   // Regenerate data only when structural params change
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,22 +165,36 @@ export function useGenerativeCanvas(
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const resizeCanvas = (width: number, height: number) => {
+      if (width === 0 || height === 0) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      redraw(renderRef.current);
+    };
+
+    if (explicitWidth && explicitHeight) {
+      canvas.width = explicitWidth;
+      canvas.height = explicitHeight;
+      redraw(renderRef.current);
+      return;
+    }
+
+    const rect = canvas.getBoundingClientRect();
+    resizeCanvas(rect.width, rect.height);
+
     const ro = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width, height } = entry.contentRect;
-        if (width === 0 || height === 0) continue;
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.round(width * dpr);
-        canvas.height = Math.round(height * dpr);
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-        redraw(renderRef.current);
+        resizeCanvas(width, height);
       }
     });
 
     ro.observe(canvas);
     return () => ro.disconnect();
-  }, [redraw]);
+  }, [explicitHeight, explicitWidth, redraw]);
 
   return { canvasRef };
 }

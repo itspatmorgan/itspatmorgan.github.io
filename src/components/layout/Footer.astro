@@ -1,44 +1,20 @@
 ---
-import { siteConfig } from "@/data/site-config";
-import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
 import { LocalTime } from "@/components/LocalTime";
-
-const footerPattern = {
-  type: "dot-grid",
-  seed: 247,
-  spacing: 16,
-  scale: 340,
-  dotSize: 58,
-  opacity: 30,
-  color: "muted",
-} as const;
-
-const footerLightPattern = {
-  ...footerPattern,
-  opacity: 62,
-  color: "bronze",
-} as const;
 ---
 
-<footer class="relative overflow-hidden border-t border-border py-6" data-generative-pattern-trigger>
-  <GenerativePatternSurface
-    name="site-footer"
-    config={footerPattern}
-    lightConfig={footerLightPattern}
-    duration={3200}
-    className="absolute inset-0 opacity-35 mix-blend-multiply [mask-image:linear-gradient(to_bottom,transparent_0%,black_28%,black_100%)] dark:opacity-45 dark:mix-blend-screen"
-    client:visible
-  />
-  <div class="relative z-10 mx-auto max-w-3xl px-6">
-    <div class="flex flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-      <div class="flex items-center gap-3">
-        <p>&copy; {new Date().getFullYear()} Patrick Morgan</p>
-        <span class="text-muted-foreground/30">&middot;</span>
-        <a href="/colophon" class="transition-colors hover:text-accent">Colophon</a>
-      </div>
-      {/* Local time: visible on mobile only — sidebar shows it on desktop */}
+<footer class="py-8 sm:py-10">
+  <div class="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 sm:px-8 lg:px-14">
+    <a
+      href="/colophon"
+      class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60 transition-colors hover:text-foreground"
+    >
+      Colophon
+    </a>
+    <div class="flex items-center gap-3 whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+      <span>&copy; {new Date().getFullYear()}</span>
+      {/* Sidebar already shows local time on desktop. */}
       <span class="md:hidden">
-        <LocalTime client:load />
+        <LocalTime compact client:load />
       </span>
     </div>
   </div>

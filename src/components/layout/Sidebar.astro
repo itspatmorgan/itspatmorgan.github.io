@@ -1,8 +1,6 @@
 ---
 import { siteConfig } from "@/data/site-config";
 import Logo from "./Logo.astro";
-import { ThemeToggle } from "./ThemeToggle";
-import { LocalTime } from "@/components/LocalTime";
 import { FileText, FlaskConical, Globe2, House, PenLine, UsersRound } from "lucide-react";
 
 const currentPath = Astro.url.pathname;
@@ -19,9 +17,9 @@ const navItems = [
     Icon: House,
   },
   {
-    label: "Writing",
-    href: "/writing",
-    Icon: PenLine,
+    label: "Work",
+    href: "/work",
+    Icon: FileText,
   },
   {
     label: "Lab",
@@ -29,14 +27,14 @@ const navItems = [
     Icon: FlaskConical,
   },
   {
+    label: "Writing",
+    href: "/writing",
+    Icon: PenLine,
+  },
+  {
     label: "Community",
     href: "/community",
     Icon: UsersRound,
-  },
-  {
-    label: "Resumé",
-    href: "/resume",
-    Icon: FileText,
   },
 ];
 
@@ -74,7 +72,7 @@ const elsewhere = [
       aria-label="Toggle sidebar"
       title="Toggle sidebar"
     >
-      <Logo class="h-8 w-8" />
+      <Logo interaction="sidebar-toggle" class="h-8 w-8" />
     </button>
     <div class="identity-text min-w-0">
       <p class="text-sm font-medium leading-tight whitespace-nowrap">Patrick Morgan</p>
@@ -142,11 +140,32 @@ const elsewhere = [
       </button>
 
       <div id="sidebar-bottom" class="mt-2 flex items-center justify-between shrink-0">
-        <div id="sidebar-time-text">
-          <LocalTime compact client:load />
+        <div id="sidebar-time-text" class="font-mono text-xs text-muted-foreground tabular-nums whitespace-nowrap" aria-live="polite">
+          LA&nbsp;&middot;&nbsp;<span id="sidebar-local-time">--:--</span>
         </div>
         <div id="sidebar-toggle" class="flex h-8 w-8 items-center justify-center">
-          <ThemeToggle client:load />
+          <button
+            id="sidebar-theme-toggle"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground"
+            type="button"
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
+          >
+            <svg class="theme-icon-moon h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401z"></path>
+            </svg>
+            <svg class="theme-icon-sun hidden h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -311,6 +330,12 @@ const elsewhere = [
     height: 18px;
     width: 18px;
   }
+  html.dark #sidebar-theme-toggle .theme-icon-moon {
+    display: none;
+  }
+  html.dark #sidebar-theme-toggle .theme-icon-sun {
+    display: block;
+  }
   #elsewhere-rollup-btn {
     position: absolute;
     top: 12px;
@@ -336,83 +361,20 @@ const elsewhere = [
     opacity: 1;
   }
 
-  /* ── Pixel mark: lock fill, animate transforms ──────
-     The Logo has fill transitions and hover color changes.
-     Inside the collapse button, we suppress fill changes
-     and instead animate the pixel geometry.               */
-
-  /* Always lock colors — override Logo hover fill change */
-  #sidebar-collapse-btn .logo-bg {
-    fill: var(--color-secondary) !important;
-    transition: none !important;
-  }
-  #sidebar-collapse-btn .logo-pixel {
-    fill: var(--color-secondary-foreground) !important;
-  }
-
-  /* After pixel-in animation completes, enable transform transitions.
-     Class .pixels-ready is added by JS after 800ms.
-     Using !important to override Logo's scoped animation declaration. */
-  #sidebar-collapse-btn.pixels-ready .logo-pixel {
-    animation: none !important;
-    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 180ms ease !important;
-  }
-
-  /* ── Chevron transforms on hover ────────────────────
-
-     Braille P positions:
-       P1 (8,4.5)   P2 (15,4.5)
-       P3 (8,11.5)
-       P4 (8,18.5)
-
-     Expanded hover → will collapse → ‹
-       P1 → (15,4.5)  : translate(+7, 0)
-       P2 → (8,11.5)  : translate(-7, +7)
-       P3 → (15,18.5) : translate(+7, +7)
-       P4 → fade out
-
-     Collapsed hover → will expand → ›
-       P1 → stays
-       P2 → (15,11.5) : translate(0, +7)
-       P3 → (8,18.5)  : translate(0, +7)
-       P4 → fade out                                    */
-
-  #sidebar:not(.is-collapsed) #sidebar-collapse-btn:hover .logo-pixel-1 { transform: translate(7px, 0); }
-  #sidebar:not(.is-collapsed) #sidebar-collapse-btn:hover .logo-pixel-2 { transform: translate(-7px, 7px); }
-  #sidebar:not(.is-collapsed) #sidebar-collapse-btn:hover .logo-pixel-3 { transform: translate(7px, 7px); }
-  #sidebar:not(.is-collapsed) #sidebar-collapse-btn:hover .logo-pixel-4 { opacity: 0; }
-
-  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #sidebar-collapse-btn:hover .logo-pixel-2 { transform: translate(0, 7px); }
-  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #sidebar-collapse-btn:hover .logo-pixel-3 { transform: translate(0, 7px); }
-  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #sidebar-collapse-btn:hover .logo-pixel-4 { opacity: 0; }
 </style>
 
 <script>
-  const COLLAPSED_WIDTH = "4rem";
-
-  function getExpandedWidth() {
-    return window.innerWidth >= 1024 ? "15rem" : "14rem";
-  }
-
   function applyCollapsed(sidebar: HTMLElement, collapsed: boolean) {
     const elsewhereGroup = sidebar.querySelector(".elsewhere-group") as HTMLElement | null;
     const rollupBtn = sidebar.querySelector("#elsewhere-rollup-btn") as HTMLButtonElement | null;
+    const mark = sidebar.querySelector<SVGElement>(".logo-sidebar-toggle");
 
-    sidebar.style.width = collapsed ? COLLAPSED_WIDTH : getExpandedWidth();
+    sidebar.style.removeProperty("width");
     document.documentElement.classList.toggle("sidebar-collapsed", collapsed);
     sidebar.classList.toggle("is-collapsed", collapsed);
+    if (mark) mark.dataset.toggleDirection = collapsed ? "expand" : "collapse";
     elsewhereGroup?.toggleAttribute("inert", collapsed);
     if (rollupBtn) rollupBtn.tabIndex = collapsed ? 0 : -1;
-  }
-
-  function enablePixelTransitions(btn: HTMLElement) {
-    // Pixel-in animation: longest pixel has 300ms delay + 400ms duration = 700ms total.
-    // After 800ms we add .pixels-ready, which cancels the animation via CSS !important
-    // and enables smooth CSS transform transitions for the hover chevron effect.
-    setTimeout(() => {
-      btn.classList.add("pixels-ready");
-    }, 800);
   }
 
   function initSidebar() {
@@ -454,9 +416,62 @@ const elsewhere = [
       if (event.key === "Escape") setRollupOpen(false);
     });
 
-    enablePixelTransitions(btn);
+  }
+
+  function initSidebarFooterControls() {
+    const time = document.getElementById("sidebar-local-time");
+    const themeToggle = document.getElementById("sidebar-theme-toggle") as HTMLButtonElement | null;
+    if (!time || !themeToggle) return;
+    if (themeToggle.dataset.themeInitialized === "true") return;
+    themeToggle.dataset.themeInitialized = "true";
+
+    function updateTime() {
+      time.textContent = new Date().toLocaleTimeString("en-US", {
+        timeZone: "America/Los_Angeles",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+
+    function updateThemeLabel() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const next = isDark ? "light" : "dark";
+      themeToggle.setAttribute("aria-label", `Switch to ${next} mode`);
+      themeToggle.setAttribute("title", `Switch to ${next} mode`);
+    }
+
+    updateTime();
+    updateThemeLabel();
+
+    const now = new Date();
+    const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+    window.setTimeout(() => {
+      updateTime();
+      window.setInterval(updateTime, 60_000);
+    }, msUntilNextMinute);
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const next = isDark ? "light" : "dark";
+
+      const apply = () => {
+        document.documentElement.classList.toggle("dark", next === "dark");
+        localStorage.setItem("theme", next);
+        updateThemeLabel();
+      };
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduced && "startViewTransition" in document) {
+        (document as Document & { startViewTransition: (cb: () => void) => void }).startViewTransition(apply);
+      } else {
+        apply();
+      }
+    });
   }
 
   initSidebar();
+  initSidebarFooterControls();
   document.addEventListener("astro:after-swap", initSidebar);
+  document.addEventListener("astro:after-swap", initSidebarFooterControls);
 </script>

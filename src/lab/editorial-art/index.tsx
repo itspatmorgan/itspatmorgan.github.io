@@ -149,6 +149,7 @@ function currentColorModeTone(): { bgColor: string; color: LayerColor } {
 }
 
 function numberParam(params: URLSearchParams, key: string, fallback: number): number {
+  if (!params.has(key)) return fallback;
   const value = Number(params.get(key));
   return Number.isFinite(value) ? value : fallback;
 }
@@ -661,7 +662,7 @@ export default function EditorialArtTool() {
   const { generator, bgColor } = state;
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
+    <div data-editorial-art-tool className="flex h-[calc(100vh-3.5rem)] overflow-hidden md:h-screen">
 
       {/* ── Left control panel ──────────────────────────────────────────────── */}
       <div

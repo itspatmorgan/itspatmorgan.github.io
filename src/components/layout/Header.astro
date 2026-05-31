@@ -1,6 +1,5 @@
 ---
 import Logo from "./Logo.astro";
-import { ThemeToggle } from "./ThemeToggle";
 ---
 
 <header class="md:hidden sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
@@ -9,7 +8,28 @@ import { ThemeToggle } from "./ThemeToggle";
       <Logo />
     </a>
     <div class="flex items-center gap-1">
-      <ThemeToggle client:load />
+      <button
+        id="mobile-theme-toggle"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
+        type="button"
+        aria-label="Toggle color theme"
+        title="Toggle color theme"
+      >
+        <svg class="theme-icon-moon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401z"></path>
+        </svg>
+        <svg class="theme-icon-sun hidden h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m6.34 17.66-1.41 1.41"></path>
+          <path d="m19.07 4.93-1.41 1.41"></path>
+        </svg>
+      </button>
       <button
         id="mobile-nav-toggle"
         class="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
@@ -24,3 +44,51 @@ import { ThemeToggle } from "./ThemeToggle";
     </div>
   </div>
 </header>
+
+<style is:global>
+  html.dark #mobile-theme-toggle .theme-icon-moon {
+    display: none;
+  }
+  html.dark #mobile-theme-toggle .theme-icon-sun {
+    display: block;
+  }
+</style>
+
+<script>
+  function initMobileThemeToggle() {
+    const themeToggle = document.getElementById("mobile-theme-toggle") as HTMLButtonElement | null;
+    if (!themeToggle) return;
+    if (themeToggle.dataset.themeInitialized === "true") return;
+    themeToggle.dataset.themeInitialized = "true";
+
+    function updateThemeLabel() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const next = isDark ? "light" : "dark";
+      themeToggle.setAttribute("aria-label", `Switch to ${next} mode`);
+      themeToggle.setAttribute("title", `Switch to ${next} mode`);
+    }
+
+    updateThemeLabel();
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const next = isDark ? "light" : "dark";
+
+      const apply = () => {
+        document.documentElement.classList.toggle("dark", next === "dark");
+        localStorage.setItem("theme", next);
+        updateThemeLabel();
+      };
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduced && "startViewTransition" in document) {
+        (document as Document & { startViewTransition: (cb: () => void) => void }).startViewTransition(apply);
+      } else {
+        apply();
+      }
+    });
+  }
+
+  initMobileThemeToggle();
+  document.addEventListener("astro:after-swap", initMobileThemeToggle);
+</script>

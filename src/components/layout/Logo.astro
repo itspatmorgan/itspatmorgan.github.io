@@ -1,8 +1,16 @@
 ---
 interface Props {
   class?: string;
+  interaction?: "cycle" | "sidebar-toggle";
+  trigger?: "self" | "container";
+  toggleDirection?: "collapse" | "expand";
 }
-const { class: className } = Astro.props;
+const {
+  class: className,
+  interaction = "cycle",
+  trigger = "self",
+  toggleDirection = "collapse",
+} = Astro.props;
 ---
 
 <svg
@@ -11,7 +19,8 @@ const { class: className } = Astro.props;
   height="28"
   width="28"
   aria-label="Patrick Morgan"
-  class:list={["logo-root", className]}
+  class:list={["logo-root", `logo-${interaction}`, `logo-trigger-${trigger}`, className]}
+  data-toggle-direction={interaction === "sidebar-toggle" ? toggleDirection : undefined}
 >
   <style>
     .logo-bg {
@@ -21,22 +30,56 @@ const { class: className } = Astro.props;
     .logo-pixel {
       fill: var(--color-secondary-foreground);
       transition: fill 0.5s ease;
+      transform-box: fill-box;
+      transform-origin: center;
     }
-    .logo-pixel-1 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1)   0ms both; transform-origin: 10.5px  7px; }
-    .logo-pixel-2 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 100ms both; transform-origin: 17.5px  7px; }
-    .logo-pixel-3 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 200ms both; transform-origin: 10.5px 14px; }
-    .logo-pixel-4 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both; transform-origin: 10.5px 21px; }
+    .logo-pixel-1 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1)   0ms both; }
+    .logo-pixel-2 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 100ms both; }
+    .logo-pixel-3 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 200ms both; }
+    .logo-pixel-4 { animation: pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both; }
 
     @keyframes pixel-in {
       from { opacity: 0; transform: scale(0); }
       to   { opacity: 1; transform: scale(1); }
     }
 
-    .logo-root:hover .logo-bg  { fill: var(--color-accent); }
-    .logo-root:hover .logo-pixel { fill: var(--color-accent-foreground); }
+    @keyframes pixel-cycle {
+      0%, 18%, 100% { opacity: 1; transform: scale(1); }
+      42%           { opacity: 0; transform: scale(0); }
+      66%           { opacity: 1; transform: scale(1); }
+    }
+
+    :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-bg {
+      fill: var(--color-accent);
+    }
+    :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-pixel {
+      fill: var(--color-accent-foreground);
+      animation: pixel-cycle 1.1s cubic-bezier(0.16,1,0.3,1) infinite both;
+    }
+    :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-pixel-1 { animation-delay:   0ms; }
+    :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-pixel-2 { animation-delay: 110ms; }
+    :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-pixel-3 { animation-delay: 220ms; }
+    :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-pixel-4 { animation-delay: 330ms; }
+
+    .logo-sidebar-toggle.is-interaction-ready .logo-pixel {
+      animation: none;
+      transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 180ms ease;
+    }
+
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="collapse"]:hover .logo-pixel-1 { transform: translate(7px, 0); }
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="collapse"]:hover .logo-pixel-2 { transform: translate(-7px, 7px); }
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="collapse"]:hover .logo-pixel-3 { transform: translate(7px, 7px); }
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="collapse"]:hover .logo-pixel-4 { opacity: 0; }
+
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="expand"]:hover .logo-pixel-2 { transform: translate(0, 7px); }
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="expand"]:hover .logo-pixel-3 { transform: translate(0, 7px); }
+    .logo-sidebar-toggle.is-interaction-ready[data-toggle-direction="expand"]:hover .logo-pixel-4 { opacity: 0; }
 
     @media (prefers-reduced-motion: reduce) {
-      .logo-pixel-1, .logo-pixel-2, .logo-pixel-3, .logo-pixel-4 { animation: none; }
+      .logo-pixel-1, .logo-pixel-2, .logo-pixel-3, .logo-pixel-4,
+      :is(.logo-cycle.logo-trigger-self:hover, [data-logo-cycle-trigger]:hover .logo-cycle.logo-trigger-container) .logo-pixel { animation: none; }
+      .logo-sidebar-toggle.is-interaction-ready .logo-pixel { transition: none; }
     }
   </style>
 
@@ -46,3 +89,16 @@ const { class: className } = Astro.props;
   <rect class="logo-pixel logo-pixel-3" x="8"  y="11.5" width="5" height="5" rx="0.6"/>
   <rect class="logo-pixel logo-pixel-4" x="8"  y="18.5" width="5" height="5" rx="0.6"/>
 </svg>
+
+<script>
+  function initLogoInteractions() {
+    document.querySelectorAll<SVGElement>(".logo-sidebar-toggle").forEach((mark) => {
+      if (mark.dataset.interactionInitialized === "true") return;
+      mark.dataset.interactionInitialized = "true";
+      window.setTimeout(() => mark.classList.add("is-interaction-ready"), 800);
+    });
+  }
+
+  initLogoInteractions();
+  document.addEventListener("astro:after-swap", initLogoInteractions);
+</script>

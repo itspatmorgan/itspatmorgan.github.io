@@ -153,7 +153,7 @@ const generatedToolHref = visualToolHref(visual, theme);
     {visual && (
       <figure class="mb-12">
         <div class="relative aspect-[1200/630] overflow-hidden rounded-lg border border-border bg-card">
-          <LiveEditorialVisual visual={visual} client:load />
+          <LiveEditorialVisual visual={visual} client:only="react" />
         </div>
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
           {generatedCaption} · generated with the{" "}

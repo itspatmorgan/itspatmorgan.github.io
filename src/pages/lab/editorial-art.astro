@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/layout/Header.astro';
+import MobileNav from '@/components/layout/MobileNav.astro';
+import Sidebar from '@/components/layout/Sidebar.astro';
 import EditorialArtTool from '@/lab/editorial-art/index';
 import { getCollection } from "astro:content";
 
@@ -13,8 +15,14 @@ const entry = (await getCollection("lab")).find((item) => item.data.slug === "ed
   noindex
 >
   <Header />
-  <div class="lab-tool-fade">
-    <EditorialArtTool client:load />
+  <MobileNav />
+  <div class="md:flex md:min-h-screen">
+    <Sidebar />
+    <main class="min-w-0 flex-1">
+      <div class="lab-tool-fade">
+        <EditorialArtTool client:only="react" />
+      </div>
+    </main>
   </div>
 </BaseLayout>
 

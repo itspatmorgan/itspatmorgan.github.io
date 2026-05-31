@@ -1,5 +1,7 @@
 import { pixelWave } from "./pixel-wave";
 
+// ── Pixel Wave preview ─────────────────────────────────────
+
 function resetWave(container: HTMLElement) {
   container.querySelectorAll<HTMLElement>("[data-pw-char]").forEach((wrapper) => {
     const pixel = wrapper.querySelector<HTMLElement>("[data-pw-pixel]");
@@ -20,7 +22,7 @@ function resolveWave(container: HTMLElement) {
   });
 }
 
-function initLabPreviews() {
+function initPixelWavePreviews() {
   const previewWaves = document.querySelectorAll<HTMLElement>('[data-pixel-wave="preview-pixel-wave"]');
   previewWaves.forEach((container) => {
     if (container.dataset.previewReady === "true") return;
@@ -40,6 +42,12 @@ function initLabPreviews() {
       }, duration);
     });
   });
+}
+
+// ── Init ───────────────────────────────────────────────────
+
+function initLabPreviews() {
+  initPixelWavePreviews();
 }
 
 initLabPreviews();
