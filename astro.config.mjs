@@ -42,6 +42,9 @@ function rehypeFigure() {
 export default defineConfig({
   site: 'https://itspatmorgan.com',
   output: 'static',
+  devToolbar: {
+    enabled: false,
+  },
   integrations: [react(), mdx()],
   markdown: {
     rehypePlugins: [rehypeFigure],
