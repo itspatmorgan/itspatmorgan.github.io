@@ -3,7 +3,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import LabCard from "@/components/lab/LabCard.astro";
 import { getCollection } from "astro:content";
 
-const preferredOrder = ["pixel-mark", "editorial-art", "pixel-wave"];
+const preferredOrder = ["pixel-mark", "pattern-engine", "pixel-wave"];
 const entries = (await getCollection("lab", ({ data }) => !data.draft))
   .sort((a, b) => {
     const aIndex = preferredOrder.indexOf(a.data.slug);

@@ -65,7 +65,7 @@ function addParam(params: URLSearchParams, key: string, value: unknown): void {
 }
 
 function visualToolHref(visual: Props["visual"], articleTheme: string | undefined): string {
-  if (!visual) return "/lab/editorial-art";
+  if (!visual) return "/lab/pattern-engine";
   const generator = visual.generator;
   const params = new URLSearchParams();
 
@@ -103,7 +103,7 @@ function visualToolHref(visual: Props["visual"], articleTheme: string | undefine
   }
 
   const query = params.toString();
-  return query ? `/lab/editorial-art?${query}` : "/lab/editorial-art";
+  return query ? `/lab/pattern-engine?${query}` : "/lab/pattern-engine";
 }
 
 const generatedCaption = visualCaption(visual);
@@ -158,7 +158,7 @@ const generatedToolHref = visualToolHref(visual, theme);
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
           {generatedCaption} · generated with the{" "}
           <a href={generatedToolHref} class="underline underline-offset-4 transition-colors hover:text-foreground">
-            Editorial Art Tool
+            Pattern Engine
           </a>
         </figcaption>
       </figure>

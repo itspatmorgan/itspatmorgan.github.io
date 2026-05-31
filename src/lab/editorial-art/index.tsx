@@ -672,8 +672,8 @@ export default function EditorialArtTool() {
         <div className="shrink-0 border-b border-border px-5 py-5">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <p className="text-base font-medium text-foreground leading-tight">Editorial Art Tool</p>
-              <p className="mt-1 text-xs text-muted-foreground leading-snug">Generative feature images for my articles.</p>
+              <p className="text-base font-medium text-foreground leading-tight">Pattern Engine</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-snug">Generative patterns for articles and publishing assets.</p>
             </div>
             <button
               type="button"

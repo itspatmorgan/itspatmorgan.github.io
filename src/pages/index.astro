@@ -12,7 +12,7 @@ import { commendations } from "@/data/commendations";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
-const preferredLabOrder = ["editorial-art", "pixel-wave"];
+const preferredLabOrder = ["pattern-engine", "pixel-wave"];
 const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
   .sort((a, b) => {
     const aIndex = preferredLabOrder.indexOf(a.data.slug);
