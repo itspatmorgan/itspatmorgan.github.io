@@ -120,6 +120,10 @@ function defaultState(): AppState {
   };
 }
 
+function defaultFilename(generator: GeneratorConfig): string {
+  return `${generator.type}-${generator.seed}`;
+}
+
 function bgColorFromParam(value: string | null, fallback: string): string {
   if (value === 'paper') return brand.paper;
   if (value === 'off-white') return brand.offWhite;
@@ -617,14 +621,14 @@ export default function EditorialArtTool() {
       await document.fonts.ready;
       const dataUrl = await toPng(canvasRef.current, { pixelRatio: 2 });
       const a = document.createElement('a');
-      a.download = `${state.slug || 'feature'}-feature.png`;
+      a.download = `${state.slug || defaultFilename(state.generator)}.png`;
       a.href = dataUrl;
       a.click();
     } finally {
       setExportingStill(false);
       setDownloading(false);
     }
-  }, [state.slug]);
+  }, [state.generator, state.slug]);
 
   const { generator, bgColor } = state;
 
@@ -643,7 +647,7 @@ export default function EditorialArtTool() {
       {/* ── Left control panel ──────────────────────────────────────────────── */}
       <div
         className={[
-          'fixed inset-x-0 bottom-0 z-50 flex h-[82vh] min-h-0 w-full flex-col rounded-t-lg border-t border-border bg-background shadow-2xl transition-transform duration-200 md:static md:z-auto md:h-auto md:w-[340px] md:min-w-[340px] md:translate-y-0 md:rounded-none md:border-r md:border-t-0 md:shadow-none',
+          'fixed inset-x-3 bottom-0 top-20 z-50 flex min-h-0 flex-col rounded-t-xl border border-b-0 border-border bg-background shadow-2xl transition-transform duration-200 md:static md:z-auto md:h-auto md:w-[340px] md:min-w-[340px] md:translate-y-0 md:rounded-none md:border-r md:border-t-0 md:border-l-0 md:shadow-none',
           mobileControlsOpen ? 'translate-y-0' : 'translate-y-full',
         ].join(' ')}
       >
@@ -652,7 +656,7 @@ export default function EditorialArtTool() {
           <div className="flex items-start justify-between gap-2">
             <div>
               <p className="text-base font-medium text-foreground leading-tight">Pattern Engine</p>
-              <p className="mt-1 text-xs text-muted-foreground leading-snug">Generative patterns for articles and publishing assets.</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-snug">Patterns for publishing assets.</p>
             </div>
             <div className="flex shrink-0 items-center gap-1">
               <button
@@ -931,10 +935,9 @@ export default function EditorialArtTool() {
               <PanelSection title="Export">
             <input
               type="text"
-              value={state.slug}
+              value={state.slugEdited ? state.slug : defaultFilename(generator)}
               onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
-              onFocus={() => { if (!state.slug && state.title) setState((p) => ({ ...p, slug: toSlug(p.title) })); }}
-              placeholder="filename-slug"
+              placeholder={defaultFilename(generator)}
               className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 font-mono text-[12px] text-foreground placeholder:text-muted-foreground/35 focus:border-border focus:bg-background focus:outline-none"
             />
             <button
@@ -946,7 +949,7 @@ export default function EditorialArtTool() {
               {downloading ? 'Generating…' : 'Download PNG'}
             </button>
             <p className="font-mono text-[10px] text-muted-foreground/60">
-              1200 × 630 · exports use the canonical static frame
+              1200 × 630 PNG
             </p>
               </PanelSection>
             </div>
