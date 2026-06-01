@@ -42,9 +42,15 @@ The experiments felt interesting and useful but didn't have a natural place to l
 
 This is how I ended up with [the Lab](https://itspatmorgan.com/lab/), a new section of my site for experimental work. It's a place where I can build things, document them as I go, and share them with no extra work. I kicked it off with three items this week, each one arriving with its own realization.
 
+![Pixel Wave lab page showing the tactile text reveal animation](/images/writing/turn-your-portfolio-into-a-laboratory/pixel-wave.gif)
+
 [**The Pixel Wave**](https://itspatmorgan.com/lab/pixel-wave/) is the hero text effect I built for the site launch. I wished I could promote it a little better as something I designed intentionally. This gave me my first real "aha" moment of the week: why not just give it its own showcase page? Once I had the idea, I quickly spun up the 'Lab' index page with this as my first entry. Now this small thing I put real effort into has a dedicated page, a live demo, and some documentation. A detail elevated into a mini portfolio asset.
 
+![Pattern Engine lab page showing a generated isoline visual](/images/writing/turn-your-portfolio-into-a-laboratory/pattern-engine.png)
+
 [**The Pattern Engine**](https://itspatmorgan.com/lab/pattern-engine/) started as a practical problem. As I've been migrating newsletter articles to my site, I knew I didn't want to deal with porting blog feature images for each one. Instead, I wondered if I could build a tool to make new, on-brand, feature images for me. In just a couple of days, I built the foundation of a generative art system: five algorithmic generators that create unique visuals from each article's parameters, driven autonomously by the coding agents I use to build the site. This is the kind of asset that would have been impossible to make before. The tool is operated primarily by either Claude or Codex, but I built a UI as a lab so that I could think through the functionality and provide feedback to the agents. Now my blogs get unique, interactive art automatically and the UI I built as a playground becomes something anyone can experience. No extra work required.
+
+![Pixel Mark lab page showing logo variants and interaction states](/images/writing/turn-your-portfolio-into-a-laboratory/pixel-mark.png)
 
 [**The Pixel Mark**](https://itspatmorgan.com/lab/pixel-mark/) came last, and by that point I understood the lab pattern well enough to use it deliberately. I wanted to develop a new logo mark for the site, and instead of going back and forth with an agent building directly into the site navigation, I told the agent to make me a lab page where we could iterate on it first. The lab became my actual design workspace, where I could test states, interactions, and timing before the mark landed in the actual site UI. The pattern I'd stumbled into with the first two labs became an intentional tool.
 
