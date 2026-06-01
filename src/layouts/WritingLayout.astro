@@ -45,69 +45,67 @@ function visualCaption(visual: Props["visual"]): string | undefined {
   return `${generatorLabel(generator.type)} · seed ${generator.seed}`;
 }
 
-function toolThemeId(value: string | undefined): string | undefined {
-  if (!value) return undefined;
-  const map: Record<string, string> = {
-    ai: "ai",
-    design: "design",
-    systems: "systems",
-    "systems thinking": "systems",
-    creative: "creative",
-    "creative practice": "creative",
-    career: "career",
-  };
-  return map[value.toLowerCase()];
-}
-
 function addParam(params: URLSearchParams, key: string, value: unknown): void {
   if (value === undefined || value === null || value === "") return;
   params.set(key, String(value));
 }
 
-function visualToolHref(visual: Props["visual"], articleTheme: string | undefined): string {
-  if (!visual) return "/lab/editorial-art";
+function addParams(params: URLSearchParams, entries: [string, unknown][]): void {
+  for (const [key, value] of entries) addParam(params, key, value);
+}
+
+function visualToolHref(visual: Props["visual"]): string {
+  if (!visual) return "/lab/pattern-engine";
   const generator = visual.generator;
   const params = new URLSearchParams();
 
-  addParam(params, "theme", toolThemeId(visual.theme) ?? toolThemeId(articleTheme));
-  addParam(params, "tone", "auto");
-  addParam(params, "bg", visual.background);
-  addParam(params, "generator", generator.type);
-  addParam(params, "seed", generator.seed);
-  addParam(params, "opacity", generator.opacity);
-  addParam(params, "color", generator.color);
-  addParam(params, "texture", visual.texture);
-  addParam(params, "grain", visual.grain);
+  addParams(params, [
+    ["bg", visual.background],
+    ["generator", generator.type],
+    ["seed", generator.seed],
+    ["color", generator.color],
+    ["opacity", generator.opacity],
+    ["texture", visual.texture],
+    ["grain", visual.grain],
+  ]);
 
   if (generator.type === "flow-field") {
-    addParam(params, "density", generator.density);
-    addParam(params, "steps", generator.steps);
-    addParam(params, "scale", generator.scale);
-    addParam(params, "curl", generator.curl);
-    addParam(params, "strokeWidth", generator.strokeWidth);
+    addParams(params, [
+      ["density", generator.density],
+      ["steps", generator.steps],
+      ["scale", generator.scale],
+      ["curl", generator.curl],
+      ["strokeWidth", generator.strokeWidth],
+    ]);
   }
   if (generator.type === "dot-grid") {
-    addParam(params, "spacing", generator.spacing);
-    addParam(params, "scale", generator.scale);
-    addParam(params, "dotSize", generator.dotSize);
+    addParams(params, [
+      ["spacing", generator.spacing],
+      ["scale", generator.scale],
+      ["dotSize", generator.dotSize],
+    ]);
   }
   if (generator.type === "isoline") {
-    addParam(params, "levels", generator.levels);
-    addParam(params, "scale", generator.scale);
-    addParam(params, "strokeWidth", generator.strokeWidth);
+    addParams(params, [
+      ["levels", generator.levels],
+      ["scale", generator.scale],
+      ["strokeWidth", generator.strokeWidth],
+    ]);
   }
   if (generator.type === "voronoi") {
-    addParam(params, "count", generator.count);
-    addParam(params, "jitter", generator.jitter);
-    addParam(params, "strokeWidth", generator.strokeWidth);
+    addParams(params, [
+      ["count", generator.count],
+      ["jitter", generator.jitter],
+      ["strokeWidth", generator.strokeWidth],
+    ]);
   }
 
   const query = params.toString();
-  return query ? `/lab/editorial-art?${query}` : "/lab/editorial-art";
+  return query ? `/lab/pattern-engine?${query}` : "/lab/pattern-engine";
 }
 
 const generatedCaption = visualCaption(visual);
-const generatedToolHref = visualToolHref(visual, theme);
+const generatedToolHref = visualToolHref(visual);
 ---
 
 <PageLayout title={title} description={description} image={image} canonicalUrl={canonicalUrl}>
@@ -158,7 +156,7 @@ const generatedToolHref = visualToolHref(visual, theme);
         <figcaption class="mt-2 font-mono text-xs text-muted-foreground">
           {generatedCaption} · generated with the{" "}
           <a href={generatedToolHref} class="underline underline-offset-4 transition-colors hover:text-foreground">
-            Editorial Art Tool
+            Pattern Engine
           </a>
         </figcaption>
       </figure>

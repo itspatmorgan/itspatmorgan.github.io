@@ -3,15 +3,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/layout/Header.astro';
 import MobileNav from '@/components/layout/MobileNav.astro';
 import Sidebar from '@/components/layout/Sidebar.astro';
-import EditorialArtTool from '@/lab/editorial-art/index';
+import PatternEngine from '@/lab/editorial-art/index';
 import { getCollection } from "astro:content";
 
-const entry = (await getCollection("lab")).find((item) => item.data.slug === "editorial-art");
+const entry = (await getCollection("lab")).find((item) => item.data.slug === "pattern-engine");
 ---
 
 <BaseLayout
-  title={`${entry?.data.title ?? "Editorial Art Tool"} — Patrick Morgan`}
-  description={entry?.data.description ?? "Generate editorial feature images for Unknown Arts articles."}
+  title={`${entry?.data.title ?? "Pattern Engine"} — Patrick Morgan`}
+  description={entry?.data.description ?? "Generate deterministic visual patterns for Unknown Arts articles and publishing assets."}
   noindex
 >
   <Header />
@@ -20,7 +20,7 @@ const entry = (await getCollection("lab")).find((item) => item.data.slug === "ed
     <Sidebar />
     <main class="min-w-0 flex-1">
       <div class="lab-tool-fade">
-        <EditorialArtTool client:only="react" />
+        <PatternEngine client:only="react" />
       </div>
     </main>
   </div>

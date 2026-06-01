@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { toPng } from 'html-to-image';
-import { ChevronDown, RefreshCw } from 'lucide-react';
+import { ChevronDown, RefreshCw, SlidersHorizontal, X } from 'lucide-react';
 import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
@@ -10,7 +10,6 @@ import {
   resolveLayerColor,
   isColorDark,
   staticMotion,
-  type ThemeId,
   type LayerColor,
   type Composition,
   type GeneratorConfig,
@@ -28,7 +27,6 @@ import {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface AppState {
-  themeId: ThemeId;
   bgColor: string;
   generator: GeneratorConfig;
   texture: number;
@@ -47,7 +45,6 @@ interface AppState {
 
 const CANVAS_W = 1200;
 const CANVAS_H = 630;
-const PANEL_W  = 340;
 const CONTROL_LABEL_W = 'w-[4.75rem]';
 
 const GENERATOR_TYPES: { value: GeneratorType; label: string }[] = [
@@ -105,10 +102,9 @@ function rf(min: number, max: number, dec = 1): number {
   return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
 }
 
-function defaultState(themeId: ThemeId): AppState {
-  const t = themes[themeId];
+function defaultState(): AppState {
+  const t = themes.ai;
   return {
-    themeId,
     bgColor: t.defaultBgColor,
     generator: { ...t.defaultGenerator },
     texture: t.defaultTexture,
@@ -124,13 +120,8 @@ function defaultState(themeId: ThemeId): AppState {
   };
 }
 
-function themeIdFromParam(value: string | null): ThemeId {
-  if (!value) return 'ai';
-  const normalized = value.toLowerCase().replace(/\s+/g, '-');
-  const matched = Object.values(themes).find((theme) =>
-    theme.id === normalized || theme.label.toLowerCase().replace(/\s+/g, '-') === normalized
-  );
-  return matched?.id ?? 'ai';
+function defaultFilename(generator: GeneratorConfig): string {
+  return `${generator.type}-${generator.seed}`;
 }
 
 function bgColorFromParam(value: string | null, fallback: string): string {
@@ -139,13 +130,6 @@ function bgColorFromParam(value: string | null, fallback: string): string {
   if (value === 'warm-dark-gray' || value === 'dark') return brand.warmDarkGray;
   if (value && /^#[0-9a-f]{6}$/i.test(value)) return value;
   return fallback;
-}
-
-function currentColorModeTone(): { bgColor: string; color: LayerColor } {
-  const dark = document.documentElement.classList.contains('dark');
-  return dark
-    ? { bgColor: brand.warmDarkGray, color: 'copper' }
-    : { bgColor: brand.paper, color: 'bronze' };
 }
 
 function numberParam(params: URLSearchParams, key: string, fallback: number): number {
@@ -233,21 +217,16 @@ function parseGenerator(params: URLSearchParams, fallback: GeneratorConfig): Gen
 }
 
 function initialStateFromUrl(): AppState {
-  if (typeof window === 'undefined') return defaultState('ai');
+  if (typeof window === 'undefined') return defaultState();
   const params = new URLSearchParams(window.location.search);
-  const themeId = themeIdFromParam(params.get('theme'));
-  const state = defaultState(themeId);
+  const state = defaultState();
   if (!window.location.search) return state;
   const generator = parseGenerator(params, state.generator);
-  const autoTone = params.get('tone') === 'auto' ? currentColorModeTone() : null;
 
   return {
     ...state,
-    bgColor: autoTone?.bgColor ?? bgColorFromParam(params.get('bg'), state.bgColor),
-    generator: {
-      ...generator,
-      ...(autoTone ? { color: autoTone.color } : {}),
-    } as GeneratorConfig,
+    bgColor: bgColorFromParam(params.get('bg'), state.bgColor),
+    generator,
     texture: numberParam(params, 'texture', state.texture),
     grain: numberParam(params, 'grain', state.grain),
     motion: parseMotion(params, state.motion),
@@ -524,6 +503,7 @@ export default function EditorialArtTool() {
   const [exportingStill, setExportingStill] = useState(false);
   const [motionReplayKey, setMotionReplayKey] = useState(0);
   const [generatorMenuOpen, setGeneratorMenuOpen] = useState(false);
+  const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
   const [panelScrolling, setPanelScrolling] = useState(false);
   const [panelScrollThumb, setPanelScrollThumb] = useState({ height: 0, top: 0, visible: false });
   const [state, setState]             = useState<AppState>(initialStateFromUrl);
@@ -543,14 +523,6 @@ export default function EditorialArtTool() {
 
   const set = useCallback((patch: Partial<AppState>) => {
     setState((prev) => {
-      if (patch.themeId && patch.themeId !== prev.themeId) {
-        return {
-          ...defaultState(patch.themeId),
-          title: prev.title, slug: prev.slug,
-          slugEdited: prev.slugEdited, showText: prev.showText,
-          motion: prev.motion,
-        };
-      }
       return { ...prev, ...patch };
     });
   }, []);
@@ -650,40 +622,61 @@ export default function EditorialArtTool() {
       await document.fonts.ready;
       const dataUrl = await toPng(canvasRef.current, { pixelRatio: 2 });
       const a = document.createElement('a');
-      a.download = `${state.slug || 'feature'}-feature.png`;
+      a.download = `${state.slug || defaultFilename(state.generator)}.png`;
       a.href = dataUrl;
       a.click();
     } finally {
       setExportingStill(false);
       setDownloading(false);
     }
-  }, [state.slug]);
+  }, [state.generator, state.slug]);
 
   const { generator, bgColor } = state;
 
   return (
-    <div data-editorial-art-tool className="flex h-[calc(100vh-3.5rem)] overflow-hidden md:h-screen">
+    <div data-editorial-art-tool className="relative flex h-[calc(100vh-3.5rem)] overflow-hidden">
+
+      {mobileControlsOpen && (
+        <button
+          type="button"
+          aria-label="Close controls"
+          onClick={() => setMobileControlsOpen(false)}
+          className="fixed inset-0 z-40 cursor-default bg-background/70 backdrop-blur-sm md:hidden"
+        />
+      )}
 
       {/* ── Left control panel ──────────────────────────────────────────────── */}
       <div
-        style={{ width: PANEL_W, minWidth: PANEL_W }}
-        className="flex flex-col border-r border-border bg-background"
+        className={[
+          'fixed inset-x-3 bottom-0 top-20 z-50 flex min-h-0 flex-col rounded-t-xl border border-b-0 border-border bg-background shadow-2xl transition-transform duration-200 md:static md:z-auto md:h-auto md:w-[340px] md:min-w-[340px] md:translate-y-0 md:rounded-none md:border-r md:border-t-0 md:border-l-0 md:shadow-none',
+          mobileControlsOpen ? 'translate-y-0' : 'translate-y-full',
+        ].join(' ')}
       >
         {/* Tool identity — pinned to top */}
         <div className="shrink-0 border-b border-border px-5 py-5">
           <div className="flex items-start justify-between gap-2">
             <div>
-              <p className="text-base font-medium text-foreground leading-tight">Editorial Art Tool</p>
-              <p className="mt-1 text-xs text-muted-foreground leading-snug">Generative feature images for my articles.</p>
+              <p className="text-base font-medium text-foreground leading-tight">Pattern Engine</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-snug">Patterns for publishing assets.</p>
             </div>
-            <button
-              type="button"
-              onClick={handleRandomize}
-              title="Randomize everything"
-              className="mt-0.5 shrink-0 rounded border border-border p-1.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
-            >
-              <RefreshCw className="size-3.5" strokeWidth={2} />
-            </button>
+            <div className="flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={handleRandomize}
+                title="Randomize everything"
+                className="mt-0.5 rounded border border-border p-1.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+              >
+                <RefreshCw className="size-3.5" strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileControlsOpen(false)}
+                title="Close controls"
+                className="mt-0.5 rounded border border-border p-1.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground md:hidden"
+              >
+                <X className="size-3.5" strokeWidth={2} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -940,27 +933,28 @@ export default function EditorialArtTool() {
             )}
               </PanelSection>
 
-              <PanelSection title="Export">
-            <input
-              type="text"
-              value={state.slug}
-              onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
-              onFocus={() => { if (!state.slug && state.title) setState((p) => ({ ...p, slug: toSlug(p.title) })); }}
-              placeholder="filename-slug"
-              className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 font-mono text-[12px] text-foreground placeholder:text-muted-foreground/35 focus:border-border focus:bg-background focus:outline-none"
-            />
-            <button
-              type="button"
-              onClick={handleDownload}
-              disabled={downloading}
-              className="w-full cursor-pointer rounded-md bg-foreground py-2 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {downloading ? 'Generating…' : 'Download PNG'}
-            </button>
-            <p className="font-mono text-[10px] text-muted-foreground/60">
-              1200 × 630 · exports use the canonical static frame
-            </p>
-              </PanelSection>
+              <div className="hidden md:block">
+                <PanelSection title="Export">
+                  <input
+                    type="text"
+                    value={state.slugEdited ? state.slug : defaultFilename(generator)}
+                    onChange={(e) => setState((p) => ({ ...p, slug: e.target.value, slugEdited: true }))}
+                    placeholder={defaultFilename(generator)}
+                    className="w-full cursor-text rounded-md border border-transparent bg-muted px-3 py-2 font-mono text-[12px] text-foreground placeholder:text-muted-foreground/35 focus:border-border focus:bg-background focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleDownload}
+                    disabled={downloading}
+                    className="w-full cursor-pointer rounded-md bg-foreground py-2 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {downloading ? 'Generating…' : 'Download PNG'}
+                  </button>
+                  <p className="font-mono text-[10px] text-muted-foreground/60">
+                    1200 × 630 PNG
+                  </p>
+                </PanelSection>
+              </div>
             </div>
           </div>
 
@@ -983,7 +977,7 @@ export default function EditorialArtTool() {
       {/* ── Canvas ──────────────────────────────────────────────────────────── */}
       <div
         ref={containerRef}
-        className="flex flex-1 items-center justify-center overflow-hidden bg-card"
+        className="flex flex-1 items-center justify-center overflow-hidden bg-card px-4 pb-20 pt-4 md:p-0"
       >
         <div
           style={{
@@ -1012,6 +1006,24 @@ export default function EditorialArtTool() {
             motion={exportingStill ? staticMotion : state.motion}
             motionReplayKey={motionReplayKey}
           />
+        </div>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 px-6 py-2 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
+        <div className="flex items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+              {GENERATOR_TYPES.find((f) => f.value === generator.type)?.label} · seed {generator.seed}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileControlsOpen(true)}
+            className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-muted px-3 font-mono text-[11px] text-foreground"
+          >
+            <SlidersHorizontal className="size-3.5" strokeWidth={2} />
+            Controls
+          </button>
         </div>
       </div>
     </div>

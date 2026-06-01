@@ -11,7 +11,7 @@ import { communityPhotos, communityStory, featuredCommunityCommendations } from 
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
-const preferredLabOrder = ["editorial-art", "pixel-wave", "pixel-mark"];
+const preferredLabOrder = ["pattern-engine", "pixel-wave", "pixel-mark"];
 const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
   .sort((a, b) => {
     const aIndex = preferredLabOrder.indexOf(a.data.slug);
