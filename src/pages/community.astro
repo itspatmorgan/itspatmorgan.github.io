@@ -42,7 +42,7 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
     <p class="mt-12 max-w-xl text-xl font-semibold leading-snug tracking-tight">
       Showing up for people.
     </p>
-    <div class="mt-5 max-w-xl space-y-4 text-sm leading-relaxed text-muted-foreground">
+    <div class="mt-5 max-w-xl space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
       {communityStory.paragraphs.slice(0, 2).map((paragraph) => (
         <p>{paragraph}</p>
       ))}
@@ -50,6 +50,13 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
   </section>
 
   <section class="mx-auto max-w-3xl px-6 pb-24" data-community-words style="opacity: 0;">
+    <div class="mb-10 max-w-xl">
+      <p class="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">Kind Words</p>
+      <p class="text-lg leading-relaxed text-muted-foreground">
+        When you keep showing up, people remember the care, energy, and perspective you bring with you.
+      </p>
+    </div>
+
     <div class="columns-1 gap-4 sm:columns-2">
       {commendations.map((c) => (
         <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-kind-words-item style="opacity: 0;">
