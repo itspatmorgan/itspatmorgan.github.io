@@ -92,8 +92,8 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 
     {/* Mobile layout */}
     <div class="md:hidden">
-      <div class="mb-7 inline-block rotate-2 bg-white p-2 pb-6 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40" data-hero-photo style="opacity: 0;">
-        <div class="h-44 w-44 overflow-hidden">
+      <div class="mb-6 inline-block rotate-2 bg-white p-2 pb-5 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40" data-hero-photo style="opacity: 0;">
+        <div class="h-40 w-40 overflow-hidden">
           <img
             src="/images/brand/profile-living-room-avatar.jpg"
             alt="Patrick Morgan"
@@ -105,19 +105,18 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
         text={heroHeadline}
         as="h1"
         wave="hero"
-        class="mb-5 text-4xl font-medium leading-[1.12] tracking-tight"
+        class="mb-5 text-[2.35rem] font-medium leading-[1.08] tracking-tight"
         style="opacity: 0;"
       />
-      <div class="mb-5 flex flex-wrap items-center gap-1.5">
+      <div class="mb-6 flex max-w-[19rem] flex-wrap items-center gap-x-2 gap-y-2">
         {arcNodes.map((label, i, arr) => (
           <>
-            <span class:list={["arc-node rounded border px-2.5 py-0.5 font-mono text-[11px]", i === arr.length - 1 ? "arc-node-final" : ""]}
+            <span class:list={["arc-node rounded border px-2.5 py-1 font-mono text-xs", i === arr.length - 1 ? "arc-node-final" : ""]}
               style={`animation-delay: ${i * 700}ms`}>{label}</span>
-            {i < arr.length - 1 && <span class="font-mono text-xs text-muted-foreground/40">→</span>}
           </>
         ))}
       </div>
-      <div class="mb-4 space-y-3 text-sm leading-relaxed">
+      <div class="mb-4 space-y-3 text-[15px] leading-relaxed">
         <p class="text-foreground/80">{heroIntro}</p>
         <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
       </div>
