@@ -16,7 +16,7 @@ const entry = (await getCollection("lab")).find((item) => item.data.slug === "pa
 >
   <Header />
   <MobileNav />
-  <div class="md:flex md:min-h-screen">
+  <div class="pattern-engine-shell md:flex md:min-h-dvh">
     <Sidebar />
     <main class="min-w-0 flex-1">
       <div class="lab-tool-fade">
@@ -27,8 +27,19 @@ const entry = (await getCollection("lab")).find((item) => item.data.slug === "pa
 </BaseLayout>
 
 <style>
+  .pattern-engine-shell {
+    --pattern-engine-height: calc(100dvh - 3.5rem);
+  }
+
   .lab-tool-fade {
+    min-height: var(--pattern-engine-height);
     animation: lab-tool-in 0.5s ease-out both;
+  }
+
+  @media (min-width: 48rem) {
+    .pattern-engine-shell {
+      --pattern-engine-height: 100dvh;
+    }
   }
 
   @keyframes lab-tool-in {

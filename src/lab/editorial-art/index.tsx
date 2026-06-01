@@ -634,7 +634,7 @@ export default function EditorialArtTool() {
   const { generator, bgColor } = state;
 
   return (
-    <div data-editorial-art-tool className="relative flex h-[calc(100vh-3.5rem)] overflow-hidden">
+    <div data-editorial-art-tool className="relative flex h-[var(--pattern-engine-height,calc(100dvh-3.5rem))] overflow-hidden">
 
       {mobileControlsOpen && (
         <button
