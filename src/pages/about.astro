@@ -31,8 +31,62 @@ import PageLayout from "@/layouts/PageLayout.astro";
     </div>
   </section>
 
-  <section class="about-load about-load-photos mx-auto max-w-5xl px-6 pb-16">
-    <div class="grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  <section class="about-load about-load-photos pb-16">
+    <div
+      class="about-photo-carousel flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-6 md:hidden"
+      aria-label="Personal photos"
+    >
+      <figure class="w-[min(78vw,20rem)] shrink-0 snap-center rotate-[-1.5deg] bg-white p-2 pb-7 shadow-xl shadow-black/15 dark:bg-[#20201e] dark:shadow-black/40">
+        <div class="aspect-square overflow-hidden bg-muted">
+          <img
+            src="/images/brand/profile-living-room.jpg"
+            alt="Patrick sitting in a living room."
+            width="2400"
+            height="2400"
+            class="h-full w-full object-cover"
+            loading="eager"
+          />
+        </div>
+      </figure>
+      <figure class="w-[min(78vw,20rem)] shrink-0 snap-center rotate-[1deg] bg-white p-2 pb-7 shadow-xl shadow-black/15 dark:bg-[#20201e] dark:shadow-black/40">
+        <div class="aspect-square overflow-hidden bg-muted">
+          <img
+            src="/images/brand/personal-dinner.jpg"
+            alt="Patrick smiling at an outdoor dinner."
+            width="1800"
+            height="1201"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </figure>
+      <figure class="w-[min(78vw,20rem)] shrink-0 snap-center rotate-[-1deg] bg-white p-2 pb-7 shadow-xl shadow-black/15 dark:bg-[#20201e] dark:shadow-black/40">
+        <div class="aspect-square overflow-hidden bg-muted">
+          <img
+            src="/images/brand/personal-hollywood.jpg"
+            alt="Patrick near the Hollywood sign."
+            width="1800"
+            height="1200"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </figure>
+      <figure class="w-[min(78vw,20rem)] shrink-0 snap-center rotate-[1.5deg] bg-white p-2 pb-7 shadow-xl shadow-black/15 dark:bg-[#20201e] dark:shadow-black/40">
+        <div class="aspect-square overflow-hidden bg-muted">
+          <img
+            src="/images/brand/personal-airport.jpg"
+            alt="Patrick in an airport while traveling."
+            width="1800"
+            height="1350"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </figure>
+    </div>
+
+    <div class="mx-auto hidden max-w-5xl items-start gap-5 px-6 md:grid md:grid-cols-2 lg:grid-cols-4">
       <figure class="rotate-[-1.5deg] bg-white p-2 pb-7 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40">
         <div class="aspect-square overflow-hidden bg-muted">
           <img
@@ -172,6 +226,15 @@ import PageLayout from "@/layouts/PageLayout.astro";
 
   .about-load-body {
     animation-delay: 200ms;
+  }
+
+  .about-photo-carousel {
+    scroll-padding-inline: 1.5rem;
+    scrollbar-width: none;
+  }
+
+  .about-photo-carousel::-webkit-scrollbar {
+    display: none;
   }
 
   @keyframes about-page-load {
