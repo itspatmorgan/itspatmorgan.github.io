@@ -6,7 +6,6 @@ import LabCard from "@/components/lab/LabCard.astro";
 import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
 import { UAMark } from "@/lab/editorial-art/UAMark";
 import { siteConfig } from "@/data/site-config";
-import { roles } from "@/data/experience";
 import { commendations } from "@/data/commendations";
 import { communityPhotos, communityStory, featuredCommunityCommendations } from "@/data/community";
 import { getCollection } from "astro:content";
@@ -30,6 +29,7 @@ const professionalProjects = allProjects
 const featuredProjectDescriptions: Record<string, string> = {
   "query-language": "Guided enterprise users through a powerful graph query language without flattening the product.",
   expansion: "Extended a security platform into new use cases through a modular systems approach.",
+  vision: "Led strategic product vision work through facilitation, synthesis, and storytelling.",
 };
 
 const arcNodes = ["Strategist", "Developer", "Designer", "Writer", "Builder"];
@@ -184,85 +184,25 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work</p>
       <a href="/work" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
     </div>
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-6">
-
-      {/* Left — career overview */}
-      <div class="hidden lg:block">
-        <div>
-          <div class="pb-4">
-            <p class="text-lg font-semibold tracking-tight">13+ years moving between strategy, design, and code</p>
-          </div>
-          <div class="divide-y divide-border border-t border-border">
-            {roles.map((role, i) => (
-              <div class="py-3 text-sm">
-                <div class="mb-0.5 flex items-baseline justify-between gap-3">
-                  {role.url
-                    ? <a href={role.url} target="_blank" rel="noopener noreferrer" class="font-medium hover:text-accent transition-colors">{role.company}</a>
-                    : <span class="font-medium">{role.company}</span>
-                  }
-                  <span class="shrink-0 font-mono text-xs text-muted-foreground">{role.dateRange}</span>
-                </div>
-                <p class="text-xs text-muted-foreground">{role.role}</p>
-              </div>
-            ))}
-          </div>
+    <div class={homeCardGrid}>
+      {professionalProjects.slice(0, 3).map((project, i) => (
+        <div data-project-card-item style="opacity: 0;">
+          <ProjectCard
+            title={project.data.title}
+            description={featuredProjectDescriptions[project.id] ?? project.data.description}
+            skills={project.data.skills}
+            thumbnail={project.data.thumbnail}
+            thumbnailDark={project.data.thumbnailDark}
+            thumbnailWide={project.data.thumbnailWide}
+            thumbnailWideDark={project.data.thumbnailWideDark}
+            slug={project.id}
+            index={i}
+            variant="compact"
+            squareDesktop
+            showDescription
+          />
         </div>
-      </div>
-
-      {/* Right — project grid */}
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-2 lg:gap-6">
-        {professionalProjects.slice(0, 2).map((project, i) => (
-          <div data-project-card-item style="opacity: 0;">
-            <ProjectCard
-              title={project.data.title}
-              description={featuredProjectDescriptions[project.id] ?? project.data.description}
-              skills={project.data.skills}
-              thumbnail={project.data.thumbnail}
-              thumbnailDark={project.data.thumbnailDark}
-              thumbnailWide={project.data.thumbnailWide}
-              thumbnailWideDark={project.data.thumbnailWideDark}
-              slug={project.id}
-              index={i}
-              variant="compact"
-              squareDesktop
-              showDescription
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Mobile — compact career context */}
-      <div class="md:hidden">
-        <div class="border-y border-border py-4">
-          <p class="mb-3 text-base font-semibold tracking-tight">13+ years moving between strategy, design, and code</p>
-          <div class="divide-y divide-border">
-            {roles.map((role) => (
-              <div class="flex items-baseline justify-between gap-4 py-2.5 text-xs">
-                <div class="min-w-0">
-                  <span class="block truncate font-medium">{role.company}</span>
-                  <span class="block truncate text-muted-foreground">{role.role}</span>
-                </div>
-                <span class="shrink-0 font-mono text-muted-foreground">{role.dateRange}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Tablet — compact career context without a full-width timeline */}
-      <div class="hidden md:block lg:hidden">
-        <div class="border-y border-border py-1">
-          <div class="grid grid-cols-2 gap-x-6">
-            {roles.map((role) => (
-              <div class="flex items-baseline justify-between gap-3 border-t border-border py-2.5 text-xs">
-                <span class="truncate font-medium">{role.company}</span>
-                <span class="shrink-0 font-mono text-muted-foreground">{role.dateRange}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
+      ))}
     </div>
   </section>
 
