@@ -1,6 +1,6 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
-import CareerMoments from "@/components/CareerMoments";
+import ProjectCard from "@/components/ProjectCard.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import LabCard from "@/components/lab/LabCard.astro";
 import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
@@ -11,6 +11,7 @@ import { commendations } from "@/data/commendations";
 import { communityPhotos, communityStory, featuredCommunityCommendations } from "@/data/community";
 import { getCollection } from "astro:content";
 
+const allProjects = await getCollection("projects", ({ data }) => !data.draft);
 const preferredLabOrder = ["editorial-art", "pixel-wave", "pixel-mark"];
 const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
   .sort((a, b) => {
@@ -23,6 +24,14 @@ const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
   });
 const writingPosts = (await getCollection("writing", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const professionalProjects = allProjects
+  .filter((p) => p.data.type === "professional")
+  .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
+const featuredProjectDescriptions: Record<string, string> = {
+  "query-language": "Guided enterprise users through a powerful graph query language without flattening the product.",
+  expansion: "Extended a security platform into new use cases through a modular systems approach.",
+};
+
 const arcNodes = ["Strategist", "Developer", "Designer", "Writer", "Builder"];
 const heroHeadline = "The kind of designer who builds.";
 const heroIntro = "Hello, I'm Patrick. My career has never been one note. I've been a strategist, developer, designer, and writer — often all at once.";
@@ -175,8 +184,85 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work</p>
       <a href="/work" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
     </div>
-    <div data-project-card-item style="opacity: 0;">
-      <CareerMoments roles={roles} client:load />
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-6">
+
+      {/* Left — career overview */}
+      <div class="hidden lg:block">
+        <div>
+          <div class="pb-4">
+            <p class="text-lg font-semibold tracking-tight">13+ years moving between strategy, design, and code</p>
+          </div>
+          <div class="divide-y divide-border border-t border-border">
+            {roles.map((role, i) => (
+              <div class="py-3 text-sm">
+                <div class="mb-0.5 flex items-baseline justify-between gap-3">
+                  {role.url
+                    ? <a href={role.url} target="_blank" rel="noopener noreferrer" class="font-medium hover:text-accent transition-colors">{role.company}</a>
+                    : <span class="font-medium">{role.company}</span>
+                  }
+                  <span class="shrink-0 font-mono text-xs text-muted-foreground">{role.dateRange}</span>
+                </div>
+                <p class="text-xs text-muted-foreground">{role.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Right — project grid */}
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-2 lg:gap-6">
+        {professionalProjects.slice(0, 2).map((project, i) => (
+          <div data-project-card-item style="opacity: 0;">
+            <ProjectCard
+              title={project.data.title}
+              description={featuredProjectDescriptions[project.id] ?? project.data.description}
+              skills={project.data.skills}
+              thumbnail={project.data.thumbnail}
+              thumbnailDark={project.data.thumbnailDark}
+              thumbnailWide={project.data.thumbnailWide}
+              thumbnailWideDark={project.data.thumbnailWideDark}
+              slug={project.id}
+              index={i}
+              variant="compact"
+              squareDesktop
+              showDescription
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile — compact career context */}
+      <div class="md:hidden">
+        <div class="border-y border-border py-4">
+          <p class="mb-3 text-base font-semibold tracking-tight">13+ years moving between strategy, design, and code</p>
+          <div class="divide-y divide-border">
+            {roles.map((role) => (
+              <div class="flex items-baseline justify-between gap-4 py-2.5 text-xs">
+                <div class="min-w-0">
+                  <span class="block truncate font-medium">{role.company}</span>
+                  <span class="block truncate text-muted-foreground">{role.role}</span>
+                </div>
+                <span class="shrink-0 font-mono text-muted-foreground">{role.dateRange}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Tablet — compact career context without a full-width timeline */}
+      <div class="hidden md:block lg:hidden">
+        <div class="border-y border-border py-1">
+          <div class="grid grid-cols-2 gap-x-6">
+            {roles.map((role) => (
+              <div class="flex items-baseline justify-between gap-3 border-t border-border py-2.5 text-xs">
+                <span class="truncate font-medium">{role.company}</span>
+                <span class="shrink-0 font-mono text-muted-foreground">{role.dateRange}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
