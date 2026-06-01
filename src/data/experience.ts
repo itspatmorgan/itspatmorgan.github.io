@@ -12,7 +12,6 @@ export interface Role {
     proof: string[];
     assetNote: string;
     image?: string;
-    imageDark?: string;
     video?: string;
   };
   projects?: string[];
@@ -30,15 +29,14 @@ export const roles: Role[] = [
     summary: "Designing AI tools for email threat detection. I built a multi-agent system that automates analyst workflows — pairing a triage agent with a detection engineering agent that continuously writes new detection rules in Sublime's custom DSL.",
     moment: {
       label: "AI security workflows",
-      headline: "Designing agentic workflows for security teams operating at machine speed.",
+      headline: "Designing agentic tools for high-stakes email threat detection.",
       proof: [
-        "Agents for triage and detection engineering",
-        "Automation patterns for trust and supervision",
-        "AI-native operations made concrete through prototypes",
+        "Multi-agent analyst and detection engineering workflows",
+        "Security features for urgent, operational threat scenarios",
+        "Internal prototyping platform used daily by the design team",
       ],
       assetNote: "Future slot: AI workflow demo, analyst console crop, or detection-rule motion loop.",
-      image: "/images/career-moments/career-moment-sublime-light.png",
-      imageDark: "/images/career-moments/career-moment-sublime-dark.png",
+      image: "/images/brand/thumbnail-career.jpg",
     },
     descriptions: [
       "Designed a multi-agent system pairing an analyst agent with a detection engineering agent — automating threat triage and continuously generating new detection rules in Sublime's custom DSL.",
@@ -56,15 +54,14 @@ export const roles: Role[] = [
     summary: "Led design for an enterprise security graph platform. The defining project was a query interface that cut new user time-to-value from 21 days to 1 — turning a blank text box into a guided, approachable experience.",
     moment: {
       label: "Graph security UX",
-      headline: "Making a powerful security graph understandable enough for teams to adopt.",
+      headline: "Turning a powerful graph query language into a guided product experience.",
       proof: [
-        "Guided query experience for new users",
-        "Reduced time-to-value for complex graph workflows",
-        "Design-system leadership through platform growth",
+        "Reduced new user time-to-value from 21 days to 1",
+        "Led enterprise security graph product design",
+        "Drove design-system adoption across the platform",
       ],
       assetNote: "Future slot: query builder interaction, graph visualization, or onboarding flow.",
-      image: "/images/career-moments/career-moment-j1-light.png",
-      imageDark: "/images/career-moments/career-moment-j1-dark.png",
+      image: "/images/projects/query/thumbnail-query-light-wide.png",
     },
     projects: ["query-language"],
     descriptions: [
@@ -83,15 +80,14 @@ export const roles: Role[] = [
     summary: "Designed security features across firewall rules, rate limiting, and bot defense. I also ran customer advisory workshops that turned scattered feedback into a shared product vision — work that shaped the roadmap well past my time there.",
     moment: {
       label: "Security product strategy",
-      headline: "Designing core platform workflows for high-volume security operations.",
+      headline: "Shaping platform expansion through systems design and customer advisory work.",
       proof: [
-        "Rules, rate limiting, and bot defense",
-        "Patterns for operational security teams",
-        "Customer signal translated into product direction",
+        "Firewall, rate-limiting, and bot-defense product work",
+        "Customer workshops translated scattered needs into roadmap direction",
+        "Storyboards and systems diagrams aligned product, design, and engineering",
       ],
       assetNote: "Future slot: workshop artifacts, roadmap storyboard, or WAF product graphic.",
-      image: "/images/career-moments/career-moment-sigsci-light.png",
-      imageDark: "/images/career-moments/career-moment-sigsci-dark.png",
+      image: "/images/projects/vision/vision-hero.png",
     },
     projects: ["expansion", "vision"],
     descriptions: [
@@ -109,15 +105,14 @@ export const roles: Role[] = [
     summary: "Designed dashboards, data visualization templates, and credential management features for Tenable's enterprise cyber risk platform.",
     moment: {
       label: "Cyber risk dashboards",
-      headline: "Turning vulnerability data into a clearer view of cybersecurity risk.",
+      headline: "Making dense enterprise security data easier to scan, manage, and act on.",
       proof: [
-        "Dashboards for vulnerability management",
-        "Risk views across complex infrastructure",
-        "Enterprise workflows for security teams at scale",
+        "Dashboard creation and management patterns",
+        "Reusable data visualization templates",
+        "Credential-management workflows for enterprise teams",
       ],
       assetNote: "Future slot: dashboard screenshot, data-viz template set, or cyber risk overview.",
-      image: "/images/career-moments/career-moment-tenable-light.png",
-      imageDark: "/images/career-moments/career-moment-tenable-dark.png",
+      image: "/images/brand/thumbnail-career.jpg",
     },
     descriptions: [
       "Designed enterprise SaaS features to improve Tenable's cyber risk platform: dashboard creation & management, data visualization templates, & team credential management.",
@@ -133,15 +128,14 @@ export const roles: Role[] = [
     summary: "Built UI for a multi-brand platform used by Amex, Walmart, and Target. This is where I learned to prototype in code — building things that were flexible enough to work across very different brand contexts.",
     moment: {
       label: "Design engineering",
-      headline: "Building the design-engineering foundation for systems that work across brands.",
+      headline: "Building flexible responsive UI across major consumer brand contexts.",
       proof: [
-        "Responsive UI across major brand contexts",
-        "Code prototypes for interaction decisions",
-        "A bridge between design and implementation",
+        "Multi-brand platform work for Amex, Walmart, and Target",
+        "Code prototypes for responsive product direction",
+        "Reusable UI patterns that bridged design and engineering",
       ],
       assetNote: "Future slot: responsive prototype capture, multi-brand UI grid, or handoff artifact.",
-      image: "/images/career-moments/career-moment-amex-light.png",
-      imageDark: "/images/career-moments/career-moment-amex-dark.png",
+      image: "/images/brand/thumbnail-career.jpg",
     },
     descriptions: [
       "Built UI for a multi-brand platform used by Amex, Walmart, and Target.",
@@ -158,15 +152,14 @@ export const roles: Role[] = [
     summary: "Developed brand strategies for Allstate, MillerCoors, and Sprint using consumer research and cultural insight. My first job — where I learned that good design starts with understanding people, not products.",
     moment: {
       label: "Research-led strategy",
-      headline: "Learning how research and positioning shape decisions before an interface exists.",
+      headline: "Starting with people, culture, and the strategic frame before the product takes shape.",
       proof: [
-        "Esurance strategy after the Allstate acquisition",
-        "Positioning against Geico in a major category",
-        "Research discipline behind product judgment",
+        "Consumer research and cultural insight for national brands",
+        "Strategy work across Allstate, MillerCoors, and Sprint",
+        "Foundation for the research-first product design practice that followed",
       ],
       assetNote: "Future slot: brand strategy board, research synthesis, or campaign planning visual.",
-      image: "/images/career-moments/career-moment-leo-light.png",
-      imageDark: "/images/career-moments/career-moment-leo-dark.png",
+      image: "/images/brand/thumbnail-career.jpg",
     },
     descriptions: [
       "Developed brand strategies using consumer research and cultural insights, creating high impact communications for clients like Allstate, MillerCoors, and Sprint.",
