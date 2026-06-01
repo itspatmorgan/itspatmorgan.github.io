@@ -174,6 +174,8 @@ export const ArtCanvas = forwardRef<HTMLDivElement, CanvasProps>(function ArtCan
         config={generator}
         bgColor={bgColor}
         motion={motion}
+        width={CANVAS_W}
+        height={CANVAS_H}
         style={{ position: 'absolute', inset: 0 }}
       />
 

@@ -24,9 +24,19 @@ function init() {
 
   const photo = document.querySelector("[data-hero-photo]") as HTMLElement | null;
   const label = document.querySelector("[data-hero-label]") as HTMLElement | null;
-  const heroWave = document.querySelector('[data-pixel-wave="hero"]') as HTMLElement | null;
   const desc = document.querySelector("[data-hero-desc]") as HTMLElement | null;
   const icons = document.querySelector("[data-hero-icons]") as HTMLElement | null;
+
+  // On desktop (md+) animate the big headline wave; on mobile animate the name wave.
+  // The other wave lives in a display:none block — resolve it silently so pixel font never flashes.
+  const isMd = window.matchMedia("(min-width: 768px)").matches;
+  const heroWave = document.querySelector(
+    `[data-pixel-wave="${isMd ? "headline" : "hero"}"]`
+  ) as HTMLElement | null;
+  const inactiveWave = document.querySelector(
+    `[data-pixel-wave="${isMd ? "hero" : "headline"}"]`
+  ) as HTMLElement | null;
+  if (inactiveWave) resolvePixelWave(inactiveWave);
 
   function revealSections() {
     const sections = document.querySelectorAll(
@@ -70,7 +80,7 @@ function init() {
     }
   }
 
-  // CTA — scroll-triggered; skip pixel wave for returning visitors
+  // CTA — scroll-triggered; always run the pixel wave as a closing interaction.
   const ctaSection = document.querySelector("[data-cta-section]") as HTMLElement | null;
   const ctaWave = document.querySelector('[data-pixel-wave="cta"]') as HTMLElement | null;
   if (ctaSection && ctaWave) {
@@ -88,14 +98,9 @@ function init() {
               { opacity: [0, 1], y: [12, 0] },
               { type: "spring", stiffness: 140, damping: 18, mass: 0.8 }
             );
-            if (seen) {
-              resolvePixelWave(ctaWave);
-              setTimeout(() => enablePixelHover(ctaWave), 100);
-            } else {
-              pixelWave(ctaWave, 600);
-              // 600ms delay + 38 chars × 80ms stagger + 3 flips × 80ms + 300ms crossfade ≈ 4200ms
-              setTimeout(() => enablePixelHover(ctaWave), 4200);
-            }
+            pixelWave(ctaWave, 600);
+            // 600ms delay + 38 chars × 80ms stagger + 3 flips × 80ms + 300ms crossfade ≈ 4200ms
+            setTimeout(() => enablePixelHover(ctaWave), 4200);
             break;
           }
         }

@@ -1,5 +1,6 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
+import Logo from "@/components/layout/Logo.astro";
 import { getCollection, render } from "astro:content";
 import { MarkStates, ScaleStrip, MarkVariants } from "@/lab/pixel-mark/MarkStates";
 
@@ -34,21 +35,8 @@ const { Content } = await render(entry);
   <!-- Hero display -->
   <section data-lab-content style="opacity: 0">
     <div class="mx-auto max-w-3xl px-6 pb-16">
-      <div class="flex min-h-48 items-center justify-center rounded-lg border border-border bg-card">
-        <svg
-          id="hero-mark"
-          width="96"
-          height="96"
-          viewBox="0 0 28 28"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-label="Pixel mark"
-        >
-          <rect class="fill-foreground" width="28" height="28" rx="6.2" />
-          <rect class="hero-pixel hero-pixel-1" x="8"  y="4.5"  width="5" height="5" rx="0.6"/>
-          <rect class="hero-pixel hero-pixel-2" x="15" y="4.5"  width="5" height="5" rx="0.6"/>
-          <rect class="hero-pixel hero-pixel-3" x="8"  y="11.5" width="5" height="5" rx="0.6"/>
-          <rect class="hero-pixel hero-pixel-4" x="8"  y="18.5" width="5" height="5" rx="0.6"/>
-        </svg>
+      <div class="flex min-h-48 items-center justify-center rounded-lg border border-border bg-card" data-logo-cycle-trigger>
+        <Logo trigger="container" class="h-24 w-24" />
       </div>
     </div>
   </section>
@@ -92,20 +80,3 @@ const { Content } = await render(entry);
   init();
   document.addEventListener("astro:after-swap", init);
 </script>
-
-<style>
-  .hero-pixel { fill: var(--color-background); }
-  .hero-pixel-1 { animation: hero-pixel-in 0.4s cubic-bezier(0.16,1,0.3,1)   0ms both; transform-origin: 10.5px  7px; }
-  .hero-pixel-2 { animation: hero-pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 100ms both; transform-origin: 17.5px  7px; }
-  .hero-pixel-3 { animation: hero-pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 200ms both; transform-origin: 10.5px 14px; }
-  .hero-pixel-4 { animation: hero-pixel-in 0.4s cubic-bezier(0.16,1,0.3,1) 300ms both; transform-origin: 10.5px 21px; }
-
-  @keyframes hero-pixel-in {
-    from { opacity: 0; transform: scale(0); }
-    to   { opacity: 1; transform: scale(1); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-pixel-1, .hero-pixel-2, .hero-pixel-3, .hero-pixel-4 { animation: none; }
-  }
-</style>

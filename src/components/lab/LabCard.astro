@@ -18,7 +18,7 @@ const {
 } = Astro.props;
 ---
 
-<a href={href} class="group block">
+<a href={href} class="group block" data-logo-cycle-trigger>
   <article class="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
     <LabPreview preview={preview} title={title} />
     <div class="p-4">

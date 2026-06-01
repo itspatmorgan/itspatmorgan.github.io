@@ -31,7 +31,7 @@ const arcNodes = ["Strategist", "Developer", "Designer", "Writer", "Builder"];
   {/* Experience — intro + timeline */}
   <section class="mx-auto max-w-3xl border-t border-border px-6 pt-12" data-resume-intro style="opacity: 0">
     <p class="mb-16 text-base leading-relaxed text-foreground/70">
-      My career has never been one note. I've been a strategist, a developer, a designer, and a writer — sometimes all at once. What connects them is a compulsion to make things that are both useful and well-crafted. Right now that means designing AI tools at Sublime Security, writing articles for Unknown Arts, and building my own software with Claude Code.
+      My career has never been one note. I've been a strategist, a developer, a designer, and a writer — sometimes all at once. What connects them is a compulsion to make things that are both useful and well-crafted. Right now that means designing AI tools at Sublime Security, writing articles for Unknown Arts, and building my own software with agents.
     </p>
 
     {/* Career label */}
@@ -93,45 +93,7 @@ const arcNodes = ["Strategist", "Developer", "Designer", "Writer", "Builder"];
   </section>
 </PageLayout>
 
-<style>
-  /* ── Arc node animation ───────────────────────────── */
-  .arc-node {
-    color: var(--muted-foreground);
-    border-color: var(--border);
-    background: transparent;
-    animation: arcFlash 1.1s cubic-bezier(0.4, 0, 0.6, 1) both;
-  }
-
-  .arc-node-final {
-    animation: arcActivate 1.1s cubic-bezier(0.4, 0, 0.6, 1) both;
-  }
-
-  @keyframes arcFlash {
-    0%, 100% {
-      color: var(--muted-foreground);
-      border-color: var(--border);
-      background: transparent;
-    }
-    40%, 60% {
-      color: var(--foreground);
-      border-color: color-mix(in oklch, var(--foreground) 20%, transparent);
-      background: color-mix(in oklch, var(--foreground) 4%, transparent);
-    }
-  }
-
-  @keyframes arcActivate {
-    0% {
-      color: var(--muted-foreground);
-      border-color: var(--border);
-      background: transparent;
-    }
-    100% {
-      color: var(--foreground);
-      border-color: color-mix(in oklch, var(--foreground) 20%, transparent);
-      background: color-mix(in oklch, var(--foreground) 4%, transparent);
-    }
-  }
-</style>
+{/* Arc node styles are in global.css */}
 
 <script>
   import { animate } from "motion";

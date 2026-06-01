@@ -1,7 +1,5 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
-import LogoCarousel from "@/components/LogoCarousel.astro";
-import ArticleListItem from "@/components/ArticleListItem.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import LabCard from "@/components/lab/LabCard.astro";
@@ -9,10 +7,11 @@ import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternS
 import { UAMark } from "@/lab/editorial-art/UAMark";
 import { siteConfig } from "@/data/site-config";
 import { commendations } from "@/data/commendations";
+import { communityPhotos, communityStory, featuredCommunityCommendations } from "@/data/community";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
-const preferredLabOrder = ["pattern-engine", "pixel-wave"];
+const preferredLabOrder = ["pattern-engine", "pixel-wave", "pixel-mark"];
 const labEntries = (await getCollection("lab", ({ data }) => !data.draft))
   .sort((a, b) => {
     const aIndex = preferredLabOrder.indexOf(a.data.slug);
@@ -27,12 +26,18 @@ const writingPosts = (await getCollection("writing", ({ data }) => !data.draft))
 const professionalProjects = allProjects
   .filter((p) => p.data.type === "professional")
   .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
-
-const impactStatements: Record<string, string> = {
-  "query-language": "Reduced new users' time to build a custom query from 21 days to 1.",
-  "expansion": "Established scalable product architecture that enabled rapid market expansion.",
-  "vision": "Unified product teams around a shared vision driven by customer insights.",
+const featuredProjectDescriptions: Record<string, string> = {
+  "query-language": "Guided enterprise users through a powerful graph query language without flattening the product.",
+  expansion: "Extended a security platform into new use cases through a modular systems approach.",
+  vision: "Led strategic product vision work through facilitation, synthesis, and storytelling.",
 };
+
+const arcNodes = ["Strategist", "Developer", "Designer", "Writer", "Builder"];
+const heroHeadline = "The kind of designer who builds.";
+const heroIntro = "Hello, I'm Patrick. My career has never been one note. I've been a strategist, developer, designer, and writer — often all at once.";
+const heroIntroDetail = "What connects the work is a compulsion to turn ideas into useful, well-crafted things.";
+const heroCurrentWorkLead = "Right now, I'm designing AI tools at";
+const heroCurrentWorkTail = "and building my own software with agents.";
 
 const newsletterPattern = {
   type: "isoline",
@@ -57,110 +62,186 @@ const newsletterMotion = {
   intensity: 28,
 } as const;
 
+const communityCommendations = featuredCommunityCommendations
+  .map((name) => commendations.find((commendation) => commendation.name === name))
+  .filter((commendation) => Boolean(commendation));
+const homeCommunityPhotos = [
+  {
+    ...communityPhotos[0],
+    className: "rotate-[-2deg]",
+    position: "object-[8%_50%]",
+  },
+  {
+    ...communityPhotos[3],
+    className: "rotate-[2deg]",
+    position: "object-[42%_50%]",
+  },
+] as const;
+
+const homeShell = "mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-14";
+const homeSection = `${homeShell} py-12 sm:py-14 lg:py-16`;
+const homeFirstSection = `${homeShell} pt-5 pb-12 sm:pt-10 sm:pb-14 lg:pt-10 lg:pb-16`;
+const homeSectionHeader = "mb-7 flex items-center justify-between";
+const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6";
 ---
 
 <PageLayout>
-  {/* Hero */}
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24">
-    <div class="mb-8 flex items-center gap-6">
-      <img
-        src="/images/brand/profile-picture.jpg"
-        alt="Patrick Morgan"
-        class="h-20 w-20 rounded-full object-cover"
-        data-hero-photo
+
+  {/* ── Hero ────────────────────────────────────────────── */}
+  <section class={`${homeShell} pt-10 pb-4 sm:pt-16 sm:pb-10 lg:pt-16 lg:pb-6`}>
+
+    {/* Mobile layout */}
+    <div class="md:hidden">
+      <div class="mb-6 inline-block rotate-2 bg-white p-2 pb-5 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40" data-hero-photo style="opacity: 0;">
+        <div class="h-40 w-40 overflow-hidden">
+          <img
+            src="/images/brand/profile-living-room-avatar.jpg"
+            alt="Patrick Morgan"
+            class="block h-full w-full object-cover"
+          />
+        </div>
+      </div>
+      <PixelWaveText
+        text={heroHeadline}
+        as="h1"
+        wave="hero"
+        class="mb-5 max-w-[20rem] text-[2.05rem] font-medium leading-[1.08] tracking-tight"
         style="opacity: 0;"
       />
-      <div>
-        <p class="mb-1 font-mono text-sm text-muted-foreground" data-hero-label style="opacity: 0;">Software Designer</p>
-        <PixelWaveText
-          text="Patrick Morgan"
-          as="h1"
-          wave="hero"
-          class="text-3xl font-medium tracking-tight sm:text-5xl"
-          style="opacity: 0;"
-        />
+      <div class="mb-6 flex max-w-[19rem] flex-wrap items-center gap-x-2 gap-y-2">
+        {arcNodes.map((label, i, arr) => (
+          <>
+            <span class:list={["arc-node rounded border px-2.5 py-1 font-mono text-xs", i === arr.length - 1 ? "arc-node-final" : ""]}
+              style={`animation-delay: ${i * 700}ms`}>{label}</span>
+          </>
+        ))}
+      </div>
+      <div class="mb-4 space-y-3 text-[15px] leading-relaxed">
+        <p class="text-foreground/80">{heroIntro}</p>
+        <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
       </div>
     </div>
-    <p class="mb-6 max-w-2xl text-md text-muted-foreground" data-hero-desc style="opacity: 0;">
-      Designing AI cybersecurity tools at
-      <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a> and publishing
-      <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>
-      — a newsletter for creative builders in the age of AI.
-    </p>
-    <div class="flex items-center gap-3 text-muted-foreground" data-hero-icons style="opacity: 0;">
-      <a
-        href={siteConfig.social.newsletter}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-        aria-label="Substack"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 8.242H1.46V5.406H20.6v2.836zM1.46 10.812V24l9.6-5.55 9.54 5.55V10.812H1.46zM20.6 0H1.46v2.836H20.6V0z"/></svg>
-      </a>
-      <a
-        href={siteConfig.social.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-        aria-label="LinkedIn"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <a
-        href={siteConfig.social.x}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-        aria-label="X"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-      <a
-        href={siteConfig.social.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
-        aria-label="GitHub"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-      </a>
+
+    {/* Desktop: text left, photo right */}
+    <div class="hidden md:flex md:items-center md:gap-10 lg:gap-14">
+
+      {/* Left — all text */}
+      <div class="flex-1 min-w-0">
+        {/* Headline — PixelWave */}
+        <PixelWaveText
+          text={heroHeadline}
+          as="h1"
+          wave="headline"
+          class="mb-8 text-4xl font-medium leading-[1.2] tracking-tight lg:text-[2.6rem] xl:text-5xl"
+          style="opacity: 0;"
+        />
+
+        {/* Arc nodes */}
+        <div class="mb-8 flex flex-wrap items-center gap-1.5 sm:gap-2">
+          {arcNodes.map((label, i, arr) => (
+            <>
+              <span class:list={["arc-node rounded border px-2.5 py-0.5 font-mono text-[11px] sm:text-xs", i === arr.length - 1 ? "arc-node-final" : ""]}
+                style={`animation-delay: ${i * 700}ms`}>{label}</span>
+              {i < arr.length - 1 && <span class="font-mono text-xs text-muted-foreground/40">→</span>}
+            </>
+          ))}
+        </div>
+
+        {/* Narrative */}
+        <div class="max-w-xl space-y-4 text-base leading-relaxed">
+          <p class="text-foreground/80">
+            {heroIntro} {heroIntroDetail}
+          </p>
+          <p class="text-muted-foreground">
+            {heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>, writing <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}
+          </p>
+        </div>
+
+      </div>
+
+      {/* Right — polaroid photo */}
+      <div class="relative shrink-0 rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02]">
+        {/* Polaroid frame */}
+        <button
+          type="button"
+          class="group/builder block cursor-cell bg-white p-2 pb-8 text-left shadow-2xl shadow-black/20 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background dark:bg-[#20201e] dark:shadow-black/50 lg:p-3 lg:pb-10"
+          data-builder-photo
+          aria-pressed="false"
+          aria-label="Run builder mode portrait animation"
+        >
+          <div class="relative h-52 w-52 overflow-hidden lg:h-64 lg:w-64 xl:h-72 xl:w-72">
+            <img
+              src="/images/brand/profile-living-room.jpg"
+              alt="Patrick Morgan"
+              class="block h-full w-full scale-[1.55] object-cover object-[43%_54%] transition duration-500 group-aria-pressed/builder:scale-[1.62] group-aria-pressed/builder:grayscale group-aria-pressed/builder:contrast-125 group-aria-pressed/builder:brightness-75 group-aria-pressed/builder:saturate-0 group-aria-pressed/builder:[image-rendering:pixelated]"
+            />
+            <div
+              class="builder-grid pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition-opacity duration-500 group-aria-pressed/builder:opacity-80"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="builder-scanlines pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-aria-pressed/builder:opacity-100"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="pointer-events-none absolute inset-0 bg-cyan-900/0 transition-colors duration-500 group-aria-pressed/builder:bg-cyan-900/25"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="builder-sweep pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 opacity-0 transition-opacity duration-500 group-aria-pressed/builder:opacity-100"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="builder-readout pointer-events-none absolute bottom-2 left-2 font-mono text-[10px] uppercase tracking-widest text-white/0 transition-colors duration-500 group-aria-pressed/builder:text-white/75"
+              aria-hidden="true"
+            >
+              Building...
+            </div>
+          </div>
+        </button>
+      </div>
+
     </div>
+
   </section>
 
-  {/* Product Design */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
-    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Projects
-    </h2>
-    <div class="flex flex-col gap-8">
-      {professionalProjects.map((project, i) => (
+  {/* ── Work ─────────────────────────────────────────────── */}
+  <section class={homeFirstSection}>
+    <div class={homeSectionHeader}>
+      <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work</p>
+      <a href="/work" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
+    </div>
+    <div class={homeCardGrid}>
+      {professionalProjects.slice(0, 3).map((project, i) => (
         <div data-project-card-item style="opacity: 0;">
           <ProjectCard
             title={project.data.title}
-            description={project.data.description}
+            description={featuredProjectDescriptions[project.id] ?? project.data.description}
             skills={project.data.skills}
             thumbnail={project.data.thumbnail}
             thumbnailDark={project.data.thumbnailDark}
             thumbnailWide={project.data.thumbnailWide}
             thumbnailWideDark={project.data.thumbnailWideDark}
             slug={project.id}
-            impact={impactStatements[project.id]}
             index={i}
-            variant="full"
+            variant="compact"
+            squareDesktop
+            showDescription
           />
         </div>
       ))}
     </div>
   </section>
 
-  {/* Lab */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
-    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Lab
-    </h2>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {labEntries.slice(0, 2).map((entry) => (
-        <div data-project-card-item style="opacity: 0;">
+  {/* ── Lab ──────────────────────────────────────────────── */}
+  <section class={homeSection}>
+    <div class={homeSectionHeader}>
+      <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Lab</p>
+      <a href="/lab" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
+    </div>
+    <div class={homeCardGrid}>
+      {labEntries.slice(0, 3).map((entry) => (
+        <div class="flex" data-project-card-item style="opacity: 0;">
           <LabCard
             title={entry.data.title}
             description={entry.data.description}
@@ -171,111 +252,118 @@ const newsletterMotion = {
         </div>
       ))}
     </div>
-    <div class="mt-8 flex items-center gap-6 text-sm">
-      <a href="/lab" class="transition-colors hover:text-accent">View all &rarr;</a>
+  </section>
+
+  {/* ── Writing ──────────────────────────────────────────── */}
+  <section class={homeSection}>
+    <div class={homeSectionHeader}>
+      <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Writing</p>
+      <a href="/writing" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
+    </div>
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-6">
+
+      {/* Left — newsletter card */}
+      <div data-project-card-item style="opacity: 0;">
+        <a
+          href={siteConfig.social.newsletter}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group block h-full"
+          aria-label="Unknown Arts newsletter"
+        >
+          <article class="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
+            <div class="relative h-full min-h-[260px] w-full overflow-hidden bg-card">
+              <GenerativePatternSurface
+                name="unknown-arts-newsletter"
+                config={newsletterPattern}
+                lightConfig={newsletterLightPattern}
+                motion={newsletterMotion}
+                duration={2800}
+                className="absolute inset-0 opacity-95 transition-all duration-300 group-hover:scale-[1.03] group-hover:opacity-100"
+                client:only="react"
+              />
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#171716]/92 via-[#171716]/12 to-transparent opacity-0 dark:opacity-100"></div>
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/68 via-background/0 to-transparent dark:hidden"></div>
+              <div class="pointer-events-none absolute bottom-6 left-6 right-6">
+                <div class="mb-3 text-[#b38b6d] dark:text-[#f7ccab]">
+                  <UAMark color="currentColor" height={24} />
+                </div>
+                <p class="text-2xl font-medium leading-none tracking-tight text-foreground dark:text-[#ede9e3]">
+                  Unknown Arts
+                </p>
+                <p class="mt-2 text-sm leading-snug text-muted-foreground dark:text-[#ede9e3]/70">
+                  The newsletter for creative builders in the age of AI. 7,500+ subscribers.
+                </p>
+              </div>
+            </div>
+          </article>
+        </a>
+      </div>
+
+      {/* Right — article list */}
+      <div data-project-card-item style="opacity: 0;">
+        <div class="flex flex-col divide-y divide-border">
+          {writingPosts.slice(0, 6).map((post) => (
+            <a
+              href={`/writing/${post.id}`}
+              class="group flex items-baseline justify-between gap-4 py-3 text-sm transition-colors hover:text-accent"
+            >
+              <span class="font-medium leading-snug">{post.data.title}</span>
+              <span class="shrink-0 font-mono text-xs text-muted-foreground">
+                {post.data.publishedDate.toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+
     </div>
   </section>
 
-  {/* Writing */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
-    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Writing
-    </h2>
-    <div class="group mb-10">
-      <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
-      <a
-        href={siteConfig.social.newsletter}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="block overflow-hidden"
-        aria-label="Unknown Arts newsletter"
-      >
-        <div class="relative aspect-video w-full overflow-hidden bg-card">
-          <GenerativePatternSurface
-            name="unknown-arts-newsletter"
-            config={newsletterPattern}
-            lightConfig={newsletterLightPattern}
-            motion={newsletterMotion}
-            duration={2800}
-            className="absolute inset-0 opacity-95 transition-all duration-300 group-hover:scale-[1.03] group-hover:opacity-100"
-            client:visible
-          />
-          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_38%,transparent_0%,transparent_32%,var(--background)_86%)] opacity-10 dark:opacity-35"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#171716]/92 via-[#171716]/12 to-transparent opacity-0 dark:opacity-100"></div>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/68 via-background/0 to-transparent dark:hidden"></div>
-          <div class="pointer-events-none absolute bottom-5 left-5 right-5 flex items-end justify-between gap-6">
-            <div>
-              <div class="mb-4 text-[#b38b6d] dark:text-[#f7ccab]">
-                <UAMark color="currentColor" height={34} />
-              </div>
-              <p class="text-4xl font-medium leading-none tracking-tight text-foreground dark:text-[#ede9e3] sm:text-6xl">
-                Unknown Arts
-              </p>
-              <p class="mt-3 max-w-lg text-base leading-snug text-muted-foreground dark:text-[#ede9e3]/70 sm:text-lg">
-                The newsletter for creative builders in the age of AI.
-              </p>
-            </div>
-          </div>
-        </div>
-      </a>
-      <div class="border-t border-border bg-background/70 p-5 dark:bg-background/45 sm:p-6">
-        <div class="mb-4 flex max-w-md gap-8">
-          <div>
-            <p class="text-lg font-semibold tracking-tight">7,500+</p>
-            <p class="font-mono text-xs text-muted-foreground">Subscribers</p>
-          </div>
-          <div>
-            <p class="text-lg font-semibold tracking-tight">200+</p>
-            <p class="font-mono text-xs text-muted-foreground">Articles</p>
-          </div>
-          <div>
-            <p class="text-lg font-semibold tracking-tight">128</p>
-            <p class="font-mono text-xs text-muted-foreground">Countries</p>
-          </div>
-        </div>
-        <p class="text-sm leading-relaxed text-muted-foreground">
-          Featured in
-          <a href="https://every.to" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Every</a>,
-          <a href="https://www.indiehackers.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">IndieHackers</a>,
-          <a href="https://tldr.tech/" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">TLDR</a>,
-          <a href="https://www.departmentofproduct.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">The Department of Product</a>,
-          <a href="https://uxdesign.cc" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">UX Collective</a>, and
-          <a href="https://heydesigner.com" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">HeyDesigner</a>.
+  {/* ── Community ────────────────────────────────────────── */}
+  <section class={`${homeSection} pb-20 sm:pb-24 lg:pb-28`}>
+    <div class={homeSectionHeader}>
+      <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Community</p>
+      <a href="/community" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
+    </div>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-6">
+      <div class="flex flex-col justify-center" data-project-card-item style="opacity: 0;">
+        <p class="max-w-md text-xl font-semibold leading-snug tracking-tight">
+          {communityStory.heading}
+        </p>
+        <p class="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
+          I stay active in creative communities through Unknown Arts, local gatherings, and showing up for the people building thoughtful work.
         </p>
       </div>
-      </article>
+      <div data-project-card-item style="opacity: 0;">
+        <div class="grid grid-cols-2 gap-3 sm:gap-4">
+          {homeCommunityPhotos.map((photo) => (
+            <figure class:list={[
+              "bg-white p-2 pb-7 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40",
+              photo.className,
+            ]}>
+              <div class="aspect-square overflow-hidden bg-muted">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  class:list={[
+                    "block h-full w-full object-cover",
+                    photo.position,
+                  ]}
+                />
+              </div>
+            </figure>
+          ))}
+        </div>
+      </div>
     </div>
-    <div class="flex flex-col gap-2">
-      {writingPosts.slice(0, 3).map((post) => (
-        <ArticleListItem
-          id={post.id}
-          title={post.data.title}
-          description={post.data.description}
-          publishedDate={post.data.publishedDate}
-          headingLevel="h3"
-        />
-      ))}
-    </div>
-    <div class="mt-8 flex items-center gap-6 text-sm">
-      <a href="/writing" class="transition-colors hover:text-accent">View all &rarr;</a>
-    </div>
-  </section>
-
-  {/* Kind Words */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-16" data-section-entrance style="opacity: 0;">
-    <h2 class="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-      Kind Words
-    </h2>
-    <div class="columns-1 gap-4 sm:columns-2">
-      {commendations.map((c) => (
-        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-kind-words-item style="opacity: 0;">
+    <div class="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
+      {communityCommendations.map((c) => c && (
+        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-project-card-item style="opacity: 0;">
           <p class="mb-4 font-mono text-[13px] leading-relaxed text-foreground">{c.quote}</p>
           <footer class="flex items-center gap-3">
-            <img
-              src={c.image}
-              alt={c.name}
-              class="h-8 w-8 shrink-0 rounded-full object-cover"
-            />
+            <img src={c.image} alt={c.name} class="h-8 w-8 shrink-0 rounded-full object-cover" loading="lazy" />
             <div>
               <p class="text-sm font-medium leading-tight">{c.name}</p>
               <p class="text-xs text-muted-foreground">{c.role}</p>
@@ -286,8 +374,8 @@ const newsletterMotion = {
     </div>
   </section>
 
-  {/* CTA */}
-  <section class="mx-auto max-w-3xl border-t border-border px-6 py-24 text-center" data-cta-section>
+  {/* ── Closing ──────────────────────────────────────────── */}
+  <section class={`${homeShell} pb-20 pt-2 text-center sm:pb-24 lg:pb-28`} data-cta-section>
     <PixelWaveText
       text="Let's craft a better future, together."
       as="p"
@@ -296,8 +384,113 @@ const newsletterMotion = {
     />
   </section>
 
+  <style>
+    .builder-grid {
+      background-image:
+        linear-gradient(rgba(244, 238, 231, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244, 238, 231, 0.08) 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+
+    .builder-scanlines {
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.22) 0,
+        rgba(0, 0, 0, 0.22) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      background-size: 100% 4px;
+    }
+
+    .builder-sweep {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(244, 238, 231, 0.12),
+        rgba(129, 230, 217, 0.18),
+        transparent
+      );
+      mix-blend-mode: screen;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-grid {
+      animation: builderGridDrift 3s linear both;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-scanlines {
+      animation: builderScanDrift 1s linear 3;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-sweep {
+      animation: builderSweep 3s ease-in-out both;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-readout {
+      animation: builderPulse 1s ease-in-out 3;
+    }
+
+    @keyframes builderGridDrift {
+      to {
+        background-position: 56px 28px, 56px 28px;
+      }
+    }
+
+    @keyframes builderScanDrift {
+      to {
+        background-position: 0 16px;
+      }
+    }
+
+    @keyframes builderSweep {
+      0%, 20% {
+        transform: translateX(0);
+      }
+      70%, 100% {
+        transform: translateX(320%);
+      }
+    }
+
+    @keyframes builderPulse {
+      0%, 100% {
+        opacity: 0.72;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-builder-photo][aria-pressed="true"] .builder-grid,
+      [data-builder-photo][aria-pressed="true"] .builder-scanlines,
+      [data-builder-photo][aria-pressed="true"] .builder-sweep,
+      [data-builder-photo][aria-pressed="true"] .builder-readout {
+        animation: none;
+      }
+    }
+  </style>
+
   <script>
     import "@/scripts/home-animations";
     import "@/scripts/lab-previews";
+
+    function initBuilderPhotos() {
+      document.querySelectorAll<HTMLButtonElement>("[data-builder-photo]").forEach((button) => {
+        if (button.dataset.initialized === "true") return;
+        button.dataset.initialized = "true";
+
+        button.addEventListener("click", () => {
+          if (button.getAttribute("aria-pressed") === "true") return;
+
+          button.setAttribute("aria-pressed", "true");
+          window.setTimeout(() => {
+            button.setAttribute("aria-pressed", "false");
+          }, 3000);
+        });
+      });
+    }
+
+    initBuilderPhotos();
+    document.addEventListener("astro:after-swap", initBuilderPhotos);
   </script>
 </PageLayout>

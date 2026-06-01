@@ -18,17 +18,17 @@ const { title, description, type, skills, thumbnail, heroImage } = Astro.props;
   <article class="mx-auto max-w-3xl px-6 py-16">
     {/* Back link */}
     <a
-      href="/"
-      class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+      href="/work"
+      class="project-load project-load-back mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
     >
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
       </svg>
-      Back
+      Work
     </a>
 
     {/* Hero */}
-    <header class="mb-12">
+    <header class="project-load project-load-header mb-12">
       <h1 class="mb-6 text-4xl font-medium tracking-tight sm:text-5xl">
         {title}
       </h1>
@@ -41,7 +41,7 @@ const { title, description, type, skills, thumbnail, heroImage } = Astro.props;
       </div>
 
       {heroImage && (
-        <div class="mb-8 overflow-hidden rounded-lg border border-border bg-card">
+        <div class="project-load project-load-media mb-8 overflow-hidden rounded-lg border border-border bg-card">
           <img
             src={heroImage}
             alt={title}
@@ -52,8 +52,43 @@ const { title, description, type, skills, thumbnail, heroImage } = Astro.props;
     </header>
 
     {/* Markdown body */}
-    <div class="prose">
+    <div class="project-load project-load-body prose">
       <slot />
     </div>
   </article>
+
+  <style>
+    .project-load {
+      animation: project-page-load 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .project-load-header {
+      animation-delay: 70ms;
+    }
+
+    .project-load-media {
+      animation-delay: 140ms;
+    }
+
+    .project-load-body {
+      animation-delay: 220ms;
+    }
+
+    @keyframes project-page-load {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .project-load {
+        animation: none;
+      }
+    }
+  </style>
 </PageLayout>

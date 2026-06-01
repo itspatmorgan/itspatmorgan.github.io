@@ -1,0 +1,131 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { roles } from "@/data/experience";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects", ({ data }) => !data.draft);
+
+function getRoleProjects(slugs: string[] = []) {
+  return slugs
+    .map((slug) => allProjects.find((p) => p.id === slug))
+    .filter(Boolean) as typeof allProjects;
+}
+---
+
+<PageLayout title="Work — Patrick Morgan" description="13+ years moving between strategy, design, and code.">
+
+  {/* Hero */}
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-resume-hero style="opacity: 0">
+    <h1 class="mb-3 text-4xl font-medium tracking-tight sm:text-5xl">Work</h1>
+    <p class="max-w-xl text-lg text-muted-foreground">13+ years moving between strategy, design, and code.</p>
+  </section>
+
+  {/* Timeline */}
+  <section class="mx-auto max-w-3xl px-6" data-resume-intro style="opacity: 0">
+    <p class="mb-10 font-mono text-sm uppercase tracking-widest text-muted-foreground">Career</p>
+
+    <div class="relative">
+      <div class="absolute left-[5px] top-2 bottom-0 w-px bg-border"></div>
+
+      {roles.map((role) => {
+        const projects = getRoleProjects(role.projects);
+        return (
+          <div class="relative mb-14 last:mb-0 pl-8" data-timeline-entry style="opacity: 0">
+            <div class="absolute left-0 top-[5px] size-3 rounded-full border border-border bg-background"></div>
+
+            <div class="mb-4 font-mono text-sm text-muted-foreground">{role.dateRange}</div>
+
+            <div class="mb-1 flex flex-wrap items-baseline gap-x-2">
+              {role.url
+                ? <a href={role.url} target="_blank" rel="noopener noreferrer" class="text-lg font-semibold leading-snug transition-colors hover:text-accent sm:text-xl">{role.company}</a>
+                : <span class="text-lg font-semibold leading-snug sm:text-xl">{role.company}</span>
+              }
+              <span class="text-base text-muted-foreground">{role.role}</span>
+            </div>
+
+            {role.summary && (
+              <p class="mt-4 text-base leading-relaxed text-muted-foreground">{role.summary}</p>
+            )}
+
+            {projects.length > 0 && (
+              <div class:list={["mt-6 grid gap-4", projects.length === 1 ? "sm:grid-cols-1 max-w-sm" : "grid-cols-1 sm:grid-cols-2"]}>
+                {projects.map((project, i) => (
+                  <ProjectCard
+                    title={project.data.title}
+                    description={project.data.description}
+                    skills={project.data.skills}
+                    thumbnail={project.data.thumbnail}
+                    thumbnailDark={project.data.thumbnailDark}
+                    thumbnailWide={project.data.thumbnailWide}
+                    thumbnailWideDark={project.data.thumbnailWideDark}
+                    slug={project.id}
+                    index={i}
+                    variant="compact"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  {/* Skills */}
+  <section class="mx-auto max-w-3xl px-6 pt-20 pb-24" data-resume-skills style="opacity: 0">
+    <p class="mb-10 font-mono text-sm uppercase tracking-widest text-muted-foreground">Skills</p>
+    <div class="flex flex-col gap-5">
+      {[
+        { label: "Design", skills: ["Product design", "Prototyping", "Interaction design", "Systems design", "Design systems", "User research", "Figma", "Framer", "Midjourney"] },
+        { label: "Dev", skills: ["HTML", "CSS", "Javascript", "React", "Tailwind", "ShadCN", "Git", "Github", "Claude Code", "Astro", "PNPM"] },
+        { label: "Domains", skills: ["B2B & Enterprise SaaS", "Cybersecurity", "FinTech"] },
+      ].map(({ label, skills }) => (
+        <div>
+          <p class="mb-2 font-mono text-sm uppercase tracking-widest text-muted-foreground/60">{label}</p>
+          <p class="text-base leading-relaxed text-foreground/70">{skills.join(" · ")}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+</PageLayout>
+
+<script>
+  import { animate } from "motion";
+
+  function init() {
+    const hero = document.querySelector<HTMLElement>("[data-resume-hero]");
+    const intro = document.querySelector<HTMLElement>("[data-resume-intro]");
+    const spring = { type: "spring" as const, stiffness: 160, damping: 20, mass: 0.8 };
+
+    if (hero) animate(hero, { opacity: [0, 1], y: [16, 0] }, { ...spring });
+    if (intro) animate(intro, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.2 });
+
+    const skills = document.querySelector<HTMLElement>("[data-resume-skills]");
+    const ua = document.querySelector<HTMLElement>("[data-resume-ua]");
+    if (skills) animate(skills, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.3 });
+    if (ua) animate(ua, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.35 });
+
+    const entries = document.querySelectorAll<HTMLElement>("[data-timeline-entry]");
+    const observer = new IntersectionObserver(
+      (observed) => {
+        observed.forEach(entry => {
+          if (entry.isIntersecting) {
+            animate(
+              entry.target as HTMLElement,
+              { opacity: [0, 1], y: [10, 0] },
+              { type: "spring", stiffness: 140, damping: 18, mass: 0.8 }
+            );
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    entries.forEach(el => observer.observe(el));
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>

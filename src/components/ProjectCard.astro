@@ -12,8 +12,12 @@ interface Props {
   slug: string;
   impact?: string;
   index?: number;
-  variant?: "full" | "compact";
+  variant?: "full" | "compact" | "bento";
   icon?: string;
+  wide?: boolean;
+  square?: boolean;
+  squareDesktop?: boolean;
+  showDescription?: boolean;
 }
 
 const {
@@ -29,13 +33,24 @@ const {
   index = 0,
   variant = "full",
   icon,
+  wide = false,
+  square = false,
+  squareDesktop = false,
+  showDescription = false,
 } = Astro.props;
 
 const isReversed = variant === "full" && index % 2 === 1;
+const compactThumbnail = square ? thumbnail : (thumbnailWide ?? thumbnail);
+const compactThumbnailDark = square ? thumbnailDark : (thumbnailWideDark ?? thumbnailDark);
+const compactAspect = square ? "aspect-square" : wide ? "aspect-[5/2]" : "aspect-video";
+const compactWideThumbnail = thumbnailWide ?? thumbnail;
+const compactWideThumbnailDark = thumbnailWideDark ?? thumbnailDark;
+const hasResponsiveCompactImage = squareDesktop && !square;
+const href = `/work/${slug}`;
 ---
 
 {variant === "full" ? (
-  <a href={`/projects/${slug}`} class="group block" data-project-card>
+  <a href={href} class="group block" data-project-card>
     <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
       <div class={`flex flex-col ${isReversed ? "md:flex-row-reverse" : "md:flex-row"}`}>
         <div class="texture-bg overflow-hidden md:w-[40%]">
@@ -89,41 +104,84 @@ const isReversed = variant === "full" && index % 2 === 1;
       </div>
     </article>
   </a>
-) : (
-  <a href={`/projects/${slug}`} class="group block" data-project-card>
-    <article class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
-      <div class="texture-bg overflow-hidden">
+) : variant === "bento" ? (
+  /* Bento variant: full-bleed image with aspect ratio, title overlay */
+  <a href={href} class="group block" data-project-card>
+    <article class="relative aspect-[3/4] overflow-hidden rounded-xl transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-black/10 dark:group-hover:shadow-black/30">
+      <img
+        src={thumbnail}
+        alt={title}
+        class:list={["absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]", thumbnailDark && "dark:hidden"]}
+      />
+      {thumbnailDark && (
         <img
-          src={thumbnail}
+          src={thumbnailDark}
           alt={title}
-          class:list={["aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]", thumbnailDark && "dark:hidden"]}
+          class="absolute inset-0 hidden h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04] dark:block"
         />
-        {thumbnailDark && (
-          <img
-            src={thumbnailDark}
-            alt={title}
-            class="hidden aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block"
-          />
+      )}
+      <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 right-0 p-4">
+        <h3 class="text-sm font-medium leading-snug tracking-tight text-white drop-shadow">{title}</h3>
+      </div>
+    </article>
+  </a>
+) : (
+  /* Compact variant */
+  <a href={href} class="group flex h-full flex-col" data-project-card>
+    <article class="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20">
+      <div class="texture-bg shrink-0 overflow-hidden">
+        {hasResponsiveCompactImage ? (
+          <>
+            <img
+              src={compactWideThumbnail}
+              alt={title}
+              class:list={["aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] lg:hidden", compactWideThumbnailDark && "dark:hidden"]}
+            />
+            {compactWideThumbnailDark && (
+              <img
+                src={compactWideThumbnailDark}
+                alt={title}
+                class="hidden aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block lg:dark:hidden"
+              />
+            )}
+            <img
+              src={thumbnail}
+              alt={title}
+              class:list={["hidden aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] lg:block", thumbnailDark && "dark:lg:hidden"]}
+            />
+            {thumbnailDark && (
+              <img
+                src={thumbnailDark}
+                alt={title}
+                class="hidden aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] lg:dark:block"
+              />
+            )}
+          </>
+        ) : (
+          <>
+            <img
+              src={compactThumbnail}
+              alt={title}
+              class:list={[compactAspect, "w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]", compactThumbnailDark && "dark:hidden"]}
+            />
+            {compactThumbnailDark && (
+              <img
+                src={compactThumbnailDark}
+                alt={title}
+                class:list={[compactAspect, "hidden w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] dark:block"]}
+              />
+            )}
+          </>
         )}
       </div>
-      <div class="p-4">
-        <div class="mb-2 flex items-center gap-2">
-          {icon && (
-            <img
-              src={icon}
-              alt=""
-              class="logo-adaptive h-5 w-5 shrink-0"
-            />
-          )}
-          <h3 class="text-base font-semibold tracking-tight">
-            {title}
-          </h3>
-        </div>
-        <div class="flex flex-wrap gap-1.5">
-          {skills.map((skill) => (
-            <Badge variant="secondary" className="text-[11px]">{skill}</Badge>
-          ))}
-        </div>
+      <div class:list={["flex flex-1 flex-col items-start", showDescription ? "p-4" : "p-4"]}>
+        <h3 class:list={[showDescription ? "mb-2 text-base font-semibold tracking-tight" : "line-clamp-2 text-base font-medium leading-snug tracking-tight"]}>{title}</h3>
+        {showDescription && (
+          <p class="text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+        )}
       </div>
     </article>
   </a>

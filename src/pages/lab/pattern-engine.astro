@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/layout/Header.astro';
+import MobileNav from '@/components/layout/MobileNav.astro';
+import Sidebar from '@/components/layout/Sidebar.astro';
 import PatternEngine from '@/lab/editorial-art/index';
 import { getCollection } from "astro:content";
 
@@ -13,14 +15,31 @@ const entry = (await getCollection("lab")).find((item) => item.data.slug === "pa
   noindex
 >
   <Header />
-  <div class="lab-tool-fade">
-    <PatternEngine client:only="react" />
+  <MobileNav />
+  <div class="pattern-engine-shell md:flex md:min-h-dvh">
+    <Sidebar />
+    <main class="min-w-0 flex-1">
+      <div class="lab-tool-fade">
+        <PatternEngine client:only="react" />
+      </div>
+    </main>
   </div>
 </BaseLayout>
 
 <style>
+  .pattern-engine-shell {
+    --pattern-engine-height: calc(100dvh - 3.5rem);
+  }
+
   .lab-tool-fade {
+    min-height: var(--pattern-engine-height);
     animation: lab-tool-in 0.5s ease-out both;
+  }
+
+  @media (min-width: 48rem) {
+    .pattern-engine-shell {
+      --pattern-engine-height: 100dvh;
+    }
   }
 
   @keyframes lab-tool-in {

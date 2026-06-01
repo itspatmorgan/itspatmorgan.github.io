@@ -1,0 +1,482 @@
+---
+import { siteConfig } from "@/data/site-config";
+import Logo from "./Logo.astro";
+import { FileText, FlaskConical, Globe2, House, PenLine, UserRound, UsersRound } from "lucide-react";
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === "/") return currentPath === "/";
+  return currentPath === href || currentPath.startsWith(href + "/");
+}
+
+const navItems = [
+  {
+    label: "Home",
+    href: "/",
+    Icon: House,
+  },
+  {
+    label: "About",
+    href: "/about",
+    Icon: UserRound,
+  },
+  {
+    label: "Work",
+    href: "/work",
+    Icon: FileText,
+  },
+  {
+    label: "Lab",
+    href: "/lab",
+    Icon: FlaskConical,
+  },
+  {
+    label: "Writing",
+    href: "/writing",
+    Icon: PenLine,
+  },
+  {
+    label: "Community",
+    href: "/community",
+    Icon: UsersRound,
+  },
+];
+
+const elsewhere = [
+  {
+    label: "Substack",
+    href: siteConfig.social.newsletter,
+    icon: `<path d="M20.6 8.242H1.46V5.406H20.6v2.836zM1.46 10.812V24l9.6-5.55 9.54 5.55V10.812H1.46zM20.6 0H1.46v2.836H20.6V0z"/>`,
+  },
+  {
+    label: "LinkedIn",
+    href: siteConfig.social.linkedin,
+    icon: `<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>`,
+  },
+  {
+    label: "X",
+    href: siteConfig.social.x,
+    icon: `<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>`,
+  },
+  {
+    label: "GitHub",
+    href: siteConfig.social.github,
+    icon: `<path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>`,
+  },
+];
+---
+
+<aside id="sidebar" class="sidebar hidden md:flex shrink-0 flex-col sticky top-0 h-screen border-r border-border bg-background z-30">
+
+  {/* Identity — pixel mark is the collapse trigger */}
+  <div class="identity flex items-center gap-3 px-4 py-3 shrink-0">
+    <button
+      id="sidebar-collapse-btn"
+      class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-lg"
+      aria-label="Toggle sidebar"
+      title="Toggle sidebar"
+    >
+      <Logo interaction="sidebar-toggle" class="h-8 w-8" />
+    </button>
+    <div class="identity-text min-w-0">
+      <p class="text-sm font-medium leading-tight whitespace-nowrap">Patrick Morgan</p>
+      <p class="text-xs text-muted-foreground leading-tight mt-0.5 whitespace-nowrap">Software Designer</p>
+    </div>
+  </div>
+
+  {/* Nav — primary links */}
+  <nav class="px-2 py-3 shrink-0" aria-label="Main navigation">
+    <ul class="flex flex-col gap-0.5">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            title={item.label}
+            class:list={[
+              "nav-item flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors duration-200",
+              isActive(item.href)
+                ? "bg-secondary text-secondary-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground",
+            ]}
+          >
+            <item.Icon className="nav-icon shrink-0" size={18} strokeWidth={1.75} aria-hidden="true" />
+            <span class="nav-text whitespace-nowrap overflow-hidden">{item.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+  </nav>
+
+  {/* Spacer */}
+  <div class="flex-1" />
+
+  {/* Footer — minimal links and persistent controls */}
+  <div id="sidebar-footer" class="shrink-0">
+    <div id="sidebar-footer-controls" class="px-4 py-3">
+      <ul class="elsewhere-group -ml-1.5 flex items-center gap-1">
+        {elsewhere.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={item.label}
+              title={item.label}
+              class="elsewhere-item flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors duration-200 hover:text-foreground"
+            >
+              <svg class="shrink-0 h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={item.icon} />
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <button
+        id="elsewhere-rollup-btn"
+      class="h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground"
+        type="button"
+        aria-label="Elsewhere links"
+        aria-expanded="false"
+        aria-controls="elsewhere-rollup-panel"
+        title="Elsewhere links"
+      >
+        <Globe2 size={18} strokeWidth={1.75} aria-hidden="true" />
+      </button>
+
+      <div id="sidebar-bottom" class="mt-2 flex items-center justify-between shrink-0">
+        <div id="sidebar-time-text" class="font-mono text-xs text-muted-foreground tabular-nums whitespace-nowrap" aria-live="polite">
+          LA&nbsp;&middot;&nbsp;<span id="sidebar-local-time">--:--</span>
+        </div>
+        <div id="sidebar-toggle" class="flex h-8 w-8 items-center justify-center">
+          <button
+            id="sidebar-theme-toggle"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground"
+            type="button"
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
+          >
+            <svg class="theme-icon-moon h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401z"></path>
+            </svg>
+            <svg class="theme-icon-sun hidden h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="elsewhere-rollup-panel" class="fixed bottom-3 left-[4.5rem] invisible w-44 translate-x-[-0.25rem] rounded-lg border border-border bg-background p-1.5 opacity-0 shadow-lg transition-all duration-200" aria-hidden="true" inert>
+    <p class="px-2 pb-1.5 pt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">Elsewhere</p>
+    <ul>
+      {elsewhere.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2.5 rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground"
+          >
+            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={item.icon} />
+            <span>{item.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+</aside>
+
+<style is:global>
+  /* ── Sidebar shell ──────────────────────────────── */
+  #sidebar {
+    width: 14rem;
+    transition: width 240ms cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  @media (min-width: 1024px) {
+    #sidebar { width: 15rem; }
+  }
+  html.sidebar-collapsed #sidebar {
+    width: 4rem;
+  }
+
+  /* ── Identity ────────────────────────────────────── */
+  #sidebar .identity-text {
+    max-width: 180px;
+    overflow: hidden;
+    transition: opacity 160ms ease,
+                max-width 240ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+  }
+  #sidebar .identity {
+    transition: padding 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) .identity-text {
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) .identity {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* ── Nav items: text hides, items become icon squares ─ */
+  #sidebar nav {
+    transition: padding 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) nav {
+    padding-left: 15.5px;
+    padding-right: 15.5px;
+  }
+  #sidebar .nav-item {
+    width: 100%;
+    padding-left: 14px;
+    padding-right: 10px;
+    transition: padding 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                height 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                gap 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 200ms ease,
+                background-color 200ms ease;
+  }
+  #sidebar .nav-item:not(.bg-secondary):hover {
+    background-color: color-mix(in oklch, var(--secondary) 60%, transparent);
+  }
+  #sidebar nav li {
+    width: 100%;
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) .nav-item {
+    height: 32px;
+    padding: 0 7px;
+    gap: 0;
+  }
+  #sidebar .nav-text {
+    transition: opacity 160ms ease, max-width 240ms cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 200px;
+    opacity: 1;
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) .nav-text {
+    opacity: 0;
+    max-width: 0;
+    pointer-events: none;
+  }
+
+  /* ── Footer controls ──────────────────────────────── */
+  #sidebar-footer-controls {
+    position: relative;
+    transition: padding 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #sidebar-footer-controls {
+    padding: 12px 16px;
+  }
+  #sidebar .elsewhere-group {
+    transition: opacity 160ms ease,
+                transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) .elsewhere-group {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.94);
+  }
+  #sidebar .elsewhere-item {
+    transition: color 200ms ease,
+                background-color 200ms ease;
+    opacity: 0.64;
+  }
+  #sidebar .elsewhere-item:hover {
+    opacity: 1;
+  }
+
+  /* ── Bottom strip ─────────────────────────────────── */
+  #sidebar-time-text {
+    max-width: 160px;
+    overflow: hidden;
+    transition: opacity 140ms ease,
+                max-width 240ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #sidebar-time-text {
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #sidebar-bottom {
+    transition: gap 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                margin 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #sidebar-bottom {
+    margin-top: 6px;
+  }
+  #sidebar-toggle,
+  #sidebar-toggle button {
+    height: 32px;
+    width: 32px;
+    color: var(--muted-foreground);
+    transition: height 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                width 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 200ms ease,
+                background-color 200ms ease;
+  }
+  #sidebar-toggle button:hover {
+    color: var(--foreground);
+  }
+  #sidebar-toggle svg {
+    height: 18px;
+    width: 18px;
+  }
+  html.dark #sidebar-theme-toggle .theme-icon-moon {
+    display: none;
+  }
+  html.dark #sidebar-theme-toggle .theme-icon-sun {
+    display: block;
+  }
+  #elsewhere-rollup-btn {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.94);
+    transition: opacity 160ms ease,
+                transform 240ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 200ms ease,
+                background-color 200ms ease;
+  }
+  :is(#sidebar.is-collapsed, html.sidebar-collapsed #sidebar) #elsewhere-rollup-btn {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  #elsewhere-rollup-panel.is-open {
+    visibility: visible;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+</style>
+
+<script>
+  function applyCollapsed(sidebar: HTMLElement, collapsed: boolean) {
+    const elsewhereGroup = sidebar.querySelector(".elsewhere-group") as HTMLElement | null;
+    const rollupBtn = sidebar.querySelector("#elsewhere-rollup-btn") as HTMLButtonElement | null;
+    const mark = sidebar.querySelector<SVGElement>(".logo-sidebar-toggle");
+
+    sidebar.style.removeProperty("width");
+    document.documentElement.classList.toggle("sidebar-collapsed", collapsed);
+    sidebar.classList.toggle("is-collapsed", collapsed);
+    if (mark) mark.dataset.toggleDirection = collapsed ? "expand" : "collapse";
+    elsewhereGroup?.toggleAttribute("inert", collapsed);
+    if (rollupBtn) rollupBtn.tabIndex = collapsed ? 0 : -1;
+  }
+
+  function initSidebar() {
+    const sidebar = document.getElementById("sidebar") as HTMLElement | null;
+    const btn = document.getElementById("sidebar-collapse-btn") as HTMLElement | null;
+    const rollupBtn = document.getElementById("elsewhere-rollup-btn") as HTMLButtonElement | null;
+    const rollupPanel = document.getElementById("elsewhere-rollup-panel") as HTMLElement | null;
+    if (!sidebar || !btn) return;
+
+    function setRollupOpen(open: boolean) {
+      rollupPanel?.classList.toggle("is-open", open);
+      rollupPanel?.setAttribute("aria-hidden", String(!open));
+      rollupPanel?.toggleAttribute("inert", !open);
+      rollupBtn?.setAttribute("aria-expanded", String(open));
+    }
+
+    const collapsed = localStorage.getItem("sidebar-collapsed") === "true";
+    sidebar.style.transition = "none";
+    applyCollapsed(sidebar, collapsed);
+    requestAnimationFrame(() => { sidebar.style.transition = ""; });
+
+    if (btn.dataset.sidebarInitialized === "true") return;
+    btn.dataset.sidebarInitialized = "true";
+
+    btn.addEventListener("click", () => {
+      const isNowCollapsed = !sidebar.classList.contains("is-collapsed");
+      setRollupOpen(false);
+      applyCollapsed(sidebar, isNowCollapsed);
+      localStorage.setItem("sidebar-collapsed", String(isNowCollapsed));
+    });
+
+    rollupBtn?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setRollupOpen(rollupBtn.getAttribute("aria-expanded") !== "true");
+    });
+    rollupPanel?.addEventListener("click", (event) => event.stopPropagation());
+    document.addEventListener("click", () => setRollupOpen(false));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setRollupOpen(false);
+    });
+
+  }
+
+  function initSidebarFooterControls() {
+    const time = document.getElementById("sidebar-local-time");
+    const themeToggle = document.getElementById("sidebar-theme-toggle") as HTMLButtonElement | null;
+    if (!time || !themeToggle) return;
+    if (themeToggle.dataset.themeInitialized === "true") return;
+    themeToggle.dataset.themeInitialized = "true";
+
+    function updateTime() {
+      time.textContent = new Date().toLocaleTimeString("en-US", {
+        timeZone: "America/Los_Angeles",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+
+    function updateThemeLabel() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const next = isDark ? "light" : "dark";
+      themeToggle.setAttribute("aria-label", `Switch to ${next} mode`);
+      themeToggle.setAttribute("title", `Switch to ${next} mode`);
+    }
+
+    updateTime();
+    updateThemeLabel();
+
+    const now = new Date();
+    const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+    window.setTimeout(() => {
+      updateTime();
+      window.setInterval(updateTime, 60_000);
+    }, msUntilNextMinute);
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const next = isDark ? "light" : "dark";
+
+      const apply = () => {
+        document.documentElement.classList.toggle("dark", next === "dark");
+        localStorage.setItem("theme", next);
+        updateThemeLabel();
+      };
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduced && "startViewTransition" in document) {
+        (document as Document & { startViewTransition: (cb: () => void) => void }).startViewTransition(apply);
+      } else {
+        apply();
+      }
+    });
+  }
+
+  initSidebar();
+  initSidebarFooterControls();
+  document.addEventListener("astro:after-swap", initSidebar);
+  document.addEventListener("astro:after-swap", initSidebarFooterControls);
+</script>

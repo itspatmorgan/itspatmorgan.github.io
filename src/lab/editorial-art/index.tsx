@@ -133,6 +133,7 @@ function bgColorFromParam(value: string | null, fallback: string): string {
 }
 
 function numberParam(params: URLSearchParams, key: string, fallback: number): number {
+  if (!params.has(key)) return fallback;
   const value = Number(params.get(key));
   return Number.isFinite(value) ? value : fallback;
 }
@@ -633,7 +634,7 @@ export default function EditorialArtTool() {
   const { generator, bgColor } = state;
 
   return (
-    <div className="relative flex h-[calc(100vh-3.5rem)] overflow-hidden">
+    <div data-editorial-art-tool className="relative flex h-[var(--pattern-engine-height,calc(100dvh-3.5rem))] overflow-hidden">
 
       {mobileControlsOpen && (
         <button

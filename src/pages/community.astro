@@ -1,0 +1,100 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { commendations } from "@/data/commendations";
+import { communityPhotos, communityStory } from "@/data/community";
+
+const communityPagePhotos = communityPhotos.map((photo, index) => ({
+  ...photo,
+  className: ["rotate-[-2deg]", "rotate-[2deg]", "rotate-[-1deg]", "rotate-[1deg]"][index],
+}));
+---
+
+<PageLayout title="Community — Patrick Morgan" description="Showing up for creative people in Los Angeles through writing, events, and community.">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24 sm:pb-12" data-community-hero style="opacity: 0;">
+    <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">Community</h1>
+    <p class="max-w-xl text-lg text-muted-foreground">
+      Showing up for creative people in Los Angeles through writing, events, and community.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-16" data-community-story style="opacity: 0;">
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+      {communityPagePhotos.map((photo) => (
+        <figure class:list={[
+          "bg-white p-2 pb-7 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40",
+          photo.className,
+        ]}>
+          <div class="aspect-square overflow-hidden bg-muted">
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              loading="lazy"
+              class:list={[
+                "block h-full w-full object-cover",
+                photo.position,
+              ]}
+            />
+          </div>
+        </figure>
+      ))}
+    </div>
+
+    <p class="mt-12 text-xl font-semibold leading-snug tracking-tight">
+      Showing up for people.
+    </p>
+    <div class="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground">
+      {communityStory.paragraphs.slice(0, 2).map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 pb-24" data-community-words style="opacity: 0;">
+    <div class="mb-10">
+      <h2 class="mb-3 text-xl font-semibold leading-snug tracking-tight">Kind words from the community.</h2>
+      <p class="text-base leading-relaxed text-muted-foreground">
+        A few notes from readers, event guests, and people in the design community.
+      </p>
+    </div>
+
+    <div class="columns-1 gap-4 sm:columns-2">
+      {commendations.map((c) => (
+        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-kind-words-item style="opacity: 0;">
+          <p class="mb-4 font-mono text-[13px] leading-relaxed text-foreground">{c.quote}</p>
+          <footer class="flex items-center gap-3">
+            <img
+              src={c.image}
+              alt={c.name}
+              class="h-8 w-8 shrink-0 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-sm font-medium leading-tight">{c.name}</p>
+              <p class="text-xs text-muted-foreground">{c.role}</p>
+            </div>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  import { animate } from "motion";
+  import { observeSections } from "@/scripts/scroll-entrance";
+
+  function init() {
+    const hero = document.querySelector<HTMLElement>("[data-community-hero]");
+    const story = document.querySelector<HTMLElement>("[data-community-story]");
+    const words = document.querySelector<HTMLElement>("[data-community-words]");
+    const spring = { type: "spring" as const, stiffness: 160, damping: 20, mass: 0.8 };
+
+    if (hero) animate(hero, { opacity: [0, 1], y: [16, 0] }, { ...spring });
+    if (story) animate(story, { opacity: [0, 1], y: [12, 0] }, { ...spring, delay: 0.08 });
+    if (words) animate(words, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.2 });
+
+    observeSections("[data-kind-words-item]", { yOffset: 10, stagger: 0.04 });
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>

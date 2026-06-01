@@ -265,9 +265,9 @@ export function ScaleStrip() {
     { size: 96, label: "Display" },
   ];
   return (
-    <div className="flex items-end gap-8">
+    <div className="grid grid-cols-2 items-end gap-x-8 gap-y-10 sm:flex sm:gap-8">
       {sizes.map(({ size, label }) => (
-        <div key={size} className="flex flex-col items-center gap-3">
+        <div key={size} className="flex min-w-0 flex-col items-center gap-3">
           <BlockMark size={size} />
           <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
             {label}

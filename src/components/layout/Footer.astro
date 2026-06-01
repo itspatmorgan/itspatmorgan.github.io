@@ -1,89 +1,21 @@
 ---
-import { siteConfig } from "@/data/site-config";
-import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
 import { LocalTime } from "@/components/LocalTime";
-
-const footerPattern = {
-  type: "dot-grid",
-  seed: 247,
-  spacing: 16,
-  scale: 340,
-  dotSize: 58,
-  opacity: 30,
-  color: "muted",
-} as const;
-
-const footerLightPattern = {
-  ...footerPattern,
-  opacity: 62,
-  color: "bronze",
-} as const;
 ---
 
-<footer class="relative overflow-hidden border-t border-border py-16" data-generative-pattern-trigger>
-  <GenerativePatternSurface
-    name="site-footer"
-    config={footerPattern}
-    lightConfig={footerLightPattern}
-    duration={3200}
-    className="absolute inset-0 opacity-35 mix-blend-multiply [mask-image:linear-gradient(to_bottom,transparent_0%,black_28%,black_100%)] dark:opacity-45 dark:mix-blend-screen"
-    client:visible
-  />
-  <div class="relative z-10 mx-auto max-w-3xl px-6">
-    <h2 class="mb-3 text-2xl font-medium tracking-tight">Get in touch!</h2>
-    <p class="mb-8 max-w-lg text-sm leading-relaxed text-muted-foreground">
-      Always excited to connect with fellow creators and curious minds.
-    </p>
-    <div class="mb-10">
-      <h3 class="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">Links</h3>
-      <div class="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
-        <a href="/" class="transition-colors hover:text-accent">Home</a>
-        <a
-          href={siteConfig.social.newsletter}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          Newsletter &#8599;
-        </a>
-        <a href="/resume" class="transition-colors hover:text-accent">Resume</a>
-        <a
-          href={siteConfig.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          LinkedIn &#8599;
-        </a>
-        <a href="/writing" class="transition-colors hover:text-accent">Writing</a>
-        <a
-          href={siteConfig.social.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          X &#8599;
-        </a>
-        <a href="/lab" class="transition-colors hover:text-accent">Lab</a>
-        <a
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors hover:text-accent"
-        >
-          GitHub &#8599;
-        </a>
-      </div>
-    </div>
-    <div class="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-      <div class="flex items-center gap-3">
-        <p>&copy; {new Date().getFullYear()} Patrick Morgan</p>
-        <span class="text-muted-foreground/30">&middot;</span>
-        <a href="/colophon" class="transition-colors hover:text-accent">Colophon</a>
-        <span class="text-muted-foreground/30">&middot;</span>
-        <a href="/style-guide" class="transition-colors hover:text-accent">Style Guide</a>
-      </div>
-      <LocalTime client:load />
+<footer class="py-8 sm:py-10">
+  <div class="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 sm:px-8 lg:px-14">
+    <a
+      href="/colophon"
+      class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60 transition-colors hover:text-foreground"
+    >
+      Colophon
+    </a>
+    <div class="flex items-center gap-3 whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+      <span>&copy; {new Date().getFullYear()}</span>
+      {/* Sidebar already shows local time on desktop. */}
+      <span class="md:hidden">
+        <LocalTime compact client:load />
+      </span>
     </div>
   </div>
 </footer>
