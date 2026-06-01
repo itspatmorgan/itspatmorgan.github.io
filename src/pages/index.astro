@@ -80,7 +80,7 @@ const homeCommunityPhotos = [
 
 const homeShell = "mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-14";
 const homeSection = `${homeShell} py-12 sm:py-14 lg:py-16`;
-const homeFirstSection = `${homeShell} pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pt-10 lg:pb-16`;
+const homeFirstSection = `${homeShell} pt-5 pb-12 sm:pt-10 sm:pb-14 lg:pt-10 lg:pb-16`;
 const homeSectionHeader = "mb-7 flex items-center justify-between";
 const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6";
 ---
@@ -88,7 +88,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 <PageLayout>
 
   {/* ── Hero ────────────────────────────────────────────── */}
-  <section class={`${homeShell} pt-10 pb-8 sm:pt-16 sm:pb-10 lg:pt-16 lg:pb-6`}>
+  <section class={`${homeShell} pt-10 pb-4 sm:pt-16 sm:pb-10 lg:pt-16 lg:pb-6`}>
 
     {/* Mobile layout */}
     <div class="md:hidden">
@@ -117,7 +117,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
           </>
         ))}
       </div>
-      <div class="mb-7 space-y-3 text-sm leading-relaxed">
+      <div class="mb-4 space-y-3 text-sm leading-relaxed">
         <p class="text-foreground/80">{heroIntro}</p>
         <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
       </div>
