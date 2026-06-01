@@ -27,6 +27,7 @@ visual:
     strokeWidth: 1.5
   texture: 0
   grain: 24
+canonicalUrl: "https://www.unknownarts.co/p/turn-your-portfolio-into-a-laboratory"
 draft: false
 ---
 > We shape our tools, and thereafter our tools shape us.
