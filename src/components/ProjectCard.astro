@@ -175,8 +175,8 @@ const href = `/work/${slug}`;
           </>
         )}
       </div>
-      <div class:list={["flex flex-1 flex-col items-start", showDescription ? "p-4" : "px-4 py-3"]}>
-        <h3 class:list={[showDescription ? "mb-2 text-base font-semibold tracking-tight" : "line-clamp-2 text-sm font-medium leading-snug tracking-tight"]}>{title}</h3>
+      <div class:list={["flex flex-1 flex-col items-start", showDescription ? "p-4" : "p-4"]}>
+        <h3 class:list={[showDescription ? "mb-2 text-base font-semibold tracking-tight" : "line-clamp-2 text-base font-medium leading-snug tracking-tight"]}>{title}</h3>
         {showDescription && (
           <p class="text-sm leading-relaxed text-muted-foreground">
             {description}

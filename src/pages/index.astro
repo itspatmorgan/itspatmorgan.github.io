@@ -74,7 +74,7 @@ const homeCommunityPhotos = [
   {
     ...communityPhotos[3],
     className: "rotate-[2deg]",
-    position: "object-[58%_50%]",
+    position: "object-[42%_50%]",
   },
 ] as const;
 
@@ -162,15 +162,43 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       {/* Right — polaroid photo */}
       <div class="relative shrink-0 rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02]">
         {/* Polaroid frame */}
-        <div class="bg-white p-2 pb-8 shadow-2xl shadow-black/20 dark:bg-[#20201e] dark:shadow-black/50 lg:p-3 lg:pb-10">
-          <div class="h-52 w-52 overflow-hidden lg:h-64 lg:w-64 xl:h-72 xl:w-72">
+        <button
+          type="button"
+          class="group/builder block cursor-cell bg-white p-2 pb-8 text-left shadow-2xl shadow-black/20 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background dark:bg-[#20201e] dark:shadow-black/50 lg:p-3 lg:pb-10"
+          data-builder-photo
+          aria-pressed="false"
+          aria-label="Run builder mode portrait animation"
+        >
+          <div class="relative h-52 w-52 overflow-hidden lg:h-64 lg:w-64 xl:h-72 xl:w-72">
             <img
               src="/images/brand/profile-living-room.jpg"
               alt="Patrick Morgan"
-              class="block h-full w-full scale-[1.55] object-cover object-[43%_54%]"
+              class="block h-full w-full scale-[1.55] object-cover object-[43%_54%] transition duration-500 group-aria-pressed/builder:scale-[1.62] group-aria-pressed/builder:grayscale group-aria-pressed/builder:contrast-125 group-aria-pressed/builder:brightness-75 group-aria-pressed/builder:saturate-0 group-aria-pressed/builder:[image-rendering:pixelated]"
             />
+            <div
+              class="builder-grid pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition-opacity duration-500 group-aria-pressed/builder:opacity-80"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="builder-scanlines pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-aria-pressed/builder:opacity-100"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="pointer-events-none absolute inset-0 bg-cyan-900/0 transition-colors duration-500 group-aria-pressed/builder:bg-cyan-900/25"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="builder-sweep pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 opacity-0 transition-opacity duration-500 group-aria-pressed/builder:opacity-100"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="builder-readout pointer-events-none absolute bottom-2 left-2 font-mono text-[10px] uppercase tracking-widest text-white/0 transition-colors duration-500 group-aria-pressed/builder:text-white/75"
+              aria-hidden="true"
+            >
+              Building...
+            </div>
           </div>
-        </div>
+        </button>
       </div>
 
     </div>
@@ -356,8 +384,113 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
     />
   </section>
 
+  <style>
+    .builder-grid {
+      background-image:
+        linear-gradient(rgba(244, 238, 231, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244, 238, 231, 0.08) 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+
+    .builder-scanlines {
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.22) 0,
+        rgba(0, 0, 0, 0.22) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      background-size: 100% 4px;
+    }
+
+    .builder-sweep {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(244, 238, 231, 0.12),
+        rgba(129, 230, 217, 0.18),
+        transparent
+      );
+      mix-blend-mode: screen;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-grid {
+      animation: builderGridDrift 3s linear both;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-scanlines {
+      animation: builderScanDrift 1s linear 3;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-sweep {
+      animation: builderSweep 3s ease-in-out both;
+    }
+
+    [data-builder-photo][aria-pressed="true"] .builder-readout {
+      animation: builderPulse 1s ease-in-out 3;
+    }
+
+    @keyframes builderGridDrift {
+      to {
+        background-position: 56px 28px, 56px 28px;
+      }
+    }
+
+    @keyframes builderScanDrift {
+      to {
+        background-position: 0 16px;
+      }
+    }
+
+    @keyframes builderSweep {
+      0%, 20% {
+        transform: translateX(0);
+      }
+      70%, 100% {
+        transform: translateX(320%);
+      }
+    }
+
+    @keyframes builderPulse {
+      0%, 100% {
+        opacity: 0.72;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-builder-photo][aria-pressed="true"] .builder-grid,
+      [data-builder-photo][aria-pressed="true"] .builder-scanlines,
+      [data-builder-photo][aria-pressed="true"] .builder-sweep,
+      [data-builder-photo][aria-pressed="true"] .builder-readout {
+        animation: none;
+      }
+    }
+  </style>
+
   <script>
     import "@/scripts/home-animations";
     import "@/scripts/lab-previews";
+
+    function initBuilderPhotos() {
+      document.querySelectorAll<HTMLButtonElement>("[data-builder-photo]").forEach((button) => {
+        if (button.dataset.initialized === "true") return;
+        button.dataset.initialized = "true";
+
+        button.addEventListener("click", () => {
+          if (button.getAttribute("aria-pressed") === "true") return;
+
+          button.setAttribute("aria-pressed", "true");
+          window.setTimeout(() => {
+            button.setAttribute("aria-pressed", "false");
+          }, 3000);
+        });
+      });
+    }
+
+    initBuilderPhotos();
+    document.addEventListener("astro:after-swap", initBuilderPhotos);
   </script>
 </PageLayout>

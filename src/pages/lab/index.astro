@@ -27,7 +27,7 @@ const entries = (await getCollection("lab", ({ data }) => !data.draft))
     </p>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pt-8 pb-24" data-lab-list style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pb-24" data-lab-list style="opacity: 0">
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
       {entries.map((entry) => (
         <LabCard

@@ -22,8 +22,8 @@ function getRoleProjects(slugs: string[] = []) {
   </section>
 
   {/* Timeline */}
-  <section class="mx-auto max-w-3xl px-6 pt-8" data-resume-intro style="opacity: 0">
-    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">Career</p>
+  <section class="mx-auto max-w-3xl px-6" data-resume-intro style="opacity: 0">
+    <p class="mb-10 font-mono text-sm uppercase tracking-widest text-muted-foreground">Career</p>
 
     <div class="relative">
       <div class="absolute left-[5px] top-2 bottom-0 w-px bg-border"></div>
@@ -32,20 +32,20 @@ function getRoleProjects(slugs: string[] = []) {
         const projects = getRoleProjects(role.projects);
         return (
           <div class="relative mb-14 last:mb-0 pl-8" data-timeline-entry style="opacity: 0">
-            <div class="absolute left-0 top-[3px] size-[11px] rounded-full border border-border bg-background"></div>
+            <div class="absolute left-0 top-[5px] size-3 rounded-full border border-border bg-background"></div>
 
-            <div class="mb-4 font-mono text-xs text-muted-foreground">{role.dateRange}</div>
+            <div class="mb-4 font-mono text-sm text-muted-foreground">{role.dateRange}</div>
 
             <div class="mb-1 flex flex-wrap items-baseline gap-x-2">
               {role.url
-                ? <a href={role.url} target="_blank" rel="noopener noreferrer" class="text-base font-semibold leading-snug hover:text-accent transition-colors">{role.company}</a>
-                : <span class="text-base font-semibold leading-snug">{role.company}</span>
+                ? <a href={role.url} target="_blank" rel="noopener noreferrer" class="text-lg font-semibold leading-snug transition-colors hover:text-accent sm:text-xl">{role.company}</a>
+                : <span class="text-lg font-semibold leading-snug sm:text-xl">{role.company}</span>
               }
-              <span class="text-sm text-muted-foreground">{role.role}</span>
+              <span class="text-base text-muted-foreground">{role.role}</span>
             </div>
 
             {role.summary && (
-              <p class="mt-3 text-base leading-relaxed text-muted-foreground">{role.summary}</p>
+              <p class="mt-4 text-base leading-relaxed text-muted-foreground">{role.summary}</p>
             )}
 
             {projects.length > 0 && (
@@ -74,7 +74,7 @@ function getRoleProjects(slugs: string[] = []) {
 
   {/* Skills */}
   <section class="mx-auto max-w-3xl px-6 pt-20 pb-24" data-resume-skills style="opacity: 0">
-    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">Skills</p>
+    <p class="mb-10 font-mono text-sm uppercase tracking-widest text-muted-foreground">Skills</p>
     <div class="flex flex-col gap-5">
       {[
         { label: "Design", skills: ["Product design", "Prototyping", "Interaction design", "Systems design", "Design systems", "User research", "Figma", "Framer", "Midjourney"] },
@@ -82,7 +82,7 @@ function getRoleProjects(slugs: string[] = []) {
         { label: "Domains", skills: ["B2B & Enterprise SaaS", "Cybersecurity", "FinTech"] },
       ].map(({ label, skills }) => (
         <div>
-          <p class="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground/60">{label}</p>
+          <p class="mb-2 font-mono text-sm uppercase tracking-widest text-muted-foreground/60">{label}</p>
           <p class="text-base leading-relaxed text-foreground/70">{skills.join(" · ")}</p>
         </div>
       ))}

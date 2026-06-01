@@ -17,7 +17,7 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
     </p>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pt-8 pb-16" data-community-story style="opacity: 0;">
+  <section class="mx-auto max-w-3xl px-6 pb-16" data-community-story style="opacity: 0;">
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
       {communityPagePhotos.map((photo) => (
         <figure class:list={[
@@ -39,10 +39,10 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
       ))}
     </div>
 
-    <p class="mt-12 max-w-xl text-xl font-semibold leading-snug tracking-tight">
+    <p class="mt-12 text-xl font-semibold leading-snug tracking-tight">
       Showing up for people.
     </p>
-    <div class="mt-5 max-w-xl space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+    <div class="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground">
       {communityStory.paragraphs.slice(0, 2).map((paragraph) => (
         <p>{paragraph}</p>
       ))}
@@ -50,10 +50,10 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
   </section>
 
   <section class="mx-auto max-w-3xl px-6 pb-24" data-community-words style="opacity: 0;">
-    <div class="mb-10 max-w-xl">
-      <p class="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">Kind Words</p>
-      <p class="text-lg leading-relaxed text-muted-foreground">
-        When you keep showing up, people remember the care, energy, and perspective you bring with you.
+    <div class="mb-10">
+      <h2 class="mb-3 text-xl font-semibold leading-snug tracking-tight">Kind words from the community.</h2>
+      <p class="text-base leading-relaxed text-muted-foreground">
+        A few notes from readers, event guests, and people in the design community.
       </p>
     </div>
 
