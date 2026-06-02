@@ -76,6 +76,7 @@ const elsewhere = [
       class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-lg"
       aria-label="Toggle sidebar"
       title="Toggle sidebar"
+      data-sidebar-tooltip="Expand navigation"
     >
       <Logo interaction="sidebar-toggle" class="h-8 w-8" />
     </button>
@@ -93,6 +94,7 @@ const elsewhere = [
           <a
             href={item.href}
             title={item.label}
+            data-sidebar-tooltip={item.label}
             class:list={[
               "nav-item flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors duration-200",
               isActive(item.href)
@@ -124,6 +126,7 @@ const elsewhere = [
               rel="noopener noreferrer"
               aria-label={item.label}
               title={item.label}
+              data-sidebar-tooltip={item.label}
               class="elsewhere-item flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors duration-200 hover:text-foreground"
             >
               <svg class="shrink-0 h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={item.icon} />
@@ -136,10 +139,11 @@ const elsewhere = [
         id="elsewhere-rollup-btn"
       class="h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground"
         type="button"
-        aria-label="Elsewhere links"
+        aria-label="Links"
         aria-expanded="false"
         aria-controls="elsewhere-rollup-panel"
-        title="Elsewhere links"
+        title="Links"
+        data-sidebar-tooltip="Links"
       >
         <Globe2 size={18} strokeWidth={1.75} aria-hidden="true" />
       </button>
@@ -155,6 +159,7 @@ const elsewhere = [
             type="button"
             aria-label="Toggle color theme"
             title="Toggle color theme"
+            data-sidebar-tooltip="Toggle theme"
           >
             <svg class="theme-icon-moon h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401z"></path>
@@ -177,7 +182,7 @@ const elsewhere = [
   </div>
 
   <div id="elsewhere-rollup-panel" class="fixed bottom-3 left-[4.5rem] invisible w-44 translate-x-[-0.25rem] rounded-lg border border-border bg-background p-1.5 opacity-0 shadow-lg transition-all duration-200" aria-hidden="true" inert>
-    <p class="px-2 pb-1.5 pt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">Elsewhere</p>
+    <p class="px-2 pb-1.5 pt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">Links</p>
     <ul>
       {elsewhere.map((item) => (
         <li>
@@ -366,6 +371,37 @@ const elsewhere = [
     opacity: 1;
   }
 
+  #sidebar-tooltip {
+    position: fixed;
+    z-index: 80;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(-3px);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--popover);
+    color: var(--popover-foreground);
+    box-shadow: 0 12px 32px color-mix(in oklch, var(--foreground) 14%, transparent);
+    opacity: 0;
+    padding: 6px 9px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      opacity 90ms ease-out,
+      transform 90ms ease-out;
+  }
+
+  #sidebar-tooltip.is-visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+    transition-delay: 80ms;
+  }
+
+  html.dark #sidebar-tooltip {
+    box-shadow: 0 10px 24px oklch(0 0 0 / 38%);
+  }
+
 </style>
 
 <script>
@@ -396,9 +432,11 @@ const elsewhere = [
       rollupBtn?.setAttribute("aria-expanded", String(open));
     }
 
-    const collapsed = localStorage.getItem("sidebar-collapsed") === "true";
+    const savedPreference = localStorage.getItem("sidebar-collapsed");
+    const collapsed = savedPreference === null ? true : savedPreference === "true";
     sidebar.style.transition = "none";
     applyCollapsed(sidebar, collapsed);
+    btn.dataset.sidebarTooltip = collapsed ? "Expand navigation" : "Collapse navigation";
     requestAnimationFrame(() => { sidebar.style.transition = ""; });
 
     if (btn.dataset.sidebarInitialized === "true") return;
@@ -409,6 +447,7 @@ const elsewhere = [
       setRollupOpen(false);
       applyCollapsed(sidebar, isNowCollapsed);
       localStorage.setItem("sidebar-collapsed", String(isNowCollapsed));
+      btn.dataset.sidebarTooltip = isNowCollapsed ? "Expand navigation" : "Collapse navigation";
     });
 
     rollupBtn?.addEventListener("click", (event) => {
@@ -421,6 +460,55 @@ const elsewhere = [
       if (event.key === "Escape") setRollupOpen(false);
     });
 
+  }
+
+  function initSidebarTooltips() {
+    let tooltip = document.getElementById("sidebar-tooltip") as HTMLElement | null;
+    if (!tooltip) {
+      tooltip = document.createElement("div");
+      tooltip.id = "sidebar-tooltip";
+      tooltip.setAttribute("role", "tooltip");
+      tooltip.setAttribute("aria-hidden", "true");
+      document.body.appendChild(tooltip);
+    }
+
+    const targets = document.querySelectorAll<HTMLElement>("#sidebar [data-sidebar-tooltip]");
+
+    function hideTooltip() {
+      if (!tooltip) return;
+      tooltip.classList.remove("is-visible");
+      tooltip.setAttribute("aria-hidden", "true");
+    }
+
+    function showTooltip(target: HTMLElement) {
+      if (!tooltip) return;
+      if (!document.documentElement.classList.contains("sidebar-collapsed")) return;
+
+      const label = target.dataset.sidebarTooltip;
+      if (!label) return;
+
+      const rect = target.getBoundingClientRect();
+      tooltip.textContent = label;
+      tooltip.style.left = `${rect.right + 10}px`;
+      tooltip.style.top = `${rect.top + rect.height / 2}px`;
+      tooltip.classList.add("is-visible");
+      tooltip.setAttribute("aria-hidden", "false");
+    }
+
+    targets.forEach((target) => {
+      if (target.dataset.tooltipInitialized === "true") return;
+      target.dataset.tooltipInitialized = "true";
+      target.addEventListener("pointerenter", () => showTooltip(target));
+      target.addEventListener("pointerleave", hideTooltip);
+      target.addEventListener("focus", () => showTooltip(target));
+      target.addEventListener("blur", hideTooltip);
+    });
+
+    if (document.documentElement.dataset.sidebarTooltipGlobalInitialized !== "true") {
+      document.documentElement.dataset.sidebarTooltipGlobalInitialized = "true";
+      document.addEventListener("scroll", hideTooltip, { passive: true });
+      window.addEventListener("resize", hideTooltip);
+    }
   }
 
   function initSidebarFooterControls() {
@@ -476,7 +564,9 @@ const elsewhere = [
   }
 
   initSidebar();
+  initSidebarTooltips();
   initSidebarFooterControls();
   document.addEventListener("astro:after-swap", initSidebar);
+  document.addEventListener("astro:after-swap", initSidebarTooltips);
   document.addEventListener("astro:after-swap", initSidebarFooterControls);
 </script>

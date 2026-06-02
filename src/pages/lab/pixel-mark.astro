@@ -2,7 +2,7 @@
 import PageLayout from "@/layouts/PageLayout.astro";
 import Logo from "@/components/layout/Logo.astro";
 import { getCollection, render } from "astro:content";
-import { MarkStates, ScaleStrip, MarkVariants } from "@/lab/pixel-mark/MarkStates";
+import { MarkStates, NavSwitcherStates, ScaleStrip, MarkVariants } from "@/lab/pixel-mark/MarkStates";
 
 const entry = (await getCollection("lab")).find((item) => item.data.slug === "pixel-mark");
 if (!entry) throw new Error("Missing Lab entry: pixel-mark");
@@ -62,6 +62,19 @@ const { Content } = await render(entry);
     <div class="mx-auto max-w-3xl px-6 py-16">
       <h2 class="mb-10 font-mono text-xs uppercase tracking-widest text-muted-foreground">Interaction States</h2>
       <MarkStates client:load />
+    </div>
+  </section>
+
+  <!-- Production nav switcher -->
+  <section>
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <div class="mb-10 max-w-xl">
+        <h2 class="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">Navigation Switcher</h2>
+        <p class="text-sm leading-relaxed text-muted-foreground">
+          The sidebar uses the mark as a compact control. Its hover state previews whether the rail will collapse or expand.
+        </p>
+      </div>
+      <NavSwitcherStates client:load />
     </div>
   </section>
 </PageLayout>

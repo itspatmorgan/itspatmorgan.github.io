@@ -57,7 +57,8 @@ const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig
         document.documentElement.classList.add("dark");
       }
 
-      if (localStorage.getItem("sidebar-collapsed") === "true") {
+      const sidebarPreference = localStorage.getItem("sidebar-collapsed");
+      if (sidebarPreference === null || sidebarPreference === "true") {
         document.documentElement.classList.add("sidebar-collapsed");
       }
     </script>

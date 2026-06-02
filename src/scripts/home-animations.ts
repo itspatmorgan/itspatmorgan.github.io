@@ -9,6 +9,14 @@ function springIn(el: HTMLElement, delay: number) {
   animate(el, { opacity: [0, 1], y: [16, 0] }, { ...spring, delay: delay / 1000 });
 }
 
+function softIn(el: HTMLElement, delay: number) {
+  animate(
+    el,
+    { opacity: [0, 1], y: [10, 0] },
+    { duration: 0.45, easing: "ease-out", delay: delay / 1000 }
+  );
+}
+
 // Immediately resolves pixel/sans layers without animation
 function resolvePixelWave(container: HTMLElement) {
   container.querySelectorAll<HTMLElement>("[data-pw-pixel]").forEach((el) => {
@@ -22,14 +30,18 @@ function resolvePixelWave(container: HTMLElement) {
 function init() {
   const seen = sessionStorage.getItem(SESSION_KEY);
 
-  const photo = document.querySelector("[data-hero-photo]") as HTMLElement | null;
-  const label = document.querySelector("[data-hero-label]") as HTMLElement | null;
-  const desc = document.querySelector("[data-hero-desc]") as HTMLElement | null;
-  const icons = document.querySelector("[data-hero-icons]") as HTMLElement | null;
-
   // On desktop (md+) animate the big headline wave; on mobile animate the name wave.
   // The other wave lives in a display:none block — resolve it silently so pixel font never flashes.
   const isMd = window.matchMedia("(min-width: 768px)").matches;
+  const activeHero = document.querySelector(isMd ? ".hero-desktop" : ".hero-mobile") as HTMLElement | null;
+  const photo = activeHero?.querySelector("[data-hero-photo]") as HTMLElement | null;
+  const label = activeHero?.querySelector("[data-hero-label]") as HTMLElement | null;
+  const desc = activeHero?.querySelector("[data-hero-desc]") as HTMLElement | null;
+  const icons = activeHero?.querySelector("[data-hero-icons]") as HTMLElement | null;
+  const workIntro = document.querySelector("[data-work-intro]") as HTMLElement | null;
+  const workCards = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-home-work-card]")
+  );
   const heroWave = document.querySelector(
     `[data-pixel-wave="${isMd ? "headline" : "hero"}"]`
   ) as HTMLElement | null;
@@ -38,6 +50,14 @@ function init() {
   ) as HTMLElement | null;
   if (inactiveWave) resolvePixelWave(inactiveWave);
 
+  function revealWorkPreview(startDelay: number) {
+    if (!isMd) return;
+    if (workIntro) softIn(workIntro, startDelay);
+    workCards.forEach((card, index) => {
+      springIn(card, startDelay + 110 + index * 90);
+    });
+  }
+
   function revealSections() {
     const sections = document.querySelectorAll(
       "[data-section-entrance]"
@@ -45,7 +65,13 @@ function init() {
     sections.forEach((section) => {
       animate(section, { opacity: [0, 1] }, { duration: 0.3, easing: "ease-out" });
     });
-    observeSections("[data-project-card-item]", { yOffset: 24, stagger: 0.1 });
+    observeSections(
+      isMd ? "[data-project-card-item]:not([data-home-work-card])" : "[data-project-card-item]",
+      {
+        yOffset: 24,
+        stagger: 0.1,
+      }
+    );
     observeSections("[data-kind-words-item]", { yOffset: 10, stagger: 0.04 });
   }
 
@@ -59,7 +85,8 @@ function init() {
     if (label) springIn(label, 60);
     if (desc) springIn(desc, 120);
     if (icons) springIn(icons, 180);
-    setTimeout(revealSections, 300);
+    revealWorkPreview(isMd ? 260 : 320);
+    setTimeout(revealSections, 520);
   } else {
     // First visit: full choreographed entrance
     sessionStorage.setItem(SESSION_KEY, "1");
@@ -70,12 +97,14 @@ function init() {
       // Make name visible immediately so pixel font shows while the wave cycles
       heroWave.style.opacity = "1";
       pixelWave(heroWave, 300);
-      if (desc) springIn(desc, 1200);
+      if (desc) springIn(desc, isMd ? 960 : 1200);
       if (icons) springIn(icons, 1350);
-      setTimeout(revealSections, 1500);
+      revealWorkPreview(isMd ? 1220 : 1500);
+      setTimeout(revealSections, isMd ? 1550 : 1500);
     } else {
       if (desc) springIn(desc, 240);
       if (icons) springIn(icons, 360);
+      revealWorkPreview(420);
       revealSections();
     }
   }
