@@ -32,10 +32,9 @@ const featuredProjectDescriptions: Record<string, string> = {
   vision: "Led strategic product vision work through facilitation, synthesis, and storytelling.",
 };
 
-const arcNodes = ["Strategist", "Developer", "Designer", "Writer", "Builder"];
-const heroHeadline = "The kind of designer who builds.";
-const heroIntro = "Hello, I'm Patrick. My career has never been one note. I've been a strategist, developer, designer, and writer — often all at once.";
-const heroIntroDetail = "What connects the work is a compulsion to turn ideas into useful, well-crafted things.";
+const heroHeadline = "Patrick is a designer who builds.";
+const heroIntro = "I've been a strategist, developer, designer, and writer — sometimes all at once.";
+const heroIntroDetail = "The through line is my compulsion to turn ideas into useful, well-crafted things.";
 const heroCurrentWorkLead = "Right now, I'm designing AI tools at";
 const heroCurrentWorkTail = "and building my own software with agents.";
 
@@ -88,42 +87,36 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 <PageLayout>
 
   {/* ── Hero ────────────────────────────────────────────── */}
-  <section class={`${homeShell} pt-10 pb-4 sm:pt-16 sm:pb-10 lg:pt-16 lg:pb-6`}>
+  <section class={`${homeShell} pt-0 pb-4 sm:pb-10 md:pt-16 lg:pt-16 lg:pb-6`}>
 
     {/* Mobile layout */}
-    <div class="md:hidden">
-      <div class="mb-6 inline-block rotate-2 bg-white p-2 pb-5 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40" data-hero-photo style="opacity: 0;">
-        <div class="h-40 w-40 overflow-hidden">
-          <img
-            src="/images/brand/profile-living-room-avatar.jpg"
-            alt="Patrick Morgan"
-            class="block h-full w-full object-cover"
-          />
+    <div class="hero-mobile md:hidden">
+      <div class="hero-mobile-photo-field mb-8" data-hero-photo style="opacity: 0;">
+        <div class="hero-mobile-photo inline-block rotate-2 bg-white p-2 pb-5 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40">
+          <div class="h-36 w-36 overflow-hidden">
+            <img
+              src="/images/brand/profile-living-room-avatar.jpg"
+              alt="Patrick Morgan"
+              class="block h-full w-full object-cover"
+            />
+          </div>
         </div>
       </div>
       <PixelWaveText
         text={heroHeadline}
         as="h1"
         wave="hero"
-        class="mb-5 max-w-[20rem] text-[2.05rem] font-medium leading-[1.08] tracking-tight"
+        class="mb-7 max-w-[20rem] text-[2.05rem] font-medium leading-[1.08] tracking-tight"
         style="opacity: 0;"
       />
-      <div class="mb-6 flex max-w-[19rem] flex-wrap items-center gap-x-2 gap-y-2">
-        {arcNodes.map((label, i, arr) => (
-          <>
-            <span class:list={["arc-node rounded border px-2.5 py-1 font-mono text-xs", i === arr.length - 1 ? "arc-node-final" : ""]}
-              style={`animation-delay: ${i * 700}ms`}>{label}</span>
-          </>
-        ))}
-      </div>
-      <div class="mb-4 space-y-3 text-[15px] leading-relaxed">
+      <div class="mb-4 space-y-3 text-[15px] leading-relaxed" data-hero-desc style="opacity: 0;">
         <p class="text-foreground/80">{heroIntro}</p>
-        <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
+        <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
       </div>
     </div>
 
     {/* Desktop: text left, photo right */}
-    <div class="hidden md:flex md:items-center md:gap-10 lg:gap-14">
+    <div class="hero-desktop hidden md:flex md:items-center md:gap-10 lg:gap-14">
 
       {/* Left — all text */}
       <div class="flex-1 min-w-0">
@@ -136,31 +129,20 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
           style="opacity: 0;"
         />
 
-        {/* Arc nodes */}
-        <div class="mb-8 flex flex-wrap items-center gap-1.5 sm:gap-2">
-          {arcNodes.map((label, i, arr) => (
-            <>
-              <span class:list={["arc-node rounded border px-2.5 py-0.5 font-mono text-[11px] sm:text-xs", i === arr.length - 1 ? "arc-node-final" : ""]}
-                style={`animation-delay: ${i * 700}ms`}>{label}</span>
-              {i < arr.length - 1 && <span class="font-mono text-xs text-muted-foreground/40">→</span>}
-            </>
-          ))}
-        </div>
-
         {/* Narrative */}
-        <div class="max-w-xl space-y-4 text-base leading-relaxed">
+        <div class="max-w-xl space-y-4 text-base leading-relaxed xl:max-w-2xl" data-hero-desc style="opacity: 0;">
           <p class="text-foreground/80">
             {heroIntro} {heroIntroDetail}
           </p>
           <p class="text-muted-foreground">
-            {heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>, writing <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}
+            {heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}
           </p>
         </div>
 
       </div>
 
       {/* Right — polaroid photo */}
-      <div class="relative shrink-0 rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02]">
+      <div class="relative shrink-0 rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02]" data-hero-photo style="opacity: 0;">
         {/* Polaroid frame */}
         <button
           type="button"
@@ -207,13 +189,13 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 
   {/* ── Work ─────────────────────────────────────────────── */}
   <section class={homeFirstSection}>
-    <div class={homeSectionHeader}>
+    <div class={homeSectionHeader} data-work-intro>
       <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work</p>
       <a href="/work" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
     </div>
     <div class={homeCardGrid}>
       {professionalProjects.slice(0, 3).map((project, i) => (
-        <div data-project-card-item style="opacity: 0;">
+        <div data-project-card-item data-home-work-card style="opacity: 0;">
           <ProjectCard
             title={project.data.title}
             description={featuredProjectDescriptions[project.id] ?? project.data.description}
@@ -385,6 +367,89 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
   </section>
 
   <style>
+    .hero-mobile {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-mobile::before {
+      content: "";
+      position: absolute;
+      width: calc(100% + 3rem);
+      height: 15.5rem;
+      left: -1.5rem;
+      top: -0.75rem;
+      z-index: 0;
+      background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+      background-size: 14px 14px;
+      color: var(--foreground);
+      opacity: 0.095;
+      mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 88%);
+    }
+
+    .hero-mobile > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-mobile-photo-field {
+      position: relative;
+      min-height: 12rem;
+      padding-top: 2.25rem;
+    }
+
+    .hero-mobile-photo {
+      position: relative;
+      z-index: 1;
+    }
+
+    html.dark .hero-mobile::before {
+      opacity: 0.1;
+    }
+
+    .hero-desktop {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-desktop > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-desktop::before {
+      content: "";
+      display: none;
+    }
+
+    @media (min-width: 48rem) {
+      .hero-desktop::before {
+        position: absolute;
+        display: block;
+        width: min(34rem, 40vw);
+        height: 26rem;
+        left: 80%;
+        top: 53%;
+        z-index: 0;
+        transform: translate(-50%, -50%) rotate(1deg);
+        background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+        background-size: 14px 14px;
+        color: var(--foreground);
+        opacity: 0.105;
+        mask-image: radial-gradient(ellipse at 55% 54%, black 0%, black 52%, transparent 82%);
+      }
+    }
+
+    html.dark .hero-desktop::before {
+      opacity: 0.11;
+    }
+
+    @media (min-width: 48rem) {
+      [data-work-intro] {
+        opacity: 0;
+      }
+    }
+
     .builder-grid {
       background-image:
         linear-gradient(rgba(244, 238, 231, 0.12) 1px, transparent 1px),

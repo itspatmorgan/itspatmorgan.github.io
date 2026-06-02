@@ -42,7 +42,7 @@ const elsewhere = [
         <li data-mobile-nav-item>
           <a
             href={item.href}
-            class="block py-4 text-3xl font-medium text-muted-foreground hover:text-foreground transition-colors border-b border-border/50 last:border-0"
+            class="block border-b border-border/50 py-3 text-[1.65rem] font-medium leading-tight text-muted-foreground transition-colors hover:text-foreground last:border-0"
           >
             {item.label}
           </a>
@@ -52,8 +52,7 @@ const elsewhere = [
   </nav>
 
   {/* Elsewhere */}
-  <div class="px-8 py-8 border-t border-border shrink-0" data-mobile-nav-elsewhere>
-    <p class="mb-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">Elsewhere</p>
+  <div class="px-8 py-6 border-t border-border shrink-0" data-mobile-nav-elsewhere>
     <ul class="grid grid-cols-2 gap-x-6 gap-y-4">
       {elsewhere.map((item) => (
         <li>

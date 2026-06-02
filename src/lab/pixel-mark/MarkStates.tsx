@@ -255,6 +255,60 @@ function RollMark({ rolling, configIdx }: { rolling: boolean; configIdx: number 
   );
 }
 
+// ─── Production sidebar switcher ─────────────────────────────────────────────
+
+function NavSwitcherMark({ direction }: { direction: "collapse" | "expand" }) {
+  const [active, setActive] = useState(false);
+  const transformFor = (index: number) => {
+    if (direction === "collapse") {
+      if (index === 0) return "translate(7px, 0)";
+      if (index === 1) return "translate(-7px, 7px)";
+      if (index === 2) return "translate(7px, 7px)";
+      return "none";
+    }
+
+    if (index === 1 || index === 2) return "translate(0, 7px)";
+    return "none";
+  };
+
+  return (
+    <button
+      type="button"
+      className="group flex flex-col items-center gap-5 rounded-lg p-2 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      aria-label={`Preview ${direction} navigation state`}
+      aria-pressed={active}
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+      onFocus={() => setActive(true)}
+      onBlur={() => setActive(false)}
+      onClick={() => setActive(true)}
+    >
+      <div className="rounded-lg p-2">
+        <svg width={48} height={48} viewBox="0 0 28 28" aria-hidden>
+          <rect width="28" height="28" rx={6.2} style={{ fill: "var(--color-secondary)" }} />
+          {BRAILLE_P.map(([cx, cy], i) => (
+            <rect
+              key={i}
+              x={cx - PIXEL_SIZE / 2}
+              y={cy - PIXEL_SIZE / 2}
+              width={PIXEL_SIZE}
+              height={PIXEL_SIZE}
+              rx={PIXEL_RADIUS}
+              className="transition-all duration-300 ease-out group-hover:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                fill: "var(--color-secondary-foreground)",
+                transformOrigin: `${cx}px ${cy}px`,
+                transform: active ? transformFor(i) : undefined,
+                opacity: active && i === 3 ? 0 : 1,
+              }}
+            />
+          ))}
+        </svg>
+      </div>
+    </button>
+  );
+}
+
 // ─── Scale strip ─────────────────────────────────────────────────────────────
 
 export function ScaleStrip() {
@@ -361,6 +415,19 @@ export function MarkStates() {
       <StateCard label="Accent"><AccentState /></StateCard>
       <StateCard label="Roll" action={<PlayButton onClick={roll} disabled={rolling} />}>
         <RollMark rolling={rolling} configIdx={configIdx} />
+      </StateCard>
+    </div>
+  );
+}
+
+export function NavSwitcherStates() {
+  return (
+    <div className="grid gap-8 sm:grid-cols-2">
+      <StateCard label="Collapse Hover">
+        <NavSwitcherMark direction="collapse" />
+      </StateCard>
+      <StateCard label="Expand Hover">
+        <NavSwitcherMark direction="expand" />
       </StateCard>
     </div>
   );
