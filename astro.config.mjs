@@ -51,5 +51,8 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['html-to-image', 'lucide-react'],
+    },
   },
 });

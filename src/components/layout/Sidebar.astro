@@ -67,7 +67,7 @@ const elsewhere = [
 ];
 ---
 
-<aside id="sidebar" class="sidebar hidden md:flex shrink-0 flex-col sticky top-0 h-screen border-r border-border bg-background z-30">
+<aside id="sidebar" class="sidebar hidden md:flex shrink-0 flex-col sticky top-0 h-dvh border-r border-border bg-background z-30">
 
   {/* Identity — pixel mark is the collapse trigger */}
   <div class="identity flex items-center gap-3 px-4 py-3 shrink-0">
@@ -207,7 +207,9 @@ const elsewhere = [
   #sidebar {
     width: 14rem;
     transition: width 240ms cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   @media (min-width: 1024px) {
     #sidebar { width: 15rem; }
