@@ -17,11 +17,27 @@ Prerequisites:
 - Node.js 20+
 - pnpm 10+
 
+Recommended local location:
+
+```text
+~/Developer/personal/itspatmorgan.github.io
+```
+
+This repo includes a `.mise.toml` for local tool versions. If you use
+[mise](https://mise.jdx.dev/), run:
+
+```bash
+mise trust
+mise install
+```
+
 ```bash
 pnpm install
 pnpm dev
 ```
 
 The dev server runs at `http://localhost:4321`.
+
+Writing sync requires `OBSIDIAN_VAULT` in your shell or in local `.env.local`.
 
 For build, sync, deployment, content, and architecture details, use the [site system docs](docs/site-system.md).

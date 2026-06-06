@@ -4,7 +4,7 @@
  * Run from the repo root:
  *   node scripts/sync-writing.mjs [--dry-run]
  *
- * Picks up any file in Writing/Newsletters/ with 'website: true'.
+ * Picks up any file in Newsletters/ with 'website: true'.
  * Strips Obsidian-only fields (created, website), slugifies the title,
  * and writes to src/content/writing/<slug>.md.
  *
@@ -14,18 +14,44 @@
 
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
-import { homedir } from 'os';
 import YAML from 'yaml';
 
 const DRY_RUN = process.argv.includes('--dry-run');
-const VAULT = process.env.OBSIDIAN_VAULT ?? join(homedir(), 'Obsidian/itspatmorgan-obsidian');
-const NEWSLETTERS_DIR = join(VAULT, 'Writing/Newsletters');
+loadLocalEnv();
+
+const VAULT = process.env.OBSIDIAN_VAULT;
+if (!VAULT) {
+  console.error('Missing OBSIDIAN_VAULT. Set it in your shell or in .env.local.');
+  process.exit(1);
+}
+
+const NEWSLETTERS_DIR = join(VAULT, 'Newsletters');
 const OUTPUT_DIR = resolve('src/content/writing');
 const OBSIDIAN_ONLY = new Set(['created', 'website', 'author']);
 const REQUIRED = ['title', 'description', 'publishedDate'];
 const WEBSITE_OWNED = ['visual'];
 
 let synced = 0, skipped = 0, errors = 0;
+
+function loadLocalEnv() {
+  const envPath = resolve('.env.local');
+  if (!existsSync(envPath)) return;
+
+  const lines = readFileSync(envPath, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+
+    const separator = trimmed.indexOf('=');
+    if (separator === -1) continue;
+
+    const key = trimmed.slice(0, separator).trim();
+    const rawValue = trimmed.slice(separator + 1).trim();
+    if (!key || process.env[key] !== undefined) continue;
+
+    process.env[key] = rawValue.replace(/^["']|["']$/g, '');
+  }
+}
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);

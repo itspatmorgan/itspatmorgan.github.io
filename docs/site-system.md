@@ -133,13 +133,12 @@ Use `experience: "app"` for immersive tools and `experience: "demo"` for focused
 
 ### Writing Sync
 
-`pnpm sync-writing` scans the local Obsidian vault at:
-
-```text
-~/Obsidian/itspatmorgan-obsidian/Writing/Newsletters
-```
-
-Override the vault path with `OBSIDIAN_VAULT` when needed. Only notes with `website: true` are synced. The script strips Obsidian-only fields, slugifies from the title, cleans newsletter boilerplate from the body, and writes to `src/content/writing/<slug>.md`.
+`pnpm sync-writing` scans the local Obsidian vault configured by
+`OBSIDIAN_VAULT`. Set it in your shell or in an untracked `.env.local` file.
+The script reads notes from the vault's `Newsletters/` directory. Only notes
+with `website: true` are synced. The script strips Obsidian-only fields,
+slugifies from the title, cleans newsletter boilerplate from the body, and
+writes to `src/content/writing/<slug>.md`.
 
 For writing sync changes, verify with:
 
