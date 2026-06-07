@@ -133,21 +133,34 @@ Use `experience: "app"` for immersive tools and `experience: "demo"` for focused
 
 ### Writing Sync
 
-`pnpm sync-writing` scans the local Obsidian vault configured by
-`OBSIDIAN_VAULT`. Set it in your shell or in an untracked `.env.local` file.
-The script reads notes from the vault's `Newsletters/` directory. Only notes
-with `website: true` are synced. The script strips Obsidian-only fields,
-slugifies from the title, cleans newsletter boilerplate from the body, and
-writes to `src/content/writing/<slug>.md`.
+The normal publishing workflow is targeted: draft the article in Obsidian, mark
+it `website: true`, then bring over only that article, assign a website theme,
+and generate its deterministic visual.
+
+```bash
+pnpm sync-writing -- --title "Article Title" --theme AI --with-art
+pnpm build
+```
+
+Use `--slug article-slug` instead of `--title` when the slug is easier to work
+with. Targeted sync refuses to overwrite an existing website article unless
+`--overwrite` is passed.
+
+`pnpm sync-writing` with no target is a maintenance command. It scans the local
+Obsidian vault configured by `OBSIDIAN_VAULT`; set it in your shell or in an
+untracked `.env.local` file. The script reads notes from the vault's
+`Newsletters/` directory. Only notes with `website: true` are synced. The script
+strips Obsidian-only fields, slugifies from the title, cleans newsletter
+boilerplate from the body, and writes to `src/content/writing/<slug>.md`.
 
 For writing sync changes, verify with:
 
 ```bash
-pnpm sync-writing
+pnpm sync-writing -- --title "Article Title" --theme AI --with-art --dry-run
 pnpm build
 ```
 
-Use `node scripts/sync-writing.mjs --dry-run` when you want to preview changes without writing files.
+Use `node scripts/sync-writing.mjs --dry-run` when you want to preview a full maintenance sync without writing files.
 
 ### Editorial Art
 
@@ -160,6 +173,7 @@ public/images/writing/<slug>/feature.jpg
 It also writes `visual` metadata and the generated `image` path into article frontmatter. By default it avoids overwriting existing visual decisions. Use the script flags when intentionally regenerating:
 
 ```bash
+node scripts/generate-writing-art.mjs --slug article-slug --dry-run
 node scripts/generate-writing-art.mjs --dry-run
 node scripts/generate-writing-art.mjs --overwrite-visual
 node scripts/generate-writing-art.mjs --overwrite-image

@@ -3,6 +3,7 @@
  *
  * Run from the repo root:
  *   node scripts/sync-writing.mjs [--dry-run]
+ *   node scripts/sync-writing.mjs --title "Article Title" --theme AI --with-art
  *
  * Picks up any file in Newsletters/ with 'website: true'.
  * Strips Obsidian-only fields (created, website), slugifies the title,
@@ -14,9 +15,33 @@
 
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
+import { spawnSync } from 'child_process';
 import YAML from 'yaml';
 
-const DRY_RUN = process.argv.includes('--dry-run');
+const CLI = parseArgs(process.argv.slice(2));
+const DRY_RUN = CLI.flags.has('dry-run');
+const TARGET_TITLE = CLI.options.title;
+const TARGET_SLUG = CLI.options.slug;
+const TARGET = TARGET_TITLE || TARGET_SLUG;
+const THEME = CLI.options.theme;
+const WITH_ART = CLI.flags.has('with-art');
+const OVERWRITE = CLI.flags.has('overwrite');
+
+if (CLI.flags.has('help')) {
+  printHelp();
+  process.exit(0);
+}
+
+if (TARGET_TITLE && TARGET_SLUG) {
+  console.error('Use either --title or --slug, not both.');
+  process.exit(1);
+}
+
+if ((THEME || WITH_ART || OVERWRITE) && !TARGET) {
+  console.error('--theme, --with-art, and --overwrite are only supported with --title or --slug.');
+  process.exit(1);
+}
+
 loadLocalEnv();
 
 const VAULT = process.env.OBSIDIAN_VAULT;
@@ -29,9 +54,55 @@ const NEWSLETTERS_DIR = join(VAULT, 'Newsletters');
 const OUTPUT_DIR = resolve('src/content/writing');
 const OBSIDIAN_ONLY = new Set(['created', 'website', 'author']);
 const REQUIRED = ['title', 'description', 'publishedDate'];
-const WEBSITE_OWNED = ['visual'];
+const WEBSITE_OWNED = ['theme', 'visual', 'image'];
 
 let synced = 0, skipped = 0, errors = 0;
+let syncedSlug = null;
+
+function parseArgs(argv) {
+  const flags = new Set();
+  const options = {};
+
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg === '--') continue;
+    if (!arg.startsWith('--')) continue;
+
+    const [rawKey, inlineValue] = arg.slice(2).split(/=(.*)/s);
+    if (inlineValue !== undefined) {
+      options[rawKey] = inlineValue;
+      continue;
+    }
+
+    const next = argv[i + 1];
+    if (next && !next.startsWith('--')) {
+      options[rawKey] = next;
+      i++;
+    } else {
+      flags.add(rawKey);
+    }
+  }
+
+  return { flags, options };
+}
+
+function printHelp() {
+  console.log(`Sync newsletter articles from Obsidian to the website.
+
+Usage:
+  node scripts/sync-writing.mjs [--dry-run]
+  node scripts/sync-writing.mjs --title "Article Title" --theme AI --with-art
+  node scripts/sync-writing.mjs --slug article-slug --theme "Systems Thinking" --with-art
+
+Options:
+  --title <title>     Sync one Obsidian newsletter by frontmatter title.
+  --slug <slug>       Sync one Obsidian newsletter by slugified title.
+  --theme <theme>     Assign the website writing theme during targeted sync.
+  --with-art          Generate deterministic visual metadata and feature image for the target.
+  --overwrite         Allow targeted sync to update an existing website article.
+  --dry-run           Show what would change without writing files.
+`);
+}
 
 function loadLocalEnv() {
   const envPath = resolve('.env.local');
@@ -128,10 +199,6 @@ function readExistingFields(outPath) {
   return parseYaml(existing.raw);
 }
 
-function isGeneratedImagePath(image, slug) {
-  return typeof image === 'string' && image.startsWith(`/images/writing/${slug}/feature.`);
-}
-
 function cleanBody(body) {
   return body
     // Strip leading H1 — WritingLayout renders title as <h1>
@@ -152,18 +219,18 @@ function cleanBody(body) {
 function syncFile(filePath, fileName) {
   const content = readFileSync(filePath, 'utf8');
   const parsed = parseFrontmatter(content);
-  if (!parsed) return;
+  if (!parsed) return null;
 
   const fields = parseYaml(parsed.raw);
   const websiteVal = fields.website;
-  if (websiteVal !== 'true' && websiteVal !== true) return;
+  if (websiteVal !== 'true' && websiteVal !== true) return null;
 
   // Validate required fields
   const missing = REQUIRED.filter(k => !fields[k] || fields[k] === '');
   if (missing.length > 0) {
     console.error(`  ERROR: ${fileName} — missing required fields: ${missing.join(', ')}`);
     errors++;
-    return;
+    return null;
   }
 
   // Strip Obsidian-only fields
@@ -181,17 +248,22 @@ function syncFile(filePath, fileName) {
   for (const key of WEBSITE_OWNED) {
     if (existingFields[key] !== undefined) fields[key] = existingFields[key];
   }
-  if (existingFields.visual && isGeneratedImagePath(existingFields.image, slug)) {
-    fields.image = existingFields.image;
-  }
+  if (THEME) fields.theme = THEME;
 
   const newFrontmatter = serializeFrontmatter(fields);
   const body = cleanBody(parsed.body);
   const newContent = `---\n${newFrontmatter}\n---\n${body}`;
+  const outputExists = existsSync(outPath);
 
-  if (existsSync(outPath) && readFileSync(outPath, 'utf8') === newContent) {
+  if (outputExists && readFileSync(outPath, 'utf8') === newContent) {
     skipped++;
-    return;
+    return slug;
+  }
+
+  if (TARGET && outputExists && !OVERWRITE) {
+    console.error(`  ERROR: ${fileName} — ${slug}.md already exists. Re-run with --overwrite to update it.`);
+    errors++;
+    return null;
   }
 
   if (DRY_RUN) {
@@ -201,19 +273,98 @@ function syncFile(filePath, fileName) {
     console.log(`  synced → ${slug}.md`);
   }
   synced++;
+  syncedSlug = slug;
+  return slug;
+}
+
+function readNewsletterMeta(fileName) {
+  const filePath = join(NEWSLETTERS_DIR, fileName);
+  const parsed = parseFrontmatter(readFileSync(filePath, 'utf8'));
+  if (!parsed) return null;
+
+  const fields = parseYaml(parsed.raw);
+  if (fields.website !== 'true' && fields.website !== true) return null;
+
+  return {
+    fileName,
+    filePath,
+    title: fields.title,
+    slug: fields.title ? slugify(fields.title) : null,
+  };
+}
+
+function findTargetFiles(files) {
+  if (!TARGET) return files.map((fileName) => ({ fileName, filePath: join(NEWSLETTERS_DIR, fileName) }));
+
+  const expectedSlug = TARGET_SLUG ? slugify(TARGET_SLUG) : null;
+  const expectedTitle = TARGET_TITLE ? TARGET_TITLE.trim().toLowerCase() : null;
+  const matches = files
+    .map(readNewsletterMeta)
+    .filter(Boolean)
+    .filter((meta) => {
+      if (expectedSlug) return meta.slug === expectedSlug;
+      return meta.title && meta.title.trim().toLowerCase() === expectedTitle;
+    });
+
+  if (matches.length === 0) {
+    console.error(`No website-ready Obsidian newsletter found for ${TARGET_TITLE ? `title "${TARGET_TITLE}"` : `slug "${TARGET_SLUG}"`}.`);
+    errors++;
+    return [];
+  }
+
+  if (matches.length > 1) {
+    console.error(`Multiple Obsidian newsletters matched ${TARGET_TITLE ? `title "${TARGET_TITLE}"` : `slug "${TARGET_SLUG}"`}:`);
+    for (const match of matches) console.error(`  - ${match.fileName}`);
+    errors++;
+    return [];
+  }
+
+  return matches;
+}
+
+function generateArtForTarget(slug) {
+  if (!WITH_ART || errors > 0) return;
+  if (!slug) {
+    console.error('  ERROR: Could not determine synced slug for art generation.');
+    errors++;
+    return;
+  }
+
+  if (DRY_RUN) {
+    console.log(`  DRY RUN → writing art for ${slug}`);
+    return;
+  }
+
+  const result = spawnSync(process.execPath, ['scripts/generate-writing-art.mjs', '--slug', slug], {
+    cwd: resolve('.'),
+    encoding: 'utf8',
+    stdio: 'pipe',
+  });
+
+  if (result.stdout) process.stdout.write(result.stdout);
+  if (result.stderr) process.stderr.write(result.stderr);
+
+  if (result.status !== 0) {
+    errors++;
+    console.error(`  ERROR: writing art generation failed for ${slug}`);
+  }
 }
 
 const files = readdirSync(NEWSLETTERS_DIR).filter(f => f.endsWith('.md'));
-console.log(`Scanning ${files.length} newsletters${DRY_RUN ? ' (dry run)' : ''}...\n`);
+const targetFiles = findTargetFiles(files);
+console.log(`Scanning ${targetFiles.length} newsletter${targetFiles.length === 1 ? '' : 's'}${TARGET ? ' (targeted)' : ''}${DRY_RUN ? ' (dry run)' : ''}...\n`);
 
-for (const file of files) {
+for (const file of targetFiles) {
   try {
-    syncFile(join(NEWSLETTERS_DIR, file), file);
+    const slug = syncFile(file.filePath, file.fileName);
+    if (!syncedSlug && slug) syncedSlug = slug;
   } catch (err) {
-    console.error(`  ERROR: ${file} — ${err.message}`);
+    console.error(`  ERROR: ${file.fileName} — ${err.message}`);
     errors++;
   }
 }
+
+generateArtForTarget(syncedSlug);
 
 console.log(`\nDone. ${synced} synced, ${skipped} unchanged, ${errors} errors.`);
 if (errors > 0) process.exit(1);

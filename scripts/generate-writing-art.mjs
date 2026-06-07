@@ -2,7 +2,7 @@
  * Generate deterministic editorial feature images for writing articles.
  *
  * Run from the repo root:
- *   node scripts/generate-writing-art.mjs [--dry-run] [--overwrite-visual] [--overwrite-image]
+ *   node scripts/generate-writing-art.mjs [--slug article-slug] [--dry-run] [--overwrite-visual] [--overwrite-image]
  *
  * The website repo owns `visual` and generated `image` frontmatter. Obsidian
  * sync preserves those fields, but does not need to carry them in draft notes.
@@ -13,9 +13,11 @@ import { dirname, join, resolve } from 'path';
 import sharp from 'sharp';
 import YAML from 'yaml';
 
-const DRY_RUN = process.argv.includes('--dry-run');
-const OVERWRITE_VISUAL = process.argv.includes('--overwrite-visual');
-const OVERWRITE_IMAGE = process.argv.includes('--overwrite-image');
+const CLI = parseArgs(process.argv.slice(2));
+const DRY_RUN = CLI.flags.has('dry-run');
+const OVERWRITE_VISUAL = CLI.flags.has('overwrite-visual');
+const OVERWRITE_IMAGE = CLI.flags.has('overwrite-image');
+const TARGET_SLUG = CLI.options.slug;
 
 const WRITING_DIR = resolve('src/content/writing');
 const IMAGE_ROOT = resolve('public/images/writing');
@@ -64,6 +66,33 @@ let updated = 0;
 let generated = 0;
 let skipped = 0;
 let errors = 0;
+
+function parseArgs(argv) {
+  const flags = new Set();
+  const options = {};
+
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg === '--') continue;
+    if (!arg.startsWith('--')) continue;
+
+    const [rawKey, inlineValue] = arg.slice(2).split(/=(.*)/s);
+    if (inlineValue !== undefined) {
+      options[rawKey] = inlineValue;
+      continue;
+    }
+
+    const next = argv[i + 1];
+    if (next && !next.startsWith('--')) {
+      options[rawKey] = next;
+      i++;
+    } else {
+      flags.add(rawKey);
+    }
+  }
+
+  return { flags, options };
+}
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -673,8 +702,17 @@ async function processFile(fileName) {
   }
 }
 
-const files = readdirSync(WRITING_DIR).filter((file) => file.endsWith('.md')).sort();
-console.log(`Generating writing art for ${files.length} articles${DRY_RUN ? ' (dry run)' : ''}...\n`);
+const files = readdirSync(WRITING_DIR)
+  .filter((file) => file.endsWith('.md'))
+  .filter((file) => !TARGET_SLUG || file === `${TARGET_SLUG}.md`)
+  .sort();
+
+if (TARGET_SLUG && files.length === 0) {
+  console.error(`No writing article found for slug "${TARGET_SLUG}".`);
+  process.exit(1);
+}
+
+console.log(`Generating writing art for ${files.length} article${files.length === 1 ? '' : 's'}${TARGET_SLUG ? ' (targeted)' : ''}${DRY_RUN ? ' (dry run)' : ''}...\n`);
 
 for (const file of files) {
   try {

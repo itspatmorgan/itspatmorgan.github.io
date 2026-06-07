@@ -32,6 +32,14 @@ pnpm generate:writing-art
 
 `pnpm dev` starts Astro at `localhost:4321`. `pnpm build` writes production output to `dist/`.
 
+For the common one-article publishing workflow, prefer targeted writing sync:
+
+```bash
+pnpm sync-writing -- --title "Article Title" --theme AI --with-art
+```
+
+Use untargeted `pnpm sync-writing` as a maintenance operation when intentionally re-syncing all website-ready Obsidian newsletters.
+
 ## Workflow
 
 Use the repository's existing plan -> track -> build -> document workflow for non-trivial work.
@@ -143,9 +151,15 @@ canonicalUrl: "https://www.unknownarts.co/p/article-slug"
 draft: false
 ```
 
-Writing can be synced from the local Obsidian vault with `pnpm sync-writing`. Synced articles may omit `image`; the site supports image-less writing entries.
+Writing can be synced from the local Obsidian vault with `pnpm sync-writing`. The common workflow is to sync one new article by title or slug, assign its theme, and generate its visual in one command:
 
-The website owns `visual` and generated `image` frontmatter for writing. Obsidian sync preserves those fields.
+```bash
+pnpm sync-writing -- --title "Article Title" --theme AI --with-art
+```
+
+Synced articles may omit `image`; the site supports image-less writing entries.
+
+The website owns `theme`, `visual`, and generated `image` frontmatter for writing. Obsidian sync preserves those fields.
 
 Use `theme` for broad reader-facing grouping, such as `AI`, `Design`, `Systems Thinking`, or `Creative Practice`. Use `tags` for lower-level metadata.
 
