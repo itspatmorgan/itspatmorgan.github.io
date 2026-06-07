@@ -6,8 +6,9 @@ This repository contains the source for [itspatmorgan.github.io](https://itspatm
 
 ## Start here
 
-- [Site system docs](docs/site-system.md) explain how the project is structured, how content works, and how to verify changes.
+- [System map](agent-os/system-map.md) explains how the project is structured, how content works, and how to verify changes.
 - [Agent instructions](AGENTS.md) are the shared working guide for Codex, Claude, and other coding agents.
+- [Agent OS](agent-os/README.md) contains strategy, plans, and learnings for AI-assisted work on the project.
 - [Project board](https://github.com/users/itspatmorgan/projects/2) and [issues](https://github.com/itspatmorgan/itspatmorgan.github.io/issues) track planned and active work.
 
 ## Local development
@@ -40,4 +41,4 @@ The dev server runs at `http://localhost:4321`.
 
 Writing sync requires `OBSIDIAN_VAULT` in your shell or in local `.env.local`.
 
-For build, sync, deployment, content, and architecture details, use the [site system docs](docs/site-system.md).
+For build, sync, deployment, content, and architecture details, use the [system map](agent-os/system-map.md).

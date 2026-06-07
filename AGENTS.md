@@ -1,19 +1,30 @@
 # AGENTS.md
 
-Guidance for Codex and other coding agents working in this repository.
+Guidance for Codex, Claude, and other coding agents working in this repository.
 
 ## Project Overview
 
-This is Patrick Morgan's personal portfolio site. It was migrated from Framer to a custom Astro + Tailwind CSS + shadcn/ui codebase and is designed for product, design, and technology leaders.
+This is Patrick Morgan's personal portfolio site for product, design, and
+technology leaders.
 
-The site should feel warm, minimal, editorial, and professional. Favor restrained, content-first design over decorative complexity.
+The site should feel warm, minimal, editorial, and professional. Favor
+restrained, content-first design over decorative complexity.
+
+## Start Here
+
+- `agent-os/strategy.md`: durable project direction, audience, active tracks, and non-goals
+- `agent-os/plans/`: work artifacts for non-trivial changes
+- `agent-os/conventions/`: current architecture, content, styling, and asset conventions
+- `agent-os/learnings/`: reusable project memory extracted from completed work
+- `agent-os/skills/`: repeatable, self-contained agent capabilities for recurring review and improvement
+- `agent-os/system-map.md`: operating map for how the website fits together
 
 ## Tech Stack
 
 - Framework: Astro v5, static output
 - Styling: Tailwind CSS v4 through `@tailwindcss/vite`
 - Components: shadcn/ui, base-nova style, configured in `components.json`
-- React: use only where interactivity requires it
+- React: use for stateful UI and isolated Lab experiences that need client interactivity
 - Content: Astro content collections with Zod schemas
 - Fonts: Geist Sans for body text, Geist Mono for labels, metadata, and code
 - Package manager: pnpm 10+
@@ -30,7 +41,8 @@ pnpm sync-writing
 pnpm generate:writing-art
 ```
 
-`pnpm dev` starts Astro at `localhost:4321`. `pnpm build` writes production output to `dist/`.
+`pnpm dev` starts Astro at `localhost:4321`. `pnpm build` writes production
+output to `dist/`.
 
 For the common one-article publishing workflow, prefer targeted writing sync:
 
@@ -38,52 +50,56 @@ For the common one-article publishing workflow, prefer targeted writing sync:
 pnpm sync-writing -- --title "Article Title" --theme AI --with-art
 ```
 
-Use untargeted `pnpm sync-writing` as a maintenance operation when intentionally re-syncing all website-ready Obsidian newsletters.
+Use untargeted `pnpm sync-writing` as a maintenance operation when intentionally
+re-syncing all website-ready Obsidian newsletters.
 
 ## Workflow
 
-Use the repository's existing plan -> track -> build -> document workflow for non-trivial work.
+Use a strategy -> plan -> track -> build -> review -> learn workflow for
+non-trivial work.
 
-### Planning
+Small fixes do not need a plan unless the user asks for one or the change
+affects multiple files, public behavior, content architecture, or deployment.
 
-Implementation plans currently live in `.claude/plans/`. Even though the directory name references Claude, treat it as the shared, canonical plan directory until the repository is intentionally migrated to a tool-neutral path.
+Plans live in `agent-os/plans/` and should include context, desired outcome,
+approach, scope, files to modify, steps, review, verification, and learnings.
+Use `agent-os/plans/README.md` as the template.
 
-Plans should include:
+Use `agent-os/skills/` when the task is a repeatable agent capability rather
+than a known implementation change. Skills should propose targeted work for
+approval before making broad changes.
 
-- Context: what problem this solves and why it matters
-- Approach: technical strategy and key decisions
-- Files to modify: expected files and purpose of each change
-- Steps: ordered implementation steps
-- Verification: how to confirm the work is correct
+At the end of non-trivial work, decide whether to create no durable learning,
+update an existing note, create a new note, update a convention in
+`agent-os/conventions/`, update `AGENTS.md` because cross-agent guidance changed,
+or update `agent-os/system-map.md` because the system changed.
 
-Small fixes do not need a plan unless the user asks for one or the change affects multiple files, public behavior, content architecture, or deployment.
+## Tracking
 
-### Tracking
-
-Work is tracked through GitHub Issues and the Personal Website project board:
+Work can be tracked through GitHub Issues, the Personal Website project board,
+and the connected Notion Tasks database.
 
 - Issues: `https://github.com/itspatmorgan/itspatmorgan.github.io/issues`
 - Project board: `https://github.com/users/itspatmorgan/projects/2`
+- Notion Tasks: available for cross-project orchestration and planning
 
-When creating issues, use one label from each dimension when possible. The original label taxonomy was:
+Use labels that reflect the current site and work type when creating issues:
 
-- Where: `home`, `resume`, `projects`, `writing`
-- What: `design`, `content`, `infrastructure`, `documentation`
+- Where: `home`, `about`, `work`, `writing`, `lab`, `community`, `colophon`, `system`
+- What: `design`, `content`, `infrastructure`, `documentation`, `publishing`, `accessibility`
 
-This taxonomy may need to be updated as the current public site now includes `about`, `work`, `lab`, `community`, and `colophon`.
-
-When completing issue work, use `Closes #N` in the implementation commit message when appropriate.
+When completing issue work, use `Closes #N` in the implementation commit message
+when appropriate.
 
 ## Repository Map
 
 | Path | Purpose |
 | --- | --- |
-| `.claude/plans/` | Shared implementation plans |
-| `docs/` | Durable project documentation linked from the README |
+| `agent-os/` | Shared strategy, system map, plans, conventions, learnings, and skills |
 | `.reference/` | User-provided briefs, screenshots, design tokens, outlines, and URLs |
 | `.github/workflows/deploy.yml` | GitHub Pages deployment |
 | `public/images/` | Static image assets |
-| `scripts/sync-writing.mjs` | Obsidian-to-site writing sync |
+| `scripts/` | Publishing, sync, and generation scripts |
 | `src/lab/` | Hosted Lab implementation code for tools, experiments, and interaction demos |
 | `src/components/` | Astro and React components |
 | `src/components/ui/` | shadcn/ui primitives |
@@ -96,130 +112,16 @@ When completing issue work, use `Closes #N` in the implementation commit message
 
 Do not edit `dist/` as source. It is generated by `pnpm build`.
 
-## Architecture Conventions
+## Core Conventions
 
 - Use `@/` imports for source files. The alias maps to `./src/*`.
-- Prefer `.astro` components by default. Use React only for stateful or interactive UI.
-- Content collections are defined in `src/content.config.ts`.
+- Prefer `.astro` components by default.
+- Use React for stateful UI, client interactivity, and Lab experiences where an
+  isolated interactive surface benefits from React.
 - Query content with `getCollection()` from `astro:content`.
 - Filter drafts before rendering public listings.
-- Layout hierarchy:
-  - `BaseLayout.astro`
-  - `PageLayout.astro`
-  - `ProjectLayout.astro`
-  - `WritingLayout.astro`
-
-## Content Conventions
-
-### Work
-
-Work entries live in `src/content/projects/*.{md,mdx}` and render publicly under `/work/<slug>`.
-
-Common frontmatter:
-
-```yaml
-title: "Project Title"
-type: "professional"
-description: "Short description"
-skills: ["Skill 1", "Skill 2"]
-thumbnail: "/images/projects/slug/thumbnail-image.jpg"
-thumbnailDark: "/images/projects/slug/thumbnail-image-dark.jpg"
-thumbnailWide: "/images/projects/slug/thumbnail-wide.jpg"
-thumbnailWideDark: "/images/projects/slug/thumbnail-wide-dark.jpg"
-heroImage: "/images/projects/slug/feature-image.jpg"
-sortOrder: 1
-draft: false
-```
-
-Dark, wide, and hero images are optional. Work entries that need embeds can use MDX.
-
-### Writing
-
-Writing lives in `src/content/writing/*.md`.
-
-Common frontmatter:
-
-```yaml
-title: "Article Title"
-description: "Short description"
-publishedDate: 2026-02-22
-categories: ["Category"]
-theme: "AI"
-tags: ["tag1", "tag2"]
-image: "/images/writing/article-slug/feature.jpg"
-canonicalUrl: "https://www.unknownarts.co/p/article-slug"
-draft: false
-```
-
-Writing can be synced from the local Obsidian vault with `pnpm sync-writing`. The common workflow is to sync one new article by title or slug, assign its theme, and generate its visual in one command:
-
-```bash
-pnpm sync-writing -- --title "Article Title" --theme AI --with-art
-```
-
-Synced articles may omit `image`; the site supports image-less writing entries.
-
-The website owns `theme`, `visual`, and generated `image` frontmatter for writing. Obsidian sync preserves those fields.
-
-Use `theme` for broad reader-facing grouping, such as `AI`, `Design`, `Systems Thinking`, or `Creative Practice`. Use `tags` for lower-level metadata.
-
-## Naming Conventions
-
-Use the site's established public terminology:
-
-- "Work", not "Projects" or "Experience", for the public portfolio/career section
-- "Writing", not "Blog"
-- "Lab", not "Tools", for hosted experiments, utilities, and interaction showcases
-- "Kind Words", not "Commendations" or "Testimonials"
-
-The internal content collection for Work is still named `projects`; do not rename it casually.
-
-### Lab
-
-Lab entries live in `src/content/lab/*.mdx` and are hosted under `/lab/<slug>`. Use Lab for working artifacts that live on the site itself, including experiments, tools, and small interaction design showcases.
-
-Common frontmatter:
-
-```yaml
-title: "Lab Item"
-description: "Short description"
-slug: "lab-item"
-preview: "lab-item"
-experience: "demo"
-draft: false
-```
-
-Use `experience: "app"` for immersive tools and `experience: "demo"` for focused interaction showcases. Put implementation code under `src/lab/<slug>/` when an item needs dedicated components, React islands, or supporting logic.
-
-## Styling Conventions
-
-- Tailwind CSS v4 is configured through the Vite plugin, not PostCSS.
-- CSS custom properties use OKLCH tokens in `src/styles/global.css`.
-- Use semantic Tailwind tokens such as `text-muted-foreground`, `bg-card`, `border-border`, and `hover:text-accent`.
-- Dark mode is class-based with `.dark` on `<html>`.
-- Home page sections generally use `mx-auto max-w-3xl px-6 py-16`.
-- Section dividers use `border-t border-border`.
-- Section labels use mono, uppercase, small text with wide tracking.
-- Markdown prose uses custom `.prose` styles in `global.css`, not `@tailwindcss/typography`.
-- Keep visual work restrained, readable, and consistent with the current portfolio aesthetic.
-
-## Image Conventions
-
-| Pattern | Purpose |
-| --- | --- |
-| `thumbnail-*` | Square project thumbnails, typically 2400x2400 |
-| `feature-*` | 16:9 project hero images, typically 1920x1080 |
-| `career-*.svg` | Company logos for the logo carousel |
-| `/images/profiles/` | Kind Words author headshots |
-
-## Embeds
-
-Project detail pages support:
-
-- YouTube embeds through `astro-embed`
-- Figma Slides embeds through `src/components/FigmaEmbed.astro`
-
-Figma presentation embeds should use `/deck/` URLs, not `/slides/` editor URLs.
+- Use the public terminology in `agent-os/conventions/content.md`.
+- Follow styling guidance in `agent-os/conventions/styling.md`.
 
 ## Verification
 
@@ -229,15 +131,15 @@ Run the narrowest useful verification for the change:
 - `pnpm dev` plus browser verification for visual or interactive changes
 - `pnpm sync-writing` followed by `pnpm build` for writing sync changes
 
-
 ## Multi-Agent Coordination
 
 - Check `git status --short` before editing.
 - Do not overwrite or revert user changes unless explicitly asked.
-- If another agent has modified files relevant to the task, read those changes and build on them.
+- If another agent has modified files relevant to the task, read those changes
+  and build on them.
 - Keep edits scoped to the user's request.
 - Avoid broad refactors unless they are necessary for the requested outcome.
 - Prefer existing local patterns over introducing new libraries or abstractions.
-- Update this file when durable repository conventions change.
-- Keep Claude-specific operational notes in `CLAUDE.md`; keep cross-agent project guidance here.
-- Keep the top-level `README.md` concise as the public home base; put deeper system documentation in `docs/` and link to it from the README.
+- Update `AGENTS.md` only when durable cross-agent guidance changes.
+- Keep Claude-specific operational notes in `CLAUDE.md`.
+- Keep the top-level `README.md` concise as the public home base.

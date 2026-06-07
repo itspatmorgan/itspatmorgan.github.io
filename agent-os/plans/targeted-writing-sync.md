@@ -12,13 +12,13 @@ The common writing workflow is adding one newly finished Obsidian newsletter to 
 - Allow `--theme` to assign website-owned theme metadata during sync.
 - Allow `--with-art` to generate deterministic writing visual metadata and the feature image for the synced article only.
 - Add a matching target filter to `scripts/generate-writing-art.mjs` so art generation can be scoped to one slug.
-- Document the normal one-article workflow in `docs/site-system.md`.
+- Document the normal one-article workflow in `agent-os/system-map.md`.
 
 ## Files to Modify
 
 - `scripts/sync-writing.mjs`: targeted article selection, theme assignment, overwrite guard, and optional art generation.
 - `scripts/generate-writing-art.mjs`: target filtering by slug.
-- `docs/site-system.md`: document the default single-article workflow and maintenance full-sync path.
+- `agent-os/system-map.md`: document the default single-article workflow and maintenance full-sync path.
 
 ## Steps
 
