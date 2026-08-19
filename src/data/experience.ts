@@ -5,6 +5,7 @@ export interface Role {
   role: string;
   dateRange: string;
   summary?: string;
+  links?: { label: string; href: string; image?: string; alt?: string }[];
   projects?: string[];
   descriptions: string[];
 }
@@ -16,11 +17,19 @@ export const roles: Role[] = [
     logo: "/images/logos/career-sublime.svg",
     role: "Staff Product Designer",
     dateRange: "2025–Now",
-    summary: "Designed a multi-agent system for email threat detection, pairing analyst triage with detection engineering automation. I also shipped high-stakes security features and built an internal Claude Code prototyping platform now used daily by the design team.",
+    summary: "Designed a multi-agent system for email threat detection, pairing analyst triage with detection engineering automation, and shipped high-stakes security features. Separately, I built an internal, AI-assisted prototyping platform now used daily by the design team.",
+    links: [
+      {
+        label: "AI-Assisted Prototyping Environment",
+        href: "https://www.youtube.com/watch?v=628c4YuxAEM",
+        image: "https://i.ytimg.com/vi/628c4YuxAEM/maxresdefault.jpg",
+        alt: "Podcast cover for building an agent-agnostic prototyping platform",
+      },
+    ],
     descriptions: [
       "Designed a multi-agent system pairing an analyst agent with a detection engineering agent — automating threat triage and continuously generating new detection rules in Sublime's custom DSL.",
       "Shipped security features for high-stakes scenarios: Email Bomb protection, vendor impersonation and compromise, and automated threat detection.",
-      "Built an internal prototyping platform with Claude Code — sole designer and engineer. Now used daily by the full design team.",
+      "Built an internal, agent-agnostic prototyping platform — sole designer and engineer. Now used daily by the full design team.",
     ],
   },
   {
