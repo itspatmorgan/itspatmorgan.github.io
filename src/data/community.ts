@@ -1,5 +1,5 @@
 export const communityStory = {
-  heading: "Showing up for creative people.",
+  heading: "Showing up for people who make things.",
   paragraphs: [
     "I stay active in the creative community because the best ideas are shaped in conversation: showing up to other people's events, hosting small gatherings of my own, and making room for people to compare notes in person.",
     "Through Unknown Arts and local LA events, I try to support designers, builders, writers, and entrepreneurs who want to learn from each other without the pressure of the online hustle or oversized industry events.",
