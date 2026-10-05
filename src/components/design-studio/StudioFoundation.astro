@@ -1,0 +1,47 @@
+---
+interface Props { kind: 'system' | 'setup' }
+const { kind } = Astro.props;
+---
+<div class={`foundation-art foundation-${kind}`}>
+{kind === 'system' && <svg viewBox="0 0 480 430" role="img" aria-label="A design operating system combines theme and components, context and principles, and rules and skills into a foundation for a prototype.">
+  <defs><pattern id="system-dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="currentColor" opacity=".13"/></pattern><pattern id="system-hatching" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V6" stroke="currentColor" opacity=".15"/></pattern></defs>
+  <rect x="16" y="16" width="448" height="398" fill="url(#system-dots)"/>
+  <g class="construction"><path d="M30 30H450M30 400H450M40 20V410M440 20V410M28 30H52M40 18V42M428 400H452M440 388V412"/></g>
+  <g class="connector"><path d="M320 98H356V318H338M320 182H356M320 266H356"/></g>
+  <g class="sheet"><rect x="66" y="46" width="254" height="80" rx="3"/><rect x="66" y="130" width="254" height="80" rx="3"/><rect x="66" y="214" width="254" height="80" rx="3"/></g>
+  <g class="mono"><text x="82" y="68">Theme + components</text><text x="82" y="152">Context + principles</text><text x="82" y="236">Rules + skills</text></g>
+  <rect x="82" y="82" width="26" height="26" fill="var(--foreground)"/><rect x="112" y="82" width="26" height="26" fill="var(--accent)"/><rect x="142" y="82" width="26" height="26" fill="url(#system-hatching)" stroke="var(--border)"/><rect x="192" y="84" width="52" height="22" rx="4" fill="var(--foreground)"/><path d="M251 86H294M251 94H282M251 102H287" class="ink"/>
+  <path d="M83 168H276M83 178H294M83 188H249" class="ink"/><path d="m84 252 5 5 9-11m-14 26 5 5 9-11" class="connector"/><path d="M110 252H274M110 272H243" class="ink"/>
+  <g class="sheet"><rect x="142" y="312" width="196" height="75" rx="3"/></g><text x="158" y="335" class="label">Your prototype</text><path d="M158 347H322" class="construction"/><rect x="158" y="358" width="36" height="14" fill="var(--accent)" opacity=".4"/><path d="M203 361H315M203 369H283" class="ink"/>
+  <text x="82" y="319" class="annotation">Assigned</text>
+</svg>}
+{kind === 'setup' && <><svg viewBox="0 0 960 150" role="img" aria-label="Start with the starter kit, make a local copy, and run Design Studio with your coding agent.">
+  <defs><pattern id="setup-grid" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M18 0H0V18" stroke="currentColor" fill="none" opacity=".07"/></pattern></defs>
+  <rect x="28" y="18" width="904" height="112" fill="url(#setup-grid)"/>
+  <path d="M228 73H408M548 73H728" class="connector" stroke-dasharray="3 6"/>
+  <g class="sheet"><path d="M97 32h83v71H97z"/><path d="M90 39h83v71H90z"/><path d="M83 46h83v71H83z"/></g><path d="M96 61H150M96 70H138M96 79H145" class="ink"/>
+  <g class="sheet"><rect x="436" y="32" width="90" height="66" rx="4"/><path d="M426 106H536L526 98H436z"/></g><path d="m454 54 9 8-9 8M472 71H493" class="connector"/>
+  <g class="sheet"><rect x="757" y="30" width="112" height="80" rx="4"/></g><path d="M757 47H869M780 47V110" class="construction"/><rect x="790" y="58" width="27" height="18" fill="var(--accent)" opacity=".3"/><path d="M826 60H857M826 69H848M791 87H856M791 97H840" class="ink"/>
+  <g class="mono" text-anchor="middle"><text x="126" y="141">Create your copy</text><text x="480" y="141">Clone locally</text><text x="814" y="141">Run with your agent</text></g>
+</svg><div class="mobile-setup-labels" aria-hidden="true"><span>Create your copy</span><span>Clone locally</span><span>Run with your agent</span></div></>}
+</div>
+<style>
+  .foundation-art { color:var(--foreground); }
+  svg { display:block;width:100%;overflow:visible; }
+  .construction { stroke:currentColor;stroke-width:.7;opacity:.2;fill:none; }
+  .connector { stroke:var(--accent);stroke-width:1.3;fill:none; }
+  .sheet { fill:var(--card);stroke:var(--border);stroke-width:1; }
+  .ink { stroke:currentColor;stroke-width:1;opacity:.4;fill:none; }
+  .mono { font:11px var(--font-mono);fill:var(--muted-foreground); }
+  .label { font:14px var(--font-sans);fill:var(--foreground); }
+  .annotation { font:9px var(--font-mono);fill:var(--muted-foreground); }
+  .foundation-system { max-width:32rem;width:100%;margin:auto; }
+  .foundation-setup { max-width:56rem;margin:1.5rem auto; }
+  .foundation-setup :is(path, rect) { vector-effect:non-scaling-stroke; }
+  .foundation-setup .sheet { stroke:var(--muted-foreground);stroke-opacity:.5; }
+  .mobile-setup-labels { display:none; }
+  @media(max-width:40rem) {
+    .foundation-setup .mono { display:none; }
+    .mobile-setup-labels { display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;font:.6rem var(--font-mono);color:var(--muted-foreground);text-align:center;margin-top:-.25rem; }
+  }
+</style>

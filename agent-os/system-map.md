@@ -35,6 +35,8 @@ for related details. This file owns system orientation, not editing rules.
 | `/writing/<slug>` | Article detail pages |
 | `/community` | Community story, photos, and Kind Words |
 | `/colophon` | Public explanation of stack and workflow |
+| `/design-studio` | Design Studio project landing page, artifact previews, and starter-kit setup |
+| `/design-studio/agent.txt` | Plain-text Design Studio brief and setup guide, shared with the landing page's Agent mode |
 | `/resume` | Legacy resume-style route still present in the codebase |
 
 ## Commands

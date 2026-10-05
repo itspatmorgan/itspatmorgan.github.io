@@ -1,0 +1,128 @@
+---
+interface Props { kind: string }
+const { kind } = Astro.props;
+const readings = [
+  { title: "A practice of noticing", category: "Creative practice", time: "6 min", saved: true },
+  { title: "Making room for the unfinished", category: "Design", time: "8 min", saved: false },
+  { title: "Ideas that build on each other", category: "Systems", time: "5 min", saved: false },
+];
+---
+<div class="artifact-stage">
+  <div class="artifact-file"><span class="file-dot" aria-hidden="true"></span><span>{kind === 'view' ? 'reading-room.tsx' : kind === 'diagram' ? 'reading-flow.mermaid' : kind === 'canvas' ? 'explorations.excalidraw' : 'context.md'}</span><span class="file-type">{kind === 'view' ? 'Working view' : kind === 'diagram' ? 'Flow diagram' : kind === 'canvas' ? 'Exploration canvas' : 'Design context'}</span></div>
+  {kind === 'view' && <div class="reading-view" data-reading-demo>
+    <div class="reading-heading"><div><p class="small-note">A little space for good ideas</p><h4>The reading room</h4></div><svg class="reading-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M6 9h14c3 0 4 2 4 4v27c0-4-3-6-7-6H6V9Zm36 0H28c-3 0-4 2-4 4v27c0-4 3-6 7-6h11V9Z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+    <div class="reading-filters" role="group" aria-label="Filter reading collection"><button type="button" data-reading-filter="all" aria-pressed="true">All reading</button><button type="button" data-reading-filter="saved" aria-pressed="false">Saved for later <span data-saved-count>1</span></button></div>
+    <div class="reading-list">{readings.map((item, index) => <article class="reading-item" data-reading-item data-saved={String(item.saved)}><div class={`reading-art reading-art-${index}`} aria-hidden="true"><span></span><i></i></div><div class="reading-item-text"><p class="reading-category">{item.category}</p><h5>{item.title}</h5><p class="reading-time">{item.time} read</p></div><button type="button" class="save-reading" data-save-reading aria-label={`Save ${item.title}`} aria-pressed={String(item.saved)}><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3V4Z" stroke="currentColor" stroke-width="1.4"/></svg></button></article>)}</div>
+    <p class="reading-empty" data-reading-empty hidden>Your next good read is waiting. Save something from All reading.</p>
+    <p class="sr-only" role="status" aria-live="polite" data-reading-status></p>
+  </div>}
+  {kind === 'diagram' && <div class="diagram-view"><p class="small-note">The same idea, from another angle</p><h4>From discovery to a good read.</h4><svg class="flow-drawing" viewBox="0 0 640 320" role="img" aria-label="Browse the collection, choose a read, then read now or save for later. Saved reading returns to the collection."><defs><marker id="reading-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="m1 1 8 4-8 4" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs><g class="flow-lines" marker-end="url(#reading-arrow)"><path d="M167 160H230"/><path d="M356 160H391V86H434"/><path d="M356 160H391V234H434"/><path d="M505 256V292H100V184"/></g><g class="flow-nodes"><rect x="34" y="136" width="133" height="48" rx="6"/><path d="m230 160 63-52 63 52-63 52-63-52Z"/><rect x="434" y="62" width="142" height="48" rx="6"/><rect x="434" y="210" width="142" height="48" rx="6"/></g><g class="flow-labels"><text x="100" y="165">Browse collection</text><text x="293" y="165">Choose a read</text><text x="505" y="91">Read now</text><text x="505" y="239">Save for later</text></g><g class="flow-annotations"><text x="400" y="74">Ready</text><text x="400" y="224">Not yet</text><text x="220" y="280">Return when you have time</text></g></svg><ol class="mobile-flow" aria-label="Reading flow"><li>Browse the collection</li><li>Choose a read</li><li><span>Read now</span><span>Save for later</span></li></ol><p class="mobile-flow-return">Saved reads stay in your collection for later.</p></div>}
+  {kind === 'canvas' && <div class="canvas-view"><div class="canvas-note"><p class="small-note">A direction to explore</p><h4>Less feed.<br />More reading room.</h4><p>A quiet collection you can return to, without a sense of falling behind.</p></div><div class="canvas-sketch"><span class="sketch-label">A possible layout</span><div class="sketch-top"></div><div class="sketch-tabs"><i></i><i></i></div>{[1,2,3].map(()=> <div class="sketch-row"><span></span><div><i></i><i></i></div><b>◇</b></div>)}</div><div class="canvas-question"><span>What if…</span><p>Saving a read felt like putting a book on your shelf?</p></div><svg class="canvas-connection" viewBox="0 0 600 360" preserveAspectRatio="none" aria-hidden="true"><path d="M215 125C280 125 270 95 340 95M430 235C430 300 300 310 245 285" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 5" fill="none"/></svg></div>}
+  {kind === 'document' && <div class="document-view"><p class="small-note">Context shared with your agent</p><h4>A quieter place to read.</h4><p class="document-intro">Help curious people keep good ideas close, without turning reading into another task to manage.</p><div class="document-section"><h5>What matters</h5><ul><li>Make the collection easy to scan.</li><li>Keep saving a read one simple action.</li><li>Give people a clear way back to saved reading.</li></ul></div><div class="document-decision"><span class="small-note">Design decision</span><p>Start with a list, not a feed. A calm rhythm and a small amount of metadata give each idea room to breathe.</p></div><p class="document-link">Related artifacts <span>reading-room.tsx · reading-flow.mermaid</span></p></div>}
+</div>
+
+<style>
+  .artifact-stage { background: var(--background); color: var(--foreground); min-height: 30rem; }
+  .artifact-file { display:flex; align-items:center; gap:.6rem; padding:1rem 1.5rem; border-bottom:1px solid var(--border); font: .65rem var(--font-mono); color:var(--muted-foreground); }
+  .file-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
+  .file-type { margin-left:auto; opacity:.6; }
+  h4 { font-size:clamp(1.5rem,2.5vw,2rem); letter-spacing:-.04em; font-weight:500; line-height:1.15; }
+  .small-note { color:var(--muted-foreground); font-size:.75rem; margin-bottom:.7rem; }
+  .reading-view,.diagram-view,.document-view { padding:2rem clamp(1.25rem,3vw,3rem); }
+  .reading-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .reading-mark { width:40px; color:var(--accent); }
+  .reading-filters { display:flex; gap:1.5rem; margin:1.75rem 0 .5rem; border-bottom:1px solid var(--border); }
+  .reading-filters button { padding:.7rem 0; font-size:.75rem; color:var(--muted-foreground); border-bottom:1px solid transparent; }
+  .reading-filters button[aria-pressed="true"] { color:var(--foreground); border-color:var(--accent); }
+  .reading-filters span { font: .65rem var(--font-mono); margin-left:.3rem; color:var(--accent); }
+  button { cursor:pointer; }
+  button:focus-visible { outline:2px solid var(--ring); outline-offset:4px; border-radius:2px; }
+  .reading-item { display:flex; align-items:center; gap:1.2rem; padding:1.2rem 0; border-bottom:1px solid var(--border); }
+  [hidden] { display:none !important; }
+  .reading-art { position:relative; width:64px; height:72px; flex-shrink:0; overflow:hidden; background:var(--muted); }
+  .reading-art span { position:absolute; width:70px; height:70px; border-radius:50%; border:1px solid var(--foreground); opacity:.4; left:25px; top:-15px; }
+  .reading-art i { position:absolute; width:32px; height:36px; background:var(--accent); opacity:.35; left:0; bottom:0; }
+  .reading-art-1 span { border-radius:0; transform:rotate(30deg); top:28px; left:5px; }
+  .reading-art-1 i { left:35px; bottom:35px; }
+  .reading-art-2 span { width:40px;height:40px;left:12px;top:16px; }
+  .reading-art-2 i { width:1px;height:72px;left:32px;opacity:.8; }
+  .reading-item-text { flex:1; min-width:0; }
+  .reading-category,.reading-time { font-size:.65rem; color:var(--muted-foreground); }
+  .reading-item h5 { margin:.25rem 0 .4rem; font-size:clamp(.9rem,1.5vw,1.1rem); font-weight:500; letter-spacing:-.02em; }
+  .save-reading { padding:.5rem; color:var(--muted-foreground); }
+  .save-reading svg { width:20px;height:20px; }
+  .save-reading[aria-pressed="true"] { color:var(--accent); }
+  .save-reading[aria-pressed="true"] path { fill:var(--accent); fill-opacity:.2; }
+  .reading-empty { padding:3rem 0;font-size:.85rem;color:var(--muted-foreground); }
+  .diagram-view { padding-top:2.5rem; }
+  .mobile-flow,.mobile-flow-return { display:none; }
+  .flow-drawing { width:100%; margin:2rem 0 1rem;overflow:visible; }
+  .flow-lines { stroke:var(--accent);stroke-width:1.3;fill:none; }
+  .flow-nodes { stroke:var(--border);fill:var(--card); }
+  .flow-labels { fill:var(--foreground);text-anchor:middle;font:12px var(--font-sans); }
+  .flow-annotations { fill:var(--muted-foreground);font:10px var(--font-mono); }
+  .canvas-view { position:relative; min-height:28rem; background-image:radial-gradient(var(--border) 1px,transparent 1px);background-size:18px 18px; padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start; }
+  .canvas-note,.canvas-sketch,.canvas-question { position:relative;z-index:1; }
+  .canvas-note { padding:1.25rem;background:var(--card);border:1px solid var(--border);transform:rotate(-2deg); }
+  .canvas-note h4 { font-size:1.5rem; }
+  .canvas-note>p:last-child { font-size:.75rem;line-height:1.7;color:var(--muted-foreground);margin-top:1rem; }
+  .canvas-sketch { border:1px solid var(--muted-foreground);border-radius:3px;padding:1.25rem;background:var(--background);transform:rotate(2deg); }
+  .sketch-label { font:.6rem var(--font-mono);color:var(--muted-foreground); }
+  .sketch-top { height:8px;width:70%;margin:1.2rem 0;background:var(--foreground);opacity:.35; }
+  .sketch-tabs { display:flex;gap:.5rem;margin-bottom:.6rem; }
+  .sketch-tabs i { width:30px;height:4px;background:var(--accent);opacity:.5; }
+  .sketch-row { display:flex;align-items:center;gap:.6rem;padding:.7rem 0;border-top:1px solid var(--border); }
+  .sketch-row>span { width:25px;height:30px;border:1px solid var(--muted-foreground); }
+  .sketch-row>div { flex:1; }
+  .sketch-row i { display:block;width:90%;height:3px;margin:5px 0;background:var(--muted-foreground);opacity:.4; }
+  .sketch-row i+i { width:50%; }
+  .sketch-row b { font-weight:400;color:var(--accent); }
+  .canvas-question { grid-column:1 / -1;justify-self:center;width:65%;padding:.9rem 1rem;border-left:2px solid var(--accent);background:var(--background); }
+  .canvas-question span { font:.65rem var(--font-mono);color:var(--accent); }
+  .canvas-question p { margin-top:.4rem;font-size:.85rem;line-height:1.5; }
+  .canvas-connection { position:absolute;inset:0;width:100%;height:100%;color:var(--accent);opacity:.5; }
+  .document-view { max-width:42rem;margin:auto; }
+  .document-intro { font-size:.9rem;line-height:1.75;color:var(--muted-foreground);margin-top:1rem; }
+  .document-section { margin-top:1.6rem; }
+  .document-section h5 { font-size:.85rem;font-weight:500; }
+  .document-section ul { list-style:disc;margin:.7rem 0 0 1rem;font-size:.8rem;line-height:1.9;color:var(--muted-foreground); }
+  .document-decision { margin-top:1.5rem;padding:1rem 1.25rem;border-left:2px solid var(--accent);background:var(--card); }
+  .document-decision p { font-size:.8rem;line-height:1.7; }
+  .document-link { margin-top:1.5rem;font-size:.65rem;color:var(--muted-foreground); }
+  .document-link span { display:block;margin-top:.4rem;font-family:var(--font-mono);overflow-wrap:anywhere; }
+  @media(max-width:40rem) { .file-type { display:none; } .artifact-stage { min-height:0; } .reading-art { width:45px;height:56px; } .reading-item { gap:.75rem; } .canvas-view { padding:1.5rem;gap:1.5rem;grid-template-columns:1fr; } .canvas-sketch { width:85%;justify-self:end; } .canvas-question { width:100%; } .canvas-connection { display:none; } .flow-drawing { display:none; } .mobile-flow { display:grid;gap:1.5rem;margin-top:2rem;list-style:none; } .mobile-flow li { position:relative;text-align:center;padding:1rem;border:1px solid var(--border);background:var(--card);border-radius:6px;font-size:.8rem; } .mobile-flow li+li::before { content:"↓";position:absolute;top:-1.3rem;left:50%;color:var(--accent); } .mobile-flow li:last-child { display:flex;gap:1rem;border:0;padding:0;background:none; } .mobile-flow li:last-child span { flex:1;padding:1rem .5rem;border:1px solid var(--border);border-radius:6px;background:var(--card); } .mobile-flow-return { display:block;font-size:.7rem;line-height:1.6;color:var(--muted-foreground);margin-top:1.5rem; } }
+</style>
+<script>
+  function initReadingDemo() {
+    const root = document.querySelector<HTMLElement>('[data-reading-demo]');
+    if (!root || root.dataset.initialized) return;
+    root.dataset.initialized = 'true';
+    const filters = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-reading-filter]'));
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-reading-item]'));
+    let savedOnly = false;
+    const update = () => {
+      const count = items.filter(item => item.dataset.saved === 'true').length;
+      const countLabel = root.querySelector('[data-saved-count]');
+      if (countLabel) countLabel.textContent = String(count);
+      items.forEach(item => { item.hidden = savedOnly && item.dataset.saved !== 'true'; });
+      const empty = root.querySelector<HTMLElement>('[data-reading-empty]');
+      if (empty) empty.hidden = !savedOnly || count > 0;
+      filters.forEach(button => button.setAttribute('aria-pressed', String((button.dataset.readingFilter === 'saved') === savedOnly)));
+    };
+    filters.forEach(button => button.addEventListener('click', () => { savedOnly = button.dataset.readingFilter === 'saved'; update(); }));
+    root.querySelectorAll<HTMLButtonElement>('[data-save-reading]').forEach(button => button.addEventListener('click', () => {
+      const item = button.closest<HTMLElement>('[data-reading-item]');
+      if (!item) return;
+      const saved = item.dataset.saved !== 'true';
+      item.dataset.saved = String(saved);
+      button.setAttribute('aria-pressed', String(saved));
+      const status = root.querySelector('[data-reading-status]');
+      if (status) status.textContent = saved ? 'Added to saved reading.' : 'Removed from saved reading.';
+      // Keep focus on a visible filter if removing the item hides its button.
+      if (savedOnly && !saved) filters.find(filter => filter.dataset.readingFilter === 'saved')?.focus();
+      update();
+    }));
+  }
+  initReadingDemo();
+  document.addEventListener('astro:after-swap', initReadingDemo);
+</script>

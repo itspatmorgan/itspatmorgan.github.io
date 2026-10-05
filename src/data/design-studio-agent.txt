@@ -1,0 +1,67 @@
+# Design Studio
+
+An open-source platform for building connected prototypes and the design operating systems behind them. Work with your coding agent, your code, and your context, individually or with a team.
+
+Product: Design Studio
+Starter repository: https://github.com/itspatmorgan/design-studio-starter
+License: MIT
+Creator: Patrick Morgan
+
+## Build prototypes
+
+Keep working views, diagrams, canvases, and documents together in one prototype. Artifacts use open file formats that give agents familiar structures to read, write, and extend. The interface, flows, explorations, and reasoning can evolve together.
+
+## Build design operating systems
+
+Create distinct design operating systems for different products or teams. Go beyond themes and components by including product context, design principles, and agent rules and skills that help prototypes hit the mark. Assign the appropriate system to a prototype to give the agent the foundation and guidance for its work.
+
+## Work on your own terms
+
+Design Studio provides working tools out of the box and an extensible platform built on open-source technology and open file formats. It runs locally alongside the user's editor, coding agent, and harness. The user owns the code and can bring in components, context, and workflows, then adapt the environment as their needs change.
+
+## Create a studio
+
+1. Use the GitHub template to create the user's own repository:
+   https://github.com/itspatmorgan/design-studio-starter
+   Choose "Use this template" → "Create a new repository" and select the owner, name, and visibility.
+
+2. Clone that new repository using its actual HTTPS URL. The following commands are examples: replace YOUR-ACCOUNT and YOUR-STUDIO before running them.
+
+   git clone https://github.com/YOUR-ACCOUNT/YOUR-STUDIO.git
+   cd YOUR-STUDIO
+
+3. Open the cloned repository in Codex, Cursor, Claude Code, or the user’s preferred coding agent. Install and run Design Studio from that environment.
+   Install mise if needed: https://mise.jdx.dev/installing-mise.html
+   From the new repository directory, run:
+
+   mise install
+   mise exec -- pnpm install
+   mise exec -- pnpm dev
+
+   mise selects the project's configured Node.js and pnpm versions. If mise is already activated in the shell, pnpm install and pnpm dev also work directly.
+
+4. Open the local URL printed by Vite. Keep the development server running while using Design Studio.
+
+## Work in the studio
+
+Read the cloned repository's README.md and AGENTS.md before editing files. Follow its getting-started guide to configure studio identity and contributor details. Resolve the prototype's assigned system before changing its design or implementation.
+
+Bring the user's components, tokens, and design context into their own system. Keep the reasoning alongside the artifacts. Review working prototypes and their states in the browser.
+
+The local Design Studio Guide is available at /documentation/guide. This is a route in the running Design Studio app, not on Patrick's website. Detailed platform contracts live at /documentation/reference in the same app.
+
+## Sources
+
+Repository and current setup instructions:
+https://github.com/itspatmorgan/design-studio-starter#readme
+
+Getting-started source:
+https://github.com/itspatmorgan/design-studio-starter/blob/main/src/modules/documentation/pages/getting-started.md
+
+Landing page:
+https://itspatmorgan.com/design-studio
+
+Why Patrick is building it:
+https://itspatmorgan.com/writing/build-a-design-os
+
+Use the cloned repository's current documentation as the authority for implementation and setup details.

@@ -1,0 +1,298 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import StudioArtifactPreview from "@/components/design-studio/StudioArtifactPreview.astro";
+import StudioOwnership from "@/components/design-studio/StudioOwnership.astro";
+import StudioFoundation from "@/components/design-studio/StudioFoundation.astro";
+import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
+import agentGuide from "@/data/design-studio-agent.txt?raw";
+import { buttonVariants } from "@/components/ui/button";
+
+const repository = "https://github.com/itspatmorgan/design-studio-starter";
+const examples = [
+  { id: "view", label: "View", purpose: "Try the interface." },
+  { id: "diagram", label: "Diagram", purpose: "Map the flow." },
+  { id: "canvas", label: "Canvas", purpose: "Explore possibilities." },
+  { id: "document", label: "Document", purpose: "Keep the reasoning." },
+];
+const systemLayers = [
+  { title: "Theme and components.", body: "Define the visual language and reusable building blocks your prototypes should use." },
+  { title: "Context and principles.", body: "Give your agent the product knowledge and design guidance behind those choices." },
+  { title: "Rules and skills.", body: "Capture how your team works, so your agent has instructions and repeatable workflows to build with." },
+];
+const platformBenefits = [
+  { title: "A considered starting point.", body: "Views, diagrams, canvases, and documents are ready to work together, so you can start with your ideas." },
+  { title: "Fits the way you work.", body: "Work in your preferred coding agent. Bring your components and context into Design Studio, and shape it around your team." },
+  { title: "Room to make it yours.", body: "Open-source tools and open file formats give you a foundation you can change and extend as your needs evolve." },
+];
+const cloneCommands = "git clone https://github.com/YOUR-ACCOUNT/YOUR-STUDIO.git\ncd YOUR-STUDIO";
+const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnpm dev";
+---
+
+<PageLayout title="Design Studio — Design with intent. Build with an agent." description="An open-source platform for connected prototypes and design operating systems with themes, components, context, agent rules, and skills. Build with your agent, on your terms." image="/images/design-studio/social.jpg">
+  <div class="studio-page mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-14">
+    <header class="flex items-center justify-between gap-6 pt-9 sm:pt-12">
+      <a href="/design-studio" class="flex items-center gap-3 font-medium tracking-tight" aria-label="Design Studio home">
+        <svg width="32" height="26" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 0h11v32H0zM15 0h3a16 16 0 0 1 0 32h-3z" /></svg>
+        <span class="text-lg">Design Studio</span>
+      </a>
+      <nav aria-label="Reading mode" class="flex rounded-full border border-border p-1" data-studio-modes>
+        <a id="studio-human-tab" href="#studio-human" data-studio-mode="human" class="mode-tab rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Human</a>
+        <a id="studio-agent-tab" href="/design-studio/agent.txt" data-studio-mode="agent" class="mode-tab rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Agent</a>
+      </nav>
+    </header>
+
+    <div id="studio-human" data-studio-panel="human">
+    <section class="studio-hero grid items-center gap-12 pt-16 pb-20 sm:pt-20 sm:pb-24 lg:grid-cols-[1.2fr_1fr] lg:gap-10 lg:pt-24 lg:pb-28" aria-labelledby="studio-title">
+      <div>
+        <h1 id="studio-title" class="text-[clamp(2.8rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]">Design with intent.<br />Build with an agent.</h1>
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">An open platform for designers and product managers who build. Create prototypes with your agent, grounded in your components, context, and design guidance.</p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Get started <span aria-hidden="true">↓</span></a>
+          <a href={repository} class={buttonVariants({ variant: "outline", size: "lg", className: "h-11 px-5" })}>View on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <StudioAtmosphere />
+    </section>
+
+    <section id="explore" class="border-t border-border py-14 sm:py-20" aria-labelledby="examples-title" data-studio-gallery>
+      <h2 id="examples-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Build prototypes that connect the whole idea</h2>
+      <p class="mt-4 leading-relaxed text-muted-foreground">Bring working views, diagrams, canvases, and documents together in one prototype. Built on open file formats, these artifacts give your agent familiar structures to read, write, and extend—so the interface, the flow, and the thinking behind them can evolve together.</p>
+      <div class="walkthrough-window mt-8 overflow-hidden rounded-xl border border-border bg-card">
+        <div class="walkthrough-body">
+          <nav class="walkthrough-nav" aria-label="Prototype artifacts" data-gallery-tabs>
+            {examples.map((example) => <a id={`tab-${example.id}`} href={`#example-${example.id}`} class="gallery-tab rounded-lg px-4 py-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" data-gallery-tab={example.id} aria-label={example.label}><span class="block text-sm font-medium">{example.label}</span><span class="artifact-purpose mt-1 block text-xs leading-relaxed">{example.purpose}</span></a>)}
+          </nav>
+          <div class="min-w-0">
+            {examples.map((example) => (
+              <figure id={`example-${example.id}`} class="gallery-panel scroll-mt-8" data-gallery-panel={example.id}>
+                <StudioArtifactPreview kind={example.id} />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-border py-14 sm:py-20" aria-labelledby="systems-title">
+      <div class="systems-composition grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div>
+          <h2 id="systems-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Give your agent a design <em class="font-medium">operating</em> system</h2>
+          <p class="mt-5 leading-relaxed text-muted-foreground">Go beyond themes and components. Give your agent the context, rules, and skills to build prototypes that hit the mark.</p>
+          <div class="system-layers mt-8 space-y-6">
+            {systemLayers.map((item) => <div class="border-l border-border pl-5"><h3 class="text-base font-medium tracking-tight">{item.title}</h3><p class="mt-1.5 text-sm leading-relaxed text-muted-foreground">{item.body}</p></div>)}
+          </div>
+        </div>
+        <StudioFoundation kind="system" />
+      </div>
+    </section>
+
+    <section class="border-t border-border py-14 sm:py-20" aria-labelledby="yours-title">
+      <h2 id="yours-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A thoughtful foundation to make your own</h2>
+      <p class="mt-4 leading-relaxed text-muted-foreground">Start with tools and defaults chosen to work well together. Make them your own—with your agent, your code, and the way your team works.</p>
+      <div class="mt-8 grid gap-10 md:grid-cols-3 md:gap-8">
+        {platformBenefits.map((item, index) => <div><StudioOwnership kind={index} /><div class="pt-5"><h3 class="text-lg font-medium tracking-tight">{item.title}</h3><p class="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p></div></div>)}
+      </div>
+    </section>
+
+    <section id="get-started" class="scroll-mt-8 border-t border-border py-14 sm:py-20" aria-labelledby="setup-title">
+      <h2 id="setup-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Run your own Design Studio</h2>
+      <p class="mt-4 leading-relaxed text-muted-foreground">Your own copy. Ready to shape around your work.</p>
+      <StudioFoundation kind="setup" />
+      <ol class="setup-sequence mt-8">
+        <li>
+          <span class="setup-number" aria-hidden="true">01</span>
+          <div><h3 class="text-lg font-medium tracking-tight">Create your repository.</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Use the GitHub template. Choose “Use this template” → “Create a new repository,” then set its name and visibility.</p><a href={repository} class="mt-3 inline-flex items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground">Use the starter kit <span aria-hidden="true">↗</span></a></div>
+        </li>
+        <li>
+          <span class="setup-number" aria-hidden="true">02</span>
+          <div class="min-w-0"><h3 class="text-lg font-medium tracking-tight">Bring it onto your computer.</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Copy your new repository’s HTTPS URL from “Code,” then clone it in your terminal.</p><details class="setup-detail"><summary>Clone commands</summary><p class="mt-3 text-xs leading-relaxed text-muted-foreground">Replace the placeholders with your account and repository name.</p><div class="code-block code-block-placeholder"><pre><code>{cloneCommands}</code></pre></div></details></div>
+        </li>
+        <li>
+          <span class="setup-number" aria-hidden="true">03</span>
+          <div class="min-w-0"><h3 class="text-lg font-medium tracking-tight">Open Design Studio with your agent.</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Open your new repository in Codex, Cursor, Claude Code, or your preferred coding agent. Have your agent install and run Design Studio, then open the local URL in your browser.</p><details class="setup-detail"><summary>Install and start commands</summary><p class="mt-3 text-sm leading-relaxed text-muted-foreground"><a href="https://mise.jdx.dev/installing-mise.html" class="underline underline-offset-4 hover:text-foreground">Install mise</a>, then run these commands inside your new repository.</p><div class="code-block"><pre><code>{startCommands}</code></pre><button type="button" data-copy-code hidden aria-label="Copy install and start commands">Copy</button></div><p class="mt-3 text-xs leading-relaxed text-muted-foreground">These install the project’s Node.js and pnpm versions, dependencies, and start the development server. Run these in your coding agent’s terminal and keep the development server running while you work. If mise is already activated in your shell, use <code>pnpm install</code> and <code>pnpm dev</code> directly.</p></details></div>
+        </li>
+      </ol>
+      <p class="sr-only" data-copy-status role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="border-t border-border pt-14 pb-20 sm:pt-20 sm:pb-24" aria-labelledby="about-studio-title">
+      <h2 id="about-studio-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A note from the creator</h2>
+      <div class="mt-8 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-14">
+        <div class="max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground">
+          <p>Hi, I'm <a href="/about" class="text-foreground underline underline-offset-4 hover:text-accent">Patrick</a>. I'm a designer who likes to build things.</p>
+          <p>In the startups I’ve worked with, every codebase has been different. I wanted a design environment that could fit the way a team actually builds, with prototypes and design operating systems that carry the context forward.</p>
+          <p>Working with coding agents made it possible for me to build that environment myself. I built Design Studio on open-source tools and open formats so it could be a useful starting point, and something you can keep adapting as your work changes.</p>
+          <p>I hope it gives you a little more room to explore, make things, and have some fun along the way.</p>
+          <img src="/images/brand/patrick-signature.png" alt="Patrick Morgan" width="764" height="376" loading="lazy" class="h-auto w-32 dark:invert" />
+          <a href="/writing/build-a-design-os" class="inline-block pt-3 text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Read the story behind Design Studio <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="creator-portrait-field relative isolate flex justify-center py-8 md:self-start md:py-0">
+          <a href="/about" aria-label="About Patrick Morgan" class="relative z-10 block shrink-0 rotate-2 bg-white p-2 pb-8 shadow-2xl shadow-black/20 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring dark:bg-[#20201e] dark:shadow-black/50 lg:p-3 lg:pb-10 motion-reduce:transition-none">
+            <div class="h-52 w-52 overflow-hidden lg:h-64 lg:w-64 xl:h-72 xl:w-72">
+              <img src="/images/brand/profile-living-room.jpg" alt="Patrick Morgan" loading="lazy" class="block h-full w-full scale-[1.55] object-cover object-[43%_54%]" />
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="mt-10"><a href={repository} class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Build your own studio <span aria-hidden="true">↗</span></a></div>
+    </section>
+    </div>
+    <section id="studio-agent" data-studio-panel="agent" hidden class="pt-16 pb-20 sm:pt-20 sm:pb-24">
+      <h1 class="text-3xl font-medium tracking-tight sm:text-4xl">Design Studio</h1>
+      <p class="mt-4 leading-relaxed text-muted-foreground">A project brief and setup guide for your coding agent.</p>
+      <div class="mt-6 flex flex-wrap items-center gap-4">
+        <button type="button" data-copy-agent hidden class={buttonVariants({ variant: "outline", size: "sm" })}>Copy guide</button>
+        <a href="/design-studio/agent.txt" class="text-sm underline decoration-border underline-offset-4 hover:decoration-foreground">Open plain text <span aria-hidden="true">↗</span></a>
+      </div>
+      <pre class="mt-8 whitespace-pre-wrap break-words rounded-xl border border-border bg-card p-5 font-mono text-xs leading-relaxed sm:p-8 sm:text-sm" data-agent-guide><code>{agentGuide}</code></pre>
+      <p class="sr-only" data-agent-copy-status role="status" aria-live="polite"></p>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .setup-sequence > li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1.25rem; padding: 1.5rem 0; }
+  .setup-number { font: .75rem var(--font-mono); color: var(--accent); padding-top: .3rem; }
+  .setup-detail { margin-top: .85rem; }
+  .setup-detail summary { width: fit-content; cursor: pointer; font-size: .75rem; color: var(--foreground); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 4px; }
+  .setup-detail summary:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
+  .creator-portrait-field::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(1deg);
+    background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+    background-size: 14px 14px;
+    color: var(--foreground);
+    opacity: 0.105;
+    mask-image: radial-gradient(ellipse at 55% 54%, black 0%, black 52%, transparent 82%);
+  }
+  @media (min-width: 48rem) {
+    .creator-portrait-field::before { width: calc(100% + min(6rem, 6vw)); height: 26rem; }
+  }
+  [data-studio-panel][hidden] { display: none; }
+  .mode-tab { color: var(--muted-foreground); }
+  .mode-tab:hover { color: var(--foreground); }
+  .mode-tab[aria-selected="true"] { background: var(--foreground); color: var(--background); }
+  .gallery-panel[hidden] { display: none; }
+  [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: gallery-change 220ms ease-out; }
+  @keyframes gallery-change { from { opacity: 0.35; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: none; }
+  }
+  .walkthrough-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+  .gallery-tab { color: var(--muted-foreground); transition: background 150ms, color 150ms; }
+  .gallery-tab:hover { background: var(--muted); color: var(--foreground); }
+  .gallery-tab[aria-selected="true"] { background: var(--foreground); color: var(--background); }
+  .artifact-purpose { opacity: 0.7; }
+  @media (min-width: 48rem) {
+    .walkthrough-body { display: grid; grid-template-columns: 12rem minmax(0, 1fr); }
+    .walkthrough-nav { display: flex; flex-direction: column; border-bottom: none; border-right: 1px solid var(--border); }
+  }
+  [data-studio-gallery]:not([data-initialized="true"]) .gallery-panel + .gallery-panel { border-top: 1px solid var(--border); }
+  .code-block { position: relative; margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+  .code-block pre { overflow-x: auto; padding: 1.25rem 4.5rem 1.25rem 1.25rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.9; }
+  .code-block-placeholder pre { padding-right: 1.25rem; }
+  .code-block button { position: absolute; right: 0.75rem; top: 0.65rem; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 0.3rem; font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted-foreground); }
+  .code-block button:hover { color: var(--foreground); background: var(--muted); }
+  .code-block button:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+</style>
+
+<script>
+  function initStudioPage() {
+    const modeList = document.querySelector<HTMLElement>("[data-studio-modes]");
+    if (modeList && !modeList.dataset.initialized) {
+      const modes = Array.from(modeList.querySelectorAll<HTMLAnchorElement>("[data-studio-mode]"));
+      const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-studio-panel]"));
+      function selectMode(index: number, focus = false) {
+        modes.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
+        panels.forEach((panel, i) => { panel.hidden = i !== index; });
+        if (focus) modes[index].focus();
+      }
+      modeList.setAttribute("role", "tablist");
+      modes.forEach((tab, index) => {
+        tab.setAttribute("role", "tab");
+        tab.setAttribute("aria-controls", panels[index].id);
+        panels[index].setAttribute("role", "tabpanel");
+        panels[index].setAttribute("aria-labelledby", tab.id);
+        panels[index].tabIndex = 0;
+        tab.addEventListener("click", (event) => { event.preventDefault(); selectMode(index); });
+        tab.addEventListener("keydown", (event) => {
+          if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+          event.preventDefault();
+          selectMode(event.key === "Home" ? 0 : event.key === "End" ? modes.length - 1 : (index + 1) % modes.length, true);
+        });
+      });
+      selectMode(window.location.hash === "#studio-agent" ? 1 : 0);
+      modeList.dataset.initialized = "true";
+    }
+    const copyAgent = document.querySelector<HTMLButtonElement>("[data-copy-agent]");
+    if (copyAgent && navigator.clipboard?.writeText && !copyAgent.dataset.initialized) {
+      copyAgent.hidden = false;
+      copyAgent.dataset.initialized = "true";
+      copyAgent.addEventListener("click", async () => {
+        const text = document.querySelector("[data-agent-guide]")?.textContent;
+        const status = document.querySelector<HTMLElement>("[data-agent-copy-status]");
+        if (!text) return;
+        try { await navigator.clipboard.writeText(text); if (status) status.textContent = "Guide copied to clipboard."; copyAgent.textContent = "Copied"; }
+        catch { if (status) status.textContent = "Couldn't copy. Open the plain text guide to select and copy it."; }
+        window.setTimeout(() => { copyAgent.textContent = "Copy guide"; }, 2000);
+      });
+    }
+    const gallery = document.querySelector<HTMLElement>("[data-studio-gallery]");
+    if (gallery && gallery.dataset.initialized !== "true") {
+      const tablist = gallery.querySelector<HTMLElement>("[data-gallery-tabs]");
+      const tabs = Array.from(gallery.querySelectorAll<HTMLAnchorElement>("[data-gallery-tab]"));
+      const panels = Array.from(gallery.querySelectorAll<HTMLElement>("[data-gallery-panel]"));
+      function selectTab(index: number, focus = false) {
+        tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
+        panels.forEach((panel, i) => { panel.hidden = i !== index; });
+        if (focus) tabs[index].focus();
+      }
+      tablist?.setAttribute("role", "tablist");
+      const vertical = window.matchMedia("(min-width: 48rem)");
+      const syncOrientation = () => tablist?.setAttribute("aria-orientation", vertical.matches ? "vertical" : "horizontal");
+      syncOrientation();
+      vertical.addEventListener("change", syncOrientation);
+      document.addEventListener("astro:before-swap", () => vertical.removeEventListener("change", syncOrientation), { once: true });
+      tabs.forEach((tab, index) => {
+        tab.setAttribute("role", "tab");
+        tab.setAttribute("aria-controls", panels[index].id);
+        panels[index].setAttribute("role", "tabpanel");
+        panels[index].setAttribute("aria-labelledby", tab.id);
+        panels[index].tabIndex = 0;
+        tab.addEventListener("click", (event) => { event.preventDefault(); selectTab(index); });
+        tab.addEventListener("keydown", (event) => {
+          let next: number | undefined;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % tabs.length;
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + tabs.length) % tabs.length;
+          if (event.key === "Home") next = 0;
+          if (event.key === "End") next = tabs.length - 1;
+          if (next !== undefined) { event.preventDefault(); selectTab(next, true); }
+        });
+      });
+      const linkedPanel = panels.findIndex((panel) => `#${panel.id}` === window.location.hash);
+      selectTab(linkedPanel >= 0 ? linkedPanel : 0);
+      gallery.dataset.initialized = "true";
+    }
+    if (!navigator.clipboard?.writeText) return;
+    document.querySelectorAll<HTMLButtonElement>("[data-copy-code]").forEach((button) => {
+      if (button.dataset.initialized === "true") return;
+      button.hidden = false;
+      button.dataset.initialized = "true";
+      button.addEventListener("click", async () => {
+        const code = button.parentElement?.querySelector("code")?.textContent;
+        const status = document.querySelector<HTMLElement>("[data-copy-status]");
+        if (!code) return;
+        try { await navigator.clipboard.writeText(code); button.textContent = "Copied"; if (status) status.textContent = "Commands copied to clipboard."; }
+        catch { if (status) status.textContent = "Couldn't copy. Select and copy the commands directly."; }
+        window.setTimeout(() => { button.textContent = "Copy"; }, 2000);
+      });
+    });
+  }
+  initStudioPage();
+  document.addEventListener("astro:after-swap", initStudioPage);
+</script>
