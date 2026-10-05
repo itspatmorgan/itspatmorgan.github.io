@@ -2,6 +2,11 @@
 
 ## Images
 
+Favicons use `public/favicon.svg` as the canonical dots mark. After changing it,
+run `node scripts/generate-favicons.mjs` to regenerate every PNG, Apple touch
+icon, and ICO fallback. Raster variants use the light-theme palette; the SVG
+adapts to the browser color scheme. Keep favicon URLs stable for crawlers.
+
 | Pattern | Purpose |
 | --- | --- |
 | `thumbnail-*` | Square work thumbnails, typically 2400x2400 |
