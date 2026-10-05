@@ -27,8 +27,6 @@ image: /images/writing/build-a-design-os/feature.jpg
 canonicalUrl: "https://www.unknownarts.com/p/build-a-design-os"
 draft: false
 ---
-*How a prototype environment became a shared operating layer for design*
-
 ## Introduction
 
 Recently, I shared a [video walkthrough](https://www.youtube.com/watch?v=628c4YuxAEM) of an AI-assisted design environment I've been building for my team at Sublime.

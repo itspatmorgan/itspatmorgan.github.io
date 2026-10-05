@@ -1,18 +1,23 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
+import Icon from "@/components/icons/Icon.astro";
+import PixelWaveText from "@/components/PixelWaveText.astro";
 import StudioArtifactPreview from "@/components/design-studio/StudioArtifactPreview.astro";
 import StudioOwnership from "@/components/design-studio/StudioOwnership.astro";
 import StudioFoundation from "@/components/design-studio/StudioFoundation.astro";
 import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
 import agentGuide from "@/data/design-studio-agent.txt?raw";
 import { buttonVariants } from "@/components/ui/button";
+import { CodeIcon, Flowchart01Icon, CanvasIcon, File01Icon, Folder01Icon } from "@hugeicons/core-free-icons";
 
 const repository = "https://github.com/itspatmorgan/design-studio-starter";
+const liveDemo = "https://itspatmorgan.com/design-studio-starter/";
+const feedbackDemo = `${liveDemo}prototypes/patrick/feedback-inbox`;
 const examples = [
-  { id: "view", label: "View", purpose: "Try the interface." },
-  { id: "diagram", label: "Diagram", purpose: "Map the flow." },
-  { id: "canvas", label: "Canvas", purpose: "Explore possibilities." },
-  { id: "document", label: "Document", purpose: "Keep the reasoning." },
+  { id: "view", label: "Code view", icon: CodeIcon },
+  { id: "diagram", label: "Diagram", icon: Flowchart01Icon },
+  { id: "canvas", label: "Canvas", icon: CanvasIcon },
+  { id: "document", label: "Document", icon: File01Icon },
 ];
 const systemLayers = [
   { title: "Theme and components.", body: "Define the visual language and reusable building blocks your prototypes should use." },
@@ -28,26 +33,27 @@ const cloneCommands = "git clone https://github.com/YOUR-ACCOUNT/YOUR-STUDIO.git
 const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnpm dev";
 ---
 
-<PageLayout title="Design Studio — Design with intent. Build with an agent." description="An open-source platform for connected prototypes and design operating systems with themes, components, context, agent rules, and skills. Build with your agent, on your terms." image="/images/design-studio/social.jpg">
+<PageLayout title="Design Studio: Design with intent. Build with an agent." description="An open-source platform for connected prototypes and design operating systems with themes, components, context, agent rules, and skills. Build with your agent, on your terms." image="/images/design-studio/social.jpg">
   <div class="studio-page mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-14">
     <header class="flex items-center justify-between gap-6 pt-9 sm:pt-12">
       <a href="/design-studio" class="flex items-center gap-3 font-medium tracking-tight" aria-label="Design Studio home">
         <svg width="32" height="26" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 0h11v32H0zM15 0h3a16 16 0 0 1 0 32h-3z" /></svg>
         <span class="text-lg">Design Studio</span>
       </a>
-      <nav aria-label="Reading mode" class="flex rounded-full border border-border p-1" data-studio-modes>
+      <nav aria-label="Reading mode" class="relative isolate flex rounded-full border border-border p-1" data-studio-modes>
+        <span class="mode-indicator" aria-hidden="true" data-mode-indicator></span>
         <a id="studio-human-tab" href="#studio-human" data-studio-mode="human" class="mode-tab rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Human</a>
-        <a id="studio-agent-tab" href="/design-studio/agent.txt" data-studio-mode="agent" class="mode-tab rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Agent</a>
+        <a id="studio-agent-tab" href="/design-studio/agent.txt" data-studio-mode="agent" class="mode-tab font-mono rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Agent</a>
       </nav>
     </header>
 
     <div id="studio-human" data-studio-panel="human">
-    <section class="studio-hero grid items-center gap-12 pt-16 pb-20 sm:pt-20 sm:pb-24 lg:grid-cols-[1.2fr_1fr] lg:gap-10 lg:pt-24 lg:pb-28" aria-labelledby="studio-title">
+    <section class="studio-hero grid items-center gap-8 pt-12 sm:gap-12 pb-20 sm:pt-20 sm:pb-24 lg:grid-cols-[1.2fr_1fr] lg:gap-10 lg:pt-24 lg:pb-28" aria-labelledby="studio-title">
       <div>
-        <h1 id="studio-title" class="text-[clamp(2.8rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]">Design with intent.<br />Build with an agent.</h1>
-        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">An open platform for designers and product managers who build. Create prototypes with your agent, grounded in your components, context, and design guidance.</p>
+        <h1 id="studio-title" class="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">An open platform for designers and product managers who build. Turn ideas into working prototypes with an agent that understands your components, context, and design principles.</p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
-          <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Get started <span aria-hidden="true">↓</span></a>
+          <a href={liveDemo} class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Explore a published studio <span aria-hidden="true">↗</span></a>
           <a href={repository} class={buttonVariants({ variant: "outline", size: "lg", className: "h-11 px-5" })}>View on GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -56,11 +62,14 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 
     <section id="explore" class="border-t border-border py-14 sm:py-20" aria-labelledby="examples-title" data-studio-gallery>
       <h2 id="examples-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Build prototypes that connect the whole idea</h2>
-      <p class="mt-4 leading-relaxed text-muted-foreground">Bring working views, diagrams, canvases, and documents together in one prototype. Built on open file formats, these artifacts give your agent familiar structures to read, write, and extend—so the interface, the flow, and the thinking behind them can evolve together.</p>
+      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">Bring working views, diagrams, canvases, and documents together in one prototype. Built on open file formats, these artifacts give your agent familiar structures to read, write, and extend. The interface, the flow, and the thinking behind them can evolve together.</p>
       <div class="walkthrough-window mt-8 overflow-hidden rounded-xl border border-border bg-card">
         <div class="walkthrough-body">
-          <nav class="walkthrough-nav" aria-label="Prototype artifacts" data-gallery-tabs>
-            {examples.map((example) => <a id={`tab-${example.id}`} href={`#example-${example.id}`} class="gallery-tab rounded-lg px-4 py-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" data-gallery-tab={example.id} aria-label={example.label}><span class="block text-sm font-medium">{example.label}</span><span class="artifact-purpose mt-1 block text-xs leading-relaxed">{example.purpose}</span></a>)}
+          <nav class="walkthrough-nav" aria-label="Prototype artifacts">
+            <div class="prototype-root"><Icon icon={Folder01Icon} /><span>Feedback Inbox</span></div>
+            <div class="artifact-tree" data-gallery-tabs>
+              {examples.map((example) => <a id={`tab-${example.id}`} href={`#example-${example.id}`} class="gallery-tab rounded-md text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" data-gallery-tab={example.id} aria-label={example.label}><Icon icon={example.icon} /><span>{example.label}</span></a>)}
+            </div>
           </nav>
           <div class="min-w-0">
             {examples.map((example) => (
@@ -71,13 +80,17 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
           </div>
         </div>
       </div>
+      <div class="mt-5 max-w-[65ch]">
+        <a href={feedbackDemo} class="inline-flex items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground">Explore the published Feedback Inbox <span aria-hidden="true">↗</span></a>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Published studios let you share your designs for others to explore. This demo has interactive prototypes. To edit artifacts and build with your agent, run your own Design Studio locally.</p>
+      </div>
     </section>
 
     <section class="border-t border-border py-14 sm:py-20" aria-labelledby="systems-title">
       <div class="systems-composition grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
           <h2 id="systems-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Give your agent a design <em class="font-medium">operating</em> system</h2>
-          <p class="mt-5 leading-relaxed text-muted-foreground">Go beyond themes and components. Give your agent the context, rules, and skills to build prototypes that hit the mark.</p>
+          <p class="mt-5 max-w-[65ch] leading-relaxed text-muted-foreground">Go beyond themes and components. Give your agent the context, rules, and skills to build prototypes that hit the mark.</p>
           <div class="system-layers mt-8 space-y-6">
             {systemLayers.map((item) => <div class="border-l border-border pl-5"><h3 class="text-base font-medium tracking-tight">{item.title}</h3><p class="mt-1.5 text-sm leading-relaxed text-muted-foreground">{item.body}</p></div>)}
           </div>
@@ -88,7 +101,7 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 
     <section class="border-t border-border py-14 sm:py-20" aria-labelledby="yours-title">
       <h2 id="yours-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A thoughtful foundation to make your own</h2>
-      <p class="mt-4 leading-relaxed text-muted-foreground">Start with tools and defaults chosen to work well together. Make them your own—with your agent, your code, and the way your team works.</p>
+      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">Start with tools and defaults chosen to work well together. Make them your own with your agent, your code, and the way your team works.</p>
       <div class="mt-8 grid gap-10 md:grid-cols-3 md:gap-8">
         {platformBenefits.map((item, index) => <div><StudioOwnership kind={index} /><div class="pt-5"><h3 class="text-lg font-medium tracking-tight">{item.title}</h3><p class="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p></div></div>)}
       </div>
@@ -96,7 +109,7 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 
     <section id="get-started" class="scroll-mt-8 border-t border-border py-14 sm:py-20" aria-labelledby="setup-title">
       <h2 id="setup-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Run your own Design Studio</h2>
-      <p class="mt-4 leading-relaxed text-muted-foreground">Your own copy. Ready to shape around your work.</p>
+      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">Your own copy. Ready to shape around your work.</p>
       <StudioFoundation kind="setup" />
       <ol class="setup-sequence mt-8">
         <li>
@@ -119,10 +132,11 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
       <h2 id="about-studio-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A note from the creator</h2>
       <div class="mt-8 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-14">
         <div class="max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground">
-          <p>Hi, I'm <a href="/about" class="text-foreground underline underline-offset-4 hover:text-accent">Patrick</a>. I'm a designer who likes to build things.</p>
-          <p>In the startups I’ve worked with, every codebase has been different. I wanted a design environment that could fit the way a team actually builds, with prototypes and design operating systems that carry the context forward.</p>
-          <p>Working with coding agents made it possible for me to build that environment myself. I built Design Studio on open-source tools and open formats so it could be a useful starting point, and something you can keep adapting as your work changes.</p>
-          <p>I hope it gives you a little more room to explore, make things, and have some fun along the way.</p>
+          <p>Hello friend,</p>
+          <p>Design Studio is something I’ve wanted to exist for years.</p>
+          <p>Over a decade ago, I started my tech career as a front-end developer embedded on a product design team. Prototyping and design technology have been central to my work ever since. This year, coding agents finally made it possible to build the environment I’d imagined and make that way of working accessible to more teams.</p>
+          <p>Design Studio carries years of thinking and experimentation, shaped by using early versions with my teammates for product and marketing design at startups.</p>
+          <p>I’m excited to see what you make of it and help you adapt it to the way your team works.</p>
           <img src="/images/brand/patrick-signature.png" alt="Patrick Morgan" width="764" height="376" loading="lazy" class="h-auto w-32 dark:invert" />
           <a href="/writing/build-a-design-os" class="inline-block pt-3 text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Read the story behind Design Studio <span aria-hidden="true">→</span></a>
         </div>
@@ -139,7 +153,7 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
     </div>
     <section id="studio-agent" data-studio-panel="agent" hidden class="pt-16 pb-20 sm:pt-20 sm:pb-24">
       <h1 class="text-3xl font-medium tracking-tight sm:text-4xl">Design Studio</h1>
-      <p class="mt-4 leading-relaxed text-muted-foreground">A project brief and setup guide for your coding agent.</p>
+      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">A project brief and setup guide for your coding agent.</p>
       <div class="mt-6 flex flex-wrap items-center gap-4">
         <button type="button" data-copy-agent hidden class={buttonVariants({ variant: "outline", size: "sm" })}>Copy guide</button>
         <a href="/design-studio/agent.txt" class="text-sm underline decoration-border underline-offset-4 hover:decoration-foreground">Open plain text <span aria-hidden="true">↗</span></a>
@@ -152,7 +166,7 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 
 <style>
   .setup-sequence > li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1.25rem; padding: 1.5rem 0; }
-  .setup-number { font: .75rem var(--font-mono); color: var(--accent); padding-top: .3rem; }
+  .setup-number { font: .875rem var(--font-mono); color: var(--accent); padding-top: .3rem; }
   .setup-detail { margin-top: .85rem; }
   .setup-detail summary { width: fit-content; cursor: pointer; font-size: .75rem; color: var(--foreground); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 4px; }
   .setup-detail summary:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
@@ -174,23 +188,31 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
     .creator-portrait-field::before { width: calc(100% + min(6rem, 6vw)); height: 26rem; }
   }
   [data-studio-panel][hidden] { display: none; }
-  .mode-tab { color: var(--muted-foreground); }
+  .mode-indicator { position:absolute; z-index:-1; left:0; top:4px; bottom:4px; width:0; border-radius:999px; background:var(--foreground); pointer-events:none; }
+  [data-studio-modes][data-initialized="true"] .mode-indicator { transition:transform 260ms cubic-bezier(.22,1,.36,1), width 260ms cubic-bezier(.22,1,.36,1); }
+  .mode-tab { color: var(--muted-foreground); transition:color 180ms ease; }
   .mode-tab:hover { color: var(--foreground); }
-  .mode-tab[aria-selected="true"] { background: var(--foreground); color: var(--background); }
+  .mode-tab[aria-selected="true"] { color: var(--background); }
   .gallery-panel[hidden] { display: none; }
   [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: gallery-change 220ms ease-out; }
   @keyframes gallery-change { from { opacity: 0.35; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) {
+    [data-studio-modes][data-initialized="true"] .mode-indicator,.mode-tab { transition:none; }
     [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: none; }
   }
-  .walkthrough-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem; padding: 0.75rem; border-bottom: 1px solid var(--border); }
-  .gallery-tab { color: var(--muted-foreground); transition: background 150ms, color 150ms; }
+  .walkthrough-nav { padding: 1rem .75rem; border-bottom: 1px solid var(--border); }
+  .prototype-root { display:flex; align-items:center; gap:.55rem; padding:.25rem .5rem .9rem; font-size:.8rem; font-weight:500; }
+  .prototype-root svg,.gallery-tab svg { width:18px; height:18px; flex-shrink:0; stroke:currentColor; stroke-width:1.5; stroke-linejoin:round; }
+  .prototype-root svg { color:var(--muted-foreground); }
+  .artifact-tree { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.25rem; }
+  .gallery-tab { display:flex; align-items:center; gap:.65rem; padding:.7rem .75rem; font-size:.8rem; color: var(--muted-foreground); transition: background 150ms, color 150ms; }
   .gallery-tab:hover { background: var(--muted); color: var(--foreground); }
-  .gallery-tab[aria-selected="true"] { background: var(--foreground); color: var(--background); }
-  .artifact-purpose { opacity: 0.7; }
+  .gallery-tab[aria-selected="true"] { background: var(--muted); color: var(--foreground); }
+  .gallery-tab[aria-selected="true"] svg { color:var(--accent); }
   @media (min-width: 48rem) {
     .walkthrough-body { display: grid; grid-template-columns: 12rem minmax(0, 1fr); }
-    .walkthrough-nav { display: flex; flex-direction: column; border-bottom: none; border-right: 1px solid var(--border); }
+    .walkthrough-nav { border-bottom: none; border-right: 1px solid var(--border); }
+    .artifact-tree { grid-template-columns:1fr; margin-left:.6rem; }
   }
   [data-studio-gallery]:not([data-initialized="true"]) .gallery-panel + .gallery-panel { border-top: 1px solid var(--border); }
   .code-block { position: relative; margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
@@ -202,15 +224,59 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 </style>
 
 <script>
+  import { dissolvePixelWave } from "@/scripts/pixel-wave";
+  import { animate } from "motion";
+
   function initStudioPage() {
+    const headline = document.querySelector<HTMLElement>("#studio-title");
+    if (headline && !headline.dataset.waveInitialized) {
+      headline.dataset.waveInitialized = "true";
+      headline.querySelectorAll<HTMLElement>("[data-pixel-wave]").forEach(dissolvePixelWave);
+    }
     const modeList = document.querySelector<HTMLElement>("[data-studio-modes]");
     if (modeList && !modeList.dataset.initialized) {
       const modes = Array.from(modeList.querySelectorAll<HTMLAnchorElement>("[data-studio-mode]"));
       const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-studio-panel]"));
-      function selectMode(index: number, focus = false) {
+      const indicator = modeList.querySelector<HTMLElement>("[data-mode-indicator]");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let selected = 0;
+      let visible = 0;
+      let sequence = 0;
+      let animations: Animation[] = [];
+      const positionIndicator = () => {
+        if (!indicator) return;
+        indicator.style.width = `${modes[selected].offsetWidth}px`;
+        indicator.style.transform = `translateX(${modes[selected].offsetLeft}px)`;
+      };
+      async function selectMode(index: number, focus = false, transition = true) {
+        selected = index;
         modes.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
-        panels.forEach((panel, i) => { panel.hidden = i !== index; });
+        positionIndicator();
         if (focus) modes[index].focus();
+        const revision = ++sequence;
+        animations.forEach(animation => animation.cancel());
+        animations = [];
+        const outgoing = panels[visible];
+        const incoming = panels[index];
+        if (transition && !reducedMotion.matches && visible !== index) {
+          outgoing.inert = true;
+          const fadeOut = outgoing.animate({ opacity: [1, 0] }, { duration: 110, easing: "ease-out", fill: "both" });
+          animations.push(fadeOut);
+          await fadeOut.finished.catch(() => {});
+          if (revision !== sequence) return;
+        }
+        panels.forEach((panel, i) => { panel.hidden = i !== index; panel.inert = i !== index; });
+        animations.forEach(animation => animation.cancel());
+        animations = [];
+        const changed = visible !== index;
+        visible = index;
+        if (transition && changed && !reducedMotion.matches) {
+          const fadeIn = incoming.animate(
+            { opacity: [0, 1], transform: ["translateY(3px)", "translateY(0)"] },
+            { duration: 200, easing: "cubic-bezier(.22,1,.36,1)" },
+          );
+          animations.push(fadeIn);
+        }
       }
       modeList.setAttribute("role", "tablist");
       modes.forEach((tab, index) => {
@@ -226,7 +292,14 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
           selectMode(event.key === "Home" ? 0 : event.key === "End" ? modes.length - 1 : (index + 1) % modes.length, true);
         });
       });
-      selectMode(window.location.hash === "#studio-agent" ? 1 : 0);
+      selectMode(window.location.hash === "#studio-agent" ? 1 : 0, false, false);
+      const resize = new ResizeObserver(positionIndicator);
+      resize.observe(modeList);
+      document.addEventListener("astro:before-swap", () => {
+        ++sequence;
+        resize.disconnect();
+        animations.forEach(animation => animation.cancel());
+      }, { once: true });
       modeList.dataset.initialized = "true";
     }
     const copyAgent = document.querySelector<HTMLButtonElement>("[data-copy-agent]");

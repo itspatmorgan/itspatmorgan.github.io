@@ -1,7 +1,8 @@
 ---
 import { siteConfig } from "@/data/site-config";
 import Logo from "./Logo.astro";
-import { BriefcaseBusiness, FlaskConical, Globe2, House, PenLine, UserRound, UsersRound } from "lucide-react";
+import Icon from "@/components/icons/Icon.astro";
+import { Home01Icon, UserIcon, Briefcase01Icon, TestTube01Icon, Pen01Icon, UserGroupIcon, Globe02Icon, Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 
 const currentPath = Astro.url.pathname;
 
@@ -14,32 +15,32 @@ const navItems = [
   {
     label: "Home",
     href: "/",
-    Icon: House,
+    icon: Home01Icon,
   },
   {
     label: "About",
     href: "/about",
-    Icon: UserRound,
+    icon: UserIcon,
   },
   {
     label: "Work",
     href: "/work",
-    Icon: BriefcaseBusiness,
+    icon: Briefcase01Icon,
   },
   {
     label: "Lab",
     href: "/lab",
-    Icon: FlaskConical,
+    icon: TestTube01Icon,
   },
   {
     label: "Writing",
     href: "/writing",
-    Icon: PenLine,
+    icon: Pen01Icon,
   },
   {
     label: "Community",
     href: "/community",
-    Icon: UsersRound,
+    icon: UserGroupIcon,
   },
 ];
 
@@ -102,7 +103,7 @@ const elsewhere = [
                 : "text-muted-foreground hover:text-foreground",
             ]}
           >
-            <item.Icon className="nav-icon shrink-0" size={18} strokeWidth={1.75} aria-hidden="true" />
+            <Icon icon={item.icon} class="nav-icon shrink-0" size={18} strokeWidth={1.75} />
             <span class="nav-text whitespace-nowrap overflow-hidden">{item.label}</span>
           </a>
         </li>
@@ -145,7 +146,7 @@ const elsewhere = [
         title="Links"
         data-sidebar-tooltip="Links"
       >
-        <Globe2 size={18} strokeWidth={1.75} aria-hidden="true" />
+        <Icon icon={Globe02Icon} size={18} strokeWidth={1.75} />
       </button>
 
       <div id="sidebar-bottom" class="mt-2 flex items-center justify-between shrink-0">
@@ -161,20 +162,8 @@ const elsewhere = [
             title="Toggle color theme"
             data-sidebar-tooltip="Toggle theme"
           >
-            <svg class="theme-icon-moon h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401z"></path>
-            </svg>
-            <svg class="theme-icon-sun hidden h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2"></path>
-              <path d="M12 20v2"></path>
-              <path d="m4.93 4.93 1.41 1.41"></path>
-              <path d="m17.66 17.66 1.41 1.41"></path>
-              <path d="M2 12h2"></path>
-              <path d="M20 12h2"></path>
-              <path d="m6.34 17.66-1.41 1.41"></path>
-              <path d="m19.07 4.93-1.41 1.41"></path>
-            </svg>
+            <Icon icon={Moon02Icon} class="theme-icon-moon h-[18px] w-[18px]" />
+            <Icon icon={Sun03Icon} class="theme-icon-sun hidden h-[18px] w-[18px]" />
           </button>
         </div>
       </div>

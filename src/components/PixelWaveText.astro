@@ -6,6 +6,7 @@ interface Props {
   wave?: string;
   style?: string;
   ariaLabel?: string;
+  initialSans?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   wave,
   style,
   ariaLabel = text,
+  initialSans = false,
 } = Astro.props;
 
 const words = text.split(" ");
@@ -31,8 +33,8 @@ const words = text.split(" ");
       {word.split("").map((char) => (
         <span class="relative inline-block" data-pw-char>
           <span class="invisible">{char}</span>
-          <span class="absolute inset-0 font-pixel" data-pw-pixel>{char}</span>
-          <span class="absolute inset-0" data-pw-sans style="opacity: 0;">{char}</span>
+          <span class="absolute inset-0 font-pixel" style={initialSans ? "opacity: 0;" : undefined} data-pw-pixel>{char}</span>
+          <span class="absolute inset-0" data-pw-sans style={initialSans ? "opacity: 1;" : "opacity: 0;"}>{char}</span>
         </span>
       ))}
     </span>

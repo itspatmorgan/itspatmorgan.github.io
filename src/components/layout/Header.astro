@@ -1,5 +1,7 @@
 ---
 import Logo from "./Logo.astro";
+import Icon from "@/components/icons/Icon.astro";
+import { Moon02Icon, Sun03Icon, Menu01Icon } from "@hugeicons/core-free-icons";
 ---
 
 <header class="md:hidden sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
@@ -15,20 +17,8 @@ import Logo from "./Logo.astro";
         aria-label="Toggle color theme"
         title="Toggle color theme"
       >
-        <svg class="theme-icon-moon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401z"></path>
-        </svg>
-        <svg class="theme-icon-sun hidden h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2"></path>
-          <path d="M12 20v2"></path>
-          <path d="m4.93 4.93 1.41 1.41"></path>
-          <path d="m17.66 17.66 1.41 1.41"></path>
-          <path d="M2 12h2"></path>
-          <path d="M20 12h2"></path>
-          <path d="m6.34 17.66-1.41 1.41"></path>
-          <path d="m19.07 4.93-1.41 1.41"></path>
-        </svg>
+        <Icon icon={Moon02Icon} size={16} class="theme-icon-moon h-4 w-4" />
+        <Icon icon={Sun03Icon} size={16} class="theme-icon-sun hidden h-4 w-4" />
       </button>
       <button
         id="mobile-nav-toggle"
@@ -37,9 +27,7 @@ import Logo from "./Logo.astro";
         aria-expanded="false"
         aria-controls="mobile-nav"
       >
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <Icon icon={Menu01Icon} size={20} class="h-5 w-5" />
       </button>
     </div>
   </div>

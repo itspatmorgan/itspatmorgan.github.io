@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
@@ -39,9 +40,9 @@ export function ThemeToggle() {
       className="h-8 w-8"
     >
       {theme === "dark" ? (
-        <Sun size={16} />
+        <HugeiconsIcon icon={Sun03Icon} size={16} aria-hidden="true" />
       ) : (
-        <Moon size={16} />
+        <HugeiconsIcon icon={Moon02Icon} size={16} aria-hidden="true" />
       )}
     </Button>
   );

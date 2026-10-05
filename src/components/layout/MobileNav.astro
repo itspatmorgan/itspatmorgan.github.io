@@ -1,6 +1,8 @@
 ---
 import { siteConfig } from "@/data/site-config";
 import Logo from "./Logo.astro";
+import Icon from "@/components/icons/Icon.astro";
+import { Cancel01Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
 const elsewhere = [
   { label: "Substack", href: siteConfig.social.newsletter },
@@ -29,9 +31,7 @@ const elsewhere = [
       class="h-9 w-9 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
       aria-label="Close navigation"
     >
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
+      <Icon icon={Cancel01Icon} size={20} class="h-5 w-5" />
     </button>
   </div>
 
@@ -63,9 +63,7 @@ const elsewhere = [
             class="flex items-center gap-2 py-1 text-base text-muted-foreground transition-colors hover:text-foreground"
           >
             {item.label}
-            <svg class="h-3.5 w-3.5 shrink-0 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 17L17 7M7 7h10v10"/>
-            </svg>
+            <Icon icon={ArrowUpRight01Icon} size={14} class="h-3.5 w-3.5 shrink-0 opacity-50" />
           </a>
         </li>
       ))}

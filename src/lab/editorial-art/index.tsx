@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { toPng } from 'html-to-image';
-import { ChevronDown, RefreshCw, SlidersHorizontal, X } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowDown01Icon, RefreshIcon, SlidersHorizontalIcon, Cancel01Icon } from '@hugeicons/core-free-icons';
 import { ArtCanvas } from './ArtCanvas';
 import {
   themes,
@@ -666,7 +667,7 @@ export default function EditorialArtTool() {
                 title="Randomize everything"
                 className="mt-0.5 rounded border border-border p-1.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
-                <RefreshCw className="size-3.5" strokeWidth={2} />
+                <HugeiconsIcon icon={RefreshIcon} aria-hidden="true" className="size-3.5" strokeWidth={2} />
               </button>
               <button
                 type="button"
@@ -674,7 +675,7 @@ export default function EditorialArtTool() {
                 title="Close controls"
                 className="mt-0.5 rounded border border-border p-1.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground md:hidden"
               >
-                <X className="size-3.5" strokeWidth={2} />
+                <HugeiconsIcon icon={Cancel01Icon} aria-hidden="true" className="size-3.5" strokeWidth={2} />
               </button>
             </div>
           </div>
@@ -700,7 +701,7 @@ export default function EditorialArtTool() {
                 className="flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-transparent bg-muted px-3 font-mono text-[12px] text-foreground focus:border-border focus:bg-background focus:outline-none"
               >
                 <span>{GENERATOR_TYPES.find((f) => f.value === generator.type)?.label}</span>
-                <ChevronDown className="size-4 text-foreground" strokeWidth={2} />
+                <HugeiconsIcon icon={ArrowDown01Icon} aria-hidden="true" className="size-4 text-foreground" strokeWidth={2} />
               </button>
 
               {generatorMenuOpen && (
@@ -753,7 +754,7 @@ export default function EditorialArtTool() {
                   title="New seed"
                   className="h-9 w-9 shrink-0 cursor-pointer rounded-md bg-muted text-muted-foreground transition-colors hover:text-foreground flex items-center justify-center"
                 >
-                  <RefreshCw className="size-3.5" strokeWidth={2} />
+                  <HugeiconsIcon icon={RefreshIcon} aria-hidden="true" className="size-3.5" strokeWidth={2} />
                 </button>
               </div>
             </div>
@@ -1021,7 +1022,7 @@ export default function EditorialArtTool() {
             onClick={() => setMobileControlsOpen(true)}
             className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-muted px-3 font-mono text-[11px] text-foreground"
           >
-            <SlidersHorizontal className="size-3.5" strokeWidth={2} />
+            <HugeiconsIcon icon={SlidersHorizontalIcon} aria-hidden="true" className="size-3.5" strokeWidth={2} />
             Controls
           </button>
         </div>

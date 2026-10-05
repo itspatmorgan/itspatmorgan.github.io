@@ -11,6 +11,11 @@ restrained, content-first design over decorative complexity.
 - CSS custom properties use OKLCH tokens in `src/styles/global.css`.
 - Use semantic Tailwind tokens such as `text-muted-foreground`, `bg-card`,
   `border-border`, and `hover:text-accent`.
+- Use Hugeicons for standard UI icons: geometry from `@hugeicons/core-free-icons`,
+  `src/components/icons/Icon.astro` for static Astro surfaces, and
+  `HugeiconsIcon` from `@hugeicons/react` inside React islands. Do not add a second
+  icon library. Keep decorative icons hidden from assistive technology and put
+  accessible names on their controls. Custom logos and illustrations remain SVGs.
 - Dark mode is class-based with `.dark` on `<html>`.
 - Home page sections generally use `mx-auto max-w-3xl px-6 py-16`.
 - Section dividers use `border-t border-border`.

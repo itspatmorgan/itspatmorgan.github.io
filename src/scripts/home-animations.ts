@@ -1,6 +1,6 @@
 import { animate } from "motion";
 import { observeSections } from "./scroll-entrance";
-import { pixelWave, enablePixelHover } from "./pixel-wave";
+import { pixelWave, dissolvePixelWave, enablePixelHover } from "./pixel-wave";
 
 const SESSION_KEY = "pixelWaveSeen";
 const spring = { type: "spring" as const, stiffness: 160, damping: 20, mass: 0.8 };
@@ -78,7 +78,7 @@ function init() {
   if (seen) {
     // Returning visitor: resolve layers silently, then spring everything in together
     if (heroWave) {
-      resolvePixelWave(heroWave);
+      dissolvePixelWave(heroWave);
       springIn(heroWave, 0);
     }
     if (photo) springIn(photo, 0);
@@ -94,9 +94,9 @@ function init() {
     if (photo) springIn(photo, 0);
     if (label) springIn(label, 120);
     if (heroWave) {
-      // Make name visible immediately so pixel font shows while the wave cycles
+      // Match the Design Studio headline's original-letter cross-dissolve.
       heroWave.style.opacity = "1";
-      pixelWave(heroWave, 300);
+      dissolvePixelWave(heroWave);
       if (desc) springIn(desc, isMd ? 960 : 1200);
       if (icons) springIn(icons, 1350);
       revealWorkPreview(isMd ? 1220 : 1500);

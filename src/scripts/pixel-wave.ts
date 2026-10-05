@@ -16,6 +16,25 @@ import { animate } from "motion";
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+/** Reveal the original letters with the Design Studio Pixel-to-Sans dissolve. */
+export function dissolvePixelWave(container: HTMLElement, lineIndex = 0) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  container.querySelectorAll<HTMLElement>("[data-pw-char]").forEach((character, i) => {
+    const pixel = character.querySelector<HTMLElement>("[data-pw-pixel]");
+    const sans = character.querySelector<HTMLElement>("[data-pw-sans]");
+    if (!pixel || !sans) return;
+    pixel.style.opacity = reducedMotion ? "0" : "1";
+    sans.style.opacity = reducedMotion ? "1" : "0";
+    if (reducedMotion) return;
+    const delay = 0.15 + lineIndex * 0.2 + i * 0.025;
+    animate(pixel, { opacity: [1, 0] }, { duration: 0.35, delay, easing: "ease-in-out" });
+    animate(sans, { opacity: [0, 1] }, { duration: 0.35, delay, easing: "ease-in-out" });
+  });
+  if (!reducedMotion) {
+    setTimeout(() => { if (container.isConnected) enablePixelHover(container); }, 1500);
+  }
+}
+
 /**
  * Split-flap entrance: each character briefly cycles through a few random
  * glyphs in pixel font, then settles onto the correct letter in sans.

@@ -9,13 +9,12 @@
       <g stroke="currentColor" opacity="0.24" stroke-width="0.7">
         <path d="M16 32H544M32 16V446M528 16V446M16 430H544" />
         <path d="M20 32H44M32 20V44M516 32H540M528 20V44M20 430H44M32 418V442M516 430H540M528 418V442" />
-        <path d="M48 14H264M48 9V19M264 9V19" />
       </g>
       <path d="M450 365H544V446H450Z" fill="url(#studio-hatch)" />
       <g transform="translate(0 34)">
       <g class="parallax-near">
         <g stroke="var(--accent)" stroke-width="1.2">
-          <path d="M260 114H280V295H302M280 130H302M280 284H260" opacity="0.35" />
+          <path d="M260 114H280V295H302M280 130H302M280 284H260" opacity="0.55" />
           <path class="draft-trace" d="M260 114H280V295H302M280 130H302M280 284H260" opacity="0.7" />
         </g>
         <g transform="rotate(-3 154 106)">
@@ -61,12 +60,12 @@
       <g class="parallax-front">
         <g class="human-cursor" transform="translate(213 143)">
           <path d="M0 0V18L5 13L10 21L14 19L9 11H17Z" fill="currentColor" stroke="var(--background)" stroke-width="1.5" />
-          <rect x="14" y="19" width="36" height="19" rx="3" fill="var(--foreground)" /><text x="22" y="32" class="cursor-label" fill="var(--background)">You</text>
+          <rect x="14" y="19" width="44" height="23" rx="3" fill="var(--foreground)" /><text x="22" y="35" class="cursor-label" fill="var(--background)">You</text>
         </g>
         <g transform="translate(218 296)">
           <g class="agent-cursor">
             <path d="M0 0V18L5 13L10 21L14 19L9 11H17Z" fill="var(--accent)" stroke="var(--background)" stroke-width="1.5" />
-            <rect x="14" y="19" width="49" height="19" rx="3" fill="var(--accent)" /><text x="22" y="32" class="cursor-label" fill="var(--background)">Agent</text>
+            <rect x="14" y="19" width="58" height="23" rx="3" fill="var(--accent)" /><text x="22" y="32" class="cursor-label" fill="var(--background)">Agent</text>
           </g>
         </g>
       </g>
@@ -83,10 +82,10 @@
   .parallax-front { transform: translate(calc(var(--studio-x, 0px) * 0.5), calc(var(--studio-y, 0px) * 0.5)); }
   .parallax-near, .parallax-front { transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
   .file-label, .cursor-label { font-family: var(--font-mono); }
-  .file-label { fill: currentColor; font-size: 11px; opacity: 0.7; }
+  .file-label { fill: currentColor; font-size: 12px; opacity: 0.8; }
   .artifact-title { fill: currentColor; font-family: var(--font-sans); font-size: 13px; font-weight: 500; }
   .tiny-label { fill: currentColor; font-family: var(--font-sans); font-size: 9px; opacity: 0.75; }
-  .cursor-label { font-size: 10px; }
+  .cursor-label { font-size: 12px; }
   [data-initialized="true"] .draft-trace { stroke-dasharray: 8 10; animation: draft-connect 16s linear infinite; }
   [data-initialized="true"] .agent-cursor { animation: draft-agent 12s ease-in-out infinite; }
   @keyframes draft-connect { to { stroke-dashoffset: -144; } }

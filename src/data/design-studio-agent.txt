@@ -4,6 +4,7 @@ An open-source platform for building connected prototypes and the design operati
 
 Product: Design Studio
 Starter repository: https://github.com/itspatmorgan/design-studio-starter
+Published studio demo: https://itspatmorgan.com/design-studio-starter/
 License: MIT
 Creator: Patrick Morgan
 
@@ -20,6 +21,14 @@ Create distinct design operating systems for different products or teams. Go bey
 Design Studio provides working tools out of the box and an extensible platform built on open-source technology and open file formats. It runs locally alongside the user's editor, coding agent, and harness. The user owns the code and can bring in components, context, and workflows, then adapt the environment as their needs change.
 
 ## Create a studio
+
+Explore a published studio before setting up a local copy:
+https://itspatmorgan.com/design-studio-starter/
+
+The Feedback Inbox sample includes a guided tour of connected artifacts:
+https://itspatmorgan.com/design-studio-starter/prototypes/patrick/feedback-inbox
+
+The published demo is read-only for artifact editing, but its prototypes are interactive. Published studios share designs for others to explore. Run a local copy to edit artifacts and build with your coding agent.
 
 1. Use the GitHub template to create the user's own repository:
    https://github.com/itspatmorgan/design-studio-starter

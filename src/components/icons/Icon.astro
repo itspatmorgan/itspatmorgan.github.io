@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import type { CodeIcon } from '@hugeicons/core-free-icons';
+
+interface Props extends HTMLAttributes<'svg'> {
+  icon: typeof CodeIcon;
+  size?: number;
+  strokeWidth?: number;
+}
+const { icon, size = 18, strokeWidth = 1.5, ...props } = Astro.props;
+const nodes = icon.map(([tag, attributes]) => ({
+  tag,
+  attributes: Object.fromEntries(
+    Object.entries(attributes)
+      .filter(([name]) => name !== 'key')
+      .map(([name, value]) => [
+        name.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`),
+        name === 'strokeWidth' ? strokeWidth : value,
+      ]),
+  ),
+}));
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+  {nodes.map(({ tag: Tag, attributes }) => <Tag {...attributes} />)}
+</svg>

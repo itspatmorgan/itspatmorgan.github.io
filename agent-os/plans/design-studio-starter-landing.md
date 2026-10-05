@@ -2,7 +2,47 @@
 
 ## Status
 
+### Homepage headline alignment
+
+Apply the approved Design Studio headline treatment to the homepage desktop and
+mobile headline. Extract its exact 25ms character stagger, 350ms cross-dissolve,
+and delayed pointer accent into the shared pixel-wave script. Preserve the
+homepage's surrounding entrance choreography and other Pixel Wave experiences.
+Render these headlines in Sans by default for no-JavaScript and reduced-motion
+fallbacks. Files: both page routes, pixel-wave.ts, home-animations.ts. Verify
+production build and browser entrance/settled/hover appearance. The shared helper
+keeps both headlines aligned; no additional durable convention needed.
+
+Verification: production build passes (43 pages); diff check passes. Browser
+review confirms the homepage headline settles to Sans, retains original letters,
+and produces no console errors after reload. Screenshot:
+`/private/tmp/home-headline-dissolve.png`. Entrance timing and reduced-motion
+behavior share the same implementation as Design Studio.
+
 Complete — implemented and verified locally; not deployed.
+
+### Live demo integration
+
+Follow-up: describe the demo as a published studio. Hero action now says
+“Explore a published studio” without an extra hero note. Beneath the artifact
+preview, explain that published studios share interactive prototypes, while
+artifact editing and agent work happen locally. Agent guide matches this
+distinction. Production build passes (43 pages); browser review confirms the
+hero action and readable clarification beneath the preview. No durable learning
+or shared convention update needed.
+
+Patrick published the starter at https://itspatmorgan.com/design-studio-starter/.
+Inspect the deployed home and Feedback Inbox tour, then make trying the demo the
+hero's primary action. Add one contextual link below the artifact gallery to
+the Feedback Inbox tour, preserving GitHub and local setup actions. Include the
+same demo destinations in the Agent guide. Scope: landing route and agent text.
+Verify the production build, rendered links, and browser presentation. No shared
+convention or durable learning update needed for this focused link addition.
+
+Verification complete: production build passes (43 pages), diff check passes,
+and both landing-page links navigate to the expected deployed destinations in
+the browser. Hero presentation captured at
+`/private/tmp/design-studio-live-demo-hero.png`.
 
 ## Context
 
@@ -426,3 +466,69 @@ marketing captions, the demonstration hint, and caption/setup dividing rules.
 Each copy and spacing refinement was verified in the local browser. Existing
 mobile, light/dark, accessibility, and interaction checks remain recorded above.
 These are page-specific decisions; no durable shared convention changes needed.
+
+### Geist typography accents
+
+Trial Geist Pixel Square on “agent” in the hero, Geist Mono on the Agent
+reading-mode toggle, and slightly larger Mono setup numerals. Keep the
+rest of the headline in Sans and retain the italic operating emphasis.
+Desktop and 390px mobile review passes, with no horizontal overflow.
+Use existing font tokens and assets; no dependencies or shared font changes.
+
+### Hero pixel wave trial
+
+Replace the static Pixel word with the existing PixelWaveText treatment on both
+hero lines: entrance resolves into Sans, then pointer hover reveals Pixel locally.
+Add an opt-in initialSans prop for readable static/no-JavaScript fallback without
+changing existing component callers. Skip the animation for reduced motion.
+Desktop and 390px layout review passes with no horizontal overflow.
+
+### Hero impact refinement
+
+After the hero review, emphasize the prototype outcome in the subhead and route
+the primary Explore Design Studio CTA to the artifact demo. Increase the
+illustration’s cursor-label size and connector clarity. Replace random-glyph
+entrance with a staggered Pixel-to-Sans dissolve; retain hover and static
+reduced-motion/no-JavaScript fallback. Tighten mobile headline size and spacing.
+CTA destination and 390px overflow verified in the browser.
+
+### Prototype navigator and Feedback Inbox
+
+Replace the reading example with a themed Feedback Inbox demonstration, closer
+ to the creator's product work and the original demo. Keep the capability-led
+section headline. Group four compact artifact rows beneath a prototype folder
+label, with type icons and a restrained selected state. Remove rail subtitles.
+Carry the feedback story through the working inbox, triage flow, exploration
+canvas, and agent context. Preserve open-format filename headers. Inbox filters
+and status buttons support a small interactive triage demonstration, with live
+announcements, empty states, and focus recovery when a filtered item disappears.
+
+Verification: production build passes (43 pages). Browser connection was
+unavailable during this change, so visual and interaction verification remains
+pending; preview requested in Codex at /design-studio#explore. Source review
+confirms existing tab keyboard navigation and theme tokens are retained. This
+is a page-specific presentation choice; no shared convention update needed.
+
+### Artifact icon alignment
+
+Use the Design Studio starter's actual Hugeicons mappings: CodeIcon,
+Flowchart01Icon, CanvasIcon, and File01Icon. Add only core-free-icons, render
+its geometry as static Astro SVGs, and keep consistent 18px sizing and 1.5px
+strokes. No client icon runtime. Navigator labels remain Code view, Diagram,
+Canvas, and Document. Production build passes (43 pages); diff check passes.
+Browser reload was blocked by browser security policy, so the final visual
+check could not be completed in this turn. No shared convention change needed.
+
+### Human / Agent mode motion
+
+Add a measured selection pill that slides and resizes over 260ms. Fade the
+outgoing reading panel over 110ms, then reveal the incoming panel over 200ms
+with a restrained 3px settle. Preserve tab keyboard behavior and inert/hidden
+panel semantics. Cancel stale transitions for rapid repeated toggles. Honor
+reduced-motion preference and skip initial-load motion. Reposition the pill
+with ResizeObserver and clean up observers/animations on Astro navigation.
+
+Production build passes (43 pages); diff check passes. Browser checks are
+pending: the tool still reports an internal error-page protocol despite the
+ambient localhost URL. Requested the user restore the preview; dev server is
+running again. This is a page-specific motion choice, no shared convention change.

@@ -1,4 +1,6 @@
 ---
+import Icon from "@/components/icons/Icon.astro";
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import PageLayout from "./PageLayout.astro";
 import { Badge } from "@/components/ui/badge";
 import { LiveEditorialVisual } from "@/lab/editorial-art/LiveEditorialVisual";
@@ -115,9 +117,7 @@ const generatedToolHref = visualToolHref(visual);
       href="/writing"
       class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
     >
-      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
+      <Icon icon={ArrowLeft01Icon} size={16} class="h-4 w-4" />
       Writing
     </a>
 
