@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "Patrick Morgan — Software Designer",
   description:
     "Software designer building AI-powered tools at Sublime Security and writing Unknown Arts — a newsletter for creative builders in the age of AI.",
-  url: "https://itspatmorgan.github.io",
+  url: "https://itspatmorgan.com",
   nav: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },

@@ -91,7 +91,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 
     {/* Mobile layout */}
     <div class="hero-mobile md:hidden">
-      <div class="hero-mobile-photo-field mb-8" data-hero-photo style="opacity: 0;">
+      <div class="hero-mobile-photo-field mb-8" data-hero-photo>
         <div class="hero-mobile-photo inline-block rotate-2 bg-white p-2 pb-5 shadow-xl shadow-black/15 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02] dark:bg-[#20201e] dark:shadow-black/40">
           <div class="h-36 w-36 overflow-hidden">
             <img
@@ -107,9 +107,8 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
         as="h1"
         wave="hero"
         class="mb-7 max-w-[20rem] text-[2.05rem] font-medium leading-[1.08] tracking-tight"
-        style="opacity: 0;"
       />
-      <div class="mb-4 space-y-3 text-[15px] leading-relaxed" data-hero-desc style="opacity: 0;">
+      <div class="mb-4 space-y-3 text-[15px] leading-relaxed" data-hero-desc>
         <p class="text-foreground/80">{heroIntro}</p>
         <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
       </div>
@@ -126,11 +125,10 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
           as="h1"
           wave="headline"
           class="mb-8 text-4xl font-medium leading-[1.2] tracking-tight lg:text-[2.6rem] xl:text-5xl"
-          style="opacity: 0;"
         />
 
         {/* Narrative */}
-        <div class="max-w-xl space-y-4 text-base leading-relaxed xl:max-w-2xl" data-hero-desc style="opacity: 0;">
+        <div class="max-w-xl space-y-4 text-base leading-relaxed xl:max-w-2xl" data-hero-desc>
           <p class="text-foreground/80">
             {heroIntro} {heroIntroDetail}
           </p>
@@ -142,7 +140,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       </div>
 
       {/* Right — polaroid photo */}
-      <div class="relative shrink-0 rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02]" data-hero-photo style="opacity: 0;">
+      <div class="relative shrink-0 rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-[1.02]" data-hero-photo>
         {/* Polaroid frame */}
         <button
           type="button"
@@ -195,7 +193,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
     </div>
     <div class={homeCardGrid}>
       {professionalProjects.slice(0, 3).map((project, i) => (
-        <div data-project-card-item data-home-work-card style="opacity: 0;">
+        <div data-project-card-item data-home-work-card>
           <ProjectCard
             title={project.data.title}
             description={featuredProjectDescriptions[project.id] ?? project.data.description}
@@ -223,7 +221,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
     </div>
     <div class={homeCardGrid}>
       {labEntries.slice(0, 3).map((entry) => (
-        <div class="flex" data-project-card-item style="opacity: 0;">
+        <div class="flex" data-project-card-item>
           <LabCard
             title={entry.data.title}
             description={entry.data.description}
@@ -245,7 +243,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-6">
 
       {/* Left — newsletter card */}
-      <div data-project-card-item style="opacity: 0;">
+      <div data-project-card-item>
         <a
           href={siteConfig.social.newsletter}
           target="_blank"
@@ -283,7 +281,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       </div>
 
       {/* Right — article list */}
-      <div data-project-card-item style="opacity: 0;">
+      <div data-project-card-item>
         <div class="flex flex-col divide-y divide-border">
           {writingPosts.slice(0, 6).map((post) => (
             <a
@@ -309,7 +307,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       <a href="/community" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
     </div>
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-6">
-      <div class="flex flex-col justify-center" data-project-card-item style="opacity: 0;">
+      <div class="flex flex-col justify-center" data-project-card-item>
         <p class="max-w-md text-xl font-semibold leading-snug tracking-tight">
           {communityStory.heading}
         </p>
@@ -317,7 +315,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
           I stay active in creative communities through Unknown Arts, local gatherings, and showing up for the people making thoughtful work.
         </p>
       </div>
-      <div data-project-card-item style="opacity: 0;">
+      <div data-project-card-item>
         <div class="grid grid-cols-2 gap-3 sm:gap-4">
           {homeCommunityPhotos.map((photo) => (
             <figure class:list={[
@@ -342,7 +340,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
     </div>
     <div class="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
       {communityCommendations.map((c) => c && (
-        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-project-card-item style="opacity: 0;">
+        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-project-card-item>
           <p class="mb-4 font-mono text-[13px] leading-relaxed text-foreground">{c.quote}</p>
           <footer class="flex items-center gap-3">
             <img src={c.image} alt={c.name} class="h-8 w-8 shrink-0 rounded-full object-cover" loading="lazy" />
@@ -442,12 +440,6 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 
     html.dark .hero-desktop::before {
       opacity: 0.11;
-    }
-
-    @media (min-width: 48rem) {
-      [data-work-intro] {
-        opacity: 0;
-      }
     }
 
     .builder-grid {

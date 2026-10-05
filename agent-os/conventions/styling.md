@@ -18,6 +18,10 @@ restrained, content-first design over decorative complexity.
 - Markdown prose uses custom `.prose` styles in `global.css`, not
   `@tailwindcss/typography`.
 - Keep visual work readable and consistent with the current portfolio aesthetic.
+- Render primary content visibly by default. Entrance animations should set their
+  own initial keyframes; avoid hiding content in server-rendered markup until
+  JavaScript reveals it, since failed scripts can leave an otherwise complete
+  page blank.
 
 ## Related Files
 
@@ -25,4 +29,3 @@ restrained, content-first design over decorative complexity.
 - `src/components/`
 - `src/layouts/`
 - `src/pages/`
-

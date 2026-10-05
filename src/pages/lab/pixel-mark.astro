@@ -15,7 +15,7 @@ const { Content } = await render(entry);
   description={entry.data.description}
   noindex
 >
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-lab-hero style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-lab-hero>
     <a
       href="/lab"
       class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -33,7 +33,7 @@ const { Content } = await render(entry);
   </section>
 
   <!-- Hero display -->
-  <section data-lab-content style="opacity: 0">
+  <section data-lab-content>
     <div class="mx-auto max-w-3xl px-6 pb-16">
       <div class="flex min-h-48 items-center justify-center rounded-lg border border-border bg-card" data-logo-cycle-trigger>
         <Logo trigger="container" class="h-24 w-24" />

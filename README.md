@@ -2,7 +2,7 @@
 
 Personal portfolio site for Patrick Morgan, built with [Astro](https://astro.build), Tailwind CSS, and shadcn/ui.
 
-This repository contains the source for [itspatmorgan.github.io](https://itspatmorgan.github.io): a warm, minimal, editorial portfolio for product, design, technology, writing, and lab work.
+This repository contains the source for [itspatmorgan.com](https://itspatmorgan.com): a warm, minimal, editorial portfolio for product, design, technology, writing, and lab work.
 
 ## Start here
 
@@ -21,7 +21,7 @@ Prerequisites:
 Recommended local location:
 
 ```text
-~/Developer/personal/itspatmorgan.github.io
+~/Developer/itspatmorgan.github.io
 ```
 
 This repo includes a `.mise.toml` for local tool versions. If you use
@@ -39,6 +39,7 @@ pnpm dev
 
 The dev server runs at `http://localhost:4321`.
 
-Writing sync requires `OBSIDIAN_VAULT` in your shell or in local `.env.local`.
+For writing sync, copy `.env.example` to `.env.local` and configure your vault
+root or explicit published-articles folder. `.env.local` stays untracked.
 
 For build, sync, deployment, content, and architecture details, use the [system map](agent-os/system-map.md).

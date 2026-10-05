@@ -85,8 +85,11 @@ with. Targeted sync refuses to overwrite an existing website article unless
 
 `pnpm sync-writing` with no target is a maintenance command. It scans the local
 Obsidian vault configured by `OBSIDIAN_VAULT`; set it in your shell or in an
-untracked `.env.local` file. The script reads notes from the vault's
-`Newsletters/` directory. Only notes with `website: true` are synced. The script
+untracked `.env.local` file (see `.env.example`). The script reads notes from
+`10 Writing/03 Published/`, falling back to `Newsletters/` for legacy vaults.
+Set `OBSIDIAN_NEWSLETTERS_DIR` to an explicit source folder when needed; it
+takes precedence over the vault root. Shell values take precedence over the
+same keys in `.env.local`. Only notes with `website: true` are synced. The script
 strips Obsidian-only fields, slugifies from the title, cleans newsletter
 boilerplate from the body, and writes to `src/content/writing/<slug>.md`.
 

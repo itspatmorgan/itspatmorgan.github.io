@@ -16,13 +16,13 @@ function getRoleProjects(slugs: string[] = []) {
 <PageLayout title="Work — Patrick Morgan" description="13+ years moving between strategy, design, and code.">
 
   {/* Hero */}
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-resume-hero style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-resume-hero>
     <h1 class="mb-3 text-4xl font-medium tracking-tight sm:text-5xl">Work</h1>
     <p class="max-w-xl text-lg text-muted-foreground">13+ years moving between strategy, design, and code.</p>
   </section>
 
   {/* Timeline */}
-  <section class="mx-auto max-w-3xl px-6" data-resume-intro style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6" data-resume-intro>
     <p class="mb-10 font-mono text-sm uppercase tracking-widest text-muted-foreground">Career</p>
 
     <div class="relative">
@@ -31,7 +31,7 @@ function getRoleProjects(slugs: string[] = []) {
       {roles.map((role) => {
         const projects = getRoleProjects(role.projects);
         return (
-          <div class="relative mb-14 last:mb-0 pl-8" data-timeline-entry style="opacity: 0">
+          <div class="relative mb-14 last:mb-0 pl-8" data-timeline-entry>
             <div class="absolute left-0 top-[5px] size-3 rounded-full border border-border bg-background"></div>
 
             <div class="mb-4 font-mono text-sm text-muted-foreground">{role.dateRange}</div>
@@ -92,7 +92,7 @@ function getRoleProjects(slugs: string[] = []) {
   </section>
 
   {/* Skills */}
-  <section class="mx-auto max-w-3xl px-6 pt-20 pb-24" data-resume-skills style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pt-20 pb-24" data-resume-skills>
     <p class="mb-10 font-mono text-sm uppercase tracking-widest text-muted-foreground">Skills</p>
     <div class="flex flex-col gap-5">
       {[

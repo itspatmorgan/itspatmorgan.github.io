@@ -14,7 +14,7 @@ const { Content } = await render(entry);
   description={entry.data.description}
   noindex
 >
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-lab-hero style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-12 sm:pt-24" data-lab-hero>
     <a
       href="/lab"
       class="mb-8 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -29,7 +29,7 @@ const { Content } = await render(entry);
     <p class="max-w-xl text-lg text-muted-foreground">{entry.data.description}</p>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pb-16" data-pixel-wave-demo data-lab-content style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pb-16" data-pixel-wave-demo data-lab-content>
     <div class="grid gap-8">
       <div class="relative flex min-h-[22rem] items-center justify-center rounded-lg border border-border bg-card px-6 py-16 text-center texture-bg">
         <PixelWaveText

@@ -22,6 +22,13 @@ owns article drafts and body copy.
 - Untargeted `pnpm sync-writing` is a maintenance operation, not the default
   publishing path.
 - Synced articles may omit `image`; image-less entries are supported.
+- As of October 2026, the local published source is
+  `~/Developer/obsidian-vault/10 Writing/03 Published`. The sync script now
+  supports this layout plus legacy `Newsletters` folders. Configure the vault
+  root or use `OBSIDIAN_NEWSLETTERS_DIR` for an explicit published-source path.
+  The latter takes precedence over a stale `OBSIDIAN_VAULT` shell value.
+- Source notes can have a blank line before their H1. Title cleanup handles
+  leading whitespace so WritingLayout remains the only article H1.
 
 ## Verification
 
@@ -36,4 +43,3 @@ pnpm build
 - `scripts/generate-writing-art.mjs`
 - `src/content/writing/`
 - `src/content.config.ts`
-

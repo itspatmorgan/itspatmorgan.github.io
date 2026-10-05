@@ -20,14 +20,14 @@ const entries = (await getCollection("lab", ({ data }) => !data.draft))
   description="Tools, experiments, and interaction showcases."
   noindex
 >
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24 sm:pb-12" data-lab-hero style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24 sm:pb-12" data-lab-hero>
     <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">Lab</h1>
     <p class="max-w-xl text-lg text-muted-foreground">
       A gallery of tools, experiments, and interactions I've built.
     </p>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pb-24" data-lab-list style="opacity: 0">
+  <section class="mx-auto max-w-3xl px-6 pb-24" data-lab-list>
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
       {entries.map((entry) => (
         <LabCard

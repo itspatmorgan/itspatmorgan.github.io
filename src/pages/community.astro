@@ -10,14 +10,14 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
 ---
 
 <PageLayout title="Community — Patrick Morgan" description="Showing up for creative people in Los Angeles through writing, events, and community.">
-  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24 sm:pb-12" data-community-hero style="opacity: 0;">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24 sm:pb-12" data-community-hero>
     <h1 class="mb-4 text-4xl font-medium tracking-tight sm:text-5xl">Community</h1>
     <p class="max-w-xl text-lg text-muted-foreground">
       Showing up for creative people in Los Angeles through writing, events, and community.
     </p>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pb-16" data-community-story style="opacity: 0;">
+  <section class="mx-auto max-w-3xl px-6 pb-16" data-community-story>
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
       {communityPagePhotos.map((photo) => (
         <figure class:list={[
@@ -49,7 +49,7 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
     </div>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 pb-24" data-community-words style="opacity: 0;">
+  <section class="mx-auto max-w-3xl px-6 pb-24" data-community-words>
     <div class="mb-10">
       <h2 class="mb-3 text-xl font-semibold leading-snug tracking-tight">Kind words from the community.</h2>
       <p class="text-base leading-relaxed text-muted-foreground">
@@ -59,7 +59,7 @@ const communityPagePhotos = communityPhotos.map((photo, index) => ({
 
     <div class="columns-1 gap-4 sm:columns-2">
       {commendations.map((c) => (
-        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-kind-words-item style="opacity: 0;">
+        <blockquote class="mb-4 break-inside-avoid rounded-lg p-5 texture-bg" data-kind-words-item>
           <p class="mb-4 font-mono text-[13px] leading-relaxed text-foreground">{c.quote}</p>
           <footer class="flex items-center gap-3">
             <img

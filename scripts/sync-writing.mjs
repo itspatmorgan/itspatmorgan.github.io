@@ -5,7 +5,7 @@
  *   node scripts/sync-writing.mjs [--dry-run]
  *   node scripts/sync-writing.mjs --title "Article Title" --theme AI --with-art
  *
- * Picks up any file in Newsletters/ with 'website: true'.
+ * Picks up published source files with 'website: true'.
  * Strips Obsidian-only fields (created, website), slugifies the title,
  * and writes to src/content/writing/<slug>.md.
  *
@@ -45,12 +45,21 @@ if ((THEME || WITH_ART || OVERWRITE) && !TARGET) {
 loadLocalEnv();
 
 const VAULT = process.env.OBSIDIAN_VAULT;
-if (!VAULT) {
-  console.error('Missing OBSIDIAN_VAULT. Set it in your shell or in .env.local.');
+const SOURCE_OVERRIDE = process.env.OBSIDIAN_NEWSLETTERS_DIR;
+if (!VAULT && !SOURCE_OVERRIDE) {
+  console.error('Set OBSIDIAN_VAULT or OBSIDIAN_NEWSLETTERS_DIR in your shell or .env.local. See .env.example.');
   process.exit(1);
 }
 
-const NEWSLETTERS_DIR = join(VAULT, 'Newsletters');
+const publishedDir = VAULT ? join(VAULT, '10 Writing', '03 Published') : null;
+const NEWSLETTERS_DIR = SOURCE_OVERRIDE
+  ? resolve(SOURCE_OVERRIDE)
+  : existsSync(publishedDir) ? publishedDir : join(VAULT, 'Newsletters');
+if (!existsSync(NEWSLETTERS_DIR)) {
+  console.error(`Published source directory not found: ${NEWSLETTERS_DIR}`);
+  console.error('Update OBSIDIAN_VAULT or set OBSIDIAN_NEWSLETTERS_DIR to your published articles folder.');
+  process.exit(1);
+}
 const OUTPUT_DIR = resolve('src/content/writing');
 const OBSIDIAN_ONLY = new Set(['created', 'website', 'author']);
 const REQUIRED = ['title', 'description', 'publishedDate'];
@@ -101,6 +110,10 @@ Options:
   --with-art          Generate deterministic visual metadata and feature image for the target.
   --overwrite         Allow targeted sync to update an existing website article.
   --dry-run           Show what would change without writing files.
+
+Source configuration (shell or .env.local):
+  OBSIDIAN_VAULT             Vault root; uses 10 Writing/03 Published, then legacy Newsletters.
+  OBSIDIAN_NEWSLETTERS_DIR   Explicit source folder; takes precedence over the vault root.
 `);
 }
 
@@ -202,7 +215,7 @@ function readExistingFields(outPath) {
 function cleanBody(body) {
   return body
     // Strip leading H1 — WritingLayout renders title as <h1>
-    .replace(/^#[^#][^\n]*\n?/, '')
+    .replace(/^\s*#[^#][^\n]*\n?/, '')
     // Strip all Substack CDN images (decorative banners, section dividers)
     .replace(/^!\[.*?\]\(https:\/\/substackcdn\.com\/[^\)]*\)\n?/gm, '')
     // Strip "Welcome to Unknown Arts" newsletter boilerplate

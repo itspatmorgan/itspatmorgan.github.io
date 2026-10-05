@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import WritingLayout from "@/layouts/WritingLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("writing");
+  const posts = await getCollection("writing", ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
