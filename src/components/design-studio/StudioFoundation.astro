@@ -3,17 +3,26 @@ interface Props { kind: 'system' | 'setup' }
 const { kind } = Astro.props;
 ---
 <div class={`foundation-art foundation-${kind}`}>
-{kind === 'system' && <svg viewBox="0 0 480 430" role="img" aria-label="A design operating system combines theme and components, context and principles, and rules and skills into a foundation for a prototype.">
+{kind === 'system' && <svg viewBox="0 0 480 460" role="img" aria-label="Context and Skills form the instructions. Theme, Components, and Assets form the toolkit. Together they provide the foundation for your prototype.">
   <defs><pattern id="system-dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="currentColor" opacity=".13"/></pattern><pattern id="system-hatching" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V6" stroke="currentColor" opacity=".15"/></pattern></defs>
-  <rect x="16" y="16" width="448" height="398" fill="url(#system-dots)"/>
-  <g class="construction"><path d="M30 30H450M30 400H450M40 20V410M440 20V410M28 30H52M40 18V42M428 400H452M440 388V412"/></g>
-  <g class="connector"><path d="M320 98H356V318H338M320 182H356M320 266H356"/></g>
-  <g class="sheet"><rect x="66" y="46" width="254" height="80" rx="3"/><rect x="66" y="130" width="254" height="80" rx="3"/><rect x="66" y="214" width="254" height="80" rx="3"/></g>
-  <g class="mono"><text x="82" y="68">Theme + components</text><text x="82" y="152">Context + principles</text><text x="82" y="236">Rules + skills</text></g>
-  <rect x="82" y="82" width="26" height="26" fill="var(--foreground)"/><rect x="112" y="82" width="26" height="26" fill="var(--accent)"/><rect x="142" y="82" width="26" height="26" fill="url(#system-hatching)" stroke="var(--border)"/><rect x="192" y="84" width="52" height="22" rx="4" fill="var(--foreground)"/><path d="M251 86H294M251 94H282M251 102H287" class="ink"/>
-  <path d="M83 168H276M83 178H294M83 188H249" class="ink"/><path d="m84 252 5 5 9-11m-14 26 5 5 9-11" class="connector"/><path d="M110 252H274M110 272H243" class="ink"/>
-  <g class="sheet"><rect x="142" y="312" width="196" height="75" rx="3"/></g><text x="158" y="335" class="label">Your prototype</text><path d="M158 347H322" class="construction"/><rect x="158" y="358" width="36" height="14" fill="var(--accent)" opacity=".4"/><path d="M203 361H315M203 369H283" class="ink"/>
-
+  <rect x="364" y="55" width="62" height="348" fill="url(#system-dots)"/>
+  <g class="construction"><path d="M58 32H422M58 422H422M68 22V432M412 22V432"/></g>
+  <g transform="translate(34 13) scale(.9)">
+  <g fill="url(#system-hatching)" stroke="currentColor" stroke-opacity=".2"><rect x="73" y="57" width="286" height="128" rx="3"/><rect x="73" y="205" width="286" height="150" rx="3"/></g>
+  <path d="M350 112H394V395H384M350 264H394" class="connector"/>
+  <g class="sheet"><rect x="64" y="48" width="286" height="128" rx="3"/><rect x="64" y="196" width="286" height="150" rx="3"/></g>
+  <rect x="64" y="48" width="5" height="128" fill="var(--foreground)"/>
+  <rect x="64" y="196" width="5" height="150" fill="var(--accent)"/>
+  <path d="M52 48H42M47 43V53M52 196H42M47 191V201M350 184H366M358 176V192" class="construction"/>
+  <g class="mono"><text x="82" y="72">Instructions</text><text x="82" y="220">Toolkit</text></g>
+  <g class="label"><text x="82" y="105">Context</text><text x="82" y="149">Skills</text><text x="82" y="254">Theme</text><text x="82" y="291">Components</text><text x="82" y="328">Assets</text></g>
+  <path d="M184 95H329M184 103H307M184 111H319" class="ink"/>
+  <path d="m185 138 4 4 8-9m-12 23 4 4 8-9" class="connector"/><path d="M207 138H329M207 156H303" class="ink"/>
+  <rect x="204" y="237" width="20" height="20" fill="var(--foreground)"/><rect x="231" y="237" width="20" height="20" fill="var(--accent)"/><rect x="258" y="237" width="20" height="20" fill="url(#system-hatching)" stroke="var(--border)"/>
+  <rect x="204" y="276" width="46" height="19" rx="4" fill="var(--foreground)"/><rect x="258" y="276" width="71" height="19" rx="3" class="sheet"/><path d="M269 283H317M269 289H300" class="ink"/>
+  <text x="204" y="329" class="asset-letter">Aa</text><g class="ink"><rect x="240" y="311" width="22" height="20" rx="2"/><path d="m242 328 6-7 5 4 4-5 4 8"/><circle cx="256" cy="316" r="1.5"/><path d="m278 315 6 6-6 6m20-12-6 6 6 6"/></g>
+  <rect x="154" y="368" width="230" height="60" rx="3" class="sheet prototype-sheet"/><text x="170" y="389" class="label prototype-label">Your prototype</text><path d="M170 398H368" class="construction prototype-line"/><rect x="170" y="407" width="32" height="11" fill="var(--accent)"/><path d="M211 410H360M211 417H327" class="ink prototype-line"/>
+  </g>
 </svg>}
 {kind === 'setup' && <><svg viewBox="0 0 960 150" role="img" aria-label="Start with the starter kit, make a local copy, and run Design Studio with your coding agent.">
   <defs><pattern id="setup-grid" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M18 0H0V18" stroke="currentColor" fill="none" opacity=".07"/></pattern></defs>
@@ -34,8 +43,14 @@ const { kind } = Astro.props;
   .ink { stroke:currentColor;stroke-width:1;opacity:.4;fill:none; }
   .mono { font:11px var(--font-mono);fill:var(--muted-foreground); }
   .label { font:14px var(--font-sans);fill:var(--foreground); }
+  .asset-letter { font:18px var(--font-sans);fill:var(--muted-foreground); }
   .annotation { font:9px var(--font-mono);fill:var(--muted-foreground); }
   .foundation-system { max-width:32rem;width:100%;margin:auto; }
+  .foundation-system .sheet { fill:var(--background);stroke:var(--foreground);stroke-opacity:.3; }
+  .foundation-system .ink { opacity:.55; }
+  .foundation-system .prototype-sheet { fill:var(--foreground); }
+  .foundation-system .prototype-label { fill:var(--background); }
+  .foundation-system .prototype-line { stroke:var(--background); }
   .foundation-setup { max-width:56rem;margin:1.5rem auto; }
   .foundation-setup :is(path, rect) { vector-effect:non-scaling-stroke; }
   .foundation-setup .sheet { stroke:var(--muted-foreground);stroke-opacity:.5; }

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="#161410">
+<style>
+text { font-family: Helvetica, Arial, sans-serif; }
+.file-label, .cursor-label { font-family: monospace; font-size: 12px; }
+.file-label { fill: #161410; opacity: .8; }
+.artifact-title { fill: #161410; font-size: 13px; font-weight: 500; }
+.tiny-label { fill: #161410; font-size: 9px; opacity: .75; }
+</style>
+<rect width="1200" height="630" fill="#faf9f6"/>
+<g transform="translate(64 60)" fill="#161410"><path d="M0 0h11v32H0zM15 0h3a16 16 0 0 1 0 32h-3z"/></g>
+<text x="116" y="85" font-size="28">Design Studio</text>
+<text x="64" y="274" font-size="58" font-weight="500" letter-spacing="-2.7">Design with intent.</text>
+<text x="64" y="346" font-size="58" font-weight="500" letter-spacing="-2.7">Build with an agent.</text>
+<text x="64" y="451" font-size="24" fill="#625e58">A prototype sandbox for designers</text>
+<text x="64" y="485" font-size="24" fill="#625e58">and product managers who build.</text>
+<svg x="652" y="130" width="500" height="430" viewBox="0 0 560 480" fill="none">
+      <defs>
+        <pattern id="studio-drafting-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" stroke="#161410" stroke-opacity="0.07" stroke-width="0.6" /></pattern>
+        <pattern id="studio-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V7" stroke="#161410" stroke-opacity="0.13" stroke-width="1" /></pattern>
+      </defs>
+      <rect x="16" y="16" width="528" height="430" fill="url(#studio-drafting-grid)" />
+      <g stroke="#161410" opacity="0.24" stroke-width="0.7">
+        <path d="M16 32H544M32 16V446M528 16V446M16 430H544" />
+        <path d="M20 32H44M32 20V44M516 32H540M528 20V44M20 430H44M32 418V442M516 430H540M528 418V442" />
+      </g>
+      <path d="M450 365H544V446H450Z" fill="url(#studio-hatch)" />
+      <g transform="translate(0 34)">
+      <g class="parallax-near">
+        <g stroke="#c99a52" stroke-width="1.2">
+          <path d="M260 114H280V295H302M280 130H302M280 284H260" opacity="0.55" />
+          <path class="draft-trace" d="M260 114H280V295H302M280 130H302M280 284H260" opacity="0.7" />
+        </g>
+        <g transform="rotate(-3 154 106)">
+          <rect x="42" y="40" width="222" height="138" rx="3" fill="#f3f1ed" stroke="#161410" stroke-opacity="0.3" />
+          <path d="M42 67H264" stroke="#161410" opacity="0.15" />
+          <text x="54" y="58" class="file-label">view.tsx</text>
+          <text x="56" y="89" class="artifact-title">Prototype</text>
+          <rect x="220" y="79" width="30" height="11" rx="2" fill="#c99a52" opacity="0.35" />
+          <path d="M56 105H250M56 122H250M56 139H250M56 156H250" stroke="#161410" opacity="0.12" />
+          <path d="M60 114H130M60 131H153M60 148H118" stroke="#161410" stroke-width="2" opacity="0.4" />
+          <path d="M196 114H212M196 131H212M196 148H212" stroke="#c99a52" stroke-width="4" opacity="0.45" />
+        </g>
+        <g transform="rotate(3 409 136)">
+          <rect x="298" y="68" width="222" height="136" rx="3" fill="#f3f1ed" stroke="#161410" stroke-opacity="0.3" />
+          <text x="310" y="86" class="file-label">flow.mermaid</text>
+          <path d="M298 95H520" stroke="#161410" opacity="0.15" />
+          <g stroke="#161410" stroke-width="0.9" opacity="0.65">
+            <rect x="312" y="128" width="49" height="24" /><path d="M374 140L397 117L420 140L397 163Z" /><rect x="450" y="108" width="54" height="24" /><rect x="450" y="158" width="54" height="24" />
+            <path d="M361 140H374M420 140L450 120M420 140L450 170" />
+          </g>
+          <text x="320" y="143" class="tiny-label">Capture</text><text x="384" y="143" class="tiny-label">Review</text><text x="462" y="123" class="tiny-label">Act</text><text x="460" y="173" class="tiny-label">Later</text>
+        </g>
+        <g transform="rotate(2 170 283)">
+          <rect x="74" y="206" width="190" height="150" rx="3" fill="#f3f1ed" stroke="#161410" stroke-opacity="0.3" />
+          <text x="88" y="225" class="file-label">context.md</text>
+          <path d="M74 235H264" stroke="#161410" opacity="0.15" />
+          <text x="90" y="256" class="artifact-title"># Project context</text>
+          <text x="90" y="279" class="tiny-label">The problem</text>
+          <path d="M90 290H246M90 299H234M90 308H242" stroke="#161410" opacity="0.3" />
+          <text x="90" y="331" class="tiny-label">What we're exploring</text>
+          <path d="M90 341H228" stroke="#161410" opacity="0.3" />
+        </g>
+        <g transform="rotate(-2 408 291)">
+          <rect x="298" y="226" width="222" height="132" rx="3" fill="#f3f1ed" stroke="#161410" stroke-opacity="0.3" />
+          <text x="310" y="245" class="file-label">board.excalidraw</text>
+          <path d="M298 254H520" stroke="#161410" opacity="0.15" />
+          <rect x="315" y="272" width="72" height="48" fill="url(#studio-hatch)" stroke="#161410" stroke-opacity="0.35" />
+          <path d="M325 284H376M325 292H366M325 300H372" stroke="#161410" opacity="0.35" />
+          <path d="M404 282L430 269L447 288L425 306ZM447 288L478 290M466 280L496 282L493 312L464 310Z" stroke="#161410" opacity="0.65" />
+          <path d="M330 335Q368 317 395 335T492 330" stroke="#c99a52" stroke-width="1.5" opacity="0.75" />
+        </g>
+      </g>
+      <g class="parallax-front">
+        <g class="human-cursor" transform="translate(213 143)">
+          <path d="M0 0V18L5 13L10 21L14 19L9 11H17Z" fill="#161410" stroke="#faf9f6" stroke-width="1.5" />
+          <rect x="14" y="19" width="44" height="23" rx="3" fill="#161410" /><text x="22" y="35" class="cursor-label" fill="#faf9f6">You</text>
+        </g>
+        <g transform="translate(218 296)">
+          <g class="agent-cursor">
+            <path d="M0 0V18L5 13L10 21L14 19L9 11H17Z" fill="#c99a52" stroke="#faf9f6" stroke-width="1.5" />
+            <rect x="14" y="19" width="58" height="23" rx="3" fill="#c99a52" /><text x="22" y="32" class="cursor-label" fill="#faf9f6">Agent</text>
+          </g>
+        </g>
+      </g>
+      </g>
+    </svg>
+<text x="64" y="582" font-family="monospace" font-size="17" fill="#625e58">itspatmorgan.com/design-studio</text>
+</svg>

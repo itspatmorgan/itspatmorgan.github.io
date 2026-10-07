@@ -3,39 +3,73 @@ interface Props { kind: number }
 const { kind } = Astro.props;
 ---
 <div class="ownership-art">
-  <svg viewBox="0 0 320 220" role="img" aria-label={kind === 0 ? 'A ready-to-use Design Studio with views, diagrams, canvases, and documents.' : kind === 1 ? 'A coding agent and Design Studio working side by side.' : 'Your Design Studio folder contains source files you can own, edit, and extend.'}>
-    <defs><pattern id={`ownership-grid-${kind}`} width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="currentColor" opacity=".06"/></pattern></defs>
-    <rect x="12" y="12" width="296" height="196" fill={`url(#ownership-grid-${kind})`}/>
-    <path d="M12 24H308M24 12V208M296 12V208M12 196H308" class="construction"/>
+  <svg viewBox="0 0 320 220" role="img" aria-label={kind === 0 ? 'Separate theme and component pieces arranged into a customized interface, with outlines showing alternative placements.' : kind === 1 ? 'An agent chat and Design Studio preview integrated inside a familiar coding app.' : 'Overlapping source-file sheets labeled prototype.tsx, context.md, flow.mermaid, and canvas.excalidraw, with distinct textures.'}>
+    <defs>
+      <pattern id={`ownership-dots-${kind}`} width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".6" fill="currentColor" /></pattern>
+      <pattern id={`ownership-hatch-${kind}`} width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 6 6 0" stroke="currentColor" stroke-width=".65" /></pattern>
+    </defs>
     {kind === 0 && <>
-      <rect x="42" y="39" width="236" height="144" rx="4" class="sheet"/>
-      <path d="M42 64H278" class="construction"/><circle cx="56" cy="52" r="2" fill="var(--accent)"/><text x="65" y="55" class="mono">Design Studio</text>
-      <g class="tile"><rect x="55" y="78" width="99" height="42" rx="2"/><rect x="166" y="78" width="99" height="42" rx="2"/><rect x="55" y="130" width="99" height="42" rx="2"/><rect x="166" y="130" width="99" height="42" rx="2"/></g>
-      <g class="icon"><rect x="65" y="88" width="18" height="19" rx="1"/><path d="M65 94H83M71 94V107M180 87V107m-6-14 6-6 6 6m-6 14h12M66 142l13-3 6 17-16 4-3-18ZM177 140H191V162H177zM181 145H187M181 150H187M181 155H185"/></g>
-      <g class="label"><text x="93" y="103">View</text><text x="202" y="103">Diagram</text><text x="94" y="156">Canvas</text><text x="202" y="156">Document</text></g>
+      <path d="M25 25H125V86H25ZM224 145H298V200H224Z" class="ghost" />
+      <rect x="31" y="32" width="82" height="44" rx="3" class="sheet" transform="rotate(-5 72 54)" />
+      <rect x="42" y="43" width="17" height="17" fill="currentColor" /><rect x="64" y="43" width="17" height="17" fill="var(--accent)" /><rect x="86" y="43" width="17" height="17" fill={`url(#ownership-hatch-${kind})`} opacity=".5" />
+      <path d="M119 56H149V80M254 135V162H279" class="icon" stroke-dasharray="3 4" />
+      <rect x="76" y="89" width="171" height="103" rx="3" fill={`url(#ownership-hatch-${kind})`} opacity=".2" />
+      <rect x="68" y="81" width="171" height="103" rx="3" class="sheet" />
+      <rect x="68" y="81" width="171" height="22" rx="3" fill="currentColor" />
+      <text x="79" y="96" class="mono reverse">Your interface</text>
+      <rect x="80" y="114" width="41" height="57" rx="2" fill="var(--accent)" opacity=".22" />
+      <path d="M131 117H222M131 127H207M131 146H222M131 156H205M131 166H215" class="ink" />
+      <rect x="190" y="36" width="97" height="34" rx="3" class="sheet" transform="rotate(4 239 53)" />
+      <rect x="202" y="47" width="25" height="12" rx="3" fill="currentColor" /><path d="M236 49H276M236 57H264" class="ink" />
+      <path d="m260 174 1-15 11 11-5 1-2 5Z" class="cursor" />
+      <path d="M53 168V190M42 179H64" class="icon" />
     </>}
     {kind === 1 && <>
-      <g transform="rotate(-3 109 99)"><rect x="38" y="41" width="160" height="118" rx="4" class="sheet"/><path d="M38 66H198" class="construction"/><text x="52" y="57" class="mono">Your coding agent</text><path d="m55 83 8 7-8 7M73 97H87" class="icon"/><path d="M53 112H138M53 124H175M53 136H123" class="ink"/></g>
-      <g transform="rotate(3 218 132)"><rect x="145" y="85" width="145" height="106" rx="4" class="sheet"/><path d="M145 110H290" class="construction"/><text x="159" y="102" class="mono">Design Studio</text><rect x="157" y="125" width="37" height="46" fill="var(--accent)" opacity=".18"/><path d="M204 128H273M204 139H259M204 155H273M204 166H252" class="ink"/></g>
+      <path d="M26 36H292V193H26Z" fill={`url(#ownership-dots-${kind})`} opacity=".2" />
+      <rect x="36" y="29" width="248" height="144" rx="4" class="sheet" />
+      <rect x="36" y="29" width="248" height="27" rx="4" fill="var(--card)" />
+      <text x="49" y="46" class="mono">Your coding agent</text>
+      <path d="M36 56H284M126 56V173" class="construction" />
+      <rect x="46" y="69" width="70" height="26" rx="3" class="tile" />
+      <path d="M53 77H107M53 85H92M47 108H109M47 116H100M47 124H106" class="ink" />
+      <rect x="46" y="145" width="70" height="18" rx="3" class="tile" />
+      <path d="m53 150 4 4-4 4M62 158H72" class="icon" />
+      <rect x="136" y="67" width="138" height="96" rx="3" class="sheet" />
+      <circle cx="145" cy="79" r="1.5" fill="var(--accent)" /><text x="151" y="82" class="mono">Design Studio</text>
+      <path d="M136 90H274M158 90V163" class="construction" />
+      <path d="M142 101H152M142 111H152M142 121H152" class="ink" />
+      <rect x="165" y="98" width="29" height="13" fill="var(--accent)" opacity=".3" />
+      <path d="M201 102H266M201 109H246M165 123H266M165 134H266M165 145H250" class="ink" />
+      <path d="M109 191H211" class="icon" /><circle cx="100" cy="191" r="3" class="tile" /><circle cx="220" cy="191" r="3" class="tile" />
     </>}
     {kind === 2 && <>
-      <path d="M56 48H130L145 62H264V182H56V48Z" fill="var(--card)" stroke="var(--border)"/>
-      <rect x="48" y="68" width="224" height="120" rx="3" class="sheet"/><text x="65" y="92" class="mono">your-studio/</text>
-      <path d="M69 104V170M69 111H83M69 131H83M69 151H83M69 171H83" class="icon"/>
-      <g class="files"><text x="94" y="115">prototype.tsx</text><text x="94" y="135">context.md</text><text x="94" y="155">flow.mermaid</text><text x="94" y="175">canvas.excalidraw</text></g>
-      <path d="M260 36h20m-10-10v20" class="icon"/>
+      <g transform="rotate(-5 164 107)">
+        <rect x="66" y="27" width="206" height="116" rx="2" class="sheet" /><text x="82" y="49" class="files">canvas.excalidraw</text>
+        <rect x="83" y="58" width="169" height="70" fill={`url(#ownership-dots-${kind})`} opacity=".23" />
+      </g>
+      <g transform="rotate(3 158 115)">
+        <rect x="50" y="64" width="211" height="112" rx="2" class="sheet" /><text x="66" y="86" class="files">flow.mermaid</text>
+        <rect x="65" y="97" width="179" height="62" fill={`url(#ownership-hatch-${kind})`} opacity=".18" />
+      </g>
+      <rect x="40" y="99" width="220" height="92" rx="2" class="sheet" /><text x="56" y="122" class="files">context.md</text>
+      <path d="M56 133H240M56 144H216M56 155H228" class="ink" />
+      <rect x="30" y="142" width="228" height="62" rx="2" class="sheet" />
+      <rect x="30" y="142" width="5" height="62" fill="var(--accent)" />
+      <text x="47" y="166" class="files">prototype.tsx</text><path d="m49 177 5 5-5 5M62 187H81M95 181H235" class="ink" />
     </>}
   </svg>
 </div>
 <style>
   .ownership-art { color:var(--foreground); padding:.75rem 0 1.5rem; }
-  svg { display:block;width:100%;max-width:24rem;margin:auto; }
-  .construction { fill:none;stroke:currentColor;stroke-width:.7;opacity:.18; }
-  .sheet { fill:var(--background);stroke:var(--muted-foreground);stroke-opacity:.35; }
-  .tile { fill:var(--card);stroke:var(--border); }
-  .icon { fill:none;stroke:var(--accent);stroke-width:1.1; }
-  .ink { stroke:currentColor;stroke-width:1;opacity:.35; }
-  .mono { font:10px var(--font-mono);fill:var(--muted-foreground); }
-  .label { font:10px var(--font-sans);fill:var(--foreground); }
-  .files { font:11px var(--font-mono);fill:var(--foreground); }
+  svg { display:block; width:100%; max-width:24rem; margin:auto; }
+  .construction { fill:none; stroke:currentColor; stroke-width:.7; opacity:.22; }
+  .sheet { fill:var(--background); stroke:currentColor; stroke-opacity:.35; }
+  .tile { fill:var(--card); stroke:currentColor; stroke-opacity:.22; }
+  .icon { fill:none; stroke:var(--accent); stroke-width:1.2; }
+  .ink { fill:none; stroke:currentColor; stroke-width:1.1; opacity:.5; }
+  .mono { font:10px var(--font-mono); fill:var(--muted-foreground); }
+  .reverse { fill:var(--background); }
+  .files { font:12px var(--font-mono); fill:var(--foreground); }
+  .ghost { fill:none; stroke:currentColor; stroke-dasharray:3 5; opacity:.2; }
+  .cursor { fill:var(--foreground); stroke:var(--background); stroke-width:1; }
 </style>

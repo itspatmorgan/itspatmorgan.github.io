@@ -22,11 +22,11 @@ text { font-family: Helvetica, Arial, sans-serif; }
 <text x="116" y="85" font-size="28">Design Studio</text>
 <text x="64" y="274" font-size="58" font-weight="500" letter-spacing="-2.7">Design with intent.</text>
 <text x="64" y="346" font-size="58" font-weight="500" letter-spacing="-2.7">Build with an agent.</text>
-<text x="64" y="451" font-size="24" fill="#625e58">An open platform for designers</text>
+<text x="64" y="451" font-size="24" fill="#625e58">A prototype sandbox for designers</text>
 <text x="64" y="485" font-size="24" fill="#625e58">and product managers who build.</text>
 <svg x="652" y="130" width="500" height="430" viewBox="0 0 560 480" fill="none">${art}</svg>
 <text x="64" y="582" font-family="monospace" font-size="17" fill="#625e58">itspatmorgan.com/design-studio</text>
 </svg>`;
-await writeFile(new URL('public/images/design-studio/social-design-with-intent.svg', root), svg);
+await writeFile(new URL('public/images/design-studio/social-prototype-sandbox.svg', root), svg);
 await sharp(Buffer.from(svg)).jpeg({ quality: 92, mozjpeg: true })
-  .toFile(new URL('public/images/design-studio/social-design-with-intent.jpg', root).pathname);
+  .toFile(new URL('public/images/design-studio/social-prototype-sandbox.jpg', root).pathname);

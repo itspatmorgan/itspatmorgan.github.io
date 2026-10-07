@@ -4,36 +4,37 @@ import Icon from "@/components/icons/Icon.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import StudioArtifactPreview from "@/components/design-studio/StudioArtifactPreview.astro";
 import StudioOwnership from "@/components/design-studio/StudioOwnership.astro";
+import StudioWorkflow from "@/components/design-studio/StudioWorkflow.astro";
 import StudioFoundation from "@/components/design-studio/StudioFoundation.astro";
 import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
 import agentGuide from "@/data/design-studio-agent.txt?raw";
+import { setupGuide, setupPaths } from "@/data/design-studio-setup";
 import { buttonVariants } from "@/components/ui/button";
-import { CodeIcon, Flowchart01Icon, CanvasIcon, File01Icon, Folder01Icon } from "@hugeicons/core-free-icons";
+import { siteConfig } from "@/data/site-config";
+import { CodeIcon, Flowchart01Icon, CanvasIcon, File01Icon, Folder01Icon, GithubIcon } from "@hugeicons/core-free-icons";
 
 const repository = "https://github.com/itspatmorgan/design-studio-starter";
 const liveDemo = "https://itspatmorgan.com/design-studio-starter/";
 const feedbackDemo = `${liveDemo}prototypes/patrick/feedback-inbox`;
+const firstPrototypePrompt = "Help me prototype a feedback triage flow in my Design Studio. Start with a simple working view, then map the flow and capture the decisions.";
 const examples = [
-  { id: "view", label: "Code view", icon: CodeIcon },
+  { id: "view", label: "Prototype view", icon: CodeIcon },
   { id: "diagram", label: "Diagram", icon: Flowchart01Icon },
   { id: "canvas", label: "Canvas", icon: CanvasIcon },
   { id: "document", label: "Document", icon: File01Icon },
 ];
-const systemLayers = [
-  { title: "Theme and components.", body: "Define the visual language and reusable building blocks your prototypes should use." },
-  { title: "Context and principles.", body: "Give your agent the product knowledge and design guidance behind those choices." },
-  { title: "Rules and skills.", body: "Capture how your team works, so your agent has instructions and repeatable workflows to build with." },
+const systemPaths = [
+  { title: "Curate a system around your idea", body: "Your agent helps choose components from shadcn/ui or Untitled UI and shape a theme around what you want to build." },
+  { title: "Bring your own design system", body: "Your agent reviews your team’s React components and theme, then proposes a plan to bring them into Design Studio." },
 ];
 const platformBenefits = [
-  { title: "A considered starting point.", body: "Views, diagrams, canvases, and documents are ready to work together, so you can start with your ideas." },
-  { title: "Fits the way you work.", body: "Work in your preferred coding agent. Bring your components and context into Design Studio, and shape it around your team." },
-  { title: "Room to make it yours.", body: "Open-source tools and open file formats give you a foundation you can change and extend as your needs evolve." },
+  { title: "Own your code and your work", body: "Build in React and TypeScript, sketch in Excalidraw, diagram in Mermaid, and write in Markdown. The code and source files are yours to take with you.", illustration: 2 },
+  { title: "Work with the agent you know", body: "Use a plugin in ChatGPT Codex, Claude Code, or Cursor, or start directly from GitHub. Keep working with your agent in the environment you already know.", illustration: 1 },
+  { title: "Make it fit your team", body: "Start with defaults shaped by real product and marketing work. Change the interface, code, and workflows to fit the way your team builds.", illustration: 0 },
 ];
-const cloneCommands = "git clone https://github.com/YOUR-ACCOUNT/YOUR-STUDIO.git\ncd YOUR-STUDIO";
-const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnpm dev";
 ---
 
-<PageLayout title="Design Studio: Design with intent. Build with an agent." description="An open platform for designers and product managers who build. Create connected prototypes with an agent that understands your components, context, and design principles." image="/images/design-studio/social-design-with-intent.jpg">
+<PageLayout title="Design Studio: Design with intent. Build with an agent." description="A prototype sandbox for designers and product managers who build. Work with your agent locally, then publish interactive prototypes for your team to explore." image="/images/design-studio/social-prototype-sandbox.jpg">
   <div class="studio-page mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-14">
     <header class="flex items-center justify-between gap-6 pt-9 sm:pt-12">
       <a href="/design-studio" class="flex items-center gap-3 font-medium tracking-tight" aria-label="Design Studio home">
@@ -51,10 +52,21 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
     <section class="studio-hero grid items-center gap-8 pt-12 sm:gap-12 pb-20 sm:pt-20 sm:pb-24 lg:grid-cols-[1.2fr_1fr] lg:gap-10 lg:pt-24 lg:pb-28" aria-labelledby="studio-title">
       <div>
         <h1 id="studio-title" class="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
-        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">An open platform for designers and product managers who build. Turn ideas into working prototypes with an agent that understands your components, context, and design principles.</p>
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">A prototype sandbox for designers and product managers who build. Work with your agent to turn ideas into interactive prototypes, using your components, context, and design principles.</p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
-          <a href={liveDemo} class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Explore a published studio <span aria-hidden="true">↗</span></a>
-          <a href={repository} class={buttonVariants({ variant: "outline", size: "lg", className: "h-11 px-5" })}>View on GitHub <span aria-hidden="true">↗</span></a>
+          <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Set up Design Studio <span aria-hidden="true">↓</span></a>
+          <a href={liveDemo} class="inline-flex min-h-11 items-center gap-2 px-3 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">View demo <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="mt-8 text-sm leading-relaxed text-muted-foreground">
+          <p>Works with</p>
+          <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {setupPaths.filter((path) => path.logo).map((path) => (
+              <span class="inline-flex items-center gap-2 whitespace-nowrap">
+                <span class="hero-vendor-logo" style={"--vendor-logo: url(" + path.logo + ")"} aria-hidden="true"></span>
+                <span>{path.title.replace(/ plugin$/, "")}</span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       <StudioAtmosphere />
@@ -62,7 +74,7 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 
     <section id="explore" class="border-t border-border py-14 sm:py-20" aria-labelledby="examples-title" data-studio-gallery>
       <h2 id="examples-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Build prototypes that connect the whole idea</h2>
-      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">Bring working views, diagrams, canvases, and documents together in one prototype. Built on open file formats, these artifacts give your agent familiar structures to read, write, and extend. The interface, the flow, and the thinking behind them can evolve together.</p>
+      <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Build the interface, map the flow, and capture your thinking in one connected prototype.</p>
       <div class="walkthrough-window mt-8 overflow-hidden rounded-xl border border-border bg-card">
         <div class="walkthrough-body">
           <nav class="walkthrough-nav" aria-label="Prototype artifacts">
@@ -80,19 +92,15 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
           </div>
         </div>
       </div>
-      <div class="mt-5 max-w-[65ch]">
-        <a href={feedbackDemo} class="inline-flex items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground">Explore the published Feedback Inbox <span aria-hidden="true">↗</span></a>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Published studios let you share your designs for others to explore. This demo has interactive prototypes. To edit artifacts and build with your agent, run your own Design Studio locally.</p>
-      </div>
     </section>
 
     <section class="border-t border-border py-14 sm:py-20" aria-labelledby="systems-title">
       <div class="systems-composition grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
           <h2 id="systems-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Give your agent a design <em class="font-medium">operating</em> system</h2>
-          <p class="mt-5 max-w-[65ch] leading-relaxed text-muted-foreground">Go beyond themes and components. Give your agent the context, rules, and skills to build prototypes that hit the mark.</p>
+          <p class="mt-5 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Start with the included examples, then build a system that gives your agent the foundation for work that feels like yours.</p>
           <div class="system-layers mt-8 space-y-6">
-            {systemLayers.map((item) => <div class="border-l border-border pl-5"><h3 class="text-base font-medium tracking-tight">{item.title}</h3><p class="mt-1.5 text-sm leading-relaxed text-muted-foreground">{item.body}</p></div>)}
+            {systemPaths.map((item) => <div class="border-l border-border pl-5"><h3 class="text-lg font-medium tracking-tight">{item.title}</h3><p class="mt-1.5 text-base leading-relaxed text-muted-foreground">{item.body}</p></div>)}
           </div>
         </div>
         <StudioFoundation kind="system" />
@@ -100,31 +108,70 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
     </section>
 
     <section class="border-t border-border py-14 sm:py-20" aria-labelledby="yours-title">
-      <h2 id="yours-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A thoughtful foundation to make your own</h2>
-      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">Start with tools and defaults chosen to work well together. Make them your own with your agent, your code, and the way your team works.</p>
+      <h2 id="yours-title" class="text-3xl font-medium tracking-tight sm:text-4xl">Open source, built to fit your team</h2>
+      <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-muted-foreground">A starting point you own and can change as your needs evolve.</p>
       <div class="mt-8 grid gap-10 md:grid-cols-3 md:gap-8">
-        {platformBenefits.map((item, index) => <div><StudioOwnership kind={index} /><div class="pt-5"><h3 class="text-lg font-medium tracking-tight">{item.title}</h3><p class="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p></div></div>)}
+        {platformBenefits.map((item) => <div><StudioOwnership kind={item.illustration} /><div class="pt-5"><h3 class="text-lg font-medium tracking-tight">{item.title}</h3><p class="mt-3 text-base leading-relaxed text-muted-foreground">{item.body}</p></div></div>)}
+      </div>
+    </section>
+
+    <section id="work-and-share" class="border-t border-border py-14 sm:py-20" aria-labelledby="workflow-title">
+      <h2 id="workflow-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Build locally. Share with your team.</h2>
+      <div class="mt-8 grid gap-10 md:grid-cols-2 md:gap-10">
+        <div>
+          <StudioWorkflow kind="local" />
+          <h3 class="text-lg font-medium tracking-tight">Build locally with your agent</h3>
+          <p class="mt-2 text-base leading-relaxed text-muted-foreground">Create, edit, and try ideas with your agent in your local Design Studio.</p>
+        </div>
+        <div>
+          <StudioWorkflow kind="published" />
+          <h3 class="text-lg font-medium tracking-tight">Publish a link for your team</h3>
+          <p class="mt-2 text-base leading-relaxed text-muted-foreground">Publish your Design Studio for others to explore interactive prototypes through a shared link, while editing stays local.</p>
+          <details class="mt-3">
+            <summary class="w-fit cursor-pointer text-sm underline decoration-border underline-offset-4 hover:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">Sharing options</summary>
+            <p class="mt-3 text-base leading-relaxed text-muted-foreground">Ask your agent to help set up hosting with ChatGPT Sites, GitHub Pages, Vercel, Netlify, or another static-site host.</p>
+          </details>
+          <a href={feedbackDemo} class="mt-5 inline-flex items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground">Explore a published prototype <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
     </section>
 
     <section id="get-started" class="scroll-mt-8 border-t border-border py-14 sm:py-20" aria-labelledby="setup-title">
       <h2 id="setup-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Run your own Design Studio</h2>
-      <p class="mt-4 max-w-[65ch] leading-relaxed text-muted-foreground">Your own copy. Ready to shape around your work.</p>
-      <StudioFoundation kind="setup" />
-      <ol class="setup-sequence mt-8">
-        <li>
-          <span class="setup-number" aria-hidden="true">01</span>
-          <div><h3 class="text-lg font-medium tracking-tight">Create your repository.</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Use the GitHub template. Choose “Use this template” → “Create a new repository,” then set its name and visibility.</p><a href={repository} class="mt-3 inline-flex items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground">Use the starter kit <span aria-hidden="true">↗</span></a></div>
-        </li>
-        <li>
-          <span class="setup-number" aria-hidden="true">02</span>
-          <div class="min-w-0"><h3 class="text-lg font-medium tracking-tight">Bring it onto your computer.</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Copy your new repository’s HTTPS URL from “Code,” then clone it in your terminal.</p><details class="setup-detail"><summary>Clone commands</summary><p class="mt-3 text-xs leading-relaxed text-muted-foreground">Replace the placeholders with your account and repository name.</p><div class="code-block code-block-placeholder"><pre><code>{cloneCommands}</code></pre></div></details></div>
-        </li>
-        <li>
-          <span class="setup-number" aria-hidden="true">03</span>
-          <div class="min-w-0"><h3 class="text-lg font-medium tracking-tight">Open Design Studio with your agent.</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Open your new repository in Codex, Cursor, Claude Code, or your preferred coding agent. Have your agent install and run Design Studio, then open the local URL in your browser.</p><details class="setup-detail"><summary>Install and start commands</summary><p class="mt-3 text-sm leading-relaxed text-muted-foreground"><a href="https://mise.jdx.dev/installing-mise.html" class="underline underline-offset-4 hover:text-foreground">Install mise</a>, then run these commands inside your new repository.</p><div class="code-block"><pre><code>{startCommands}</code></pre><button type="button" data-copy-code hidden aria-label="Copy install and start commands">Copy</button></div><p class="mt-3 text-xs leading-relaxed text-muted-foreground">These install the project’s Node.js and pnpm versions, dependencies, and start the development server. Run these in your coding agent’s terminal and keep the development server running while you work. If mise is already activated in your shell, use <code>pnpm install</code> and <code>pnpm dev</code> directly.</p></details></div>
-        </li>
-      </ol>
+      <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Choose your agent app or start from the source. Your agent handles setup and opens your local prototype sandbox.</p>
+      <div class="setup-paths mt-8">
+        {setupPaths.map((path) => (
+          <details class="setup-path" name="studio-setup-path">
+            <summary class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">
+              <span class="setup-path-heading">
+                {path.logo && <span class="setup-vendor-logo" style={"--vendor-logo: url(" + path.logo + ")"} aria-hidden="true"></span>}
+                {!path.logo && <span class="setup-source-logo" aria-hidden="true"><Icon icon={GithubIcon} size={30} /></span>}
+                <span><span class="block text-lg font-medium tracking-tight">{path.title}</span><span class="mt-0.5 block text-base leading-relaxed text-muted-foreground">{path.description}</span></span>
+              </span>
+              <span class="setup-expand" aria-hidden="true">+</span>
+            </summary>
+            <div class="setup-path-content max-w-3xl pb-6">
+              <p class="text-base leading-relaxed text-muted-foreground">{path.instructions}</p>
+              <div class="setup-prompt mt-4 rounded-lg border border-border bg-card p-4 sm:p-5">
+                <p class="text-base leading-relaxed" data-setup-prompt>{path.prompt}</p>
+                <button type="button" hidden data-copy-prompt class={buttonVariants({ className: "mt-4 h-10 px-4 hover:opacity-90" })} aria-label={"Copy " + path.title + " setup prompt"}>Copy prompt</button>
+              </div>
+              <p class="mt-4 text-base leading-relaxed text-muted-foreground">{path.next}</p>
+              <div class="mt-6">
+                <h3 class="text-lg font-medium tracking-tight">Once it’s open, try a small idea</h3>
+                <div class="setup-prompt mt-3 rounded-lg border border-border bg-card p-4 sm:p-5">
+                  <p class="text-base leading-relaxed" data-setup-prompt>{firstPrototypePrompt}</p>
+                  <button type="button" hidden data-copy-prompt class={buttonVariants({ className: "mt-4 h-10 px-4 hover:opacity-90" })} aria-label={"Copy first prototype prompt for " + path.title}>Copy prompt</button>
+                </div>
+              </div>
+              {path.id === "source" && <p class="mt-3 text-sm text-muted-foreground">Prefer to set it up yourself? <a href={repository + "#get-started"} class="underline underline-offset-4 hover:text-foreground">Follow the manual GitHub setup</a>.</p>}
+            </div>
+          </details>
+        ))}
+      </div>
+      <p class="mt-6 text-base leading-relaxed text-muted-foreground">Your Design Studio and files stay on your computer. To build together, your team shares a Git repository on GitHub or another Git host.</p>
+      <p class="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted-foreground">The plugins are in beta and use local or repository installation.</p>
+      <a href={setupGuide} class="mt-4 inline-flex items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground">Full setup instructions <span aria-hidden="true">↗</span></a>
       <p class="sr-only" data-copy-status role="status" aria-live="polite"></p>
     </section>
 
@@ -135,8 +182,8 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
           <p>Hello friend,</p>
           <p>Design Studio is something I’ve wanted to exist for years.</p>
           <p>Over a decade ago, I started my tech career as a front-end developer embedded on a product design team. Prototyping and design technology have been central to my work ever since. This year, coding agents finally made it possible to build the environment I’d imagined and make that way of working accessible to more teams.</p>
-          <p>Design Studio carries years of thinking and experimentation, shaped by using early versions with my teammates for product and marketing design at startups.</p>
-          <p>I’m excited to see what you make of it and help you adapt it to the way your team works.</p>
+          <p>Design Studio carries years of thinking and experimentation, shaped by using early versions with my teammates at Sublime Security. Their support and our day-to-day product and marketing work helped make it what it is.</p>
+          <p>I’d love to see what you build, hear what gets in your way, and help you make Design Studio fit your team.</p>
           <img src="/images/brand/patrick-signature.png" alt="Patrick Morgan" width="764" height="376" loading="lazy" class="h-auto w-32 dark:invert" />
           <a href="/writing/build-a-design-os" class="inline-block pt-3 text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Read the story behind Design Studio <span aria-hidden="true">→</span></a>
         </div>
@@ -148,7 +195,11 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
           </a>
         </div>
       </div>
-      <div class="mt-10"><a href={repository} class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Build your own studio <span aria-hidden="true">↗</span></a></div>
+      <div class="mt-10">
+        <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Set up Design Studio <span aria-hidden="true">↑</span></a>
+        <p class="mt-5 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Share what you build and tag <a href={siteConfig.social.x} class="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">@itspatmorgan</a>. Follow more experiments in <a href={siteConfig.social.newsletter} class="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Unknown Arts</a>.</p>
+        <a href={repository} class="mt-3 inline-block text-sm underline decoration-border underline-offset-4 hover:decoration-foreground">Feedback and contributions on GitHub <span aria-hidden="true">↗</span></a>
+      </div>
     </section>
     </div>
     <section id="studio-agent" data-studio-panel="agent" hidden class="pt-16 pb-20 sm:pt-20 sm:pb-24">
@@ -165,11 +216,17 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
 </PageLayout>
 
 <style>
-  .setup-sequence > li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1.25rem; padding: 1.5rem 0; }
-  .setup-number { font: .875rem var(--font-mono); color: var(--accent); padding-top: .3rem; }
-  .setup-detail { margin-top: .85rem; }
-  .setup-detail summary { width: fit-content; cursor: pointer; font-size: .75rem; color: var(--foreground); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 4px; }
-  .setup-detail summary:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
+  .setup-path + .setup-path { border-top: 1px solid var(--border); }
+  .setup-path summary { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem 0; cursor: pointer; list-style: none; }
+  .setup-path summary::-webkit-details-marker { display: none; }
+  .setup-path-heading { display: flex; align-items: center; gap: 1rem; }
+  .setup-vendor-logo { display: block; width: 2.5rem; height: 2.5rem; flex-shrink: 0; background: var(--foreground); mask: var(--vendor-logo) center / contain no-repeat; }
+  .hero-vendor-logo { display: block; width: 1.25rem; height: 1.25rem; flex-shrink: 0; background: currentColor; mask: var(--vendor-logo) center / contain no-repeat; }
+  .setup-source-logo { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; flex-shrink: 0; }
+  .setup-expand { flex-shrink: 0; font: 1.5rem var(--font-mono); color: var(--muted-foreground); transition: transform 180ms ease; }
+  .setup-path[open] .setup-expand { transform: rotate(45deg); }
+  .setup-prompt { overflow-wrap: anywhere; }
+  @media (prefers-reduced-motion: reduce) { .setup-expand { transition: none; } }
   .creator-portrait-field::before {
     content: "";
     position: absolute;
@@ -194,8 +251,8 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
   .mode-tab:hover { color: var(--foreground); }
   .mode-tab[aria-selected="true"] { color: var(--background); }
   .gallery-panel[hidden] { display: none; }
-  [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: gallery-change 220ms ease-out; }
-  @keyframes gallery-change { from { opacity: 0.35; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: gallery-change 180ms ease-out; }
+  @keyframes gallery-change { from { opacity: 0.35; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
     [data-studio-modes][data-initialized="true"] .mode-indicator,.mode-tab { transition:none; }
     [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: none; }
@@ -352,17 +409,17 @@ const startCommands = "mise install\nmise exec -- pnpm install\nmise exec -- pnp
       gallery.dataset.initialized = "true";
     }
     if (!navigator.clipboard?.writeText) return;
-    document.querySelectorAll<HTMLButtonElement>("[data-copy-code]").forEach((button) => {
+    document.querySelectorAll<HTMLButtonElement>("[data-copy-prompt]").forEach((button) => {
       if (button.dataset.initialized === "true") return;
       button.hidden = false;
       button.dataset.initialized = "true";
       button.addEventListener("click", async () => {
-        const code = button.parentElement?.querySelector("code")?.textContent;
+        const code = button.parentElement?.querySelector("[data-setup-prompt]")?.textContent;
         const status = document.querySelector<HTMLElement>("[data-copy-status]");
         if (!code) return;
-        try { await navigator.clipboard.writeText(code); button.textContent = "Copied"; if (status) status.textContent = "Commands copied to clipboard."; }
-        catch { if (status) status.textContent = "Couldn't copy. Select and copy the commands directly."; }
-        window.setTimeout(() => { button.textContent = "Copy"; }, 2000);
+        try { await navigator.clipboard.writeText(code); button.textContent = "Copied"; if (status) status.textContent = "Prompt copied to clipboard."; }
+        catch { if (status) status.textContent = "Couldn't copy. Select and copy the prompt directly."; }
+        window.setTimeout(() => { button.textContent = "Copy prompt"; }, 2000);
       });
     });
   }

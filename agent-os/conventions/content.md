@@ -1,5 +1,10 @@
 # Content Conventions
 
+- Always use the full, capitalized product name **Design Studio** in public
+  copy, including setup prompts and Agent descriptions. Use **Design Studios**
+  for the plural. Do not shorten the product name to “studio.” Preserve literal
+  source paths, commands, and upstream system names where required.
+
 ## Public Terminology
 
 - Use "Work", not "Projects" or "Experience", for the public portfolio/career section.
@@ -77,4 +82,3 @@ draft: false
 Use `experience: "app"` for immersive tools and `experience: "demo"` for
 focused interaction showcases. Put implementation code under `src/lab/<slug>/`
 when an item needs dedicated components, React islands, or supporting logic.
-
