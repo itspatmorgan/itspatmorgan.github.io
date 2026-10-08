@@ -2,6 +2,9 @@
 import Icon from "@/components/icons/Icon.astro";
 import { ArrowLeft01Icon, ArrowRight01Icon, PauseIcon, PlayIcon } from "@hugeicons/core-free-icons";
 
+interface Props { href?: string; linkLabel?: string; }
+const { href = "/design-studio", linkLabel = "Explore Design Studio" } = Astro.props;
+
 const slides = [
   { image: "preview", label: "Prototype view", alt: "Design Studio displaying the working Feedback Inbox prototype beside its connected artifacts." },
   { image: "lofi", label: "Lo-fi prototype", alt: "The same Feedback Inbox prototype in a hand-drawn, low-fidelity style." },
@@ -14,7 +17,7 @@ const controlClass = "inline-flex h-11 w-9 shrink-0 items-center justify-center 
 ---
 
 <div class="w-full overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 dark:shadow-black/30" role="region" aria-roledescription="carousel" aria-label="Design Studio previews" data-studio-preview-carousel>
-  <a href="/design-studio" class="relative block aspect-video overflow-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring" aria-label="Explore Design Studio: Prototype view" data-preview-link>
+  <a href={href} class="relative block aspect-video overflow-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring" aria-label={`${linkLabel}: Prototype view`} data-preview-link data-link-label={linkLabel}>
     {slides.map((slide, index) => (
       <div class:list={["preview-slide absolute inset-0", { "is-active": index === 0 }]} aria-hidden={index !== 0 ? "true" : undefined} data-preview-slide data-label={slide.label}>
         <img src={`/images/design-studio/home-${slide.image}-light.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="block h-full w-full dark:hidden" />
@@ -81,7 +84,7 @@ const controlClass = "inline-flex h-11 w-9 shrink-0 items-center justify-center 
         if (label) label.textContent = currentLabel;
         if (count) count.textContent = `${index + 1} / ${slides.length}`;
         if (announcement) announcement.textContent = ` — ${index + 1} of ${slides.length}`;
-        link?.setAttribute("aria-label", `Explore Design Studio: ${currentLabel}`);
+        link?.setAttribute("aria-label", `${link.dataset.linkLabel}: ${currentLabel}`);
       }
 
       function sync() {

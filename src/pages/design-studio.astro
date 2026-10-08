@@ -2,7 +2,7 @@
 import PageLayout from "@/layouts/PageLayout.astro";
 import Icon from "@/components/icons/Icon.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
-import StudioArtifactPreview from "@/components/design-studio/StudioArtifactPreview.astro";
+import StudioPreviewCarousel from "@/components/design-studio/StudioPreviewCarousel.astro";
 import StudioOwnership from "@/components/design-studio/StudioOwnership.astro";
 import StudioWorkflow from "@/components/design-studio/StudioWorkflow.astro";
 import StudioFoundation from "@/components/design-studio/StudioFoundation.astro";
@@ -11,17 +11,11 @@ import agentGuide from "@/data/design-studio-agent.txt?raw";
 import { setupGuide, setupPaths, sitesSetup } from "@/data/design-studio-setup";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/data/site-config";
-import { CodeIcon, Flowchart01Icon, CanvasIcon, File01Icon, Folder01Icon, GithubIcon } from "@hugeicons/core-free-icons";
+import { GithubIcon } from "@hugeicons/core-free-icons";
 
 const repository = "https://github.com/itspatmorgan/design-studio-starter";
 const liveDemo = "https://itspatmorgan.com/design-studio-starter/";
 const feedbackDemo = `${liveDemo}prototypes/patrick/feedback-inbox`;
-const examples = [
-  { id: "view", label: "Prototype view", icon: CodeIcon },
-  { id: "diagram", label: "Diagram", icon: Flowchart01Icon },
-  { id: "canvas", label: "Canvas", icon: CanvasIcon },
-  { id: "document", label: "Document", icon: File01Icon },
-];
 const systemPaths = [
   { title: "Curate a system around your idea", body: "Your agent helps choose components from shadcn/ui or Untitled UI and shape a theme around what you want to build." },
   { title: "Bring your own design system", body: "Your agent reviews your team’s React components and theme, then proposes a plan to bring them into Design Studio." },
@@ -71,25 +65,11 @@ const platformBenefits = [
       <StudioAtmosphere />
     </section>
 
-    <section id="explore" class="border-t border-border py-14 sm:py-20" aria-labelledby="examples-title" data-studio-gallery>
+    <section id="explore" class="border-t border-border py-14 sm:py-20" aria-labelledby="examples-title">
       <h2 id="examples-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Build prototypes that connect the whole idea</h2>
       <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Build the interface, map the flow, and capture your thinking in one connected prototype.</p>
-      <div class="walkthrough-window mt-8 overflow-hidden rounded-xl border border-border bg-card">
-        <div class="walkthrough-body">
-          <nav class="walkthrough-nav" aria-label="Prototype artifacts">
-            <div class="prototype-root"><Icon icon={Folder01Icon} /><span>Feedback Inbox</span></div>
-            <div class="artifact-tree" data-gallery-tabs>
-              {examples.map((example) => <a id={`tab-${example.id}`} href={`#example-${example.id}`} class="gallery-tab rounded-md text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" data-gallery-tab={example.id} aria-label={example.label}><Icon icon={example.icon} /><span>{example.label}</span></a>)}
-            </div>
-          </nav>
-          <div class="min-w-0">
-            {examples.map((example) => (
-              <figure id={`example-${example.id}`} class="gallery-panel scroll-mt-8" data-gallery-panel={example.id}>
-                <StudioArtifactPreview kind={example.id} />
-              </figure>
-            ))}
-          </div>
-        </div>
+      <div class="texture-bg mt-8 rounded-xl border border-border p-3 sm:p-6">
+        <StudioPreviewCarousel href={liveDemo} linkLabel="Open live Design Studio" />
       </div>
     </section>
 
@@ -254,28 +234,9 @@ const platformBenefits = [
   .mode-tab { color: var(--muted-foreground); transition:color 180ms ease; }
   .mode-tab:hover { color: var(--foreground); }
   .mode-tab[aria-selected="true"] { color: var(--background); }
-  .gallery-panel[hidden] { display: none; }
-  [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: gallery-change 180ms ease-out; }
-  @keyframes gallery-change { from { opacity: 0.35; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
     [data-studio-modes][data-initialized="true"] .mode-indicator,.mode-tab { transition:none; }
-    [data-studio-gallery][data-initialized="true"] .gallery-panel:not([hidden]) { animation: none; }
   }
-  .walkthrough-nav { padding: 1rem .75rem; border-bottom: 1px solid var(--border); }
-  .prototype-root { display:flex; align-items:center; gap:.55rem; padding:.25rem .5rem .9rem; font-size:.8rem; font-weight:500; }
-  .prototype-root svg,.gallery-tab svg { width:18px; height:18px; flex-shrink:0; stroke:currentColor; stroke-width:1.5; stroke-linejoin:round; }
-  .prototype-root svg { color:var(--muted-foreground); }
-  .artifact-tree { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.25rem; }
-  .gallery-tab { display:flex; align-items:center; gap:.65rem; padding:.7rem .75rem; font-size:.8rem; color: var(--muted-foreground); transition: background 150ms, color 150ms; }
-  .gallery-tab:hover { background: var(--muted); color: var(--foreground); }
-  .gallery-tab[aria-selected="true"] { background: var(--muted); color: var(--foreground); }
-  .gallery-tab[aria-selected="true"] svg { color:var(--accent); }
-  @media (min-width: 48rem) {
-    .walkthrough-body { display: grid; grid-template-columns: 12rem minmax(0, 1fr); }
-    .walkthrough-nav { border-bottom: none; border-right: 1px solid var(--border); }
-    .artifact-tree { grid-template-columns:1fr; margin-left:.6rem; }
-  }
-  [data-studio-gallery]:not([data-initialized="true"]) .gallery-panel + .gallery-panel { border-top: 1px solid var(--border); }
   .code-block { position: relative; margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
   .code-block pre { overflow-x: auto; padding: 1.25rem 4.5rem 1.25rem 1.25rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.9; }
   .code-block-placeholder pre { padding-right: 1.25rem; }
@@ -375,42 +336,6 @@ const platformBenefits = [
         catch { if (status) status.textContent = "Couldn't copy. Open the plain text guide to select and copy it."; }
         window.setTimeout(() => { copyAgent.textContent = "Copy guide"; }, 2000);
       });
-    }
-    const gallery = document.querySelector<HTMLElement>("[data-studio-gallery]");
-    if (gallery && gallery.dataset.initialized !== "true") {
-      const tablist = gallery.querySelector<HTMLElement>("[data-gallery-tabs]");
-      const tabs = Array.from(gallery.querySelectorAll<HTMLAnchorElement>("[data-gallery-tab]"));
-      const panels = Array.from(gallery.querySelectorAll<HTMLElement>("[data-gallery-panel]"));
-      function selectTab(index: number, focus = false) {
-        tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
-        panels.forEach((panel, i) => { panel.hidden = i !== index; });
-        if (focus) tabs[index].focus();
-      }
-      tablist?.setAttribute("role", "tablist");
-      const vertical = window.matchMedia("(min-width: 48rem)");
-      const syncOrientation = () => tablist?.setAttribute("aria-orientation", vertical.matches ? "vertical" : "horizontal");
-      syncOrientation();
-      vertical.addEventListener("change", syncOrientation);
-      document.addEventListener("astro:before-swap", () => vertical.removeEventListener("change", syncOrientation), { once: true });
-      tabs.forEach((tab, index) => {
-        tab.setAttribute("role", "tab");
-        tab.setAttribute("aria-controls", panels[index].id);
-        panels[index].setAttribute("role", "tabpanel");
-        panels[index].setAttribute("aria-labelledby", tab.id);
-        panels[index].tabIndex = 0;
-        tab.addEventListener("click", (event) => { event.preventDefault(); selectTab(index); });
-        tab.addEventListener("keydown", (event) => {
-          let next: number | undefined;
-          if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % tabs.length;
-          if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + tabs.length) % tabs.length;
-          if (event.key === "Home") next = 0;
-          if (event.key === "End") next = tabs.length - 1;
-          if (next !== undefined) { event.preventDefault(); selectTab(next, true); }
-        });
-      });
-      const linkedPanel = panels.findIndex((panel) => `#${panel.id}` === window.location.hash);
-      selectTab(linkedPanel >= 0 ? linkedPanel : 0);
-      gallery.dataset.initialized = "true";
     }
     if (!navigator.clipboard?.writeText) return;
     document.querySelectorAll<HTMLButtonElement>("[data-copy-prompt]").forEach((button) => {

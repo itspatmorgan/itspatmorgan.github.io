@@ -96,6 +96,15 @@ publishing, and unrelated navigation refactors.
 
 ## Review
 
+Landing-page follow-up: replace the second section's bespoke artifact gallery
+with the shared six-view screenshot carousel. Keep its heading and introductory
+copy, remove the replaced gallery's tabs and script/styles, and make the preview
+link open the live demo rather than link back to its own page. Reuse the existing
+assets and playback/accessibility behavior. No additional durable learning needed.
+Verified the landing-page carousel on desktop and 390px mobile, automatic
+advancement and keyboard next control, loaded images, live-demo link destination,
+and absence of horizontal overflow. Production build passed (43 pages).
+
 - Product: Design Studio leads current proof of work and links to its own page.
 - Editorial: Use full product name and clearly establish Patrick's authorship.
 - Design: Match existing warmth, typography, spacing, and restrained palette.
