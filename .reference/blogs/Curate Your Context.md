@@ -2,7 +2,7 @@
 categories: "Newsletter"
 author:
   - "[[Patrick Morgan]]"
-source: "https://www.unknownarts.co/p/context-is-your-creative-leverage"
+source: "https://www.unknownarts.com/p/context-is-your-creative-leverage"
 published: 2026-02-16
 ---
 ![](https://substackcdn.com/image/fetch/$s_!EGnQ!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a576cda-446f-4a4e-b078-5308e180ec8d_1232x928.png)
@@ -17,7 +17,7 @@ But if they give me a massive data dump of everything about their company, their
 
 The same dynamic plays out with AI. That curation skill—knowing what context matters and what’s just noise—is also essential for getting usable outputs from AI.
 
-Over the last two weeks, I’ve written about [getting your thinking into text](https://www.unknownarts.co/p/ai-runs-on-text-so-should-you) and [using voice to make that capture effortless](https://www.unknownarts.co/p/voice-is-the-missing-link). Now comes the next step: learning to curate that material so it actually works for you, not against you.
+Over the last two weeks, I’ve written about [getting your thinking into text](https://www.unknownarts.com/p/ai-runs-on-text-so-should-you) and [using voice to make that capture effortless](https://www.unknownarts.com/p/voice-is-the-missing-link). Now comes the next step: learning to curate that material so it actually works for you, not against you.
 
 ## The digital hoarding trap
 

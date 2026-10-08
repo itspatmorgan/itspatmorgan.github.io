@@ -110,7 +110,7 @@ https://github.com/itspatmorgan/design-studio-starter/blob/main/src/platform/con
 
 Share work made with Design Studio and tag Patrick Morgan at https://x.com/itspatmorgan.
 Feedback and contributions: https://github.com/itspatmorgan/design-studio-starter
-Follow Unknown Arts for experiments and ideas about building with agents: https://www.unknownarts.co
+Follow Unknown Arts for experiments and ideas about building with agents: https://www.unknownarts.com
 
 
 ## Work in Design Studio

@@ -28,14 +28,14 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/computational-thinking-is-the-new-literacy/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/computational-thinking-is-the-new"
+canonicalUrl: "https://www.unknownarts.com/p/computational-thinking-is-the-new"
 draft: false
 ---
 OpenAI's recent [o3 demo](https://www.youtube.com/live/SKBG1sqdyIU?si=HeS8vHl28bvJ4kJ2) sent shockwaves through the software engineering community. For many programmers, it was their first visceral encounter with AI that was clearly smarter than them. Social media filled with engineers questioning their future, wondering if they would soon be obsolete. But watching the demo, something else struck me: the prompts used contained deep software engineering knowledge that no non-engineer would be able to write.
 
 Take the first seemingly simple [prompt from the demo](https://x.com/itspatmorgan/status/1870536021626208394). In the span of a short paragraph, you needed to understand servers, HTML forms, API requests, file operations, execution environments, and authentication systems. Years of accumulated software knowledge compressed into a few lines of text. If you don't have software training, you wouldn't know to specify these pieces. You might not even realize they're needed.
 
-What we're witnessing isn't the end of software engineering - it's an unbundling of the craft (yes, I know, [I'm on an unbundling kick lately](https://www.unknownarts.co/p/the-great-creative-unbundling)). ***AI is separating the mechanical act of writing code from the deeper art of thinking about systems***. As implementation becomes automated, the human value shifts decisively toward understanding how software should work.
+What we're witnessing isn't the end of software engineering - it's an unbundling of the craft (yes, I know, [I'm on an unbundling kick lately](https://www.unknownarts.com/p/the-great-creative-unbundling)). ***AI is separating the mechanical act of writing code from the deeper art of thinking about systems***. As implementation becomes automated, the human value shifts decisively toward understanding how software should work.
 
 ## Hacking it together won't scale
 

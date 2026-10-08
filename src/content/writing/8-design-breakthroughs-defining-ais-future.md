@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/8-design-breakthroughs-defining-ais-future/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/8-design-breakthroughs-defining-ais"
+canonicalUrl: "https://www.unknownarts.com/p/8-design-breakthroughs-defining-ais"
 draft: false
 ---
 Made with Midjourney.

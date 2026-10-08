@@ -17,7 +17,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/how-i-rebuilt-my-portfolio-with-claude-code/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/how-i-rebuilt-my-portfolio-with-claude"
+canonicalUrl: "https://www.unknownarts.com/p/how-i-rebuilt-my-portfolio-with-claude"
 draft: false
 ---
 For a long time, coding your own portfolio site as a product designer made sense in theory but not in practice. Yes, owning a custom codebase gave you full control. But it also meant doing a bunch of work outside the core competencies of the job just to pitch yourself. For most designers, the tradeoff just wasn’t worth it.
@@ -66,7 +66,7 @@ The underlying principle across all of these: *pick well-known tools with large 
 
 ## Mise-en-place for agents
 
-Since this was less of a *redesign* and more of a *rebuild*, I wasn’t starting with a blank canvas: I had an existing site, existing content, and a pretty clear picture of what I wanted. (*If you want the backstory on the Framer site and how I’d structured it, [I wrote about that last year](https://www.unknownarts.co/p/why-i-went-video-first).*)
+Since this was less of a *redesign* and more of a *rebuild*, I wasn’t starting with a blank canvas: I had an existing site, existing content, and a pretty clear picture of what I wanted. (*If you want the backstory on the Framer site and how I’d structured it, [I wrote about that last year](https://www.unknownarts.com/p/why-i-went-video-first).*)
 
 So before I sent Claude a single prompt, I spent significant time prepping assets I thought the agent would need to get the job done well, quickly. Think of it like [mise-en-place](https://en.wikipedia.org/wiki/Mise_en_place) in a great kitchen — the chef’s practice of having everything prepped and staged before the heat goes on. The cooking is fast and meets standards because the prep is thorough.
 
@@ -145,7 +145,7 @@ Since launch I’ve used this loop to ship [YouTube and Figma embeds](https://gi
 
 The site might be simple, but what I actually built in that weekend was something I’d wanted for years: infrastructure I own, that I can push in any direction, that compounds in capability the more sessions I put into it.
 
-I wrote last week that [AI raises the ceiling for designers who are willing to evolve](https://www.unknownarts.co/p/designers-are-a-rare-breed). This is an example of what that looks like in practice. A site rebuild that would have taken months of effort took a weekend. And now I’m set up to explore and push the boundaries of my personal sandbox at my leisure.
+I wrote last week that [AI raises the ceiling for designers who are willing to evolve](https://www.unknownarts.com/p/designers-are-a-rare-breed). This is an example of what that looks like in practice. A site rebuild that would have taken months of effort took a weekend. And now I’m set up to explore and push the boundaries of my personal sandbox at my leisure.
 
 If you’re a designer who builds and you’ve been on a platform you know has ceilings, I’d seriously consider making the move. It takes some work to migrate, but it’s 100% worth the effort.
 

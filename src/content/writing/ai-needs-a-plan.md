@@ -21,7 +21,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/ai-needs-a-plan/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/ai-needs-a-plan"
+canonicalUrl: "https://www.unknownarts.com/p/ai-needs-a-plan"
 draft: false
 ---
 The most misleading AI demo is the one-shot.
@@ -32,7 +32,7 @@ The best results I get from Claude Code and Codex usually start with a written p
 
 That should feel familiar to any designer. If a client asked me to “make a website” and gave me no other context, I wouldn’t jump straight into Figma. I’d ask who it’s for, what it needs to communicate, what already exists, and what constraints matter. The work would start with alignment, not execution.
 
-Lately, writing plans has become one of my core design workflows. I start by exploring an idea conversationally (What’s the problem? What do we know? What constraints matter? What is the [single most important thing](https://www.unknownarts.co/p/the-single-most-important-thing) this needs to accomplish?). Then, the output becomes a document the agent can write into Notion, a GitHub issue, or a project file where I can pick it up again as context when I’m ready to execute.
+Lately, writing plans has become one of my core design workflows. I start by exploring an idea conversationally (What’s the problem? What do we know? What constraints matter? What is the [single most important thing](https://www.unknownarts.com/p/the-single-most-important-thing) this needs to accomplish?). Then, the output becomes a document the agent can write into Notion, a GitHub issue, or a project file where I can pick it up again as context when I’m ready to execute.
 
 It feels like a condensed version of the first diamond in the [double diamond design process](https://www.designcouncil.org.uk/our-resources/the-double-diamond/). You widen your aperture to understand the problem, converge on a direction, then use that as a springboard to create. The difference now is the sheer speed of execution: the moment you have clarity in writing, an agent can execute on it right away.
 
@@ -42,7 +42,7 @@ If your plan is clear, the agent can move with scary efficiency in the right dir
 
 This is why I find the obsession with one-shotting misleading. The times I have gotten something close to a good result in one shot weren’t the result of skipping the upfront work. They were the result of being meticulous about it.
 
-My [portfolio rebuild](https://www.unknownarts.co/p/how-i-rebuilt-my-portfolio-with-claude) is a good example. Claude did a strong job getting the site into the ballpark on the first shot, but only after I had written a brief, chosen a tech stack, curated image assets, and scoped the work. Even then, what I got was just a decent beginning.
+My [portfolio rebuild](https://www.unknownarts.com/p/how-i-rebuilt-my-portfolio-with-claude) is a good example. Claude did a strong job getting the site into the ballpark on the first shot, but only after I had written a brief, chosen a tech stack, curated image assets, and scoped the work. Even then, what I got was just a decent beginning.
 
 AI can’t read my mind, but it sure can read my writing. It may be super intelligent, but it still needs direction.
 

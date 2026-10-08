@@ -22,7 +22,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/when-creation-becomes-compulsion/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/when-creation-becomes-compulsion"
+canonicalUrl: "https://www.unknownarts.com/p/when-creation-becomes-compulsion"
 draft: false
 ---
 For most of my life, I’ve created things.

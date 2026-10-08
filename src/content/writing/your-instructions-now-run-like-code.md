@@ -24,7 +24,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/your-instructions-now-run-like-code/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/your-instructions-now-run-like-code"
+canonicalUrl: "https://www.unknownarts.com/p/your-instructions-now-run-like-code"
 draft: false
 ---
 Ray Kroc’s genius wasn’t the hamburger.

@@ -17,7 +17,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/the-end-of-design-certainty/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/the-end-of-design-certainty"
+canonicalUrl: "https://www.unknownarts.com/p/the-end-of-design-certainty"
 draft: false
 ---
 Anthropic CEO Dario Amodei's recent [podcast with Lex Fridman](https://youtu.be/ugvHCXCOmm4?si=LlUHalCGGHfJLZc7&t=1405) caught my attention with an observation that keeps replaying in my mind. Even as his team works to understand and interpret AI models, he acknowledged a surprising truth:

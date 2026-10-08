@@ -22,7 +22,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/24-things-i-know-after-10-years-in-tech-i-wish-i-d-known-in-year-1/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/24-things-i-know-after-10-years-in"
+canonicalUrl: "https://www.unknownarts.com/p/24-things-i-know-after-10-years-in"
 draft: false
 ---
 

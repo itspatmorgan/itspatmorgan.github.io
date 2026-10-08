@@ -20,7 +20,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/why-you-should-curate-not-create-a-design-system/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/why-you-should-curate-not-create"
+canonicalUrl: "https://www.unknownarts.com/p/why-you-should-curate-not-create"
 draft: false
 ---
 In software design, it’s tempting to build every component from the ground up.

@@ -22,7 +22,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/mac-miller-the-hollow-promise-of-success/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/mac-miller-and-the-hollow-promise"
+canonicalUrl: "https://www.unknownarts.com/p/mac-miller-and-the-hollow-promise"
 draft: false
 ---
 A “dream job” is meaningless if you feel like a ghost inside it.

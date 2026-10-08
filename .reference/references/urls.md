@@ -40,7 +40,7 @@
 
 ## Unknown Arts newsletter
 
-- <https://www.unknownarts.co>
+- <https://www.unknownarts.com>
 
 ## Email
 

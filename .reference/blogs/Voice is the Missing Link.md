@@ -10,7 +10,7 @@ description: How speaking bridges the gap from thinking to text to AI
 ---
 # Voice is the Missing Link
 
-Last week, I wrote about [why text matters for your AI workflow](https://www.unknownarts.co/p/ai-runs-on-text-so-should-you): it’s the format where human thinking and AI capability naturally meet.
+Last week, I wrote about [why text matters for your AI workflow](https://www.unknownarts.com/p/ai-runs-on-text-so-should-you): it’s the format where human thinking and AI capability naturally meet.
 
 But then comes the obvious question: “_How do I actually get all my thinking into text_?”
 

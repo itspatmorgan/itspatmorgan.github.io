@@ -20,7 +20,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/10-heuristics-to-simplify-design-decision-making/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/10-heuristics-to-simplify-design-d17"
+canonicalUrl: "https://www.unknownarts.com/p/10-heuristics-to-simplify-design-d17"
 draft: false
 ---
 
@@ -78,7 +78,7 @@ If you’ve followed my writing for a while, you know I’m fond of the MAYA rul
 
 Depending on where a product sits on the spectrum of ‘acceptable’ to ‘advanced’, I can use design techniques to strategically nudge it into balance and deliver an experience that hits the sweet spot between novelty and familiarity.
 
-I wrote a full article about MAYA here -> [The Enduring Power of the MAYA Rule](https://www.unknownarts.co/p/the-maya-rule-for-design-impact)
+I wrote a full article about MAYA here -> [The Enduring Power of the MAYA Rule](https://www.unknownarts.com/p/the-maya-rule-for-design-impact)
 
 ---
 
@@ -142,7 +142,7 @@ I use this to force myself to prioritize when creating new UI.
 
 Every decision to build UI involves trade-offs. The best companies make deliberate moves when deciding what they should build from scratch and what they should ‘default’ to an existing solution.
 
-Here’s my article talking more about this -> [Default It of Design It](https://www.unknownarts.co/p/default-it-or-design-it)
+Here’s my article talking more about this -> [Default It of Design It](https://www.unknownarts.com/p/default-it-or-design-it)
 
 ---
 

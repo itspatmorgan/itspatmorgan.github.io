@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/voice-in-interface-out/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/voice-in-interface-out"
+canonicalUrl: "https://www.unknownarts.com/p/voice-in-interface-out"
 draft: false
 ---
 A scene from [Blade Runner](https://en.wikipedia.org/wiki/Blade_Runner) perfectly captures an AI interaction pattern we're still struggling to get right 40+ years later.

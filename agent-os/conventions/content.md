@@ -53,7 +53,7 @@ categories: ["Category"]
 theme: "AI"
 tags: ["tag1", "tag2"]
 image: "/images/writing/article-slug/feature.jpg"
-canonicalUrl: "https://www.unknownarts.co/p/article-slug"
+canonicalUrl: "https://www.unknownarts.com/p/article-slug"
 draft: false
 ```
 

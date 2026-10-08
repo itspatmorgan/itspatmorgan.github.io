@@ -22,7 +22,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/surviving-the-taste-gap/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/surviving-the-taste-gap"
+canonicalUrl: "https://www.unknownarts.com/p/surviving-the-taste-gap"
 draft: false
 ---
 > Nobody tells this to people who are beginners, I wish someone had told me. All of us who do creative work, we get into it because we have good taste.

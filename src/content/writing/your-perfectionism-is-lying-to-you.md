@@ -22,7 +22,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/your-perfectionism-is-lying-to-you/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/your-perfectionism-is-lying-to-you"
+canonicalUrl: "https://www.unknownarts.com/p/your-perfectionism-is-lying-to-you"
 draft: false
 ---
 ## Your perfectionism is holding you back more than you realize.

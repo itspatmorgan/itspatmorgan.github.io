@@ -22,7 +22,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/when-work-stopped-being-a-place/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/when-work-stopped-being-a-place"
+canonicalUrl: "https://www.unknownarts.com/p/when-work-stopped-being-a-place"
 draft: false
 ---
 I’ve worked remotely for years now, and in many ways, it suits me. I can design my days, live where I want, travel when I need to, avoid LA traffic… All great things.

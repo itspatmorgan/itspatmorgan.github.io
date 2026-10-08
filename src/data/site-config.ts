@@ -17,7 +17,7 @@ export const siteConfig = {
     x: "https://x.com/itspatmorgan",
     linkedin: "https://www.linkedin.com/in/itspatmorgan",
     github: "https://github.com/itspatmorgan",
-    newsletter: "https://www.unknownarts.co",
+    newsletter: "https://www.unknownarts.com",
     email: "pm@itspatmorgan.com",
   },
 } as const;

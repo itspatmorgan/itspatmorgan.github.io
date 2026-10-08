@@ -22,7 +22,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/be-a-skill-surfer/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/skill-surfer"
+canonicalUrl: "https://www.unknownarts.com/p/skill-surfer"
 draft: false
 ---
 Creative career paths aren’t linear.

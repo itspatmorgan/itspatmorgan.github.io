@@ -24,7 +24,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/curate-your-context/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/context-is-your-creative-leverage"
+canonicalUrl: "https://www.unknownarts.com/p/context-is-your-creative-leverage"
 draft: false
 ---
 Your AI is only as good as the context you give it.
@@ -37,7 +37,7 @@ But if they give me a massive data dump of everything about their company, their
 
 The same dynamic plays out with AI. That curation skill—knowing what context matters and what’s just noise—is also essential for getting usable outputs from AI.
 
-Over the last two weeks, I’ve written about [getting your thinking into text](https://www.unknownarts.co/p/ai-runs-on-text-so-should-you) and [using voice to make that capture effortless](https://www.unknownarts.co/p/voice-is-the-missing-link). Now comes the next step: learning to curate that material so it actually works for you, not against you.
+Over the last two weeks, I’ve written about [getting your thinking into text](https://www.unknownarts.com/p/ai-runs-on-text-so-should-you) and [using voice to make that capture effortless](https://www.unknownarts.com/p/voice-is-the-missing-link). Now comes the next step: learning to curate that material so it actually works for you, not against you.
 
 ## The digital hoarding trap
 

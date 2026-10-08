@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/how-to-avoid-technical-lock-in-for-better-software-design/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/the-subtle-art-of-keeping-your-options"
+canonicalUrl: "https://www.unknownarts.com/p/the-subtle-art-of-keeping-your-options"
 draft: false
 ---
 ## Introducing “Lock-in”

@@ -111,8 +111,8 @@ created: 2026-01-09
 ## Relevant writing from me to inform this project
 
 - You can refer to how I think about and use design principles in the following articles:
-  - <https://www.unknownarts.co/p/5-proven-sets-of-design-principles>
-  - <https://www.unknownarts.co/p/10-heuristics-to-simplify-design-d17>
-  - <https://www.unknownarts.co/p/default-it-or-design-it-968>
+  - <https://www.unknownarts.com/p/5-proven-sets-of-design-principles>
+  - <https://www.unknownarts.com/p/10-heuristics-to-simplify-design-d17>
+  - <https://www.unknownarts.com/p/default-it-or-design-it-968>
 - You can refer to why I went video first with the last version of my portfolio here:
-  - <https://www.unknownarts.co/p/why-i-went-video-first>
+  - <https://www.unknownarts.com/p/why-i-went-video-first>

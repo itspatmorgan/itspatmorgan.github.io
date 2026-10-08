@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/7-insights-for-navigating-b2b-design/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/7-insights-for-navigating-b2b-design"
+canonicalUrl: "https://www.unknownarts.com/p/7-insights-for-navigating-b2b-design"
 draft: false
 ---
 

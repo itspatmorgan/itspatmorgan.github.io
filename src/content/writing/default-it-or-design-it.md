@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/default-it-or-design-it/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/default-it-or-design-it-968"
+canonicalUrl: "https://www.unknownarts.com/p/default-it-or-design-it-968"
 draft: false
 ---
 I wasted too much time early in my design career sweating the wrong details. Now I ask one question before every UI decision:

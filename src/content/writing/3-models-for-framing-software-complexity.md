@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/3-models-for-framing-software-complexity/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/3-models-for-framing-software-complexity"
+canonicalUrl: "https://www.unknownarts.com/p/3-models-for-framing-software-complexity"
 draft: false
 ---
 

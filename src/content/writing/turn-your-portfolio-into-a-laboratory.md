@@ -27,7 +27,7 @@ visual:
     strokeWidth: 1.5
   texture: 0
   grain: 24
-canonicalUrl: "https://www.unknownarts.co/p/turn-your-portfolio-into-a-laboratory"
+canonicalUrl: "https://www.unknownarts.com/p/turn-your-portfolio-into-a-laboratory"
 draft: false
 ---
 > We shape our tools, and thereafter our tools shape us.
@@ -35,7 +35,7 @@ draft: false
 
 I didn't plan to build a lab this week. It just happened.
 
-[Last week](https://www.unknownarts.co/p/how-i-rebuilt-my-portfolio-with-claude) I shared how I rebuilt my portfolio from scratch with coding agents. This week I started building *on* that foundation. And what happened surprised me.
+[Last week](https://www.unknownarts.com/p/how-i-rebuilt-my-portfolio-with-claude) I shared how I rebuilt my portfolio from scratch with coding agents. This week I started building *on* that foundation. And what happened surprised me.
 
 Rather than working through an exact list of planned improvements, I found myself just making things. Trying an interaction. Isolating a component. Building a tool to solve a problem I kept running into. And every time something clicked, the same question came up: how can I share this?
 
@@ -69,6 +69,6 @@ Patrick
 
 --
 
-**P.S.** If you want the full story on how I set up the environment that made all of this possible, [last week's piece](https://www.unknownarts.co/p/how-i-rebuilt-my-portfolio-with-claude) goes deep on the specific choices I made.
+**P.S.** If you want the full story on how I set up the environment that made all of this possible, [last week's piece](https://www.unknownarts.com/p/how-i-rebuilt-my-portfolio-with-claude) goes deep on the specific choices I made.
 
 **P.P.S.** If there's something you want to go deeper on, ask. Leave a comment, reply to this email, or find me on X or LinkedIn. Your questions will help me figure out what to write next.

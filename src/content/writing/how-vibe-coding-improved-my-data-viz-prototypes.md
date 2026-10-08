@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/how-vibe-coding-improved-my-data-viz-prototypes/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/the-first-time-vibe-coding-actually"
+canonicalUrl: "https://www.unknownarts.com/p/the-first-time-vibe-coding-actually"
 draft: false
 ---
 
@@ -83,7 +83,7 @@ With this setup, I could:
 4. Iterate rapidly until the visualization matched my design intent
 5. Share working examples directly with the engineering team using the sandbox's share link
 
-This approach greatly reduced the [design execution gap](https://www.unknownarts.co/p/the-design-execution-gap-8db).
+This approach greatly reduced the [design execution gap](https://www.unknownarts.com/p/the-design-execution-gap-8db).
 
 Engineers could see and feel exactly what I wanted, within the constraints of the library they needed to use to achieve the task.
 

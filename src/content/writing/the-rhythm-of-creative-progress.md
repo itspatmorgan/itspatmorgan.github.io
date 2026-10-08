@@ -22,7 +22,7 @@ visual:
   texture: 20
   grain: 24
 image: /images/writing/the-rhythm-of-creative-progress/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/the-rhythm-of-progress"
+canonicalUrl: "https://www.unknownarts.com/p/the-rhythm-of-progress"
 draft: false
 ---
 Most people assume that if you want to get better at something — faster, stronger, more skilled — you should just *go harder more often* and you’ll get results.

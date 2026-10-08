@@ -28,7 +28,7 @@ visual:
   texture: 0
   grain: 24
 image: /images/writing/prototype-code-is-not-production-code-and-thats-okay/feature.jpg
-canonicalUrl: "https://www.unknownarts.co/p/prototype-code-is-not-production"
+canonicalUrl: "https://www.unknownarts.com/p/prototype-code-is-not-production"
 draft: false
 ---
 I’m building a design prototyping environment for my team right now. Using Claude Code, I’m pulling select primitives from our production system, standing up a space where designers can work in real code without touching the production pipeline.

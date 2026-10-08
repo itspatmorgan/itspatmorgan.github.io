@@ -49,7 +49,7 @@ Our prototypes lived inside the tool where they were made and weren't connected 
 
 The obvious alternative was to prototype directly in production. In theory, this gives you the holy grail: a single source of truth between engineering and design. In practice, it made design exploration too painful for me. I found the production repository too slow and complicated for the exploratory and iterative design that's central to my role.
 
-The problem is that prototype code and production code serve fundamentally different purposes. Production code needs to optimize for shipping and maintaining a performant product at scale while prototype code needs to optimize for speed, flexibility, and divergence. I wrote more about this distinction in my article [Prototype Code Is Not Production Code (And That's Okay)](https://www.unknownarts.co/p/prototype-code-is-not-production).
+The problem is that prototype code and production code serve fundamentally different purposes. Production code needs to optimize for shipping and maintaining a performant product at scale while prototype code needs to optimize for speed, flexibility, and divergence. I wrote more about this distinction in my article [Prototype Code Is Not Production Code (And That's Okay)](https://www.unknownarts.com/p/prototype-code-is-not-production).
 
 You need both sides of that spectrum to design and ship a good product. A prototype should be able to change direction quickly, without worrying about scale or production constraints, while still benefiting from shared foundations, reusable primitives, and a connection to the product it may influence. So I started looking for an environment with the freedom of a prototype, but enough shared structure for the work to compound over time.
 
@@ -83,7 +83,7 @@ Soon after I had set up the skeleton of our environment for product design, our 
 
 Today, Design Studio supports design work across Sublime. Product designers use it for everything from low-fidelity exploration to high-fidelity prototypes that influence production. Product managers sketch early ideas for new features, while creative designers explore ideas and build self-service tools for our marketing organization.
 
-As more people used the environment, I started curating more of the context around the work directly into it, including our design principles, personas, and project briefs. As I wrote in [AI Needs a Plan](https://www.unknownarts.co/p/ai-needs-a-plan), the best agent work usually starts with a written brief, not a one-shot prompt.
+As more people used the environment, I started curating more of the context around the work directly into it, including our design principles, personas, and project briefs. As I wrote in [AI Needs a Plan](https://www.unknownarts.com/p/ai-needs-a-plan), the best agent work usually starts with a written brief, not a one-shot prompt.
 
 By then, the environment had grown from a place to make prototypes into a shared foundation of tools and context that helps people and agents understand how our team designs.
 
@@ -95,7 +95,7 @@ A **Design OS** brings the systems and processes of design together in software 
 
 *Design operations* organize how a team works: the processes, tools, and documentation that help people collaborate and keep the design function moving.
 
-Design teams have always documented principles and processes, but those assets only influenced the work when someone chose to apply them. In a Design OS, that context can become available at the moment of work. A design principle can inform an agent's critique. A persona can shape a design exploration. A brief can guide the work directly. As I argued in [Your Instructions Now Run Like Code](https://www.unknownarts.co/p/your-instructions-now-run-like-code), plain-English documentation is becoming machine-executable, which makes these assets much more directly useful.
+Design teams have always documented principles and processes, but those assets only influenced the work when someone chose to apply them. In a Design OS, that context can become available at the moment of work. A design principle can inform an agent's critique. A persona can shape a design exploration. A brief can guide the work directly. As I argued in [Your Instructions Now Run Like Code](https://www.unknownarts.com/p/your-instructions-now-run-like-code), plain-English documentation is becoming machine-executable, which makes these assets much more directly useful.
 
 For this approach to work, those assets need a shared home where people and agents can access, modify, and build on them.
 
@@ -105,7 +105,7 @@ A codebase gives the Design OS somewhere to live. It lets design intent be share
 
 That has always been possible in theory, but until recently code wasn't very accessible to designers. Agents change that dynamic by acting as translators into and out of code. They can turn a designer's plain-English intent into working software, then translate that software back into something the designer can use and evaluate.
 
-This builds on the argument I made in [AI Runs on Text. So Should You.](https://www.unknownarts.co/p/ai-runs-on-text-so-should-you): when your thinking lives in plain text, it becomes an asset that both you and AI can read, reuse, and extend. Code just happens to be a more structured form of plain text, which makes it easier for agents to interpret and act on reliably.
+This builds on the argument I made in [AI Runs on Text. So Should You.](https://www.unknownarts.com/p/ai-runs-on-text-so-should-you): when your thinking lives in plain text, it becomes an asset that both you and AI can read, reuse, and extend. Code just happens to be a more structured form of plain text, which makes it easier for agents to interpret and act on reliably.
 
 The goal here is not to make designers write code. It's to make design intent executable. When a codebase holds the team's foundations, conventions, and decisions, an agent can translate a designer's instructions into working artifacts and carry that context forward. Each new piece of work can then build on what came before it.
 
