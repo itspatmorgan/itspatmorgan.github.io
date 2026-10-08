@@ -204,7 +204,9 @@ const platformBenefits = [
   .studio-hero { padding-top: clamp(3rem, 8.8cqi, 6rem); padding-bottom: clamp(3rem, 10.3cqi, 7rem); }
   @container studio-page (max-width: 39.999rem) {
     .studio-hero { padding-top: 1.5rem; }
-    .studio-hero > :global(.studio-atmosphere) { grid-row: 1; max-width: 12rem; margin-inline: auto; }
+    .studio-hero > :global(.studio-atmosphere) { grid-row: 1; max-width: 22rem; margin-inline: 0; }
+    .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 2.5rem); }
+    .studio-hero > div > p { margin-top: 1.5rem; font-size: 1rem; }
   }
   .systems-composition > :global(.foundation-system) { max-width: 26rem; }
   @container studio-page (min-width: 40rem) {
