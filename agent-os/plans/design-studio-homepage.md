@@ -28,7 +28,8 @@ A full-width project card uses the same rounded border, textured image area,
 and hover treatment as Work. A Featured section label follows the homepage's
 section-header pattern. On desktop, a large screenshot of the live Design Studio
 interface occupies two-thirds of the card on the right, with concise copy on the left.
-On mobile and tablet, the copy sits above the preview. The preview cycles through
+On mobile and tablet, the preview sits above the copy, matching other project
+modules. The preview cycles through
 Prototype view, Lo-fi prototype, Diagram, Canvas, Document, and Design system.
 Each view uses a real 1280×720 capture in both themes. Caption, count, previous,
 next, and play/pause controls sit above the image. The preview and copy link to
