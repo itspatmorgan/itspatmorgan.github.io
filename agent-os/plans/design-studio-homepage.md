@@ -38,8 +38,8 @@ Copy:
 
 - Section label: Featured
 - Title: Design Studio
-- Body: An open-source prototyping environment I built to bring interfaces,
-  diagrams, canvases, and documents together with coding agents.
+- Body: Turn ideas into interactive prototypes with your agent, using your
+  components, context, and design principles.
 - Link: Explore Design Studio →
 
 The introduction names and links Design Studio in place of the generic reference
