@@ -42,7 +42,7 @@ const platformBenefits = [
     </header>
 
     <div id="studio-human" data-studio-panel="human">
-    <section class="studio-hero grid items-center gap-6 pt-12 pb-12 sm:pt-20 sm:pb-14 lg:grid-cols-[1.2fr_1fr] lg:gap-10 lg:pt-24 lg:pb-28" aria-labelledby="studio-title">
+    <section class="studio-hero grid items-center gap-6" aria-labelledby="studio-title">
       <div>
         <h1 id="studio-title" class="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
         <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">A prototype sandbox for designers and product managers who build. Work with your agent to turn ideas into interactive prototypes, using your components, context, and design principles.</p>
@@ -74,7 +74,7 @@ const platformBenefits = [
     </section>
 
     <section class="border-t border-border py-14 sm:py-20" aria-labelledby="systems-title">
-      <div class="systems-composition grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div class="systems-composition grid items-center gap-10">
         <div>
           <h2 id="systems-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Give your agent a design <em class="font-medium">operating</em> system</h2>
           <p class="mt-5 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Start with the included examples, then build a system that gives your agent the foundation for work that feels like yours.</p>
@@ -200,6 +200,22 @@ const platformBenefits = [
 </PageLayout>
 
 <style>
+  .studio-page { container: studio-page / inline-size; }
+  .studio-hero { padding-top: clamp(3rem, 8.8cqi, 6rem); padding-bottom: clamp(3rem, 10.3cqi, 7rem); }
+  .systems-composition > :global(.foundation-system) { max-width: 26rem; }
+  @container studio-page (min-width: 40rem) {
+    .studio-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 3.5cqi, 2.5rem); }
+    .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 4rem); }
+    .studio-hero > div > p { margin-top: 1.5rem; font-size: clamp(1rem, 1.7cqi, 1.125rem); }
+    .studio-hero > :global(.studio-atmosphere) { max-width: 32rem; margin-inline: auto; }
+    .systems-composition { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(1.5rem, 4cqi, 3.5rem); }
+    .systems-composition h2 { font-size: clamp(1.75rem, 3.4cqi, 2.25rem); }
+    .systems-composition > :global(.foundation-system) { max-width: 32rem; }
+    .system-layers { margin-top: clamp(1.5rem, 3cqi, 2rem); }
+  }
+  @container studio-page (min-width: 64rem) {
+    .systems-composition { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3.5rem; }
+  }
   .setup-path + .setup-path { border-top: 1px solid var(--border); }
   .setup-path summary { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem 0; cursor: pointer; list-style: none; }
   .setup-path summary::-webkit-details-marker { display: none; }
