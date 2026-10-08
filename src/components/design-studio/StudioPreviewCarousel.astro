@@ -31,8 +31,8 @@ const controlClass = "inline-flex h-11 w-9 shrink-0 items-center justify-center 
   <a href={href} class="relative block aspect-video overflow-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring" aria-label={`${linkLabel}: Prototype view`} data-preview-link data-link-label={linkLabel}>
     {slides.map((slide, index) => (
       <div class:list={["preview-slide absolute inset-0", { "is-active": index === 0 }]} aria-hidden={index !== 0 ? "true" : undefined} data-preview-slide data-label={slide.label}>
-        <img src={`/images/design-studio/home-${slide.image}-light.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="block h-full w-full transition-transform duration-300 group-hover/studio:scale-[1.03] motion-reduce:scale-100 motion-reduce:transition-none dark:hidden" />
-        <img src={`/images/design-studio/home-${slide.image}-dark.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="hidden h-full w-full transition-transform duration-300 group-hover/studio:scale-[1.03] motion-reduce:scale-100 motion-reduce:transition-none dark:block" />
+        <img src={`/images/design-studio/home-${slide.image}-light.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="block h-full w-full dark:hidden" />
+        <img src={`/images/design-studio/home-${slide.image}-dark.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="hidden h-full w-full dark:block" />
       </div>
     ))}
   </a>

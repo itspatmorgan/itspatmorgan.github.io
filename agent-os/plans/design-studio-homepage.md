@@ -107,10 +107,12 @@ and absence of horizontal overflow. Production build passed (43 pages).
 
 Final polish: copy precedes the homepage preview; captions and controls precede
 screenshots on both pages. Homepage hover now uses the Work modules' 4px lift,
-shadow, and 1.03 image scale; controls stay at their original scale. Removed the
+shadow; screenshots and controls stay at their original scale. Removed the
 separate copy-background hover. Browser review confirmed the computed hover
 lift/scale, header order, working next controls, and mobile layout. Motion
-preferences suppress the lift and zoom.
+preferences suppress the lift. After feedback, removed screenshot zoom so the
+image remains aligned with the playback frame. Browser hover verification
+confirmed no image scale or transform.
 
 - Product: Design Studio leads current proof of work and links to its own page.
 - Editorial: Use full product name and clearly establish Patrick's authorship.
