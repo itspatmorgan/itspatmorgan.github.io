@@ -3,6 +3,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import LabCard from "@/components/lab/LabCard.astro";
+import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
 import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
 import { UAMark } from "@/lab/editorial-art/UAMark";
 import { siteConfig } from "@/data/site-config";
@@ -36,7 +37,7 @@ const heroHeadline = "Patrick is a designer who builds.";
 const heroIntro = "I've been a strategist, developer, designer, and writer — sometimes all at once.";
 const heroIntroDetail = "The through line is my compulsion to turn ideas into useful, well-crafted things.";
 const heroCurrentWorkLead = "Right now, I'm designing AI tools at";
-const heroCurrentWorkTail = "and building my own software with agents.";
+const heroCurrentWorkTail = "an open-source prototyping environment.";
 
 const newsletterPattern = {
   type: "isoline",
@@ -111,7 +112,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       />
       <div class="mb-4 space-y-3 text-[15px] leading-relaxed" data-hero-desc>
         <p class="text-foreground/80">{heroIntro}</p>
-        <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}</p>
+        <p class="text-muted-foreground">{heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 hover:text-accent">Unknown Arts</a>, and building <a href="/design-studio" class="text-foreground underline underline-offset-4 hover:text-accent">Design Studio</a>, {heroCurrentWorkTail}</p>
       </div>
     </div>
 
@@ -135,7 +136,7 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
             {heroIntro} {heroIntroDetail}
           </p>
           <p class="text-muted-foreground">
-            {heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>, {heroCurrentWorkTail}
+            {heroCurrentWorkLead} <a href="https://sublime.security" target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Sublime Security</a>, writing my newsletter <a href={siteConfig.social.newsletter} target="_blank" rel="noopener noreferrer" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Unknown Arts</a>, and building <a href="/design-studio" class="text-foreground underline underline-offset-4 transition-colors hover:text-accent">Design Studio</a>, {heroCurrentWorkTail}
           </p>
         </div>
 
@@ -187,8 +188,22 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
 
   </section>
 
+  {/* ── Design Studio ────────────────────────────────────── */}
+  <section class={homeFirstSection} aria-labelledby="home-design-studio-title">
+    <div class="studio-hero grid items-center gap-6 border-y border-border py-8 sm:py-10 lg:grid-cols-2 lg:gap-12">
+      <div>
+        <p class="mb-5 font-mono text-xs uppercase tracking-widest text-muted-foreground">Open-source project</p>
+        <h2 id="home-design-studio-title" class="text-3xl font-medium tracking-tight sm:text-4xl">Design Studio</h2>
+        <p class="mt-4 max-w-md text-xl leading-snug tracking-tight sm:text-2xl">A place to turn ideas into working prototypes.</p>
+        <p class="mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">I built a prototyping environment that brings interfaces, diagrams, canvases, and documents together—and gives coding agents a design system to work from.</p>
+        <a href="/design-studio" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">Explore Design Studio <span aria-hidden="true">→</span></a>
+      </div>
+      <StudioAtmosphere />
+    </div>
+  </section>
+
   {/* ── Work ─────────────────────────────────────────────── */}
-  <section class={homeFirstSection}>
+  <section class={`${homeShell} pb-12 sm:pb-14 lg:pb-16`}>
     <div class={homeSectionHeader} data-work-intro>
       <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work</p>
       <a href="/work" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>

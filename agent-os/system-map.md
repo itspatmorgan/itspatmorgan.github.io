@@ -25,7 +25,7 @@ for related details. This file owns system orientation, not editing rules.
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home page with featured Work, Lab, Writing, Community, and Kind Words |
+| `/` | Home page with a dedicated Design Studio feature before Work, Lab, Writing, Community, and Kind Words |
 | `/about` | Personal narrative and context |
 | `/work` | Career timeline plus related portfolio work |
 | `/work/<slug>` | Project/case-study detail pages |

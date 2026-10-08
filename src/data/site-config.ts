@@ -8,6 +8,7 @@ export const siteConfig = {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Work", href: "/work" },
+    { label: "Design Studio", href: "/design-studio" },
     { label: "Lab", href: "/lab" },
     { label: "Writing", href: "/writing" },
     { label: "Community", href: "/community" },
