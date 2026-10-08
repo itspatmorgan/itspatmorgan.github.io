@@ -38,8 +38,8 @@ Copy:
 
 - Section label: Featured
 - Title: Design Studio
-- Body: Turn ideas into interactive prototypes with your agent, using your
-  components, context, and design principles.
+- Body: A prototype sandbox for designers and product managers. Build with your
+  agent, using your components, context, and design principles.
 - Link: Explore Design Studio →
 
 The introduction names and links Design Studio in place of the generic reference
