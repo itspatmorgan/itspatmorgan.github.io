@@ -1,0 +1,121 @@
+---
+import Icon from "@/components/icons/Icon.astro";
+import { ArrowLeft01Icon, ArrowRight01Icon, PauseIcon, PlayIcon } from "@hugeicons/core-free-icons";
+
+const slides = [
+  { image: "preview", label: "Prototype view", alt: "Design Studio displaying the working Feedback Inbox prototype beside its connected artifacts." },
+  { image: "lofi", label: "Lo-fi prototype", alt: "The same Feedback Inbox prototype in a hand-drawn, low-fidelity style." },
+  { image: "diagram", label: "Diagram", alt: "A feedback review flow diagram in Design Studio." },
+  { image: "canvas", label: "Canvas", alt: "A Design Studio handoff canvas connecting prototype screens, states, and engineering notes." },
+  { image: "document", label: "Document", alt: "A project context document describing the problem, audience, and working assumptions." },
+  { image: "system", label: "Design system", alt: "Design Studio's Product design system showing button variants, sizes, and component guidance." },
+];
+const controlClass = "inline-flex h-11 w-9 shrink-0 items-center justify-center rounded text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:w-11";
+---
+
+<div class="w-full overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 dark:shadow-black/30" role="region" aria-roledescription="carousel" aria-label="Design Studio previews" data-studio-preview-carousel>
+  <a href="/design-studio" class="relative block aspect-video overflow-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring" aria-label="Explore Design Studio: Prototype view" data-preview-link>
+    {slides.map((slide, index) => (
+      <div class:list={["preview-slide absolute inset-0", { "is-active": index === 0 }]} aria-hidden={index !== 0 ? "true" : undefined} data-preview-slide data-label={slide.label}>
+        <img src={`/images/design-studio/home-${slide.image}-light.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="block h-full w-full dark:hidden" />
+        <img src={`/images/design-studio/home-${slide.image}-dark.png`} alt={slide.alt} width="1280" height="720" loading={index === 0 ? "eager" : "lazy"} decoding="async" class="hidden h-full w-full dark:block" />
+      </div>
+    ))}
+  </a>
+  <div class="flex min-h-11 items-center justify-between gap-2 border-t border-border pl-3 pr-1 sm:pl-4">
+    <p class="min-w-0 font-mono text-[10px] text-muted-foreground sm:text-xs" aria-live="off" aria-atomic="true" data-preview-caption><span data-preview-label>{slides[0].label}</span><span class="sr-only" data-preview-announcement> — 1 of {slides.length}</span></p>
+    <div class="flex shrink-0 items-center gap-1">
+      <span class="font-mono text-[10px] tabular-nums text-muted-foreground" aria-hidden="true" data-preview-count>1 / {slides.length}</span>
+      <div hidden class="preview-controls flex items-center" data-preview-controls>
+        <button type="button" class={controlClass} aria-label="Previous Design Studio preview" data-preview-previous><Icon icon={ArrowLeft01Icon} size={16} /></button>
+        <button type="button" class={controlClass} aria-label="Pause preview cycle" data-preview-pause><span data-pause-icon><Icon icon={PauseIcon} size={16} /></span><span hidden data-play-icon><Icon icon={PlayIcon} size={16} /></span></button>
+        <button type="button" class={controlClass} aria-label="Next Design Studio preview" data-preview-next><Icon icon={ArrowRight01Icon} size={16} /></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .preview-slide { opacity: 0; transition: opacity 350ms ease; pointer-events: none; }
+  .preview-slide.is-active { opacity: 1; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { .preview-slide { transition: none; } }
+</style>
+
+<script>
+  function initStudioPreviewCarousels() {
+    document.querySelectorAll<HTMLElement>("[data-studio-preview-carousel]").forEach((root) => {
+      if (root.dataset.initialized) return;
+      root.dataset.initialized = "true";
+      const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-preview-slide]"));
+      const link = root.querySelector<HTMLAnchorElement>("[data-preview-link]");
+      const caption = root.querySelector<HTMLElement>("[data-preview-caption]");
+      const label = root.querySelector<HTMLElement>("[data-preview-label]");
+      const count = root.querySelector<HTMLElement>("[data-preview-count]");
+      const announcement = root.querySelector<HTMLElement>("[data-preview-announcement]");
+      const pause = root.querySelector<HTMLButtonElement>("[data-preview-pause]");
+      const previous = root.querySelector<HTMLButtonElement>("[data-preview-previous]");
+      const next = root.querySelector<HTMLButtonElement>("[data-preview-next]");
+      const controls = root.querySelector<HTMLElement>("[data-preview-controls]");
+      const pauseIcon = root.querySelector<HTMLElement>("[data-pause-icon]");
+      const playIcon = root.querySelector<HTMLElement>("[data-play-icon]");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let paused = reduced.matches;
+      let visible = false;
+      let hovering = false;
+      let focused = root.contains(document.activeElement);
+      let index = 0;
+      let timer: number | undefined;
+      // Fetch the remaining small, local screenshots before they are displayed.
+      slides.slice(1).forEach((slide) => slide.querySelectorAll("img").forEach((img) => { img.loading = "eager"; }));
+      if (controls) controls.hidden = false;
+
+      function show(nextIndex: number, manual = false) {
+        if (caption) caption.setAttribute("aria-live", manual ? "polite" : "off");
+        index = (nextIndex + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("is-active", i === index);
+          slide.setAttribute("aria-hidden", String(i !== index));
+        });
+        const currentLabel = slides[index].dataset.label || "Preview";
+        if (label) label.textContent = currentLabel;
+        if (count) count.textContent = `${index + 1} / ${slides.length}`;
+        if (announcement) announcement.textContent = ` — ${index + 1} of ${slides.length}`;
+        link?.setAttribute("aria-label", `Explore Design Studio: ${currentLabel}`);
+      }
+
+      function sync() {
+        window.clearInterval(timer);
+        timer = undefined;
+        if (pause) pause.setAttribute("aria-label", paused ? "Play preview cycle" : "Pause preview cycle");
+        if (pauseIcon) pauseIcon.hidden = paused;
+        if (playIcon) playIcon.hidden = !paused;
+        if (!paused && visible && !hovering && !focused && !document.hidden) {
+          timer = window.setInterval(() => show(index + 1), 6000);
+        }
+      }
+      const step = (direction: number) => { paused = true; show(index + direction, true); sync(); };
+      previous?.addEventListener("click", () => step(-1));
+      next?.addEventListener("click", () => step(1));
+      pause?.addEventListener("click", () => { paused = !paused; sync(); });
+      root.addEventListener("pointerenter", (event) => { if (event.pointerType === "mouse") { hovering = true; sync(); } });
+      root.addEventListener("pointerleave", () => { hovering = false; sync(); });
+      root.addEventListener("focusin", () => { focused = true; sync(); });
+      root.addEventListener("focusout", (event) => { focused = event.relatedTarget instanceof Node && root.contains(event.relatedTarget); sync(); });
+      const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }, { threshold: 0.25 });
+      observer.observe(root);
+      const onReducedChange = () => { paused = reduced.matches; sync(); };
+      reduced.addEventListener("change", onReducedChange);
+      document.addEventListener("visibilitychange", sync);
+      document.addEventListener("astro:before-swap", () => {
+        window.clearInterval(timer);
+        observer.disconnect();
+        reduced.removeEventListener("change", onReducedChange);
+        document.removeEventListener("visibilitychange", sync);
+      }, { once: true });
+      sync();
+    });
+  }
+  initStudioPreviewCarousels();
+  document.addEventListener("astro:after-swap", initStudioPreviewCarousels);
+</script>

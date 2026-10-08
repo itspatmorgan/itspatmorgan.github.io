@@ -2,7 +2,7 @@
 
 ## Status
 
-Complete — initial concept implemented and verified for local review.
+Complete — six-view preview carousel implemented and verified.
 
 ## Context
 
@@ -25,14 +25,11 @@ A full-width project card uses the same rounded border, textured image area,
 and hover treatment as Work. A Featured section label follows the homepage's
 section-header pattern. On desktop, a large screenshot of the live Design Studio
 interface occupies two-thirds of the card, with concise copy on the right.
-On mobile and tablet, the preview sits above
-the copy, matching the other project cards. The entire card links to Design
-Studio, with no nested controls. This replaces the first editorial feature,
-which the user found too similar to a competing hero and disruptive to the
-homepage's modular rhythm. A subsequent review found the small illustration too
-conceptual and weak as the opening project. The current version uses the real
-Feedback Inbox experience, including Design Studio's artifact navigation, with
-separate light and dark captures.
+On mobile and tablet, the preview sits above the copy. The preview cycles through
+Prototype view, Lo-fi prototype, Diagram, Canvas, Document, and Design system.
+Each view uses a real 1280×720 capture in both themes. Caption, count, previous,
+next, and play/pause controls sit below the image. The preview and copy link to
+Design Studio separately so carousel controls are never nested in a link.
 
 Copy:
 
@@ -50,7 +47,12 @@ Work, using the Hugeicons canvas outline icon to match the other sidebar icons.
 ## Approach
 
 Use Astro and existing semantic styling tokens. Use static PNG screenshots of
-the public Design Studio demo rather than a homepage demo. The dedicated page
+the public Design Studio demo in an Astro carousel rather than a homepage demo.
+Advance every six seconds with a short crossfade. Stop on hover, focus, manual
+browsing, an off-screen preview, or a hidden document. Reduced-motion preference
+starts the carousel paused and removes the fade; readers can still browse or
+explicitly play. A server-rendered first image and link remain usable without JS.
+The dedicated page
 retains its existing interactive illustration. Removed the previously added
 static illustration mode since the homepage no longer uses that component.
 Keep setup on the dedicated page. Make only the changes required for the feature
@@ -58,7 +60,8 @@ and its discovery paths.
 
 ## Scope
 
-In: homepage copy and feature; desktop/mobile navigation; operating map.
+In: homepage copy and feature; six-view preview carousel; desktop/mobile
+navigation; operating map.
 
 Out: case-study collections, Lab restructuring, dedicated-page redesign,
 publishing, and unrelated navigation refactors.
@@ -66,10 +69,17 @@ publishing, and unrelated navigation refactors.
 ## Files To Modify
 
 - `src/pages/index.astro`: introduction and dedicated feature before Work.
+- `src/components/design-studio/StudioPreviewCarousel.astro`: progressively
+  enhanced preview carousel, controls, and visibility/motion handling.
 - `public/images/design-studio/home-preview-{light,dark}.png`: 1280×720 browser
   captures of the live Feedback Inbox screen, with States collapsed to show
   related Discovery artifacts. Source:
   `https://itspatmorgan.com/design-studio-starter/prototypes/patrick/feedback-inbox/app/feedback-inbox`.
+- `public/images/design-studio/home-{lofi,diagram,canvas,document,system}-{light,dark}.png`:
+  paired captures from the same live example: `discovery/lofi-inbox`,
+  `discovery/feedback-flow`, `eng-handoff`, and `discovery/project-context` below
+  the prototype path; system capture from `/design-studio-starter/systems/product/button`.
+  Handoff canvas is framed at 26% zoom to show screens and notes together.
 - `src/components/layout/Sidebar.astro`: Design Studio navigation and mark.
 - `src/data/site-config.ts`: mobile/shared navigation entry.
 - `src/components/layout/MobileNav.astro`: seventh-item entrance timing.
@@ -102,6 +112,13 @@ publishing, and unrelated navigation refactors.
   motion control. Build passed again; revised screenshots use `module-*` names.
   The high-fidelity version was reviewed on desktop in both themes and at 390px
   mobile; final review screenshots use `product-*` names.
+  The carousel revision passed the 43-page build and whitespace check. Browser
+  verification confirmed all twelve images loaded, all six views and wraparound,
+  previous/next controls, keyboard activation, automatic advancement, persistent
+  pause and resume, phone layout, dark imagery, and preview-link navigation.
+  Carousel screenshots use `carousel-*` names. Reduced-motion preferences start
+  playback paused; hover, focus, visibility, and off-screen handling suspend it.
+  The first preview remains available without JavaScript.
 
 ## Learnings
 
