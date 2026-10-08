@@ -13,7 +13,6 @@ restrained, content-first design over decorative complexity.
 ## Start Here
 
 - `agent-os/strategy.md`: durable project direction, audience, active tracks, and non-goals
-- `agent-os/plans/`: work artifacts for non-trivial changes
 - `agent-os/conventions/`: current architecture, content, styling, and asset conventions
 - `agent-os/learnings/`: reusable project memory extracted from completed work
 - `agent-os/skills/`: repeatable, self-contained agent capabilities for recurring review and improvement
@@ -58,12 +57,10 @@ re-syncing all website-ready Obsidian newsletters.
 Use a strategy -> plan -> track -> build -> review -> learn workflow for
 non-trivial work.
 
-Small fixes do not need a plan unless the user asks for one or the change
-affects multiple files, public behavior, content architecture, or deployment.
-
-Plans live in `agent-os/plans/` and should include context, desired outcome,
-approach, scope, files to modify, steps, review, verification, and learnings.
-Use `agent-os/plans/README.md` as the template.
+Keep implementation plans in the conversation or agent planning tools. Do not
+create or commit agent plan files in this repository unless the user explicitly
+requests a saved plan. Existing files in `agent-os/plans/` are historical records,
+not a requirement to add new plans.
 
 Use `agent-os/skills/` when the task is a repeatable agent capability rather
 than a known implementation change. Skills should propose targeted work for
