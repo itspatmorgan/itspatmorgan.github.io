@@ -2,7 +2,7 @@
 import { siteConfig } from "@/data/site-config";
 import Logo from "./Logo.astro";
 import Icon from "@/components/icons/Icon.astro";
-import { Home01Icon, UserIcon, Briefcase01Icon, TestTube01Icon, Pen01Icon, UserGroupIcon, Globe02Icon, Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
+import { Home01Icon, UserIcon, Briefcase01Icon, CanvasIcon, TestTube01Icon, Pen01Icon, UserGroupIcon, Globe02Icon, Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 
 const currentPath = Astro.url.pathname;
 
@@ -30,7 +30,7 @@ const navItems = [
   {
     label: "Design Studio",
     href: "/design-studio",
-    icon: null,
+    icon: CanvasIcon,
   },
   {
     label: "Lab",
@@ -108,7 +108,7 @@ const elsewhere = [
                 : "text-muted-foreground hover:text-foreground",
             ]}
           >
-            {item.icon ? <Icon icon={item.icon} class="nav-icon shrink-0" size={18} strokeWidth={1.75} /> : <svg class="nav-icon shrink-0" width="18" height="18" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 0h11v32H0zM15 0h3a16 16 0 0 1 0 32h-3z" /></svg>}
+            <Icon icon={item.icon} class="nav-icon shrink-0" size={18} strokeWidth={1.75} />
             <span class="nav-text whitespace-nowrap overflow-hidden">{item.label}</span>
           </a>
         </li>

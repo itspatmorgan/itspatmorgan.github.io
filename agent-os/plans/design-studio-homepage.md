@@ -40,7 +40,7 @@ Copy:
 
 The introduction names and links Design Studio in place of the generic reference
 to building software with agents. Primary navigation places Design Studio after
-Work, using its existing product mark for the collapsed desktop sidebar.
+Work, using the Hugeicons canvas outline icon to match the other sidebar icons.
 
 ## Approach
 
