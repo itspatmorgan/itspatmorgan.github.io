@@ -202,6 +202,10 @@ const platformBenefits = [
 <style>
   .studio-page { container: studio-page / inline-size; }
   .studio-hero { padding-top: clamp(3rem, 8.8cqi, 6rem); padding-bottom: clamp(3rem, 10.3cqi, 7rem); }
+  @container studio-page (max-width: 39.999rem) {
+    .studio-hero { padding-top: 1.5rem; }
+    .studio-hero > :global(.studio-atmosphere) { grid-row: 1; max-width: 12rem; margin-inline: auto; }
+  }
   .systems-composition > :global(.foundation-system) { max-width: 26rem; }
   @container studio-page (min-width: 40rem) {
     .studio-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 3.5cqi, 2.5rem); }

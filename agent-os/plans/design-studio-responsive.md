@@ -40,5 +40,11 @@ smaller layouts remain stacked. No horizontal overflow was observed. Visually
 reviewed phone and intermediate layouts, headline wrapping, and artwork sizing.
 `pnpm build` passed with all 43 pages generated.
 
+Follow-up: place the hero illustration above the headline in stacked layouts,
+cap it at 192px wide, and reduce the hero's top padding to 24px. Verified at
+390px and 485px: the headline, description, and both actions remain visible
+within a 799px-high viewport, with no horizontal overflow. Desktop column order
+is unchanged.
+
 The layout rationale is retained here; no additional durable learning is needed
 for this scoped adjustment.
