@@ -1,4 +1,8 @@
-<div class="studio-atmosphere relative mr-auto w-full max-w-[400px] text-foreground lg:mx-auto lg:max-w-lg" data-studio-atmosphere>
+---
+interface Props { interactive?: boolean }
+const { interactive = true } = Astro.props;
+---
+<div class="studio-atmosphere relative mr-auto w-full max-w-[400px] text-foreground lg:mx-auto lg:max-w-lg" data-studio-atmosphere={interactive ? "" : undefined}>
   <div class="atmosphere-art" role="img" aria-label="A shared drafting table: you and a coding agent work on source files that become a view, diagram, document, and canvas.">
     <svg viewBox="0 0 560 480" fill="none" class="block w-full" aria-hidden="true">
       <defs>
@@ -72,7 +76,7 @@
       </g>
     </svg>
   </div>
-  <button type="button" data-atmosphere-pause hidden aria-pressed="false" class="absolute right-0 bottom-0 rounded px-2 py-1 font-mono text-[10px] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring">Pause motion</button>
+  {interactive && <button type="button" data-atmosphere-pause hidden aria-pressed="false" class="absolute right-0 bottom-0 rounded px-2 py-1 font-mono text-[10px] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring">Pause motion</button>}
 </div>
 
 <style>

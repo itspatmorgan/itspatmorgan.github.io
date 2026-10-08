@@ -17,25 +17,26 @@ and requested this work on its own branch.
 Visitors recognize Design Studio as a current, authored product and can explore
 it directly from the homepage and primary navigation.
 
-## Initial Concept
+## Current Concept
 
 Sequence: introduction → Design Studio → Work → Lab → Writing → Community.
 
-A compact editorial feature uses the existing homepage shell. On desktop,
-creator-led copy sits beside the existing connected-artifact illustration from
-the dedicated page. On mobile, copy precedes the illustration. This first draft
-uses that established visual to explain the breadth of the environment; a real
-product screenshot is a possible refinement if the illustration feels too
-conceptual in context.
+A full-width project card uses the same rounded border, textured image area,
+and hover treatment as Work. A Featured section label follows the homepage's
+section-header pattern. On desktop, a small static connected-artifact preview
+sits on the left and concise copy on the right. On mobile, the preview sits above
+the copy, matching the other project cards. The entire card links to Design
+Studio, with no nested controls. This replaces the first editorial feature,
+which the user found too similar to a competing hero and disruptive to the
+homepage's modular rhythm.
 
 Copy:
 
-- Label: Open-source project
+- Section label: Featured
+- Card metadata: Open source · Design tooling
 - Title: Design Studio
-- Lead: A place to turn ideas into working prototypes.
-- Body: I built a prototyping environment that brings interfaces, diagrams,
-  canvases, and documents together—and gives coding agents a design system to
-  work from.
+- Body: An open-source prototyping environment I built to bring interfaces,
+  diagrams, canvases, and documents together with coding agents.
 - Link: Explore Design Studio →
 
 The introduction names and links Design Studio in place of the generic reference
@@ -44,9 +45,11 @@ Work, using the Hugeicons canvas outline icon to match the other sidebar icons.
 
 ## Approach
 
-Use Astro and existing semantic styling tokens. Reuse StudioAtmosphere rather
-than adding a new visualization or homepage demo. Keep setup on the dedicated
-page. Make only the changes required for the feature and its discovery paths.
+Use Astro and existing semantic styling tokens. Reuse StudioAtmosphere with its
+new optional static mode rather than adding a new visualization or homepage
+demo. The dedicated page retains the component's default interactive behavior.
+Keep setup on the dedicated page. Make only the changes required for the feature
+and its discovery paths.
 
 ## Scope
 
@@ -58,6 +61,8 @@ publishing, and unrelated navigation refactors.
 ## Files To Modify
 
 - `src/pages/index.astro`: introduction and dedicated feature before Work.
+- `src/components/design-studio/StudioAtmosphere.astro`: optional static mode for
+  use inside the linked project card.
 - `src/components/layout/Sidebar.astro`: Design Studio navigation and mark.
 - `src/data/site-config.ts`: mobile/shared navigation entry.
 - `src/components/layout/MobileNav.astro`: seventh-item entrance timing.
@@ -85,10 +90,13 @@ publishing, and unrelated navigation refactors.
   control, and navigation from the feature and mobile menu to Design Studio.
   Existing illustration includes reduced-motion handling; no new motion was
   introduced. Screenshots captured in `/private/tmp/design-studio-home-concept/`.
+  After user feedback, checked the full-width card at desktop and 390px mobile,
+  both desktop themes, whole-card navigation, and the dedicated page's retained
+  motion control. Build passed again; revised screenshots use `module-*` names.
 
 ## Learnings
 
 Updated the system map for the new homepage hierarchy. No separate learning
-note or cross-agent rule is needed: this uses existing site components and
-conventions. The illustration versus product screenshot choice remains an
-editorial refinement for user review, rather than a verification blocker.
+note or cross-agent rule is needed. The design review established that homepage
+project features should share the surrounding modules' visual language; larger
+editorial compositions can compete with the personal introduction.
