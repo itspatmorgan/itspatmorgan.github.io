@@ -4,79 +4,68 @@ const { kind } = Astro.props;
 const prefix = `workflow-${kind}`;
 ---
 <div class="workflow-art">
-  <svg viewBox="0 0 400 240" role="img" aria-label={kind === "local" ? "A close-up of an agent chat and an interactive Design Studio preview within one local workspace." : "An interactive prototype in a published Design Studio, connected outward to three reviewers through a shared link."}>
+  <svg viewBox="0 0 400 240" role="img" aria-label={kind === "local" ? "A prominent local agent chat panel, with Design Studio integrated beside the conversation." : "A published Design Studio window with a prominent share link in front."}>
     <defs>
-      <pattern id={`${prefix}-dots`} width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="currentColor" /></pattern>
-      <pattern id={`${prefix}-hatch`} width="6" height="6" patternUnits="userSpaceOnUse"><path d="m-1 1 2-2M0 6 6 0M5 7l2-2" stroke="currentColor" stroke-width=".6" /></pattern>
-      <radialGradient id={`${prefix}-fade`}><stop offset="0" stop-color="white" /><stop offset="1" stop-color="black" /></radialGradient>
-      <mask id={`${prefix}-texture`}><ellipse cx={kind === "local" ? 90 : 200} cy="125" rx="220" ry="145" fill={`url(#${prefix}-fade)`} /></mask>
-      <clipPath id={`${prefix}-frame`}><rect x="18" y="24" width="364" height="200" rx="6" /></clipPath>
+      <pattern id={`${prefix}-grid`} width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" stroke="currentColor" stroke-opacity=".07" stroke-width=".6" fill="none" /></pattern>
+      <pattern id={`${prefix}-hatch`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V6" stroke="currentColor" stroke-opacity=".15" /></pattern>
     </defs>
+    <rect x="16" y="16" width="368" height="208" fill={`url(#${prefix}-grid)`} />
+    <path d="M16 28H384M28 16V224M372 16V224M16 212H384" class="construction" />
     {kind === "local" ? <>
-      <rect x="0" y="0" width="400" height="240" fill={`url(#${prefix}-dots)`} mask={`url(#${prefix}-texture)`} opacity=".28" />
-      <path d="M8 24H0M18 14V6M382 14V6M392 24H400M18 232V240" class="construction" />
-      <rect x="18" y="24" width="364" height="200" rx="6" class="sheet" />
-      <g clip-path={`url(#${prefix}-frame)`}>
-        <rect x="18" y="24" width="364" height="29" fill="currentColor" />
-        <g class="reverse"><circle cx="32" cy="39" r="2" /><circle cx="40" cy="39" r="2" opacity=".5" /><circle cx="48" cy="39" r="2" opacity=".3" /></g>
-        <text x="62" y="42" class="mono reverse">Your agent app</text>
-        <rect x="18" y="53" width="113" height="171" fill="var(--card)" />
-        <path d="M131 53V224" class="construction" />
-        <rect x="30" y="68" width="88" height="39" rx="4" class="sheet" />
-        <text x="38" y="82" class="mono">You</text>
-        <path d="M38 91H106M38 98H89" class="ink" />
-        <path d="m32 124 4 4-4 4M43 132H52" class="accent" />
-        <path d="M32 146H115M32 155H104M32 164H112" class="ink" />
-        <rect x="30" y="188" width="88" height="25" rx="4" class="sheet" />
-        <path d="M39 201H95" class="ink" /><path d="m105 204 3-6 3 6" class="accent" />
-        <text x="144" y="69" class="mono">localhost / Design Studio</text>
-        <path d="M131 78H382" class="construction" />
-        <rect x="144" y="91" width="226" height="120" rx="3" class="sheet" />
-        <text x="158" y="111" class="title">Feedback inbox</text>
-        <rect x="158" y="121" width="44" height="4" fill="var(--accent)" />
-        <path d="M158 137H354M158 164H354M158 191H354" class="construction" />
-        <path d="M158 147H274M158 155H235M158 174H295M158 182H248M158 202H276" class="ink" />
-        <rect x="319" y="144" width="35" height="14" rx="2" fill="var(--accent)" opacity=".24" />
-        <rect x="319" y="171" width="35" height="14" rx="2" fill="currentColor" opacity=".1" />
-        <path d="m294 186 2-15 11 11-6 1-2 6Z" class="cursor" />
+      <rect x="33" y="39" width="340" height="170" rx="3" fill={`url(#${prefix}-hatch)`} />
+      <rect x="26" y="32" width="340" height="170" rx="3" class="sheet" />
+      <rect x="26" y="32" width="4" height="170" fill="var(--accent)" opacity=".65" />
+      <path d="M26 61H366M198 32V202" class="construction" />
+      <text x="44" y="51" class="mono">Agent</text>
+      <text x="213" y="51" class="mono">Design Studio</text>
+      <rect x="44" y="77" width="136" height="32" rx="3" class="tile" />
+      <path d="M55 88H166M55 98H138" class="ink" />
+      <path d="M44 125H55" class="accent" />
+      <path d="M44 138H176M44 148H155M44 158H165" class="ink" />
+      <rect x="44" y="174" width="136" height="17" rx="2" class="tile" />
+      <path d="M55 183H125" class="ink" />
+      <g opacity=".65">
+        <path d="M214 80H350M214 181H350M222 73V188M342 73V188" class="construction" />
+        <path d="M259 121H278V104H305M278 121V152H305" class="accent" />
+        <rect x="232" y="107" width="27" height="29" rx="2" class="sheet" />
+        <path d="M240 117H251M240 126H247" class="ink" />
+        <rect x="305" y="92" width="29" height="25" rx="2" class="sheet" />
+        <path d="M312 102H327M312 110H321" class="ink" />
+        <rect x="305" y="139" width="29" height="30" rx="2" class="sheet" />
+        <rect x="312" y="147" width="15" height="14" fill={`url(#${prefix}-hatch)`} />
       </g>
     </> : <>
-      <rect width="400" height="240" fill={`url(#${prefix}-dots)`} mask={`url(#${prefix}-texture)`} opacity=".18" />
-      <ellipse cx="203" cy="125" rx="158" ry="100" class="orbit" />
-      <path d="M107 93C77 93 83 45 59 45M289 96C323 96 311 45 342 45M289 159C322 159 304 207 339 207" class="connection" />
-      <rect x="105" y="56" width="188" height="144" rx="4" fill={`url(#${prefix}-hatch)`} opacity=".25" transform="translate(7 7)" />
-      <rect x="105" y="56" width="188" height="144" rx="4" class="sheet" />
-      <circle cx="118" cy="70" r="2" fill="var(--accent)" /><text x="127" y="74" class="mono">Design Studio</text>
-      <path d="M105 84H293" class="construction" />
-      <text x="119" y="104" class="title">Feedback inbox</text>
-      <rect x="119" y="113" width="43" height="3" fill="var(--accent)" />
-      <path d="M119 129H279M119 155H279" class="construction" />
-      <path d="M119 140H232M119 148H197M119 166H242M119 174H207" class="ink" />
-      <rect x="251" y="135" width="28" height="14" rx="2" fill="var(--accent)" opacity=".24" />
-      <rect x="251" y="161" width="28" height="14" rx="2" fill="currentColor" opacity=".1" />
-      <g class="reviewer"><circle cx="52" cy="43" r="17" /><circle cx="349" cy="43" r="17" /><circle cx="346" cy="207" r="17" /></g>
-      <g class="person"><circle cx="52" cy="39" r="4" /><path d="M45 50c0-7 14-7 14 0" /><circle cx="349" cy="39" r="4" /><path d="M342 50c0-7 14-7 14 0" /><circle cx="346" cy="203" r="4" /><path d="M339 214c0-7 14-7 14 0" /></g>
-      <g class="cursor"><path d="m82 67 2-13 10 10-5 1-2 5ZM317 122l2-13 10 10-5 1-2 5ZM314 183l2-13 10 10-5 1-2 5Z" /></g>
-      <rect x="141" y="211" width="116" height="22" rx="11" fill="currentColor" />
-      <path d="m153 222 3-3a3 3 0 0 1 4 4l-2 2m-4-5-2 2a3 3 0 0 0 4 4l3-3" class="link" />
-      <text x="167" y="226" class="mono reverse">Shared link</text>
+      <g transform="rotate(-3 166 106)">
+        <rect x="46" y="38" width="240" height="142" rx="3" fill={`url(#${prefix}-hatch)`} />
+        <rect x="39" y="31" width="240" height="142" rx="3" class="sheet" />
+        <text x="53" y="51" class="mono">Design Studio</text>
+        <path d="M39 62H279" class="construction" />
+        <rect x="54" y="77" width="58" height="80" fill={`url(#${prefix}-hatch)`} />
+        <path d="M127 82H263M127 93H237" class="ink" />
+        <rect x="127" y="109" width="59" height="28" rx="2" class="tile" />
+        <rect x="195" y="109" width="68" height="28" rx="2" class="tile" />
+        <path d="M127 152H244" class="ink" />
+      </g>
+      <rect x="115" y="146" width="245" height="57" rx="3" fill={`url(#${prefix}-hatch)`} />
+      <rect x="108" y="139" width="245" height="57" rx="3" class="sheet" />
+      <rect x="108" y="139" width="4" height="57" fill="var(--accent)" opacity=".75" />
+      <g transform="translate(128 152)" stroke="var(--accent)" stroke-width="2" fill="none">
+        <path d="m10 12 6-6a7 7 0 0 1 10 10l-6 6M16 18l-6 6a7 7 0 0 1-10-10l6-6M8 20l10-10" />
+      </g>
+      <text x="174" y="163" class="link-title">Share link</text>
+      <path d="M174 178H335" class="ink" />
     </>}
+
   </svg>
 </div>
 <style>
-  .workflow-art { color:var(--foreground); margin-bottom:1.5rem; }
-  svg { display:block; width:100%; height:auto; }
-  .construction { fill:none; stroke:currentColor; stroke-width:.8; opacity:.22; }
-  .sheet { fill:var(--background); stroke:currentColor; stroke-opacity:.35; }
-  .accent { fill:none; stroke:var(--accent); stroke-width:1.2; }
-  .ink { fill:none; stroke:currentColor; stroke-width:1.2; opacity:.55; }
-  .mono { font:10px var(--font-mono); fill:var(--muted-foreground); }
-  .title { font:500 13px var(--font-sans); fill:var(--foreground); letter-spacing:-.3px; }
-  .reverse { fill:var(--background); }
-  .cursor { fill:var(--foreground); stroke:var(--background); stroke-width:1; }
-  .orbit { fill:none; stroke:currentColor; stroke-width:.7; stroke-dasharray:2 5; opacity:.18; }
-  .connection { fill:none; stroke:var(--accent); stroke-width:1.4; }
-  .reviewer { fill:var(--card); stroke:currentColor; stroke-opacity:.35; }
-  .person { fill:none; stroke:currentColor; stroke-width:1; }
-  .link { fill:none; stroke:var(--background); stroke-width:1; }
+  .workflow-art { color: var(--foreground); margin-bottom: 1.5rem; }
+  svg { display: block; width: 100%; height: auto; }
+  .construction { fill: none; stroke: currentColor; stroke-width: .7; opacity: .2; }
+  .sheet { fill: var(--background); stroke: currentColor; stroke-width: 1; stroke-opacity: .3; }
+  .tile { fill: var(--card); stroke: currentColor; stroke-width: .7; stroke-opacity: .25; }
+  .ink { fill: none; stroke: currentColor; stroke-width: 1; opacity: .5; }
+  .accent { fill: none; stroke: var(--accent); stroke-width: 1.2; }
+  .link-title { font: 500 14px var(--font-sans); fill: var(--foreground); }
+  .mono { font: 11px var(--font-mono); fill: var(--muted-foreground); }
 </style>

@@ -42,46 +42,48 @@ https://itspatmorgan.com/design-studio-starter/prototypes/patrick/feedback-inbox
 
 The published demo is read-only for artifact editing, but its prototypes are interactive. Published Design Studios share designs for others to explore. Run a local copy to edit artifacts and build with your coding agent.
 
-Use a desktop coding app with local access. The canonical four setup paths are documented at:
+Use a desktop coding app with local access. Each request covers setup through opening your local Design Studio. A restart, reload, or new chat may still be needed. The four setup procedures are documented at:
 https://github.com/itspatmorgan/design-studio-starter/blob/main/SETUP.md
 
 Plugins are in beta and distributed through local/repository installs. Do not imply a reviewed public-directory listing.
 
 ## 1. ChatGPT Codex plugin
 
-Open a local chat in the Codex desktop app and give it this request:
+### Set up locally
 
-> Install the Design Studio plugin locally for Codex from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow the Codex plugin installation instructions. Handle the technical steps and preserve my other plugins. Tell me if I need to restart the app or enable the plugin.
+Copy this prompt into a local Codex chat to install the plugin and create your Design Studio. Your agent will guide you through any restart or new chat needed.
 
-After installation, restart the app if needed and start a new local chat. Confirm Design Studio is available in the plugin controls, then ask: **“Create my Design Studio.”**
+> Install the Design Studio plugin locally for Codex from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow its Codex plugin installation and linked create-studio instructions. Handle the technical steps, preserve my other plugins and existing files, and create my Design Studio on this computer. Open its local preview and help me continue working in its folder. Guide me through any restart, plugin activation, or new chat needed.
+
+### Set up and publish with ChatGPT Sites
+
+Only use this option if ChatGPT Sites is enabled and available in your local Codex chat.
+
+Install the plugin, create your local Design Studio, and publish a public review link. Anyone with the link can explore your work; editing stays local. Ask for a private site if you prefer.
+
+> Install the Design Studio plugin locally for Codex from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow its Codex plugin installation, linked create-studio, and ChatGPT Sites publishing instructions. Handle the technical steps and preserve my other plugins and existing files. Create my Design Studio on this computer, verify its local preview, and publish a public review link with ChatGPT Sites. Keep authoring local, show me the published link, and help me continue working in my Design Studio folder. Guide me through any restart, plugin activation, or new chat needed. If ChatGPT Sites is unavailable, complete local setup and tell me what is needed to publish.
 
 ## 2. Claude Code plugin
 
-Open the Claude desktop app, choose the **Code** tab, then select **Local**. Open **Customize → Plugins → Add plugin → Add marketplace** and add `itspatmorgan/design-studio-starter`. Install Design Studio from that repository's catalog. This is a repository install, not a reviewed public-directory listing.
+Copy this prompt into a local Claude Code chat to install the plugin and create your Design Studio. Choose No folder for initial setup if available; your agent will guide you into your Design Studio folder.
 
-For a local checkout instead, ask your local Claude Code agent:
+In the Claude desktop app, choose **Code**, then select **Local**.
 
-> Install the Design Studio plugin locally for Claude Code from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow the Claude Code local plugin instructions. Preserve my other plugins and show me how to continue in Claude Desktop's local Code view.
-
-Start a new local Code session and confirm `/design-studio:create-studio` appears. **No folder** can be used for initial setup when available. Ask **“Create my Design Studio”**, or invoke that command.
+> Install the Design Studio plugin locally for Claude Code from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow its Claude Code local plugin installation and linked create-studio instructions. Handle the technical steps, preserve my other plugins and existing files, and create my Design Studio on this computer. Open its local preview and help me continue working in its folder in Claude Desktop’s local Code view. Guide me through any restart, plugin activation, or new session needed.
 
 ## 3. Cursor plugin
 
-Open a local Agent chat in Cursor and give it this request:
+Copy this prompt into a local Agent chat in Cursor to install the plugin and create your Design Studio. Your agent will guide you through any reload needed. If plugin imports are restricted, use Direct from GitHub.
 
-> Install the Design Studio plugin locally for Cursor from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow the Cursor local plugin instructions. Preserve my other plugins. Handle copying the package, then tell me when to reload the window and how to verify its skills.
-
-Reload Cursor when the agent is ready. Open **Customize** and confirm Design Studio's skills are available. In a fresh local Agent chat, ask **“Create my Design Studio.”** Local imports must be allowed by your account or organization; if they are unavailable, use direct-source setup.
+> Install the Design Studio plugin locally for Cursor from https://github.com/itspatmorgan/design-studio-starter. Read SETUP.md and follow its Cursor local plugin installation and linked create-studio instructions. Handle the technical steps, preserve my other plugins and existing files, and create my Design Studio on this computer. Open its local preview and help me continue working in its folder. Guide me through any window reload, plugin activation, or new Agent chat needed.
 
 ## 4. Direct from the source repository
 
-No plugin is required. In any supported local desktop coding agent, give it this request:
+Copy this prompt into your local coding agent to create Design Studio directly from GitHub. No plugin is required, so this also works when plugin installs are restricted.
+
+For manual setup, follow the [GitHub README](https://github.com/itspatmorgan/design-studio-starter#get-started).
 
 > Help me install Design Studio from https://github.com/itspatmorgan/design-studio-starter. Read its SETUP.md and follow the linked create-studio instructions. Handle downloading, setup, and opening it for me. Save my Design Studio in my user Developer folder. Preserve anything already there. Show me the running Design Studio and help me continue working in its folder.
-
-If you prefer manual setup, create your own repository with **Use this template** on GitHub, or download or clone the source. Open that folder in your coding app and ask the agent to follow the repository's setup instructions there. Manual terminal commands are in the [README](README.md#get-started).
-
-All four agent-assisted paths create the same working Design Studio package. Plugin publishing files remain in the setup tooling. Manual template copies or clones include the complete maintainer repository.
 
 ## What happens after setup
 
@@ -90,8 +92,6 @@ Your agent may need permission to download tools or create the folder. It handle
 Your Design Studio and all its source files live locally on your computer. The default folder is `~/Developer/Design Studio`; additional installs use `Design Studio 2`, `Design Studio 3`, and so on. Developer is an ordinary folder in your home folder for organizing these files. Your agent shows the actual absolute path and local preview URL. Continue working in that Design Studio folder, not in the plugin's files. A GitHub account is optional for personal use.
 
 Product and Marketing are example systems. Feedback Inbox and Design Studio Marketing are example prototypes for learning. Explore them, then ask your agent to customize, replace, or remove them for your own needs. Keep Studio, the application's system.
-
-Suggested first request: “Help me prototype a feedback triage flow in my Design Studio. Start with a simple working view, then map the flow and capture the decisions.”
 
 New Design Studios start in Personal mode. When you are ready to collaborate, switch to Team in Design Studio settings. This enables Contributors & Permissions so you can assign Admins and system access.
 

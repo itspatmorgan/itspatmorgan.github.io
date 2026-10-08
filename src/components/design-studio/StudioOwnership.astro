@@ -3,44 +3,54 @@ interface Props { kind: number }
 const { kind } = Astro.props;
 ---
 <div class="ownership-art">
-  <svg viewBox="0 0 320 220" role="img" aria-label={kind === 0 ? 'Separate theme and component pieces arranged into a customized interface, with outlines showing alternative placements.' : kind === 1 ? 'An agent chat and Design Studio preview integrated inside a familiar coding app.' : 'Overlapping source-file sheets labeled prototype.tsx, context.md, flow.mermaid, and canvas.excalidraw, with distinct textures.'}>
+  <svg viewBox="0 0 320 220" role="img" aria-label={kind === 0 ? 'An initial interface becomes a customized version with a new theme and layout.' : kind === 1 ? 'ChatGPT Codex, Claude Code, and Cursor app marks on separate sheets connected to one Design Studio.' : 'Overlapping source-file sheets labeled prototype.tsx, context.md, flow.mermaid, and canvas.excalidraw, with distinct textures.'}>
     <defs>
       <pattern id={`ownership-dots-${kind}`} width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".6" fill="currentColor" /></pattern>
       <pattern id={`ownership-hatch-${kind}`} width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 6 6 0" stroke="currentColor" stroke-width=".65" /></pattern>
     </defs>
     {kind === 0 && <>
-      <path d="M25 25H125V86H25ZM224 145H298V200H224Z" class="ghost" />
-      <rect x="31" y="32" width="82" height="44" rx="3" class="sheet" transform="rotate(-5 72 54)" />
-      <rect x="42" y="43" width="17" height="17" fill="currentColor" /><rect x="64" y="43" width="17" height="17" fill="var(--accent)" /><rect x="86" y="43" width="17" height="17" fill={`url(#ownership-hatch-${kind})`} opacity=".5" />
-      <path d="M119 56H149V80M254 135V162H279" class="icon" stroke-dasharray="3 4" />
-      <rect x="76" y="89" width="171" height="103" rx="3" fill={`url(#ownership-hatch-${kind})`} opacity=".2" />
-      <rect x="68" y="81" width="171" height="103" rx="3" class="sheet" />
-      <rect x="68" y="81" width="171" height="22" rx="3" fill="currentColor" />
-      <text x="79" y="96" class="mono reverse">Your interface</text>
-      <rect x="80" y="114" width="41" height="57" rx="2" fill="var(--accent)" opacity=".22" />
-      <path d="M131 117H222M131 127H207M131 146H222M131 156H205M131 166H215" class="ink" />
-      <rect x="190" y="36" width="97" height="34" rx="3" class="sheet" transform="rotate(4 239 53)" />
-      <rect x="202" y="47" width="25" height="12" rx="3" fill="currentColor" /><path d="M236 49H276M236 57H264" class="ink" />
-      <path d="m260 174 1-15 11 11-5 1-2 5Z" class="cursor" />
-      <path d="M53 168V190M42 179H64" class="icon" />
+      <path d="M24 24H296M24 196H296M34 14V206M286 14V206" class="construction" />
+      <g transform="rotate(-4 110 87)">
+        <rect x="31" y="32" width="158" height="105" rx="3" class="sheet" />
+        <path d="M31 52H189" class="construction" />
+        <path d="M43 42H72" class="ink" />
+        <rect x="43" y="64" width="32" height="60" rx="1" class="tile" />
+        <path d="M86 68H175M86 78H152M86 95H175M86 104H163M86 114H156" class="ink" />
+      </g>
+      <path d="M206 53H256V81m-5-6 5 6 5-6" class="icon" opacity=".65" />
+      <rect x="120" y="102" width="171" height="99" rx="3" fill={`url(#ownership-hatch-${kind})`} opacity=".3" />
+      <rect x="113" y="95" width="171" height="99" rx="3" class="sheet" />
+      <path d="M113 115H284" class="construction" />
+      <rect x="113" y="95" width="4" height="99" fill="var(--accent)" opacity=".7" />
+      <rect x="126" y="103" width="8" height="5" fill="var(--accent)" opacity=".75" />
+      <path d="M142 106H163" class="ink" />
+      <rect x="126" y="127" width="40" height="54" fill={`url(#ownership-hatch-${kind})`} opacity=".35" />
+      <path d="M178 131H269M178 140H247" class="ink" />
+      <rect x="178" y="151" width="37" height="18" rx="4" fill="var(--accent)" opacity=".3" />
+      <rect x="223" y="151" width="46" height="18" rx="4" class="tile" />
+      <path d="M178 180H257" class="ink" />
     </>}
     {kind === 1 && <>
-      <path d="M26 36H292V193H26Z" fill={`url(#ownership-dots-${kind})`} opacity=".2" />
-      <rect x="36" y="29" width="248" height="144" rx="4" class="sheet" />
-      <rect x="36" y="29" width="248" height="27" rx="4" fill="var(--card)" />
-      <text x="49" y="46" class="mono">Your coding agent</text>
-      <path d="M36 56H284M126 56V173" class="construction" />
-      <rect x="46" y="69" width="70" height="26" rx="3" class="tile" />
-      <path d="M53 77H107M53 85H92M47 108H109M47 116H100M47 124H106" class="ink" />
-      <rect x="46" y="145" width="70" height="18" rx="3" class="tile" />
-      <path d="m53 150 4 4-4 4M62 158H72" class="icon" />
-      <rect x="136" y="67" width="138" height="96" rx="3" class="sheet" />
-      <circle cx="145" cy="79" r="1.5" fill="var(--accent)" /><text x="151" y="82" class="mono">Design Studio</text>
-      <path d="M136 90H274M158 90V163" class="construction" />
-      <path d="M142 101H152M142 111H152M142 121H152" class="ink" />
-      <rect x="165" y="98" width="29" height="13" fill="var(--accent)" opacity=".3" />
-      <path d="M201 102H266M201 109H246M165 123H266M165 134H266M165 145H250" class="ink" />
-      <path d="M109 191H211" class="icon" /><circle cx="100" cy="191" r="3" class="tile" /><circle cx="220" cy="191" r="3" class="tile" />
+      <path d="M24 24H296M24 196H296M34 14V206M286 14V206" class="construction" />
+      <path d="M95 52H126V109H160M95 109H160M95 167H126V109" class="icon" opacity=".6" />
+      {['square-chatgpt.svg', 'square-claude.svg', 'cursor.svg'].map((logo, index) => (
+        <g transform={`rotate(${index === 0 ? -3 : index === 2 ? 3 : 0} 63 ${52 + index * 57})`}>
+          <rect x="30" y={32 + index * 57} width="66" height="40" rx="3" class="sheet" />
+          <mask id={`ownership-agent-${index}`} style="mask-type: alpha">
+            <image href={`/images/logos/${logo}`} x="39" y={41 + index * 57} width="22" height="22" />
+          </mask>
+          <rect x="39" y={41 + index * 57} width="22" height="22" fill="currentColor" mask={`url(#ownership-agent-${index})`} opacity=".8" />
+          <path d={`M70 ${48 + index * 57}H85M70 ${56 + index * 57}H80`} class="ink" />
+        </g>
+      ))}
+      <rect x="167" y="45" width="123" height="138" rx="3" fill={`url(#ownership-hatch-${kind})`} opacity=".3" />
+      <rect x="160" y="38" width="123" height="138" rx="3" class="sheet" />
+      <text x="172" y="57" class="mono">Design Studio</text>
+      <path d="M160 68H283" class="construction" />
+      <rect x="172" y="80" width="99" height="42" rx="2" class="tile" />
+      <rect x="181" y="89" width="24" height="24" fill="var(--accent)" opacity=".22" />
+      <path d="M214 92H259M214 101H250M214 110H255" class="ink" />
+      <path d="M172 137H270M172 147H252M172 157H261" class="ink" />
     </>}
     {kind === 2 && <>
       <g transform="rotate(-5 164 107)">

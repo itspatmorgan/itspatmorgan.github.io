@@ -74,3 +74,13 @@ the user's explicit naming rule; it otherwise follows the canonical procedure.
 This small wording adaptation supersedes the original exact-byte prompt claim.
 Recorded the durable naming rule in content conventions. The prototype CTA now
 reads “Explore a published prototype”; its destination is unchanged.
+
+## Complete setup requests
+
+The approved follow-up in design-studio-complete-setup.md extends the plugin
+prompts through local creation, preview, and workspace handoff. Prompts now
+adapt upstream SETUP.md procedures rather than mirror its installation-only
+blockquotes. Codex also offers a separate create-and-publish request, explicitly
+limited to local chats where ChatGPT Sites is enabled and available. Required
+restart/reload/new-chat guidance remains; one request does not promise an
+uninterrupted journey on every host. The direct-source fallback remains.
