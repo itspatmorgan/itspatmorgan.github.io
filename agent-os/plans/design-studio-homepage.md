@@ -79,7 +79,9 @@ publishing, and unrelated navigation refactors.
   paired captures from the same live example: `discovery/lofi-inbox`,
   `discovery/feedback-flow`, `eng-handoff`, and `discovery/project-context` below
   the prototype path; system capture from `/design-studio-starter/systems/product/button`.
-  Handoff canvas is framed at 26% zoom to show screens and notes together.
+  Handoff canvas is framed at 46% zoom to emphasize the connected main flow,
+  its notes, and the beginning of the Create group. Both themes recaptured
+  after feedback that the original 26% view was too distant.
 - `src/components/layout/Sidebar.astro`: Design Studio navigation and mark.
 - `src/data/site-config.ts`: mobile/shared navigation entry.
 - `src/components/layout/MobileNav.astro`: seventh-item entrance timing.
