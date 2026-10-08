@@ -236,27 +236,6 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
     </div>
   </section>
 
-  {/* ── Lab ──────────────────────────────────────────────── */}
-  <section class={homeSection}>
-    <div class={homeSectionHeader}>
-      <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Lab</p>
-      <a href="/lab" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
-    </div>
-    <div class={homeCardGrid}>
-      {labEntries.slice(0, 3).map((entry) => (
-        <div class="flex" data-project-card-item>
-          <LabCard
-            title={entry.data.title}
-            description={entry.data.description}
-            href={`/lab/${entry.data.slug}`}
-            preview={entry.data.preview}
-            headingLevel="h3"
-          />
-        </div>
-      ))}
-    </div>
-  </section>
-
   {/* ── Writing ──────────────────────────────────────────── */}
   <section class={homeSection}>
     <div class={homeSectionHeader}>
@@ -320,6 +299,27 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
         </div>
       </div>
 
+    </div>
+  </section>
+
+  {/* ── Lab ──────────────────────────────────────────────── */}
+  <section class={homeSection}>
+    <div class={homeSectionHeader}>
+      <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Lab</p>
+      <a href="/lab" class="text-xs text-muted-foreground transition-colors hover:text-foreground">View all →</a>
+    </div>
+    <div class={homeCardGrid}>
+      {labEntries.slice(0, 3).map((entry) => (
+        <div class="flex" data-project-card-item>
+          <LabCard
+            title={entry.data.title}
+            description={entry.data.description}
+            href={`/lab/${entry.data.slug}`}
+            preview={entry.data.preview}
+            headingLevel="h3"
+          />
+        </div>
+      ))}
     </div>
   </section>
 

@@ -19,22 +19,24 @@ it directly from the homepage and primary navigation.
 
 ## Current Concept
 
-Sequence: introduction → Design Studio → Work → Lab → Writing → Community.
+Sequence: introduction → Design Studio → Work → Writing → Lab → Community.
+Navigation: Home → About → Work → Design Studio → Writing → Lab → Community.
+Writing separates the two grids of Work and Lab, introducing Patrick's
+perspective between professional impact and smaller experiments.
 
 A full-width project card uses the same rounded border, textured image area,
 and hover treatment as Work. A Featured section label follows the homepage's
 section-header pattern. On desktop, a large screenshot of the live Design Studio
-interface occupies two-thirds of the card, with concise copy on the right.
-On mobile and tablet, the preview sits above the copy. The preview cycles through
+interface occupies two-thirds of the card on the right, with concise copy on the left.
+On mobile and tablet, the copy sits above the preview. The preview cycles through
 Prototype view, Lo-fi prototype, Diagram, Canvas, Document, and Design system.
 Each view uses a real 1280×720 capture in both themes. Caption, count, previous,
-next, and play/pause controls sit below the image. The preview and copy link to
+next, and play/pause controls sit above the image. The preview and copy link to
 Design Studio separately so carousel controls are never nested in a link.
 
 Copy:
 
 - Section label: Featured
-- Card metadata: Open source · Design tooling
 - Title: Design Studio
 - Body: An open-source prototyping environment I built to bring interfaces,
   diagrams, canvases, and documents together with coding agents.
