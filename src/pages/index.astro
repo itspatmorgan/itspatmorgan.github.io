@@ -3,7 +3,6 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import LabCard from "@/components/lab/LabCard.astro";
-import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
 import { GenerativePatternSurface } from "@/lab/editorial-art/GenerativePatternSurface";
 import { UAMark } from "@/lab/editorial-art/UAMark";
 import { siteConfig } from "@/data/site-config";
@@ -194,10 +193,11 @@ const homeCardGrid = "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:ga
       <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">Featured</p>
     </div>
     <a href="/design-studio" class="group block rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring" aria-labelledby="home-design-studio-title" data-project-card>
-      <article class="grid overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20 motion-reduce:transform-none motion-reduce:transition-none md:grid-cols-[2fr_3fr]">
-        <div class="texture-bg flex items-center justify-center overflow-hidden border-b border-border p-3 md:border-r md:border-b-0 md:p-4" aria-hidden="true">
-          <div class="w-full max-w-[240px] transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none md:max-w-[300px]">
-            <StudioAtmosphere interactive={false} />
+      <article class="grid overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:shadow-black/5 dark:group-hover:shadow-black/20 motion-reduce:transform-none motion-reduce:transition-none lg:grid-cols-[2fr_1fr]">
+        <div class="texture-bg flex items-center justify-center overflow-hidden border-b border-border p-3 sm:p-6 lg:border-r lg:border-b-0" aria-hidden="true">
+          <div class="w-full overflow-hidden rounded-lg border border-border shadow-xl shadow-black/10 transition-transform duration-300 group-hover:scale-[1.02] dark:shadow-black/30 motion-reduce:transform-none motion-reduce:transition-none">
+            <img src="/images/design-studio/home-preview-light.png" alt="" width="1280" height="720" class="block h-auto w-full dark:hidden" />
+            <img src="/images/design-studio/home-preview-dark.png" alt="" width="1280" height="720" class="hidden h-auto w-full dark:block" />
           </div>
         </div>
         <div class="flex flex-col justify-center p-5 sm:p-6 lg:p-8">

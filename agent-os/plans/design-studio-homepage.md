@@ -23,12 +23,16 @@ Sequence: introduction → Design Studio → Work → Lab → Writing → Commun
 
 A full-width project card uses the same rounded border, textured image area,
 and hover treatment as Work. A Featured section label follows the homepage's
-section-header pattern. On desktop, a small static connected-artifact preview
-sits on the left and concise copy on the right. On mobile, the preview sits above
+section-header pattern. On desktop, a large screenshot of the live Design Studio
+interface occupies two-thirds of the card, with concise copy on the right.
+On mobile and tablet, the preview sits above
 the copy, matching the other project cards. The entire card links to Design
 Studio, with no nested controls. This replaces the first editorial feature,
 which the user found too similar to a competing hero and disruptive to the
-homepage's modular rhythm.
+homepage's modular rhythm. A subsequent review found the small illustration too
+conceptual and weak as the opening project. The current version uses the real
+Feedback Inbox experience, including Design Studio's artifact navigation, with
+separate light and dark captures.
 
 Copy:
 
@@ -45,9 +49,10 @@ Work, using the Hugeicons canvas outline icon to match the other sidebar icons.
 
 ## Approach
 
-Use Astro and existing semantic styling tokens. Reuse StudioAtmosphere with its
-new optional static mode rather than adding a new visualization or homepage
-demo. The dedicated page retains the component's default interactive behavior.
+Use Astro and existing semantic styling tokens. Use static PNG screenshots of
+the public Design Studio demo rather than a homepage demo. The dedicated page
+retains its existing interactive illustration. Removed the previously added
+static illustration mode since the homepage no longer uses that component.
 Keep setup on the dedicated page. Make only the changes required for the feature
 and its discovery paths.
 
@@ -61,8 +66,10 @@ publishing, and unrelated navigation refactors.
 ## Files To Modify
 
 - `src/pages/index.astro`: introduction and dedicated feature before Work.
-- `src/components/design-studio/StudioAtmosphere.astro`: optional static mode for
-  use inside the linked project card.
+- `public/images/design-studio/home-preview-{light,dark}.png`: 1280×720 browser
+  captures of the live Feedback Inbox screen, with States collapsed to show
+  related Discovery artifacts. Source:
+  `https://itspatmorgan.com/design-studio-starter/prototypes/patrick/feedback-inbox/app/feedback-inbox`.
 - `src/components/layout/Sidebar.astro`: Design Studio navigation and mark.
 - `src/data/site-config.ts`: mobile/shared navigation entry.
 - `src/components/layout/MobileNav.astro`: seventh-item entrance timing.
@@ -93,6 +100,8 @@ publishing, and unrelated navigation refactors.
   After user feedback, checked the full-width card at desktop and 390px mobile,
   both desktop themes, whole-card navigation, and the dedicated page's retained
   motion control. Build passed again; revised screenshots use `module-*` names.
+  The high-fidelity version was reviewed on desktop in both themes and at 390px
+  mobile; final review screenshots use `product-*` names.
 
 ## Learnings
 
