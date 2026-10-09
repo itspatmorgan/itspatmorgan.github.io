@@ -1,0 +1,21 @@
+---
+interface Props {
+  image: string;
+  alt: string;
+  caption?: string;
+  eager?: boolean;
+  href?: string;
+}
+const { image, alt, caption, eager = false, href } = Astro.props;
+const Surface = href ? "a" : "div";
+---
+
+<figure class="m-0">
+  <div class="texture-bg rounded-xl border border-border p-3 sm:p-6">
+    <Surface href={href} aria-label={href ? "Explore this example in Design Studio" : undefined} class="block overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring dark:shadow-black/30">
+      <img src={`/images/design-studio/home-${image}-light.png`} alt={alt} width="1280" height="720" loading={eager ? "eager" : "lazy"} class="block h-auto w-full dark:hidden" />
+      <img src={`/images/design-studio/home-${image}-dark.png`} alt={alt} width="1280" height="720" loading={eager ? "eager" : "lazy"} class="hidden h-auto w-full dark:block" />
+    </Surface>
+  </div>
+  {caption && <figcaption class="mt-3 text-sm leading-relaxed text-muted-foreground">{caption}</figcaption>}
+</figure>

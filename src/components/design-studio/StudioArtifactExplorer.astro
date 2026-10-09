@@ -1,0 +1,68 @@
+---
+import StudioScreenshot from "@/components/design-studio/StudioScreenshot.astro";
+
+const artifacts = [
+  { id: "preview", title: "Interactive prototype", description: "Try the interactions, explore states, and refine the details with your agent.", alt: "The interactive Feedback Inbox prototype, with navigation, filters, and sample feedback." },
+  { id: "lofi", title: "Wireframe", description: "Explore layout and navigation before refining the visual design.", alt: "A low-fidelity Feedback Inbox wireframe in Design Studio." },
+  { id: "diagram", title: "Diagram", description: "Map a journey, decision, or flow so you can discuss how it should work.", alt: "The feedback review flow mapped as a diagram in Design Studio." },
+  { id: "canvas", title: "Canvas", description: "Arrange screens, flows, and notes together to explain the bigger picture.", alt: "A canvas connecting Feedback Inbox screens, states, and engineering notes." },
+  { id: "document", title: "Document", description: "Keep the brief, decisions, and open questions alongside the experience.", alt: "A project context document saved within the Feedback Inbox prototype." },
+];
+---
+
+<div class="mt-8" data-artifact-explorer>
+  <div hidden class="mb-5 flex flex-wrap gap-2" role="tablist" aria-label="Explore prototype artifacts" data-artifact-tabs>
+    {artifacts.map((artifact, index) => (
+      <button id={`artifact-tab-${artifact.id}`} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`artifact-panel-${artifact.id}`} tabindex={index === 0 ? 0 : -1} class="artifact-tab min-h-11 rounded-full border border-border px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring" data-artifact-tab>{artifact.title}</button>
+    ))}
+  </div>
+  {artifacts.map((artifact) => (
+    <div id={`artifact-panel-${artifact.id}`} class="artifact-panel" data-artifact-panel>
+      <h3 class="artifact-fallback-title mb-2 text-lg font-medium">{artifact.title}</h3>
+      <p class="mb-5 max-w-[65ch] text-base leading-relaxed text-muted-foreground">{artifact.description}</p>
+      <StudioScreenshot image={artifact.id} alt={artifact.alt} />
+    </div>
+  ))}
+</div>
+
+<style>
+  [hidden] { display: none !important; }
+  .artifact-panel + .artifact-panel { margin-top: 2rem; }
+  [data-artifact-explorer][data-initialized] .artifact-panel { margin-top: 0; }
+  [data-artifact-explorer][data-initialized] .artifact-fallback-title { display: none; }
+  .artifact-tab { color: var(--muted-foreground); cursor: pointer; }
+  .artifact-tab[aria-selected="true"] { background: var(--foreground); border-color: var(--foreground); color: var(--background); }
+</style>
+
+<script>
+  function initArtifactExplorers() {
+    document.querySelectorAll<HTMLElement>("[data-artifact-explorer]").forEach((root) => {
+      if (root.dataset.initialized) return;
+      const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-artifact-tab]"));
+      const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-artifact-panel]"));
+      const tablist = root.querySelector<HTMLElement>("[data-artifact-tabs]");
+      function select(index: number, focus = false) {
+        tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
+        panels.forEach((panel, i) => { panel.hidden = i !== index; });
+        if (focus) tabs[index].focus();
+      }
+      tabs.forEach((tab, index) => {
+        panels[index].setAttribute("role", "tabpanel");
+        panels[index].setAttribute("aria-labelledby", tab.id);
+        panels[index].tabIndex = 0;
+        tab.addEventListener("click", () => select(index));
+        tab.addEventListener("keydown", (event) => {
+          const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : event.key === "ArrowRight" ? (index + 1) % tabs.length : event.key === "ArrowLeft" ? (index - 1 + tabs.length) % tabs.length : null;
+          if (next === null) return;
+          event.preventDefault();
+          select(next, true);
+        });
+      });
+      select(0);
+      if (tablist) tablist.hidden = false;
+      root.dataset.initialized = "true";
+    });
+  }
+  initArtifactExplorers();
+  document.addEventListener("astro:after-swap", initArtifactExplorers);
+</script>
