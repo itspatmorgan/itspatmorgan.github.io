@@ -1,0 +1,30 @@
+<div class="team-spaces texture-bg rounded-xl border border-border p-5 sm:p-7" role="img" aria-label="In Team mode, contributors edit their own prototypes. Assigned maintainers edit shared systems, and Admins manage access.">
+  <div aria-hidden="true">
+    <div class="shared-system rounded-lg border border-border bg-background p-5 text-center shadow-sm">
+      <p class="text-base font-medium tracking-tight">Shared systems</p>
+      <p class="mt-1 text-sm text-muted-foreground">Edited by assigned maintainers</p>
+    </div>
+    <div class="branches"><span></span><span></span><span></span></div>
+    <div class="grid grid-cols-3 gap-3">
+      {["You", "Teammate", "Teammate"].map((person) => <div class="prototype-space rounded-lg border border-border bg-background px-2 py-5 text-center shadow-sm">
+        <p class="text-sm font-medium">{person}</p>
+        <div class="prototype-lines"><span></span><span></span><span></span></div>
+        <p class="text-xs leading-relaxed text-muted-foreground">Own prototypes</p>
+      </div>)}
+    </div>
+    <p class="mt-7 text-center text-sm text-muted-foreground">Admins manage access</p>
+  </div>
+</div>
+<style>
+  .team-spaces { aspect-ratio: 4 / 3; display: grid; align-items: center; }
+  .shared-system { max-width: 19rem; margin-inline: auto; }
+  .branches { position: relative; display: grid; grid-template-columns: repeat(3,1fr); height: 3rem; margin-inline: calc(100% / 6); border-top: 1px solid var(--accent); margin-top: 1.5rem; }
+  .branches::before { content: ''; position: absolute; left: 50%; top: -1.5rem; height: 1.5rem; border-left: 1px solid var(--accent); }
+  .branches span { border-left: 1px solid var(--accent); }
+  .branches span:nth-child(2) { position: absolute; left: 50%; height: 100%; }
+  .branches span:nth-child(3) { position: absolute; right: 0; height: 100%; }
+  .prototype-lines { display: grid; gap: .4rem; margin: 1rem auto; max-width: 3rem; }
+  .prototype-lines span { height: 2px; background: var(--muted-foreground); opacity: .3; }
+  .prototype-lines span:nth-child(2) { width: 70%; }
+  .prototype-lines span:last-child { width: 85%; }
+</style>

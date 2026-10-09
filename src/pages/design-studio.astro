@@ -7,6 +7,7 @@ import StudioDocumentGallery from "@/components/design-studio/StudioDocumentGall
 import StudioArtifactExplorer from "@/components/design-studio/StudioArtifactExplorer.astro";
 import StudioPreviewCarousel from "@/components/design-studio/StudioPreviewCarousel.astro";
 import StudioWorkflow from "@/components/design-studio/StudioWorkflow.astro";
+import StudioTeamSpaces from "@/components/design-studio/StudioTeamSpaces.astro";
 import StudioFoundation from "@/components/design-studio/StudioFoundation.astro";
 import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
 import agentGuide from "@/data/design-studio-agent.txt?raw";
@@ -125,14 +126,14 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
     <section id="build-together" class="studio-story-section" aria-labelledby="together-title">
       <div class="studio-story-split grid items-center gap-8">
         <div>
-          <h2 id="together-title" class="studio-section-title">Share a system. Explore different ideas.</h2>
+          <h2 id="together-title" class="studio-section-title">Your own space. Room for a team.</h2>
 
           <div class="mt-6 space-y-5">
-            <div><h3 class="text-lg font-medium tracking-tight">Build on a shared foundation</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Keep Design Studio in a shared Git repository. Teammates build their own prototypes locally, sharing components, context, and skills through the same systems.</p></div>
-            <div><h3 class="text-lg font-medium tracking-tight">Give engineers a head start</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Hand over working React code with the documents, diagrams, and canvases that explain your decisions. Teammates and their agents can pick up where you left off.</p></div>
+            <div><h3 class="text-lg font-medium tracking-tight">Start in Personal mode</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Explore on your own with full control of your prototypes, systems, and settings.</p></div>
+            <div><h3 class="text-lg font-medium tracking-tight">Design confidently in Team mode</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Contributors edit their own prototypes. Admins manage access and assign maintainers for shared systems, giving everyone clear boundaries for their work.</p></div>
           </div>
         </div>
-        <StudioScreenshot image="team-canvas" assetPrefix="" landscape alt="A handoff canvas connecting prototype screens, states, and engineering notes in Design Studio." />
+        <StudioTeamSpaces />
       </div>
     </section>
 
@@ -264,7 +265,7 @@ mise exec -- pnpm dev</code></pre>
   .studio-page { container: studio-page / inline-size; }
   .studio-story-section { scroll-margin-top: 2rem; border-top: 1px solid var(--border); padding-block: 3.5rem; }
   .studio-section-title { font-size: clamp(1.875rem, 3.8cqi, 2.5rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.035em; }
-  #context-title { text-wrap: balance; }
+  #context-title, #together-title { text-wrap: balance; }
   .studio-intro { margin-top: 1.25rem; max-width: 65ch; font-size: 1rem; line-height: 1.7; color: var(--muted-foreground); }
   .studio-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 4px; }
   .studio-text-link:hover { text-decoration-color: var(--foreground); }
