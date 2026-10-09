@@ -14,9 +14,9 @@ const Surface = href ? "a" : "div";
 
 <figure class="m-0">
   <div class="texture-bg rounded-xl border border-border p-3 sm:p-6">
-    <Surface href={href} aria-label={href ? "Explore this example in Design Studio" : undefined} class="block overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring dark:shadow-black/30">
-      <img src={`/images/design-studio/${assetPrefix}${image}-light.png`} alt={alt} width={square ? 1000 : 1280} height={square ? 1000 : 720} loading={eager ? "eager" : "lazy"} class="block h-auto w-full dark:hidden" />
-      <img src={`/images/design-studio/${assetPrefix}${image}-dark.png`} alt={alt} width={square ? 1000 : 1280} height={square ? 1000 : 720} loading={eager ? "eager" : "lazy"} class="hidden h-auto w-full dark:block" />
+    <Surface href={href} aria-label={href ? "Explore this example in Design Studio" : undefined} class:list={[square && "relative aspect-square", "block overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring dark:shadow-black/30"]}>
+      <img src={`/images/design-studio/${assetPrefix}${image}-light.png`} alt={alt} width={square ? 1000 : 1280} height={square ? 1000 : 720} loading={eager ? "eager" : "lazy"} class:list={["block w-full dark:hidden", square ? "absolute inset-0 h-full object-cover object-top" : "h-auto"]} />
+      <img src={`/images/design-studio/${assetPrefix}${image}-dark.png`} alt={alt} width={square ? 1000 : 1280} height={square ? 1000 : 720} loading={eager ? "eager" : "lazy"} class:list={["hidden w-full dark:block", square ? "absolute inset-0 h-full object-cover object-top" : "h-auto"]} />
     </Surface>
   </div>
   {caption && <figcaption class="mt-3 text-sm leading-relaxed text-muted-foreground">{caption}</figcaption>}
