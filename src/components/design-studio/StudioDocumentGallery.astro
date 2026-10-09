@@ -6,7 +6,7 @@ const modes = [{ id: "view", label: "Document view", alt: "Project Context rende
     {modes.map((mode, index) => <button type="button" id={`context-tab-${mode.id}`} role="tab" aria-selected={String(index === 0)} aria-controls={`context-panel-${mode.id}`} tabindex={index === 0 ? 0 : -1} class="document-tab min-h-11 rounded-full border border-border px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring" data-document-tab>{mode.label}</button>)}
   </div>
   <div class="texture-bg rounded-xl border border-border p-3 sm:p-6">
-    {modes.map((mode, index) => <div id={`context-panel-${mode.id}`} hidden={index !== 0} data-document-panel class="relative aspect-square overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 dark:shadow-black/30">
+    {modes.map((mode, index) => <div id={`context-panel-${mode.id}`} hidden={index !== 0} data-document-panel class="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 dark:shadow-black/30">
       <img src={`/images/design-studio/context-${mode.id}-light.png`} alt={mode.alt} width="1000" height="1000" loading="lazy" class="absolute inset-0 block h-full w-full object-cover object-top dark:hidden" />
       <img src={`/images/design-studio/context-${mode.id}-dark.png`} alt={mode.alt} width="1000" height="1000" loading="lazy" class="absolute inset-0 hidden h-full w-full object-cover object-top dark:block" />
     </div>)}

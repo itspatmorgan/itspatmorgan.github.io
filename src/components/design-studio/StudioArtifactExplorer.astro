@@ -49,7 +49,7 @@ const artifacts = [
         tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
         panels.forEach((panel, i) => { panel.hidden = i !== index; });
         if (changed && active !== -1 && !reduced.matches) {
-          transition = panels[index].animate([{ opacity: 0.5, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 240, easing: "ease-out" });
+          transition = panels[index].animate([{ opacity: 0.65 }, { opacity: 1 }], { duration: 240, easing: "ease-out" });
         }
         active = index;
         if (focus) tabs[index].focus();

@@ -132,7 +132,7 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
             <div><h3 class="text-lg font-medium tracking-tight">Give engineers a head start</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Hand over working React code with the documents, diagrams, and canvases that explain your decisions. Teammates and their agents can pick up where you left off.</p></div>
           </div>
         </div>
-        <StudioScreenshot image="team-canvas" assetPrefix="" square alt="A handoff canvas connecting prototype screens, states, and engineering notes in Design Studio." />
+        <StudioScreenshot image="team-canvas" assetPrefix="" landscape alt="A handoff canvas connecting prototype screens, states, and engineering notes in Design Studio." />
       </div>
     </section>
 
@@ -376,7 +376,7 @@ mise exec -- pnpm dev</code></pre>
           animation.finished.then(() => running.delete(animation)).catch(() => running.delete(animation));
         });
       }, { threshold: 0.2 });
-      human.querySelectorAll(".studio-story-section figure, .foundation-system, .workflow-art").forEach((visual) => observer.observe(visual));
+      human.querySelectorAll(".studio-story-section figure, .foundation-system, .workflow-art").forEach((visual) => { if (!visual.closest("[data-artifact-explorer]")) observer.observe(visual); });
       const stopMotion = () => { if (reduced.matches) running.forEach((animation) => animation.cancel()); };
       reduced.addEventListener("change", stopMotion);
       document.addEventListener("astro:before-swap", () => { observer.disconnect(); running.forEach((animation) => animation.cancel()); reduced.removeEventListener("change", stopMotion); }, { once: true });
