@@ -3,6 +3,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
 import Icon from "@/components/icons/Icon.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
 import StudioScreenshot from "@/components/design-studio/StudioScreenshot.astro";
+import StudioDocumentGallery from "@/components/design-studio/StudioDocumentGallery.astro";
 import StudioArtifactExplorer from "@/components/design-studio/StudioArtifactExplorer.astro";
 import StudioPreviewCarousel from "@/components/design-studio/StudioPreviewCarousel.astro";
 import StudioWorkflow from "@/components/design-studio/StudioWorkflow.astro";
@@ -17,11 +18,7 @@ import { GithubIcon, UserIcon, Robot01Icon } from "@hugeicons/core-free-icons";
 const repository = "https://github.com/itspatmorgan/design-studio-starter";
 const liveDemo = "https://itspatmorgan.com/design-studio-starter/";
 const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
-const systemParts = [
-  { title: "Theme & components", body: "Give your prototypes the visual language and building blocks of your product." },
-  { title: "Context", body: "Give your agent product knowledge and design principles to guide its decisions." },
-  { title: "Skills", body: "Teach your agent how to carry out repeatable tasks the way your team works." },
-];
+
 
 ---
 
@@ -81,27 +78,24 @@ const systemParts = [
       <div class="systems-composition grid items-center gap-8">
         <div>
           <h2 id="systems-title" class="studio-section-title">A foundation that feels like your product</h2>
-          <p class="studio-intro">A system brings your design toolkit and your team’s knowledge together. Reuse it across prototypes so your agent has a consistent place to start.</p>
-          <div class="system-layers mt-6 space-y-5">
-            {systemParts.map((item) => <div class="border-l border-border pl-5"><h3 class="text-lg font-medium tracking-tight">{item.title}</h3><p class="mt-1.5 text-base leading-relaxed text-muted-foreground">{item.body}</p></div>)}
-          </div>
+          <p class="studio-intro">Bring your theme, components, context, and skills into a system your agent can reuse across prototypes.</p>
+          <p class="studio-intro">Create different systems for products, marketing, or clients. Pick the right foundation for each idea.</p>
         </div>
         <StudioFoundation kind="system" />
       </div>
-      <p class="studio-intro">Keep multiple systems in one Design Studio: a Product system for application ideas, a Marketing system for websites, or a foundation for each client. Each prototype uses the system you choose.</p>
     </section>
 
     <section id="capture-context" class="studio-story-section" aria-labelledby="context-title">
       <div class="studio-story-split context-composition grid items-center gap-8">
         <div class="context-image">
-          <StudioScreenshot image="document" alt="A project context document inside the Feedback Inbox prototype, describing the problem, audience, and assumptions." />
+          <StudioDocumentGallery />
         </div>
         <div>
           <h2 id="context-title" class="studio-section-title">Keep the thinking with the work</h2>
-          <p class="studio-intro">Capture the problem, who it’s for, and what you want to learn in Markdown. You and your agent can edit the same document, keeping the brief, decisions, and open questions close as the prototype evolves.</p>
+          <p class="studio-intro">You and your agent write in the same Markdown documents. Keep the brief, decisions, and open questions alongside the work.</p>
           <div class="mt-6 space-y-5">
-            <div><h3 class="text-lg font-medium tracking-tight">Context for the system</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Product knowledge and principles that guide work across multiple prototypes.</p></div>
-            <div><h3 class="text-lg font-medium tracking-tight">Context for the prototype</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">The brief, assumptions, decisions, and questions specific to this idea.</p></div>
+            <div><h3 class="text-lg font-medium tracking-tight">Context for the system</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Shared product knowledge and design principles.</p></div>
+            <div><h3 class="text-lg font-medium tracking-tight">Context for the prototype</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">The problem, assumptions, and questions for this idea.</p></div>
           </div>
         </div>
       </div>
@@ -109,16 +103,16 @@ const systemParts = [
 
     <section id="give-it-shape" class="studio-story-section" aria-labelledby="artifacts-title">
       <h2 id="artifacts-title" class="studio-section-title">Give your idea shape</h2>
-      <p class="studio-intro">Map a flow, sketch a layout, or build something you can interact with. Combine the artifacts you need inside one prototype.</p>
+      <p class="studio-intro">Map a flow, sketch a layout, build an interactive experience, and capture decisions. Combine diagrams, wireframes, canvases, and documents in one prototype.</p>
       <StudioArtifactExplorer />
     </section>
 
     <section id="work-and-share" class="studio-story-section" aria-labelledby="workflow-title">
       <div class="studio-story-split grid items-center gap-8">
         <div>
-          <h2 id="workflow-title" class="studio-section-title">Give your team something they can try</h2>
-          <p class="studio-intro">Design Studio is a static website, making it easy to publish on popular hosts like GitHub Pages, Netlify, and Vercel. Share a link so people can try the interactions and explore the thinking behind them.</p>
-          <p class="mt-4 text-base leading-relaxed text-muted-foreground">Keep editing locally with your agent. Publish again when you’re ready to share the next version.</p>
+          <h2 id="workflow-title" class="studio-section-title">Publish a website. Share a lasting link.</h2>
+          <p class="studio-intro">Publish Design Studio as a static website on GitHub Pages, Netlify, Vercel, or another popular host. Your team gets durable links to explore prototypes and the thinking behind them.</p>
+          <p class="mt-4 text-base leading-relaxed text-muted-foreground">Keep editing locally. Publish updates to the same website when you’re ready.</p>
           <div class="mt-6 flex flex-wrap gap-5">
             <a href={feedbackDemo} class="studio-text-link">Try a published prototype <span aria-hidden="true">↗</span></a>
             <a href="#publish" class="studio-text-link">See publishing options <span aria-hidden="true">↓</span></a>
@@ -132,13 +126,13 @@ const systemParts = [
       <div class="studio-story-split grid items-center gap-8">
         <div>
           <h2 id="together-title" class="studio-section-title">Share a system. Explore different ideas.</h2>
-          <p class="studio-intro">Keep your team’s Design Studio in a shared Git repository. Each person works locally with their agent, builds their own prototypes, and shares changes back with the team.</p>
+
           <div class="mt-6 space-y-5">
-            <div><h3 class="text-lg font-medium tracking-tight">Improve a system once</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Share components, context, and skills so everyone’s prototypes benefit from the same foundation.</p></div>
+            <div><h3 class="text-lg font-medium tracking-tight">Build on a shared foundation</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Keep Design Studio in a shared Git repository. Teammates build their own prototypes locally, sharing components, context, and skills through the same systems.</p></div>
             <div><h3 class="text-lg font-medium tracking-tight">Give engineers a head start</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Hand over working React code with the documents, diagrams, and canvases that explain your decisions. Teammates and their agents can pick up where you left off.</p></div>
           </div>
         </div>
-        <StudioScreenshot image="canvas" alt="A handoff canvas connecting prototype screens, states, and engineering notes in Design Studio." />
+        <StudioScreenshot image="team-canvas" assetPrefix="" square alt="A handoff canvas connecting prototype screens, states, and engineering notes in Design Studio." />
       </div>
     </section>
 
@@ -149,7 +143,7 @@ const systemParts = [
       <h3 class="text-2xl font-medium tracking-tight">1. Choose how to run locally</h3>
       <p class="mt-3 text-base leading-relaxed text-muted-foreground">Pick your agent for a guided setup, or install directly from GitHub yourself.</p>
       <div class="setup-paths mt-4">
-        {setupPaths.map((path) => (
+        {setupPaths.filter((path) => path.id !== "source").map((path) => (
           <details class="setup-path" name="studio-setup-path">
             <summary class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">
               <span class="setup-path-heading">
@@ -174,10 +168,16 @@ const systemParts = [
       </div>
       <details class="setup-path" name="studio-setup-path">
         <summary class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">
-          <span class="setup-path-heading"><span class="setup-source-logo" aria-hidden="true"><Icon icon={GithubIcon} size={30} /></span><span><span class="block text-lg font-medium tracking-tight">Manual installation</span><span class="mt-0.5 block text-base leading-relaxed text-muted-foreground">Download or clone from GitHub and run locally. No agent required.</span></span></span>
+          <span class="setup-path-heading"><span class="setup-source-logo" aria-hidden="true"><Icon icon={GithubIcon} size={30} /></span><span><span class="block text-lg font-medium tracking-tight">From GitHub</span><span class="mt-0.5 block text-base leading-relaxed text-muted-foreground">Set up with any coding agent, or install it yourself.</span></span></span>
           <span class="setup-expand" aria-hidden="true">+</span>
         </summary>
         <div class="setup-path-content max-w-3xl pb-6 text-base leading-relaxed text-muted-foreground">
+          <p>Use your coding agent without a plugin. Copy this prompt into a local chat:</p>
+          <div class="setup-prompt mt-4 mb-6 rounded-lg border border-border bg-card p-4 sm:p-5">
+            <p class="text-foreground" data-setup-prompt>{setupPaths.find((path) => path.id === "source")?.prompt}</p>
+            <button type="button" hidden data-copy-prompt class={buttonVariants({ className: "mt-4 h-10 px-4" })} aria-label="Copy GitHub setup prompt">Copy prompt</button>
+          </div>
+          <h4 class="mb-3 font-medium text-foreground">Or install it yourself</h4>
           <ol class="list-decimal space-y-3 pl-5">
             <li>Use <a href={repository} class="text-foreground underline underline-offset-4">the GitHub template</a> to create your own repository and clone it, or download the source.</li>
             <li>Install <a href="https://mise.jdx.dev/installing-mise.html" class="text-foreground underline underline-offset-4">mise</a>, then run these commands in the repository folder:</li>
@@ -193,7 +193,7 @@ mise exec -- pnpm dev</code></pre>
 
       <div id="publish" class="setup-step mt-12 scroll-mt-8 border-t border-border pt-10" aria-labelledby="publish-title">
       <h3 id="publish-title" class="text-2xl font-medium tracking-tight">2. Choose where to publish</h3>
-      <p class="studio-intro">Pick a host, then copy its prompt into your agent chat in the same Design Studio folder. Your agent helps configure, build, and verify a viewing link for your audience.</p>
+      <p class="studio-intro">Choose a host for your audience and copy its prompt into your Design Studio agent chat. Your agent guides sign-in, builds the site, and verifies the link. Publish future updates to the same deployment.</p>
       <div class="setup-paths mt-8">
         {publishingPaths.map((path) => (
           <details class="setup-path" name="studio-publishing-path">
@@ -214,8 +214,6 @@ mise exec -- pnpm dev</code></pre>
           </details>
         ))}
       </div>
-      <p class="mt-5 max-w-[65ch] text-sm leading-relaxed text-muted-foreground">Your hosting account and access requirements determine what’s available. Your agent will guide you through sign-in or authorization when needed.</p>
-      <p class="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted-foreground">Keep building locally. When you’re ready to share an update, ask your agent to publish the latest changes to the same deployment.</p>
       </div>
       <p class="sr-only" data-copy-status role="status" aria-live="polite"></p>
     </section>
@@ -235,7 +233,7 @@ mise exec -- pnpm dev</code></pre>
           <p>Design Studio is something I’ve wanted to exist for years.</p>
           <p>Over a decade ago, I started my tech career as a front-end developer embedded on a product design team. Prototyping and design technology have been central to my work ever since. This year, coding agents finally made it possible to build the environment I’d imagined and make that way of working accessible to more teams.</p>
           <p>Design Studio carries years of thinking and experimentation, shaped by using early versions with my teammates at Sublime Security. Their support and our day-to-day product and marketing work helped make it what it is.</p>
-          <p>I’m sharing Design Studio freely and openly because I want more people to have the tools to bring their ideas to life. I hope the community will make it better together. <a href={repository} class="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Explore the code on GitHub</a>, adapt it, or contribute.</p>
+          <p>I’m sharing Design Studio freely and openly to help bring more good design into the world. I hope the community will make it better together. <a href={repository} class="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Explore the code on GitHub</a>, adapt it, or contribute.</p>
           <p>I’d love to see what you build, hear what gets in your way, and help you make Design Studio fit your team.</p>
           <img src="/images/brand/patrick-signature.png" alt="Patrick Morgan" width="764" height="376" loading="lazy" class="h-auto w-32 dark:invert" />
           <a href="https://www.unknownarts.com/p/build-a-design-os" class="inline-block pt-3 text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Read the story behind Design Studio <span aria-hidden="true">→</span></a>
@@ -291,7 +289,7 @@ mise exec -- pnpm dev</code></pre>
     .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 2.5rem); }
     .studio-hero > div > p { margin-top: 1.5rem; font-size: 1rem; }
   }
-  .systems-composition > :global(.foundation-system) { max-width: 26rem; }
+  .systems-composition > :global(.foundation-system) { max-width: none; }
   @container studio-page (min-width: 40rem) {
     .studio-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 3.5cqi, 2.5rem); }
     .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 4rem); }
@@ -299,7 +297,7 @@ mise exec -- pnpm dev</code></pre>
     .studio-hero > :global(.studio-atmosphere) { max-width: 32rem; margin-inline: auto; }
     .systems-composition { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(1.5rem, 4cqi, 3.5rem); }
     .systems-composition h2 { font-size: clamp(1.75rem, 3.4cqi, 2.25rem); }
-    .systems-composition > :global(.foundation-system) { max-width: 32rem; }
+    .systems-composition > :global(.foundation-system) { max-width: none; }
     .system-layers { margin-top: clamp(1.5rem, 3cqi, 2rem); }
   }
   @container studio-page (min-width: 64rem) {

@@ -19,7 +19,6 @@ const artifacts = [
   {artifacts.map((artifact) => (
     <div id={`artifact-panel-${artifact.id}`} class="artifact-panel" data-artifact-panel>
       <h3 class="artifact-fallback-title mb-2 text-lg font-medium">{artifact.title}</h3>
-      <p class="mb-5 max-w-[65ch] text-base leading-relaxed text-muted-foreground">{artifact.description}</p>
       <StudioScreenshot image={artifact.id} alt={artifact.alt} />
     </div>
   ))}

@@ -1,0 +1,55 @@
+---
+const modes = [{ id: "view", label: "Document view", alt: "Project Context rendered as a readable document in Design Studio." }, { id: "editor", label: "Markdown editor", alt: "The same Project Context document open in Design Studio’s Markdown source editor." }];
+---
+<div data-document-gallery>
+  <div hidden role="tablist" aria-label="Document modes" class="mb-4 flex flex-wrap gap-2" data-document-tabs>
+    {modes.map((mode, index) => <button type="button" id={`context-tab-${mode.id}`} role="tab" aria-selected={String(index === 0)} aria-controls={`context-panel-${mode.id}`} tabindex={index === 0 ? 0 : -1} class="document-tab min-h-11 rounded-full border border-border px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring" data-document-tab>{mode.label}</button>)}
+  </div>
+  <div class="texture-bg rounded-xl border border-border p-3 sm:p-6">
+    {modes.map((mode, index) => <div id={`context-panel-${mode.id}`} hidden={index !== 0} data-document-panel class="overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 dark:shadow-black/30">
+      <img src={`/images/design-studio/context-${mode.id}-light.png`} alt={mode.alt} width="1000" height="1000" loading="lazy" class="block h-auto w-full dark:hidden" />
+      <img src={`/images/design-studio/context-${mode.id}-dark.png`} alt={mode.alt} width="1000" height="1000" loading="lazy" class="hidden h-auto w-full dark:block" />
+    </div>)}
+  </div>
+</div>
+<style>
+  [hidden] { display: none !important; }
+  .document-tab { cursor: pointer; color: var(--muted-foreground); }
+  .document-tab[aria-selected="true"] { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+</style>
+<script>
+  function initDocumentGalleries() {
+    document.querySelectorAll<HTMLElement>('[data-document-gallery]').forEach((root) => {
+      if (root.dataset.initialized) return;
+      root.dataset.initialized = 'true';
+      const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-document-tab]'));
+      const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-document-panel]'));
+      let animation: Animation | undefined;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function select(index: number, focus = false) {
+        animation?.cancel();
+        const changed = panels[index].hidden;
+        tabs.forEach((tab, i) => { tab.setAttribute('aria-selected', String(i === index)); tab.tabIndex = i === index ? 0 : -1; panels[i].hidden = i !== index; });
+        if (changed && !reduced.matches) animation = panels[index].animate([{opacity: 0.5}, {opacity: 1}], {duration: 220});
+        if (focus) tabs[index].focus();
+      }
+      tabs.forEach((tab, index) => {
+        panels[index].setAttribute('role', 'tabpanel');
+        panels[index].setAttribute('aria-labelledby', tab.id);
+        panels[index].tabIndex = 0;
+        tab.addEventListener('click', () => select(index));
+        tab.addEventListener('keydown', (event) => {
+          const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : ['ArrowLeft', 'ArrowRight'].includes(event.key) ? (index + 1) % tabs.length : null;
+          if (next !== null) { event.preventDefault(); select(next, true); }
+        });
+      });
+      root.querySelector<HTMLElement>('[data-document-tabs]')!.hidden = false;
+      panels.forEach((panel) => panel.querySelectorAll('img').forEach((img) => { img.loading = 'eager'; }));
+      const stop = () => { if (reduced.matches) animation?.cancel(); };
+      reduced.addEventListener('change', stop);
+      document.addEventListener('astro:before-swap', () => { animation?.cancel(); reduced.removeEventListener('change', stop); }, {once: true});
+    });
+  }
+  initDocumentGalleries();
+  document.addEventListener('astro:after-swap', initDocumentGalleries);
+</script>

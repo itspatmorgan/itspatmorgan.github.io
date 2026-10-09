@@ -94,7 +94,7 @@ const controlClass = "inline-flex h-11 w-9 shrink-0 items-center justify-center 
         if (pauseIcon) pauseIcon.hidden = paused;
         if (playIcon) playIcon.hidden = !paused;
         if (!paused && visible && !hovering && !focused && !document.hidden) {
-          timer = window.setInterval(() => show(index + 1), 6000);
+          timer = window.setInterval(() => show(index + 1), 4000);
         }
       }
       const step = (direction: number) => { paused = true; show(index + direction, true); sync(); };
