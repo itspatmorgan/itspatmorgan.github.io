@@ -1,10 +1,11 @@
 ---
+import StudioTabBar from "@/components/design-studio/StudioTabBar.astro";
 const modes = [{ id: "view", label: "Document view", alt: "Project Context rendered as a readable document in Design Studio." }, { id: "editor", label: "Markdown editor", alt: "The same Project Context document open in Design Studio’s Markdown source editor." }];
 ---
 <div data-document-gallery>
-  <div hidden role="tablist" aria-label="Document modes" class="mb-4 flex flex-wrap gap-2" data-document-tabs>
-    {modes.map((mode, index) => <button type="button" id={`context-tab-${mode.id}`} role="tab" aria-selected={String(index === 0)} aria-controls={`context-panel-${mode.id}`} tabindex={index === 0 ? 0 : -1} class="document-tab min-h-11 rounded-full border border-border px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring" data-document-tab>{mode.label}</button>)}
-  </div>
+  <StudioTabBar label="Document modes" kind="document">
+    {modes.map((mode, index) => <button type="button" id={`context-tab-${mode.id}`} role="tab" aria-selected={String(index === 0)} aria-controls={`context-panel-${mode.id}`} tabindex={index === 0 ? 0 : -1}  data-document-tab>{mode.label}</button>)}
+  </StudioTabBar>
   <div class="texture-bg rounded-xl border border-border p-3 sm:p-6">
     {modes.map((mode, index) => <div id={`context-panel-${mode.id}`} hidden={index !== 0} data-document-panel class="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-background shadow-xl shadow-black/10 dark:shadow-black/30">
       <img src={`/images/design-studio/context-${mode.id}-light.png`} alt={mode.alt} width="1000" height="1000" loading="lazy" class="absolute inset-0 block h-full w-full object-cover object-top dark:hidden" />
@@ -14,8 +15,6 @@ const modes = [{ id: "view", label: "Document view", alt: "Project Context rende
 </div>
 <style>
   [hidden] { display: none !important; }
-  .document-tab { cursor: pointer; color: var(--muted-foreground); }
-  .document-tab[aria-selected="true"] { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
 </style>
 <script>
   function initDocumentGalleries() {

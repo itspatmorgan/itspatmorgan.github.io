@@ -1,4 +1,5 @@
 ---
+import StudioTabBar from "@/components/design-studio/StudioTabBar.astro";
 import StudioScreenshot from "@/components/design-studio/StudioScreenshot.astro";
 
 const artifacts = [
@@ -11,11 +12,11 @@ const artifacts = [
 ---
 
 <div class="mt-8" data-artifact-explorer>
-  <div hidden class="mb-5 flex flex-wrap gap-2" role="tablist" aria-label="Explore prototype artifacts" data-artifact-tabs>
+  <StudioTabBar label="Explore prototype artifacts" kind="artifact">
     {artifacts.map((artifact, index) => (
-      <button id={`artifact-tab-${artifact.id}`} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`artifact-panel-${artifact.id}`} tabindex={index === 0 ? 0 : -1} class="artifact-tab min-h-11 rounded-full border border-border px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring" data-artifact-tab>{artifact.title}</button>
+      <button id={`artifact-tab-${artifact.id}`} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`artifact-panel-${artifact.id}`} tabindex={index === 0 ? 0 : -1}  data-artifact-tab>{artifact.title}</button>
     ))}
-  </div>
+  </StudioTabBar>
   {artifacts.map((artifact) => (
     <div id={`artifact-panel-${artifact.id}`} class="artifact-panel" data-artifact-panel>
       <h3 class="artifact-fallback-title mb-2 text-lg font-medium">{artifact.title}</h3>
@@ -29,8 +30,6 @@ const artifacts = [
   .artifact-panel + .artifact-panel { margin-top: 2rem; }
   [data-artifact-explorer][data-initialized] .artifact-panel { margin-top: 0; }
   [data-artifact-explorer][data-initialized] .artifact-fallback-title { display: none; }
-  .artifact-tab { color: var(--muted-foreground); cursor: pointer; }
-  .artifact-tab[aria-selected="true"] { background: var(--foreground); border-color: var(--foreground); color: var(--background); }
 </style>
 
 <script>

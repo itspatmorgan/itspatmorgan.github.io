@@ -1,0 +1,47 @@
+---
+interface Props { label: string; kind: "document" | "artifact"; }
+const { label, kind } = Astro.props;
+---
+<div class="tab-scroll">
+  <div hidden role="tablist" aria-label={label} data-studio-tab-bar data-document-tabs={kind === "document" ? "true" : undefined} data-artifact-tabs={kind === "artifact" ? "true" : undefined} class="tab-bar">
+    <span class="tab-indicator" aria-hidden="true" data-tab-indicator></span>
+    <slot />
+  </div>
+</div>
+<style>
+  [hidden] { display: none !important; }
+  .tab-scroll { max-width: 100%; overflow-x: auto; margin-bottom: 1.25rem; padding: 4px; margin-left: -4px; }
+  .tab-bar { position: relative; isolation: isolate; display: inline-flex; width: max-content; border: 1px solid var(--border); border-radius: 999px; padding: 4px; }
+  .tab-indicator { position: absolute; z-index: -1; left: 0; top: 4px; bottom: 4px; width: 0; border-radius: 999px; background: var(--foreground); pointer-events: none; }
+  .tab-bar[data-ready] .tab-indicator { transition: transform 260ms cubic-bezier(.22,1,.36,1), width 260ms cubic-bezier(.22,1,.36,1); }
+  .tab-bar :global([role="tab"]) { flex-shrink: 0; min-height: 2.75rem; border: 0; border-radius: 999px; padding: .375rem .75rem; font-size: .875rem; color: var(--muted-foreground); background: transparent; cursor: pointer; transition: color 180ms ease; }
+  .tab-bar :global([role="tab"]:hover) { color: var(--foreground); }
+  .tab-bar :global([role="tab"][aria-selected="true"]) { color: var(--background); }
+  .tab-bar :global([role="tab"]:focus-visible) { outline: 2px solid var(--ring); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .tab-bar[data-ready] .tab-indicator, .tab-bar :global([role="tab"]) { transition: none; } }
+</style>
+<script>
+  function initTabBars() {
+    document.querySelectorAll<HTMLElement>('[data-studio-tab-bar]').forEach((root) => {
+      if (root.dataset.barInitialized) return;
+      root.dataset.barInitialized = 'true';
+      const indicator = root.querySelector<HTMLElement>('[data-tab-indicator]')!;
+      function sync() {
+        const active = root.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
+        if (!active || root.hidden) return;
+        indicator.style.width = `${active.offsetWidth}px`;
+        indicator.style.transform = `translateX(${active.offsetLeft}px)`;
+        requestAnimationFrame(() => { root.dataset.ready = 'true'; });
+      }
+      const selection = new MutationObserver(sync);
+      selection.observe(root, { subtree: true, attributes: true, attributeFilter: ['aria-selected', 'hidden'] });
+      const resize = new ResizeObserver(sync);
+      resize.observe(root);
+      root.querySelectorAll('[role="tab"]').forEach((tab) => resize.observe(tab));
+      sync();
+      document.addEventListener('astro:before-swap', () => { selection.disconnect(); resize.disconnect(); }, { once: true });
+    });
+  }
+  initTabBars();
+  document.addEventListener('astro:after-swap', initTabBars);
+</script>
