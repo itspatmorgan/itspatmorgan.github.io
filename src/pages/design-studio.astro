@@ -11,7 +11,7 @@ import agentGuide from "@/data/design-studio-agent.txt?raw";
 import { setupGuide, setupPaths, sitesSetup } from "@/data/design-studio-setup";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/data/site-config";
-import { GithubIcon } from "@hugeicons/core-free-icons";
+import { GithubIcon, UserIcon, Robot01Icon } from "@hugeicons/core-free-icons";
 
 const repository = "https://github.com/itspatmorgan/design-studio-starter";
 const liveDemo = "https://itspatmorgan.com/design-studio-starter/";
@@ -29,43 +29,50 @@ const platformBenefits = [
 
 <PageLayout title="Design Studio: Design with intent. Build with an agent." description="A prototype sandbox for designers and product managers who build. Work with your agent locally, then publish interactive prototypes for your team to explore." image="/images/design-studio/social-prototype-sandbox.jpg">
   <div class="studio-page mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-14">
-    <header class="flex items-center justify-between gap-6 pt-9 sm:pt-12">
-      <a href="/design-studio" class="flex items-center gap-3 font-medium tracking-tight" aria-label="Design Studio home">
+    <header class="studio-header flex items-center justify-between gap-6 pt-9 sm:pt-12">
+      <a href="/design-studio" class="studio-brand flex shrink-0 items-center gap-3 font-medium tracking-tight" aria-label="Design Studio home">
         <svg width="32" height="26" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 0h11v32H0zM15 0h3a16 16 0 0 1 0 32h-3z" /></svg>
         <span class="text-lg">Design Studio</span>
       </a>
-      <nav aria-label="Reading mode" class="relative isolate flex rounded-full border border-border p-1" data-studio-modes>
-        <span class="mode-indicator" aria-hidden="true" data-mode-indicator></span>
-        <a id="studio-human-tab" href="#studio-human" data-studio-mode="human" class="mode-tab rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Human</a>
-        <a id="studio-agent-tab" href="/design-studio/agent.txt" data-studio-mode="agent" class="mode-tab font-mono rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">Agent</a>
-      </nav>
+      <div class="studio-header-controls ml-auto flex shrink-0 items-center gap-4 sm:gap-6">
+        <a href={repository} aria-label="View Design Studio on GitHub" title="View Design Studio on GitHub" class="studio-github inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">
+          <span aria-hidden="true"><Icon icon={GithubIcon} size={20} /></span>
+          <span class="studio-control-label">GitHub</span>
+        </a>
+        <nav aria-label="Reading mode" class="relative isolate flex rounded-full border border-border p-1" data-studio-modes>
+          <span class="mode-indicator" aria-hidden="true" data-mode-indicator></span>
+          <a id="studio-human-tab" href="#studio-human" data-studio-mode="human" aria-label="Human" title="Human" class="mode-tab rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"><span class="studio-mode-icon" aria-hidden="true"><Icon icon={UserIcon} size={18} /></span><span class="studio-control-label">Human</span></a>
+          <a id="studio-agent-tab" href="/design-studio/agent.txt" data-studio-mode="agent" aria-label="Agent" title="Agent" class="mode-tab font-mono rounded-full px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"><span class="studio-mode-icon" aria-hidden="true"><Icon icon={Robot01Icon} size={18} /></span><span class="studio-control-label">Agent</span></a>
+        </nav>
+      </div>
     </header>
 
     <div id="studio-human" data-studio-panel="human">
     <section class="studio-hero grid items-center gap-6" aria-labelledby="studio-title">
       <div>
         <h1 id="studio-title" class="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
-        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">A prototype sandbox for designers and product managers who build. Work with your agent to turn ideas into interactive prototypes, using your components, context, and design principles.</p>
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">Design Studio is an open source, AI prototype sandbox for designers and product managers who build.</p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Set up Design Studio <span aria-hidden="true">↓</span></a>
           <a href={liveDemo} class="inline-flex min-h-11 items-center gap-2 px-3 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">View demo <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="mt-8 text-sm leading-relaxed text-muted-foreground">
-          <p>Works with</p>
-          <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3">
-            {setupPaths.filter((path) => path.logo).map((path) => (
-              <span class="inline-flex items-center gap-2 whitespace-nowrap">
-                <span class="hero-vendor-logo" style={"--vendor-logo: url(" + path.logo + ")"} aria-hidden="true"></span>
-                <span>{path.title.replace(/ plugin$/, "")}</span>
-              </span>
-            ))}
-          </div>
         </div>
       </div>
       <StudioAtmosphere />
     </section>
 
-    <section id="explore" class="border-t border-border py-14 sm:py-20" aria-labelledby="examples-title">
+    <div class="border-y border-border py-8 text-center" aria-label="Supported coding agents">
+      <p class="text-sm leading-relaxed text-muted-foreground">Works with coding agents like</p>
+      <div class="studio-agent-logos mx-auto mt-6 grid max-w-2xl grid-cols-3 gap-3 text-foreground/80">
+        {setupPaths.filter((path) => path.logo).map((path) => (
+          <span class="studio-agent-brand flex flex-col items-center gap-3 text-sm font-medium leading-snug">
+            <span class="hero-vendor-logo" style={"--vendor-logo: url(" + path.logo + ")"} aria-hidden="true"></span>
+            <span>{path.title.replace(/ plugin$/, "")}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <section id="explore" class="py-14 sm:py-20" aria-labelledby="examples-title">
       <h2 id="examples-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Build prototypes that connect the whole idea</h2>
       <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Build the interface, map the flow, and capture your thinking in one connected prototype.</p>
       <div class="texture-bg mt-8 rounded-xl border border-border p-3 sm:p-6">
@@ -173,6 +180,7 @@ const platformBenefits = [
           <p>Design Studio is something I’ve wanted to exist for years.</p>
           <p>Over a decade ago, I started my tech career as a front-end developer embedded on a product design team. Prototyping and design technology have been central to my work ever since. This year, coding agents finally made it possible to build the environment I’d imagined and make that way of working accessible to more teams.</p>
           <p>Design Studio carries years of thinking and experimentation, shaped by using early versions with my teammates at Sublime Security. Their support and our day-to-day product and marketing work helped make it what it is.</p>
+          <p>I built and shipped Design Studio as a free, open-source project. <a href={repository} class="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Explore the code on GitHub</a>, adapt it, or contribute.</p>
           <p>I’d love to see what you build, hear what gets in your way, and help you make Design Studio fit your team.</p>
           <img src="/images/brand/patrick-signature.png" alt="Patrick Morgan" width="764" height="376" loading="lazy" class="h-auto w-32 dark:invert" />
           <a href="https://www.unknownarts.com/p/build-a-design-os" class="inline-block pt-3 text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">Read the story behind Design Studio <span aria-hidden="true">→</span></a>
@@ -201,8 +209,18 @@ const platformBenefits = [
 
 <style>
   .studio-page { container: studio-page / inline-size; }
+  .studio-mode-icon { display: none; }
   .studio-hero { padding-top: clamp(3rem, 8.8cqi, 6rem); padding-bottom: clamp(3rem, 10.3cqi, 7rem); }
   @container studio-page (max-width: 39.999rem) {
+    .studio-header { gap: 0.5rem; }
+    .studio-brand { gap: 0.5rem; }
+    .studio-brand > svg { width: 1.5rem; height: auto; }
+    .studio-brand > span { font-size: clamp(0.875rem, 4.5cqi, 1.125rem); white-space: nowrap; }
+    .studio-header-controls { gap: 0.25rem; }
+    .studio-github { width: 2.75rem; justify-content: center; }
+    .studio-control-label { display: none; }
+    .studio-mode-icon { display: flex; }
+    .studio-header .mode-tab { display: flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; padding: 0; }
     .studio-hero { padding-top: 1.5rem; }
     .studio-hero > :global(.studio-atmosphere) { grid-row: 1; max-width: 22rem; margin-inline: 0; }
     .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 2.5rem); }
@@ -227,7 +245,11 @@ const platformBenefits = [
   .setup-path summary::-webkit-details-marker { display: none; }
   .setup-path-heading { display: flex; align-items: center; gap: 1rem; }
   .setup-vendor-logo { display: block; width: 2.5rem; height: 2.5rem; flex-shrink: 0; background: var(--foreground); mask: var(--vendor-logo) center / contain no-repeat; }
-  .hero-vendor-logo { display: block; width: 1.25rem; height: 1.25rem; flex-shrink: 0; background: currentColor; mask: var(--vendor-logo) center / contain no-repeat; }
+  .hero-vendor-logo { display: block; width: 1.75rem; height: 1.75rem; flex-shrink: 0; background: currentColor; mask: var(--vendor-logo) center / contain no-repeat; }
+  @container studio-page (min-width: 40rem) {
+    .studio-agent-brand { flex-direction: row; justify-content: center; gap: 0.75rem; font-size: 1.125rem; white-space: nowrap; }
+    .studio-agent-logos { gap: 2rem; }
+  }
   .setup-source-logo { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; flex-shrink: 0; }
   .setup-expand { flex-shrink: 0; font: 1.5rem var(--font-mono); color: var(--muted-foreground); transition: transform 180ms ease; }
   .setup-path[open] .setup-expand { transform: rotate(45deg); }
