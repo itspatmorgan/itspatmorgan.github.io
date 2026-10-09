@@ -47,8 +47,8 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
     <section class="studio-hero grid items-center gap-6" aria-labelledby="studio-title">
       <div>
         <h1 id="studio-title" class="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
-        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">Design Studio is an open source, AI prototype sandbox for designers and product managers who build.</p>
-        <div class="mt-8 flex flex-wrap items-center gap-3">
+        <p data-studio-hero-copy class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">Design Studio is an open source, AI prototype sandbox for designers and product managers who build.</p>
+        <div data-studio-hero-actions class="mt-8 flex flex-wrap items-center gap-3">
           <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Set up Design Studio <span aria-hidden="true">↓</span></a>
           <a href={liveDemo} class="inline-flex min-h-11 items-center gap-2 px-3 text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">View demo <span aria-hidden="true">↗</span></a>
         </div>
@@ -56,7 +56,7 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       <StudioAtmosphere />
     </section>
 
-    <div class="border-y border-border py-8 text-center" aria-label="Supported coding agents">
+    <div data-studio-entrance class="border-y border-border py-8 text-center" aria-label="Supported coding agents">
       <p class="text-sm leading-relaxed text-muted-foreground">Works with coding agents like</p>
       <div class="studio-agent-logos mx-auto mt-6 grid max-w-2xl grid-cols-3 gap-3 text-foreground/80">
         {setupPaths.filter((path) => path.logo).map((path) => (
@@ -68,14 +68,14 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       </div>
     </div>
 
-    <div id="explore" class="py-10 sm:py-14">
+    <div data-studio-entrance id="explore" class="py-10 sm:py-14">
       <div class="texture-bg rounded-xl border border-border p-3 sm:p-6">
         <StudioPreviewCarousel href={feedbackDemo} linkLabel="Try the Feedback Inbox example" />
       </div>
       <p class="mt-3 text-sm leading-relaxed text-muted-foreground">Explore the prototype, its context, and the artifacts behind it. Open the demo to try it yourself.</p>
     </div>
 
-    <section id="make-it-yours" class="studio-story-section" aria-labelledby="systems-title">
+    <section id="make-it-yours" data-studio-entrance class="studio-story-section" aria-labelledby="systems-title">
       <div class="systems-composition grid items-center gap-8">
         <div>
           <h2 id="systems-title" class="studio-section-title">Your design system, with context and skills</h2>
@@ -86,7 +86,7 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       </div>
     </section>
 
-    <section id="capture-context" class="studio-story-section" aria-labelledby="context-title">
+    <section id="capture-context" data-studio-entrance class="studio-story-section" aria-labelledby="context-title">
       <div class="studio-story-split context-composition grid items-center gap-8">
         <div class="context-image">
           <StudioDocumentGallery />
@@ -102,13 +102,13 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       </div>
     </section>
 
-    <section id="give-it-shape" class="studio-story-section" aria-labelledby="artifacts-title">
+    <section id="give-it-shape" data-studio-entrance class="studio-story-section" aria-labelledby="artifacts-title">
       <h2 id="artifacts-title" class="studio-section-title">Give your idea shape</h2>
       <p class="studio-intro">Map a flow, sketch a layout, build an interactive experience, and capture decisions. Combine React views, diagrams, wireframes, canvases, and documents in one prototype.</p>
       <StudioArtifactExplorer />
     </section>
 
-    <section id="work-and-share" class="studio-story-section" aria-labelledby="workflow-title">
+    <section id="work-and-share" data-studio-entrance class="studio-story-section" aria-labelledby="workflow-title">
       <div class="studio-story-split grid items-center gap-8">
         <div>
           <h2 id="workflow-title" class="studio-section-title">Publish a website. Share a lasting link.</h2>
@@ -123,7 +123,7 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       </div>
     </section>
 
-    <section id="build-together" class="studio-story-section" aria-labelledby="together-title">
+    <section id="build-together" data-studio-entrance class="studio-story-section" aria-labelledby="together-title">
       <div class="studio-story-split grid items-center gap-8">
         <div>
           <h2 id="together-title" class="studio-section-title">Your own space. Room for a team.</h2>
@@ -137,7 +137,7 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       </div>
     </section>
 
-    <section id="get-started" class="scroll-mt-8 border-t border-border py-14 sm:py-20" aria-labelledby="setup-title">
+    <section data-studio-entrance id="get-started" class="scroll-mt-8 border-t border-border py-14 sm:py-20" aria-labelledby="setup-title">
       <h2 id="setup-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Set up locally. Publish in minutes.</h2>
       <p class="mt-4 max-w-[65ch] text-base leading-relaxed text-muted-foreground">Run Design Studio on your computer, then publish a link for your team. Use your usual coding agent or install it yourself. The prompts guide your agent through both steps.</p>
       <div class="setup-step mt-10">
@@ -219,7 +219,7 @@ mise exec -- pnpm dev</code></pre>
       <p class="sr-only" data-copy-status role="status" aria-live="polite"></p>
     </section>
 
-    <section class="border-t border-border pt-14 pb-20 sm:pt-20 sm:pb-24" aria-labelledby="about-studio-title">
+    <section data-studio-entrance class="border-t border-border pt-14 pb-20 sm:pt-20 sm:pb-24" aria-labelledby="about-studio-title">
       <h2 id="about-studio-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A note from the creator</h2>
       <div class="mt-8 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-14">
         <div class="creator-portrait-field md:order-2 relative isolate flex justify-center py-8 md:self-start md:py-0">
@@ -359,7 +359,6 @@ mise exec -- pnpm dev</code></pre>
 
 <script>
   import { dissolvePixelWave } from "@/scripts/pixel-wave";
-  import { animate } from "motion";
 
   function initStudioPage() {
     const human = document.querySelector<HTMLElement>("#studio-human");
@@ -367,18 +366,43 @@ mise exec -- pnpm dev</code></pre>
       human.dataset.visualMotionInitialized = "true";
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
       const running = new Set<Animation>();
-      // Images remain visible without JavaScript. Animate once as each enters view.
+      const reveal = (element: Element | null, delay = 0, offset = 16) => {
+        if (!element || reduced.matches) return;
+        const animation = element.animate(
+          [{ opacity: 0, transform: `translateY(${offset}px)` }, { opacity: 1, transform: "translateY(0)" }],
+          { duration: 500, delay, easing: "cubic-bezier(.22,1,.36,1)", fill: "backwards" },
+        );
+        running.add(animation);
+        animation.finished.then(() => running.delete(animation)).catch(() => running.delete(animation));
+      };
+      const title = human.querySelector("#studio-title");
+      const illustration = human.querySelector("[data-studio-atmosphere]");
+      const illustrationFirst = title && illustration && illustration.getBoundingClientRect().top < title.getBoundingClientRect().top;
+      reveal(document.querySelector(".studio-header"), 0, 10);
+      reveal(title, illustrationFirst ? 120 : 60);
+      reveal(illustration, illustrationFirst ? 60 : 120);
+      reveal(human.querySelector("[data-studio-hero-copy]"), 180);
+      reveal(human.querySelector("[data-studio-hero-actions]"), 240);
+
+      // Reveal complete sections together so copy and visuals share one beat.
+      // Visible blocks join the opening; the rest enter once on scroll.
+      let visibleIndex = 0;
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           observer.unobserve(entry.target);
-          if (reduced.matches) return;
-          const animation = entry.target.animate([{ opacity: 0.7, transform: "translateY(12px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 500, easing: "cubic-bezier(.22,1,.36,1)" });
-          running.add(animation);
-          animation.finished.then(() => running.delete(animation)).catch(() => running.delete(animation));
+          reveal(entry.target);
         });
-      }, { threshold: 0.2 });
-      human.querySelectorAll(".studio-story-section figure, .foundation-system, .workflow-art").forEach((visual) => { if (!visual.closest("[data-artifact-explorer]")) observer.observe(visual); });
+      }, { threshold: 0, rootMargin: "0px 0px -32px 0px" });
+      human.querySelectorAll("[data-studio-entrance]").forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          reveal(section, 320 + visibleIndex * 140);
+          visibleIndex++;
+        } else {
+          observer.observe(section);
+        }
+      });
       const stopMotion = () => { if (reduced.matches) running.forEach((animation) => animation.cancel()); };
       reduced.addEventListener("change", stopMotion);
       document.addEventListener("astro:before-swap", () => { observer.disconnect(); running.forEach((animation) => animation.cancel()); reduced.removeEventListener("change", stopMotion); }, { once: true });

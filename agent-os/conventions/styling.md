@@ -23,6 +23,10 @@ restrained, content-first design over decorative complexity.
 - Markdown prose uses custom `.prose` styles in `global.css`, not
   `@tailwindcss/typography`.
 - Keep visual work readable and consistent with the current portfolio aesthetic.
+- Home entrance timing lives in `src/scripts/home-animations.ts`. Give each
+  content section a `data-home-section-header` and wrap its entrance items with
+  `data-project-card-item` so new features join the shared load/scroll sequence.
+  Keep entrance transforms on wrappers separate from card hover transforms.
 - Render primary content visibly by default. Entrance animations should set their
   own initial keyframes; avoid hiding content in server-rendered markup until
   JavaScript reveals it, since failed scripts can leave an otherwise complete

@@ -1,5 +1,4 @@
 import { animate } from "motion";
-import { observeSections } from "./scroll-entrance";
 import { pixelWave, dissolvePixelWave, enablePixelHover } from "./pixel-wave";
 
 const SESSION_KEY = "pixelWaveSeen";
@@ -28,86 +27,65 @@ function resolvePixelWave(container: HTMLElement) {
 }
 
 function init() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const seen = sessionStorage.getItem(SESSION_KEY);
-
-  // On desktop (md+) animate the big headline wave; on mobile animate the name wave.
-  // The other wave lives in a display:none block — resolve it silently so pixel font never flashes.
   const isMd = window.matchMedia("(min-width: 768px)").matches;
-  const activeHero = document.querySelector(isMd ? ".hero-desktop" : ".hero-mobile") as HTMLElement | null;
-  const photo = activeHero?.querySelector("[data-hero-photo]") as HTMLElement | null;
-  const label = activeHero?.querySelector("[data-hero-label]") as HTMLElement | null;
-  const desc = activeHero?.querySelector("[data-hero-desc]") as HTMLElement | null;
-  const icons = activeHero?.querySelector("[data-hero-icons]") as HTMLElement | null;
-  const workIntro = document.querySelector("[data-work-intro]") as HTMLElement | null;
-  const workCards = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-home-work-card]")
+  const activeHero = document.querySelector<HTMLElement>(isMd ? ".hero-desktop" : ".hero-mobile");
+  const photo = activeHero?.querySelector<HTMLElement>("[data-hero-photo]");
+  const desc = activeHero?.querySelector<HTMLElement>("[data-hero-desc]");
+  const heroWave = activeHero?.querySelector<HTMLElement>("[data-pixel-wave]");
+  const inactiveWave = document.querySelector<HTMLElement>(
+    isMd ? '[data-pixel-wave="hero"]' : '[data-pixel-wave="headline"]'
   );
-  const heroWave = document.querySelector(
-    `[data-pixel-wave="${isMd ? "headline" : "hero"}"]`
-  ) as HTMLElement | null;
-  const inactiveWave = document.querySelector(
-    `[data-pixel-wave="${isMd ? "hero" : "headline"}"]`
-  ) as HTMLElement | null;
   if (inactiveWave) resolvePixelWave(inactiveWave);
 
-  function revealWorkPreview(startDelay: number) {
-    if (!isMd) return;
-    if (workIntro) softIn(workIntro, startDelay);
-    workCards.forEach((card, index) => {
-      springIn(card, startDelay + 110 + index * 90);
-    });
+  if (reducedMotion) {
+    document.querySelectorAll<HTMLElement>("[data-pixel-wave]").forEach(resolvePixelWave);
+    return;
   }
 
-  function revealSections() {
-    const sections = document.querySelectorAll(
-      "[data-section-entrance]"
-    ) as NodeListOf<HTMLElement>;
-    sections.forEach((section) => {
-      animate(section, { opacity: [0, 1] }, { duration: 0.3, easing: "ease-out" });
-    });
-    observeSections(
-      isMd ? "[data-project-card-item]:not([data-home-work-card])" : "[data-project-card-item]",
-      {
-        yOffset: 24,
-        stagger: 0.1,
-      }
-    );
-    observeSections("[data-kind-words-item]", { yOffset: 10, stagger: 0.04 });
-  }
-
-  if (seen) {
-    // Returning visitor: resolve layers silently, then spring everything in together
-    if (heroWave) {
-      dissolvePixelWave(heroWave);
-      springIn(heroWave, 0);
-    }
-    if (photo) springIn(photo, 0);
-    if (label) springIn(label, 60);
-    if (desc) springIn(desc, 120);
-    if (icons) springIn(icons, 180);
-    revealWorkPreview(isMd ? 260 : 320);
-    setTimeout(revealSections, 520);
-  } else {
-    // First visit: full choreographed entrance
-    sessionStorage.setItem(SESSION_KEY, "1");
-
-    if (photo) springIn(photo, 0);
-    if (label) springIn(label, 120);
-    if (heroWave) {
-      // Match the Design Studio headline's original-letter cross-dissolve.
-      heroWave.style.opacity = "1";
-      dissolvePixelWave(heroWave);
-      if (desc) springIn(desc, isMd ? 960 : 1200);
-      if (icons) springIn(icons, 1350);
-      revealWorkPreview(isMd ? 1220 : 1500);
-      setTimeout(revealSections, isMd ? 1550 : 1500);
+  sessionStorage.setItem(SESSION_KEY, "1");
+  if (heroWave) {
+    if (seen) {
+      resolvePixelWave(heroWave);
+      enablePixelHover(heroWave);
     } else {
-      if (desc) springIn(desc, 240);
-      if (icons) springIn(icons, 360);
-      revealWorkPreview(420);
-      revealSections();
+      dissolvePixelWave(heroWave);
     }
+    springIn(heroWave, 0);
   }
+  if (photo) springIn(photo, 60);
+  if (desc) springIn(desc, seen ? 80 : 180);
+
+  // Schedule visible sections on the opening timeline. Sections below the fold
+  // use the same rhythm on scroll, without a delayed second reveal.
+  const observers: IntersectionObserver[] = [];
+  let visibleSectionIndex = 0;
+  document.querySelectorAll<HTMLElement>("[data-home-section-header]").forEach((header) => {
+    const section = header.closest("section");
+    if (!section) return;
+    const items = Array.from(section.querySelectorAll<HTMLElement>("[data-project-card-item]"));
+    const reveal = (delay: number) => {
+      softIn(header, delay);
+      items.forEach((item, index) => springIn(item, delay + 80 + index * 70));
+    };
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      reveal((seen ? 180 : 320) + visibleSectionIndex * 140);
+      visibleSectionIndex++;
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      reveal(0);
+    }, { threshold: 0, rootMargin: "0px 0px -32px 0px" });
+    observers.push(observer);
+    observer.observe(section);
+  });
+  document.addEventListener("astro:before-swap", () => {
+    observers.forEach((observer) => observer.disconnect());
+  }, { once: true });
 
   // CTA — scroll-triggered; always run the pixel wave as a closing interaction.
   const ctaSection = document.querySelector("[data-cta-section]") as HTMLElement | null;
@@ -137,6 +115,7 @@ function init() {
       { threshold: 0.3 }
     );
     ctaObs.observe(ctaSection);
+    document.addEventListener("astro:before-swap", () => ctaObs.disconnect(), { once: true });
   }
 }
 
