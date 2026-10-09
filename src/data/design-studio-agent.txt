@@ -26,7 +26,7 @@ Bring your own design system: share your team’s React components and theme. Yo
 
 ## Capture context
 
-Keep shared product knowledge and design principles in system context. Save the brief, assumptions, decisions, and open questions for an individual prototype as documents alongside its other artifacts. Choose the artifact types that help answer the question; no fixed sequence is required.
+Keep shared product knowledge and design principles in system context. Save the brief, assumptions, decisions, and open questions for an individual prototype as Markdown documents alongside its other artifacts. The user and agent can edit the same document. Choose the artifact types that help answer the question; no fixed sequence is required.
 
 ## Build together
 
@@ -81,7 +81,7 @@ Copy this prompt into a local Agent chat in Cursor to install the plugin and cre
 
 Copy this prompt into your local coding agent to create Design Studio directly from GitHub. No plugin is required, so this also works when plugin installs are restricted.
 
-For manual setup, follow the [GitHub README](https://github.com/itspatmorgan/design-studio-starter#get-started).
+For manual setup without an agent, follow [manual installation](https://github.com/itspatmorgan/design-studio-starter/blob/main/SETUP.md#manual-installation): create a repository from the GitHub template or download the source, install mise, then run mise install, mise exec -- pnpm install, and mise exec -- pnpm dev in the repository folder. Open the local URL printed in the terminal.
 
 > Help me install Design Studio from https://github.com/itspatmorgan/design-studio-starter. Read its SETUP.md and follow the linked create-studio instructions. Handle downloading, setup, and opening it for me. Verify that setup will save files on my computer and help me choose the local folder. Preserve anything already there. Show me the running Design Studio and help me continue working in its folder.
 

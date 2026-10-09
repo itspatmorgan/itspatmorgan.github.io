@@ -41,9 +41,18 @@ const artifacts = [
       const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-artifact-tab]"));
       const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-artifact-panel]"));
       const tablist = root.querySelector<HTMLElement>("[data-artifact-tabs]");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let active = -1;
+      let transition: Animation | undefined;
       function select(index: number, focus = false) {
+        const changed = active !== index;
+        transition?.cancel();
         tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
         panels.forEach((panel, i) => { panel.hidden = i !== index; });
+        if (changed && active !== -1 && !reduced.matches) {
+          transition = panels[index].animate([{ opacity: 0.5, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 240, easing: "ease-out" });
+        }
+        active = index;
         if (focus) tabs[index].focus();
       }
       tabs.forEach((tab, index) => {
@@ -61,6 +70,9 @@ const artifacts = [
       select(0);
       if (tablist) tablist.hidden = false;
       root.dataset.initialized = "true";
+      const stopMotion = () => { if (reduced.matches) transition?.cancel(); };
+      reduced.addEventListener("change", stopMotion);
+      document.addEventListener("astro:before-swap", () => { transition?.cancel(); reduced.removeEventListener("change", stopMotion); }, { once: true });
     });
   }
   initArtifactExplorers();
