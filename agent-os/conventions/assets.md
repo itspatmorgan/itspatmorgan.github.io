@@ -6,6 +6,8 @@ Favicons use `public/favicon.svg` as the canonical dots mark. After changing it,
 run `node scripts/generate-favicons.mjs` to regenerate every PNG, Apple touch
 icon, and ICO fallback. Raster variants use the light-theme palette; the SVG
 adapts to the browser color scheme. Keep favicon URLs stable for crawlers.
+The generator also updates the legacy `images/brand/logo-{dark,light}-256.png`
+URLs with the current mark so external references cannot fetch retired branding.
 
 | Pattern | Purpose |
 | --- | --- |

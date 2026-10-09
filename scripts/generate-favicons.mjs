@@ -13,6 +13,16 @@ await Promise.all(images.map((image, i) => writeFile(new URL(`favicon-${sizes[i]
 await sharp(svg).resize(180, 180).flatten({ background: '#1f1c14' }).png()
   .toFile(new URL('apple-touch-icon.png', root).pathname);
 
+// Preserve previously published logo URLs without continuing to serve the old mark.
+await sharp(svg).resize(256, 256).png()
+  .toFile(new URL('images/brand/logo-dark-256.png', root).pathname);
+const inverseSvg = Buffer.from(svg.toString()
+  .replaceAll('#1f1c14', '#SWAP')
+  .replaceAll('#f7f3ec', '#1f1c14')
+  .replaceAll('#SWAP', '#f7f3ec'));
+await sharp(inverseSvg).resize(256, 256).png()
+  .toFile(new URL('images/brand/logo-light-256.png', root).pathname);
+
 // ICO supports PNG payloads; include compact and higher-resolution variants.
 const header = Buffer.alloc(6 + images.length * 16);
 header.writeUInt16LE(1, 2);
