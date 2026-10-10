@@ -23,7 +23,7 @@ restrained, content-first design over decorative complexity.
 - Markdown prose uses custom `.prose` styles in `global.css`, not
   `@tailwindcss/typography`.
 - Keep visual work readable and consistent with the current portfolio aesthetic.
-- Render primary content in its final visible position. Top-level pages share a
+- Render primary content in its final visible position. All pages using the shared layout have a
   160ms native document crossfade, opted in by `BaseLayout.astro` and styled in
   `global.css`. Do not layer page or scroll entrance animations onto it. Browsers
   without transition support use ordinary document navigation; reduced motion

@@ -52,7 +52,8 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ['html-to-image', '@hugeicons/react'],
+      // Pre-bundle the client-only tool's imports before its first visit.
+      include: ['html-to-image', '@hugeicons/react', '@hugeicons/core-free-icons'],
     },
   },
 });
