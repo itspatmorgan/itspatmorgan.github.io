@@ -344,6 +344,7 @@ mise exec -- pnpm dev</code></pre>
   .mode-indicator { position:absolute; z-index:-1; left:0; top:4px; bottom:4px; width:0; border-radius:999px; background:var(--foreground); pointer-events:none; }
   [data-studio-modes][data-initialized="true"] .mode-indicator { transition:transform 260ms cubic-bezier(.22,1,.36,1), width 260ms cubic-bezier(.22,1,.36,1); }
   .mode-tab { color: var(--muted-foreground); transition:color 180ms ease; }
+  [data-studio-modes]:not([data-initialized]) [data-studio-mode="human"] { background: var(--foreground); color: var(--background); }
   .mode-tab:hover { color: var(--foreground); }
   .mode-tab[aria-selected="true"] { color: var(--background); }
   @media (prefers-reduced-motion: reduce) {
@@ -358,59 +359,13 @@ mise exec -- pnpm dev</code></pre>
 </style>
 
 <script>
-  import { dissolvePixelWave } from "@/scripts/pixel-wave";
+  import { enablePixelHover } from "@/scripts/pixel-wave";
 
   function initStudioPage() {
-    const human = document.querySelector<HTMLElement>("#studio-human");
-    if (human && !human.dataset.visualMotionInitialized) {
-      human.dataset.visualMotionInitialized = "true";
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const running = new Set<Animation>();
-      const reveal = (element: Element | null, delay = 0, offset = 16) => {
-        if (!element || reduced.matches) return;
-        const animation = element.animate(
-          [{ opacity: 0, transform: `translateY(${offset}px)` }, { opacity: 1, transform: "translateY(0)" }],
-          { duration: 500, delay, easing: "cubic-bezier(.22,1,.36,1)", fill: "backwards" },
-        );
-        running.add(animation);
-        animation.finished.then(() => running.delete(animation)).catch(() => running.delete(animation));
-      };
-      const title = human.querySelector("#studio-title");
-      const illustration = human.querySelector("[data-studio-atmosphere]");
-      const illustrationFirst = title && illustration && illustration.getBoundingClientRect().top < title.getBoundingClientRect().top;
-      reveal(document.querySelector(".studio-header"), 0, 10);
-      reveal(title, illustrationFirst ? 120 : 60);
-      reveal(illustration, illustrationFirst ? 60 : 120);
-      reveal(human.querySelector("[data-studio-hero-copy]"), 180);
-      reveal(human.querySelector("[data-studio-hero-actions]"), 240);
-
-      // Reveal complete sections together so copy and visuals share one beat.
-      // Visible blocks join the opening; the rest enter once on scroll.
-      let visibleIndex = 0;
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          observer.unobserve(entry.target);
-          reveal(entry.target);
-        });
-      }, { threshold: 0, rootMargin: "0px 0px -32px 0px" });
-      human.querySelectorAll("[data-studio-entrance]").forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          reveal(section, 320 + visibleIndex * 140);
-          visibleIndex++;
-        } else {
-          observer.observe(section);
-        }
-      });
-      const stopMotion = () => { if (reduced.matches) running.forEach((animation) => animation.cancel()); };
-      reduced.addEventListener("change", stopMotion);
-      document.addEventListener("astro:before-swap", () => { observer.disconnect(); running.forEach((animation) => animation.cancel()); reduced.removeEventListener("change", stopMotion); }, { once: true });
-    }
     const headline = document.querySelector<HTMLElement>("#studio-title");
     if (headline && !headline.dataset.waveInitialized) {
       headline.dataset.waveInitialized = "true";
-      headline.querySelectorAll<HTMLElement>("[data-pixel-wave]").forEach(dissolvePixelWave);
+      headline.querySelectorAll<HTMLElement>("[data-pixel-wave]").forEach(enablePixelHover);
     }
     const modeList = document.querySelector<HTMLElement>("[data-studio-modes]");
     if (modeList && !modeList.dataset.initialized) {

@@ -23,14 +23,17 @@ restrained, content-first design over decorative complexity.
 - Markdown prose uses custom `.prose` styles in `global.css`, not
   `@tailwindcss/typography`.
 - Keep visual work readable and consistent with the current portfolio aesthetic.
-- Home entrance timing lives in `src/scripts/home-animations.ts`. Give each
-  content section a `data-home-section-header` and wrap its entrance items with
-  `data-project-card-item` so new features join the shared load/scroll sequence.
-  Keep entrance transforms on wrappers separate from card hover transforms.
-- Render primary content visibly by default. Entrance animations should set their
-  own initial keyframes; avoid hiding content in server-rendered markup until
-  JavaScript reveals it, since failed scripts can leave an otherwise complete
-  page blank.
+- Render primary content in its final visible position. Top-level pages share a
+  160ms native document crossfade, opted in by `BaseLayout.astro` and styled in
+  `global.css`. Do not layer page or scroll entrance animations onto it. Browsers
+  without transition support use ordinary document navigation; reduced motion
+  disables the route transition.
+- Keep automatic load effects off the navigation logo. Preserve intentional
+  hover, click, tabs, and demo effects. Home pixel hover setup lives in
+  `src/scripts/home-interactions.ts`.
+- Navigation remains document-based; there is no Astro ClientRouter. If one is
+  introduced later, review script initialization and timer/observer cleanup
+  before relying on `astro:*` lifecycle listeners.
 
 ## Related Files
 

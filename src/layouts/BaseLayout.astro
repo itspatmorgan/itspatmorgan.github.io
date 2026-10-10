@@ -16,6 +16,8 @@ const pageTitle = title ?? siteConfig.title;
 const pageDescription = description ?? siteConfig.description;
 const canonicalURL = canonicalUrl ?? new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig.url).toString();
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isTopLevelPage = siteConfig.nav.some((item) => item.href === currentPath);
 ---
 
 <!doctype html>
@@ -34,6 +36,22 @@ const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig
     <link rel="preload" href="/fonts/GeistPixel-Square.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={canonicalURL} />
     <title>{pageTitle}</title>
+
+    {/* Native document transitions preserve normal script and browser lifecycles.
+        Both destinations must opt in; detail pages keep ordinary navigation. */}
+    {isTopLevelPage && (
+      <style is:inline>
+        @supports selector(:active-view-transition-type(page-navigation)) {
+          @view-transition {
+            navigation: auto;
+            types: page-navigation;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          @view-transition { navigation: none; }
+        }
+      </style>
+    )}
 
     {/* Open Graph */}
     <meta property="og:type" content="website" />
@@ -69,3 +87,22 @@ const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig
     <slot />
   </body>
 </html>
+
+<script>
+  import { siteConfig } from "@/data/site-config";
+
+  // Do not start a top-level transition when leaving for a detail page.
+  window.addEventListener("pageswap", (event) => {
+    const swap = event as Event & {
+      activation?: { entry?: { url?: string } };
+      viewTransition?: { skipTransition(): void; ready: Promise<void> };
+    };
+    if (!swap.viewTransition) return;
+    const destination = swap.activation?.entry?.url;
+    const path = destination ? new URL(destination).pathname.replace(/\/$/, "") || "/" : null;
+    if (!siteConfig.nav.some((item) => item.href === path)) {
+      swap.viewTransition.ready.catch(() => {});
+      swap.viewTransition.skipTransition();
+    }
+  });
+</script>

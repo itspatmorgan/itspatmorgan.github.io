@@ -82,9 +82,12 @@ export function pixelWave(container: HTMLElement, delay: number) {
  * further away stay in (or return to) sans. Uses a wide radius so
  * whole word segments are visibly affected.
  *
- * Call this AFTER the initial pixelWave() entrance completes.
+ * Attach to text rendered in its final sans state, or after a demo wave completes.
  */
 export function enablePixelHover(container: HTMLElement) {
+  if (container.dataset.pixelHoverReady === "true") return;
+  container.dataset.pixelHoverReady = "true";
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   const chars = Array.from(
     container.querySelectorAll("[data-pw-char]") as NodeListOf<HTMLElement>
   );
@@ -101,6 +104,7 @@ export function enablePixelHover(container: HTMLElement) {
   const RADIUS = 120; // wide enough to affect 4-5 characters at once
 
   function handleMove(e: MouseEvent) {
+    if (reduced.matches) return;
     const cursorX = e.clientX;
     const cursorY = e.clientY;
 
@@ -129,6 +133,8 @@ export function enablePixelHover(container: HTMLElement) {
     }
   }
 
+  reduced.addEventListener("change", handleLeave);
+  document.addEventListener("astro:before-swap", () => reduced.removeEventListener("change", handleLeave), { once: true });
   container.addEventListener("mousemove", handleMove);
   container.addEventListener("mouseleave", handleLeave);
 }

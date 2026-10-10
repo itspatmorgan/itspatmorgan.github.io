@@ -43,17 +43,4 @@ const entries = (await getCollection("lab", ({ data }) => !data.draft))
 
 <script>
   import "@/scripts/lab-previews";
-  import { animate } from "motion";
-
-  function init() {
-    const hero = document.querySelector<HTMLElement>("[data-lab-hero]");
-    const list = document.querySelector<HTMLElement>("[data-lab-list]");
-    const spring = { type: "spring" as const, stiffness: 160, damping: 20, mass: 0.8 };
-
-    if (hero) animate(hero, { opacity: [0, 1], y: [16, 0] }, { ...spring });
-    if (list) animate(list, { opacity: [0, 1] }, { duration: 0.4, easing: "ease-out", delay: 0.2 });
-  }
-
-  init();
-  document.addEventListener("astro:after-swap", init);
 </script>
