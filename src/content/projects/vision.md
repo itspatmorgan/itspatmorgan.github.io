@@ -3,11 +3,11 @@ title: "Transforming Customer Feedback Into Product Vision"
 type: "professional"
 description: "At Signal Sciences, we transformed customer advisory board feedback into a cohesive product vision through structured research and collaborative workshops. This unified teams around a user-centered growth strategy."
 skills: ["UX Strategy", "Workshop Facilitation", "Storyboarding"]
-thumbnail: "/images/projects/vision/thumbnail-vision-light.png"
-thumbnailDark: "/images/projects/vision/thumbnail-vision-dark.png"
-thumbnailWide: "/images/projects/vision/thumbnail-vision-light-wide.png"
-thumbnailWideDark: "/images/projects/vision/thumbnail-vision-dark-wide.png"
-heroImage: "/images/projects/vision/vision-hero.png"
+thumbnail: "/images/projects/vision/thumbnail-vision-light.webp"
+thumbnailDark: "/images/projects/vision/thumbnail-vision-dark.webp"
+thumbnailWide: "/images/projects/vision/thumbnail-vision-light-wide.webp"
+thumbnailWideDark: "/images/projects/vision/thumbnail-vision-dark-wide.webp"
+heroImage: "/images/projects/vision/vision-hero.webp"
 sortOrder: 3
 draft: false
 ---
@@ -26,7 +26,7 @@ Previous customer advisory board sessions produced scattered notes that weren't 
 
 I stocked the room with workshop materials and guided participants to share concrete examples and specific challenges.
 
-![Notes on the wall](/images/projects/vision/vision-notes.png)
+![Notes on the wall](/images/projects/vision/vision-notes.webp)
 
 ## Synthesizing Themes as a Team
 
@@ -34,7 +34,7 @@ Following the event, I led a collaborative synthesis session with the entire pro
 
 A key insight emerged around leveraging shared, community intelligence to improve our customers' security workflows.
 
-![Group affinity mapping](/images/projects/vision/vision-synthesis.png)
+![Group affinity mapping](/images/projects/vision/vision-synthesis.webp)
 
 ## Envisioning a New Path Together
 
@@ -42,7 +42,7 @@ To maintain momentum, I organized and facilitated a 1.5-day workshop to develop 
 
 I brought together product managers, engineers, and designers to collaboratively explore how this vision could come to life.
 
-![Workshop team](/images/projects/vision/vision-team.png)
+![Workshop team](/images/projects/vision/vision-team.webp)
 
 ## Finding Key Moments in the Journey
 
@@ -50,13 +50,13 @@ The early workshop sessions focused on understanding our current customer journe
 
 We mapped out customer workflows and highlighted three key moments where we thought we could make the biggest difference.
 
-![Journey on the whiteboard](/images/projects/vision/vision-whiteboard.png)
+![Journey on the whiteboard](/images/projects/vision/vision-whiteboard.webp)
 
 ## From Concepts to Story
 
 I guided the team through exercises to develop concepts addressing these key journey moments. We concluded by creating rough storyboards that showed how these ideas could work together as a cohesive experience.
 
-![Workshop facilitation](/images/projects/vision/vision-facilitate.png)
+![Workshop facilitation](/images/projects/vision/vision-facilitate.webp)
 
 ## Prototyping the Vision
 
@@ -65,8 +65,8 @@ After the workshop, I collaborated with product and design leadership to refine 
 1. A pre-sales discovery experience
 2. An enhanced setup process with our sales team
 
-![Storyboard 1](/images/projects/vision/vision-storyboard-1.png)
-![Storyboard 2](/images/projects/vision/vision-storyboard-2.png)
+![Storyboard 1](/images/projects/vision/vision-storyboard-1.webp)
+![Storyboard 2](/images/projects/vision/vision-storyboard-2.webp)
 
 ## A Clear Path Forward
 

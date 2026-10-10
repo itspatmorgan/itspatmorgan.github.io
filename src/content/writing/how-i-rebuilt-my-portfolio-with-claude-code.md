@@ -40,7 +40,7 @@ No new case studies, content rewrites, or layout redesigns. The rule was to matc
 
 A rebuild often feels like an opportunity to finally fix every possible thing. But if your goal is like mine — to get your existing content into a foundation you can keep building on — resist that temptation.
 
-![The section of the plan calling out things I knew were out of scope](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/out-of-scope.png "The section of the plan calling out things I knew were out of scope")
+![The section of the plan calling out things I knew were out of scope](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/out-of-scope.webp "The section of the plan calling out things I knew were out of scope")
 
 ---
 
@@ -83,7 +83,7 @@ Here’s what I assembled:
 
 This most important thing to remember in this phase: **curation is the skill, not prompting.** The quality of what Claude produced for me was directly proportional to the quality and specificity of what I staged for it. You can’t shortcut the prep and expect the build to go smoothly.
 
-![The bundle of reference assets I curated to kick start the project](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/reference-assets.png "The bundle of reference assets I curated to kick start the project")
+![The bundle of reference assets I curated to kick start the project](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/reference-assets.webp "The bundle of reference assets I curated to kick start the project")
 
 ---
 
@@ -95,7 +95,7 @@ I worked with Claude to produce a full [scaffold plan](https://github.com/itspat
 
 I also made sure to set up a starter [CLAUDE.md](https://code.claude.com/docs/en/best-practices#write-an-effective-claude-md) — a plain text file at the root of your repo that Claude reads at the start of every session. Mine started lean: project overview, the stack, a few early preferences. The important thing was just to establish the file early so I had somewhere to write down conventions as I discovered them. As decisions got made during the build — naming conventions, component patterns, things I didn’t want Claude to touch — they went into the CLAUDE.md or a linked agent rules file. By the end of the weekend it reflected real decisions from the real build. [You can see where it landed here](https://github.com/itspatmorgan/itspatmorgan.github.io/blob/main/CLAUDE.md).
 
-![The phases section of the initial build plan](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/build-plan-phases.png "The phases section of the initial build plan")
+![The phases section of the initial build plan](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/build-plan-phases.webp "The phases section of the initial build plan")
 
 ---
 
@@ -137,7 +137,7 @@ Right now I’m keeping myself squarely in this agentic development loop because
 
 Since launch I’ve used this loop to ship [YouTube and Figma embeds](https://github.com/itspatmorgan/itspatmorgan.github.io/issues/9), the [Geist Pixel animation](https://github.com/itspatmorgan/itspatmorgan.github.io/issues/14), [mobile responsive cleanup](https://github.com/itspatmorgan/itspatmorgan.github.io/pull/25), and a [cross-publishing workflow from Obsidian](https://github.com/itspatmorgan/itspatmorgan.github.io/pull/26). Each a focused session: an issue, a plan, a build, a merge. The foundation made all of it possible.
 
-![The GitHub project board where I drive and document my workflow](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/github-project-board.png "The GitHub project board where I drive and document my workflow")
+![The GitHub project board where I drive and document my workflow](/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/github-project-board.webp "The GitHub project board where I drive and document my workflow")
 
 ---
 

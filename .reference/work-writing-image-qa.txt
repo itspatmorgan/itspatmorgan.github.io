@@ -1,0 +1,69 @@
+WORK AND WRITING IMAGE TRIAL — VISUAL QA
+Branch: codex/work-writing-image-trial
+Comparison gallery: http://127.0.0.1:8787/qa/
+Trial site: http://127.0.0.1:8787/
+
+36 images optimized. Dimensions preserved. PNGs converted to WebP; JPEG paths and GIFs retained.
+Screenshots, thumbnails, hero and storyboard artwork: WebP quality 90. Workshop photos: WebP quality 85. JPEGs: quality 85 / mozjpeg.
+Replacements require at least 5% savings. Generated writing feature JPEGs were already efficient and remain unchanged.
+
+HIGHEST PRIORITY
+1. Portfolio-rebuild article: reference-assets, build-plan-phases, github-project-board, out-of-scope, old-vs-new. Compare small text, terminal/code edges, fine lines, textures.
+2. Vision: vision-hero, vision-storyboard-1, vision-storyboard-2. Compare UI labels, illustration outlines and gradients at full resolution.
+3. Laboratory article: pattern-engine and pixel-mark screenshots. Compare thin pattern lines, tiny labels and pixel edges.
+
+SECONDARY
+4. Query, Expansion and Vision thumbnails: all light/dark and square/wide variants. Check homepage on desktop and phone widths in both themes; compare transparency, labels, gradients and cropping.
+5. Vision workshop photos: notes, synthesis, team, whiteboard, facilitate. Compare handwriting, sticky-note detail, faces and shadows.
+
+LOWER PRIORITY / GALLERY ONLY
+6. Draft Characters and GPTs thumbnails/features, legacy Work feature JPEGs and img-designers-rare-breed.jpg. Some are not on public routes.
+
+HOW TO REVIEW
+Start at normal page size. Click an image in the comparison gallery to inspect its original resolution.
+A small change at extreme zoom may be acceptable; text becoming harder to read, halos around labels, banding, lost alpha or changed color is a reason to revise.
+Report the image filename and affected detail. Originals are in the local gallery and in the Git parent revision.
+PNG URLs change to .webp; all literal in-site references were updated. Old external direct PNG links would need a separate compatibility decision before publishing.
+
+BEFORE / AFTER (decimal MB)
+Work: 17.96 MB -> 4.14 MB; 28 changes
+Writing: 16.65 MB -> 5.13 MB; 8 changes
+Entire deployment: 45.31 MB -> 19.97 MB (55.9% smaller).
+
+CHANGED IMAGE INVENTORY
+public/images/projects/characters/feature-characters.jpg -> public/images/projects/characters/feature-characters.jpg | 511.0 KB -> 108.0 KB | 1920 x 1080
+public/images/projects/characters/thumbnail-characters-dark.png -> public/images/projects/characters/thumbnail-characters-dark.webp | 192.7 KB -> 47.0 KB | 1920 x 1080
+public/images/projects/characters/thumbnail-characters-light.png -> public/images/projects/characters/thumbnail-characters-light.webp | 189.3 KB -> 47.1 KB | 1920 x 1080
+public/images/projects/expansion/feature-expansion.jpg -> public/images/projects/expansion/feature-expansion.jpg | 696.1 KB -> 145.5 KB | 1920 x 1080
+public/images/projects/expansion/thumbnail-expansion-dark-wide.png -> public/images/projects/expansion/thumbnail-expansion-dark-wide.webp | 103.1 KB -> 65.9 KB | 1920 x 1080
+public/images/projects/expansion/thumbnail-expansion-dark.png -> public/images/projects/expansion/thumbnail-expansion-dark.webp | 64.5 KB -> 40.8 KB | 1200 x 1200
+public/images/projects/expansion/thumbnail-expansion-light-wide.png -> public/images/projects/expansion/thumbnail-expansion-light-wide.webp | 103.7 KB -> 68.4 KB | 1920 x 1080
+public/images/projects/expansion/thumbnail-expansion-light.png -> public/images/projects/expansion/thumbnail-expansion-light.webp | 65.7 KB -> 42.6 KB | 1200 x 1200
+public/images/projects/gpts/feature-gpts.jpg -> public/images/projects/gpts/feature-gpts.jpg | 582.8 KB -> 126.3 KB | 1920 x 1080
+public/images/projects/gpts/thumbnail-gpt-guides-dark.png -> public/images/projects/gpts/thumbnail-gpt-guides-dark.webp | 115.9 KB -> 35.6 KB | 1920 x 1080
+public/images/projects/gpts/thumbnail-gpt-guides-light.png -> public/images/projects/gpts/thumbnail-gpt-guides-light.webp | 115.0 KB -> 36.7 KB | 1920 x 1080
+public/images/projects/query/feature-query.jpg -> public/images/projects/query/feature-query.jpg | 648.7 KB -> 138.2 KB | 1920 x 1080
+public/images/projects/query/thumbnail-query-dark-wide.png -> public/images/projects/query/thumbnail-query-dark-wide.webp | 102.0 KB -> 55.5 KB | 1920 x 1080
+public/images/projects/query/thumbnail-query-dark.png -> public/images/projects/query/thumbnail-query-dark.webp | 81.0 KB -> 44.1 KB | 1200 x 1200
+public/images/projects/query/thumbnail-query-light-wide.png -> public/images/projects/query/thumbnail-query-light-wide.webp | 104.4 KB -> 58.2 KB | 1920 x 1080
+public/images/projects/query/thumbnail-query-light.png -> public/images/projects/query/thumbnail-query-light.webp | 82.5 KB -> 46.3 KB | 1200 x 1200
+public/images/projects/vision/thumbnail-vision-dark-wide.png -> public/images/projects/vision/thumbnail-vision-dark-wide.webp | 390.2 KB -> 142.8 KB | 1920 x 1080
+public/images/projects/vision/thumbnail-vision-dark.png -> public/images/projects/vision/thumbnail-vision-dark.webp | 274.7 KB -> 103.3 KB | 1200 x 1200
+public/images/projects/vision/thumbnail-vision-light-wide.png -> public/images/projects/vision/thumbnail-vision-light-wide.webp | 389.7 KB -> 142.9 KB | 1920 x 1080
+public/images/projects/vision/thumbnail-vision-light.png -> public/images/projects/vision/thumbnail-vision-light.webp | 275.5 KB -> 105.0 KB | 1200 x 1200
+public/images/projects/vision/vision-facilitate.png -> public/images/projects/vision/vision-facilitate.webp | 1400.3 KB -> 115.9 KB | 1250 x 900
+public/images/projects/vision/vision-hero.png -> public/images/projects/vision/vision-hero.webp | 3507.9 KB -> 904.0 KB | 4500 x 3000
+public/images/projects/vision/vision-notes.png -> public/images/projects/vision/vision-notes.webp | 2237.9 KB -> 134.1 KB | 2000 x 1085
+public/images/projects/vision/vision-storyboard-1.png -> public/images/projects/vision/vision-storyboard-1.webp | 465.4 KB -> 324.7 KB | 4224 x 2400
+public/images/projects/vision/vision-storyboard-2.png -> public/images/projects/vision/vision-storyboard-2.webp | 571.7 KB -> 485.0 KB | 4224 x 2400
+public/images/projects/vision/vision-synthesis.png -> public/images/projects/vision/vision-synthesis.webp | 2857.3 KB -> 305.4 KB | 2000 x 1250
+public/images/projects/vision/vision-team.png -> public/images/projects/vision/vision-team.webp | 674.6 KB -> 188.0 KB | 2480 x 1800
+public/images/projects/vision/vision-whiteboard.png -> public/images/projects/vision/vision-whiteboard.webp | 1155.2 KB -> 87.3 KB | 1250 x 821
+public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/build-plan-phases.png -> public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/build-plan-phases.webp | 2262.8 KB -> 350.4 KB | 2376 x 1784
+public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/github-project-board.png -> public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/github-project-board.webp | 2333.5 KB -> 292.1 KB | 2489 x 1866
+public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/old-vs-new.jpeg -> public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/old-vs-new.jpeg | 2580.6 KB -> 473.6 KB | 2912 x 2096
+public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/out-of-scope.png -> public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/out-of-scope.webp | 1478.9 KB -> 178.9 KB | 1386 x 1040
+public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/reference-assets.png -> public/images/writing/how-i-rebuilt-my-portfolio-with-claude-code/reference-assets.webp | 3058.5 KB -> 309.0 KB | 2218 x 1664
+public/images/writing/img-designers-rare-breed.jpg -> public/images/writing/img-designers-rare-breed.jpg | 346.7 KB -> 200.6 KB | 1232 x 928
+public/images/writing/turn-your-portfolio-into-a-laboratory/pattern-engine.png -> public/images/writing/turn-your-portfolio-into-a-laboratory/pattern-engine.webp | 950.8 KB -> 178.6 KB | 3356 x 2238
+public/images/writing/turn-your-portfolio-into-a-laboratory/pixel-mark.png -> public/images/writing/turn-your-portfolio-into-a-laboratory/pixel-mark.webp | 570.4 KB -> 78.7 KB | 3356 x 2238
