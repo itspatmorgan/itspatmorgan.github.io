@@ -6,7 +6,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
   title="About — Patrick Morgan"
   description="A personal introduction to Patrick Morgan: where he comes from, how he thinks, and how he explores creativity, technology, and meaning."
 >
-  <section class="about-load about-load-hero mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24">
+  <section class="mx-auto max-w-3xl px-6 pt-12 pb-16 sm:pt-24">
     <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">
       <span class="block">I've never been easy</span>
       <span class="block">to put in a box.</span>
@@ -16,7 +16,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
     </p>
   </section>
 
-  <section class="about-load about-load-photos pb-16">
+  <section class="pb-16">
     <div
       class="about-photo-carousel flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-6 md:hidden"
       aria-label="Personal photos"
@@ -123,7 +123,7 @@ import PageLayout from "@/layouts/PageLayout.astro";
     </div>
   </section>
 
-  <section class="about-load about-load-body mx-auto max-w-3xl px-6 pb-24">
+  <section class="mx-auto max-w-3xl px-6 pb-24">
     <div class="space-y-5 text-base leading-relaxed text-muted-foreground">
       <p>
         I grew up in a small town in central Pennsylvania called Hollidaysburg. Yes, it's real.
@@ -177,18 +177,6 @@ import PageLayout from "@/layouts/PageLayout.astro";
 </PageLayout>
 
 <style>
-  .about-load {
-    animation: about-page-load 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  .about-load-photos {
-    animation-delay: 80ms;
-  }
-
-  .about-load-body {
-    animation-delay: 200ms;
-  }
-
   .about-photo-carousel {
     scroll-padding-inline: 1.5rem;
     scrollbar-width: none;
@@ -196,23 +184,5 @@ import PageLayout from "@/layouts/PageLayout.astro";
 
   .about-photo-carousel::-webkit-scrollbar {
     display: none;
-  }
-
-  @keyframes about-page-load {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .about-load {
-      animation: none;
-    }
   }
 </style>

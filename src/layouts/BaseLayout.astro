@@ -35,6 +35,20 @@ const ogImage = new URL(image ?? "/images/brand/profile-picture.jpg", siteConfig
     <link rel="canonical" href={canonicalURL} />
     <title>{pageTitle}</title>
 
+    {/* Native document transitions preserve normal script and browser lifecycles.
+        All site pages share the same restrained crossfade. */}
+    <style is:inline>
+      @supports selector(:active-view-transition-type(page-navigation)) {
+        @view-transition {
+          navigation: auto;
+          types: page-navigation;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition { navigation: none; }
+      }
+    </style>
+
     {/* Open Graph */}
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.toString()} />

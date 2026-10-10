@@ -3,6 +3,45 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
+
+/* Route motion has one owner. The shell stays still; only content crossfades.
+   The type limits these rules to navigation, preserving theme transitions. */
+html:active-view-transition-type(page-navigation) #sidebar {
+  view-transition-name: site-sidebar;
+}
+html:active-view-transition-type(page-navigation) [data-mobile-header] {
+  view-transition-name: site-header;
+}
+html:active-view-transition-type(page-navigation)::view-transition {
+  pointer-events: none;
+}
+/* Snapshot the viewport, rather than a main element whose height changes with
+   each page. This prevents the browser from resizing long-page snapshots. */
+html:active-view-transition-type(page-navigation)::view-transition-group(*) {
+  animation-duration: 0s;
+}
+html:active-view-transition-type(page-navigation)::view-transition-old(site-sidebar),
+html:active-view-transition-type(page-navigation)::view-transition-old(site-header) {
+  display: none;
+}
+html:active-view-transition-type(page-navigation)::view-transition-new(site-sidebar),
+html:active-view-transition-type(page-navigation)::view-transition-new(site-header) {
+  animation: none;
+}
+html:active-view-transition-type(page-navigation)::view-transition-old(root) {
+  animation: page-content-out 160ms ease-out both;
+}
+html:active-view-transition-type(page-navigation)::view-transition-new(root) {
+  animation: page-content-in 160ms ease-out both;
+}
+@keyframes page-content-out { to { opacity: 0; } }
+@keyframes page-content-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  html:active-view-transition-type(page-navigation)::view-transition-old(root),
+  html:active-view-transition-type(page-navigation)::view-transition-new(root) {
+    animation: none;
+  }
+}
 @font-face {
   font-family: 'Geist Pixel Square';
   src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
