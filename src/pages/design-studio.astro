@@ -2,22 +2,21 @@
 import PageLayout from "@/layouts/PageLayout.astro";
 import Icon from "@/components/icons/Icon.astro";
 import PixelWaveText from "@/components/PixelWaveText.astro";
-import StudioDocumentGallery from "@/components/design-studio/StudioDocumentGallery.astro";
-import StudioArtifactExplorer from "@/components/design-studio/StudioArtifactExplorer.astro";
-import StudioLiveDemo from "@/components/design-studio/StudioLiveDemo.astro";
-import StudioWorkflow from "@/components/design-studio/StudioWorkflow.astro";
-import StudioTeamSpaces from "@/components/design-studio/StudioTeamSpaces.astro";
-import StudioFoundation from "@/components/design-studio/StudioFoundation.astro";
-import StudioAtmosphere from "@/components/design-studio/StudioAtmosphere.astro";
 import agentGuide from "@/data/design-studio-agent.txt?raw";
 import { setupGuide, publishingGuide, agentHarnesses, publishingHosts, installationPrompt, publishingPrompt } from "@/data/design-studio-setup";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/data/site-config";
-import { GithubIcon, UserIcon, Robot01Icon, ArrowUpRight01Icon, ArrowDown01Icon } from "@hugeicons/core-free-icons";
+import { GithubIcon, UserIcon, Robot01Icon, ArrowUpRight01Icon, ArrowDown01Icon, ArrowRight01Icon, Copy01Icon } from "@hugeicons/core-free-icons";
+import Slide from "@/components/case-study/Slide.astro";
+import StudioShapes from "@/components/design-studio/StudioShapes";
+import Spectrum from "@/components/studio-case/Spectrum";
+import StudioSystem from "@/components/design-studio/StudioSystem";
+import StudioDocs from "@/components/design-studio/StudioDocs";
+import "@/components/case-study/case-study.css";
+import "@/components/studio-case/studio-case.css";
 
 const repository = "https://github.com/itspatmorgan/design-studio";
 const liveDemo = "https://itspatmorgan.com/design-studio-demo/";
-const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
 
 
 ---
@@ -45,101 +44,65 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       </div>
     </header>
 
-    <div id="studio-human" data-studio-panel="human">
-    <section class="studio-hero grid items-center gap-6" aria-labelledby="studio-title">
-      <div>
-        <h1 id="studio-title" class="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.055em]"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
-        <p data-studio-hero-copy class="mt-7 max-w-lg text-lg leading-relaxed text-muted-foreground">Design Studio is an open source, AI prototype sandbox for designers and product managers who build.</p>
-        <div data-studio-hero-actions class="mt-8 flex flex-wrap items-center gap-3">
-          <a href="#get-started" class={buttonVariants({ size: "lg", className: "h-11 px-5" })}>Install Design Studio <Icon icon={ArrowDown01Icon} size={14} class="shrink-0" /></a>
-          <a href={liveDemo} class="inline-flex min-h-11 items-center gap-2 px-3 text-sm font-medium underline underline-offset-4 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">View demo <Icon icon={ArrowUpRight01Icon} size={14} class="shrink-0" /></a>
-        </div>
+    <div id="studio-human" data-studio-panel="human" class="cs-page sc ds-landing">
+    <header class="cs-slide cs-hero ds-hero" aria-labelledby="studio-title">
+      <h1 id="studio-title"><PixelWaveText text="Design with intent." wave="studio-headline" initialSans /><br /><PixelWaveText text="Build with an agent." wave="studio-headline" initialSans /></h1>
+      <p>Design Studio is an open source, AI prototype sandbox for designers and product managers who build.</p>
+      <div class="sc-next ds-actions">
+        <a href="#get-started" class="is-primary" data-copy-text={installationPrompt} data-copy-label="Copy setup prompt" data-copy-done="Copied. Paste it into your agent"><Icon icon={Copy01Icon} size={16} class="shrink-0" /><span data-copy-face>Copy setup prompt</span></a>
+        <a href={liveDemo}>Try the live demo <Icon icon={ArrowUpRight01Icon} size={14} class="shrink-0" /></a>
       </div>
-      <StudioAtmosphere />
+      <div class="ds-works">
+        <span class="ds-works-row">Paste it into
+          {agentHarnesses.map((harness) => (
+            <span class="ds-harness"><span class="hero-vendor-logo ds-logo" style={"--vendor-logo: url(" + harness.logo + ")"} aria-hidden="true"></span>{harness.title}</span>
+          ))}
+        </span>
+        <span class="ds-works-row">Or point your agent at <a href="/design-studio/agent.txt">itspatmorgan.com/design-studio/agent.txt</a></span>
+      </div>
+      <StudioShapes client:load />
+    </header>
+
+    <section class="cs-slide ds-proof" aria-label="Who uses Design Studio">
+      <figure class="sc-quote">
+        <blockquote>“We have essentially replaced Figma with this at Sublime.”</blockquote>
+        <figcaption>Joe Salowitz, Product Designer at Sublime, <a href="https://x.com/JoeSalowitz/status/2114915923283120187" target="_blank" rel="noopener noreferrer">on X</a></figcaption>
+      </figure>
+      <dl class="cs-brief ds-stats">
+        <div><dt>At Sublime</dt><dd>About a dozen people</dd></div>
+        <div><dt>Prototypes</dt><dd>Hundreds, more each week</dd></div>
+        <div><dt>Launch lesson</dt><dd>600+ signed up</dd></div>
+        <div><dt>Launch posts</dt><dd>30k+ views</dd></div>
+      </dl>
+      <a class="ds-case-link" href="/work/design-studio">How Sublime’s product team uses it <Icon icon={ArrowRight01Icon} size={14} class="shrink-0" /></a>
     </section>
 
-    <div data-studio-entrance class="border-y border-border py-8 text-center" aria-label="Example agent harnesses">
-      <p class="text-sm leading-relaxed text-muted-foreground">Use the agent harness you already use, such as</p>
-      <div class="studio-agent-logos mx-auto mt-6 grid max-w-2xl grid-cols-3 gap-3 text-foreground/80">
-        {agentHarnesses.map((path) => (
-          <span class="studio-agent-brand flex flex-col items-center gap-3 text-sm font-medium leading-snug">
-            <span class="hero-vendor-logo" style={"--vendor-logo: url(" + path.logo + ")"} aria-hidden="true"></span>
-            <span>{path.title}</span>
-          </span>
-        ))}
-      </div>
-    </div>
+    <Slide id="why-title" title="Between a one-off prototype and the production repo" line="Design Studio uses your product’s components and rules, so designs look real, and lives in its own repo, so trying ideas stays fast.">
+      <Spectrum client:visible />
+    </Slide>
 
-    <div data-studio-entrance id="explore">
-      <StudioLiveDemo />
-    </div>
+    <Slide id="systems-title" title="Your design system, ready for your agent" line="Bring your theme, components, context and skills. Every component is documented with live examples, so your agent builds with the real thing.">
+      <StudioSystem client:visible />
+    </Slide>
 
-    <section id="make-it-yours" data-studio-entrance class="studio-story-section" aria-labelledby="systems-title">
-      <div class="systems-composition grid items-center gap-8">
-        <div>
-          <h2 id="systems-title" class="studio-section-title">Your design system, with context and skills</h2>
-          <p class="studio-intro">Bring your theme, components, context, and skills into a system your agent can reuse across prototypes.</p>
-          <p class="studio-intro">Create different systems for products, marketing, or clients. Pick the right foundation for each idea.</p>
-        </div>
-        <StudioFoundation kind="system" />
-      </div>
-    </section>
+    <Slide id="context-title" title="Keep the thinking with the work" line="Briefs, decisions and open questions live beside the prototype as Markdown. Your team reads the page, and your agent reads and writes the same file.">
+      <StudioDocs client:visible />
+    </Slide>
 
-    <section id="capture-context" data-studio-entrance class="studio-story-section" aria-labelledby="context-title">
-      <div class="studio-story-split context-composition grid items-center gap-8">
-        <div class="context-image">
-          <StudioDocumentGallery />
-        </div>
-        <div>
-          <h2 id="context-title" class="studio-section-title">Keep the thinking with the work</h2>
-          <p class="studio-intro">Keep the brief, decisions, and open questions alongside the work. You and your agent write in the same Markdown documents.</p>
-          <div class="mt-6 space-y-5">
-            <div><h3 class="text-lg font-medium tracking-tight">Context for the system</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Shared product knowledge and design principles.</p></div>
-            <div><h3 class="text-lg font-medium tracking-tight">Context for the prototype</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">The problem, assumptions, and questions for this idea.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="give-it-shape" data-studio-entrance class="studio-story-section" aria-labelledby="artifacts-title">
-      <h2 id="artifacts-title" class="studio-section-title">Give your idea the shape it needs</h2>
-      <p class="studio-intro">Choose the right form to explore and explain your idea: an interactive prototype, wireframe, diagram, canvas, or document. Use one on its own, or bring several together.</p>
-      <StudioArtifactExplorer />
-    </section>
-
-    <section id="work-and-share" data-studio-entrance class="studio-story-section" aria-labelledby="workflow-title">
-      <div class="studio-story-split grid items-center gap-8">
-        <div>
-          <h2 id="workflow-title" class="studio-section-title">Publish a website. Share a lasting link.</h2>
-          <p class="studio-intro">Publish Design Studio as a static website on Vercel, Netlify, Cloudflare, or another popular host. Your team gets durable links to explore prototypes and the thinking behind them.</p>
-          <p class="mt-4 text-base leading-relaxed text-muted-foreground">Keep editing locally. Publish updates to the same link.</p>
-          <div class="mt-6 flex flex-wrap gap-5">
-            <a href={feedbackDemo} class="studio-text-link">Try a published prototype <Icon icon={ArrowUpRight01Icon} size={14} class="shrink-0" /></a>
-            <a href="#publish" class="studio-text-link">How to publish <Icon icon={ArrowDown01Icon} size={14} class="shrink-0" /></a>
-          </div>
-        </div>
-        <StudioWorkflow kind="published" />
+    <section class="cs-slide ds-share" aria-labelledby="share-title">
+      <h2 id="share-title">Share a lasting link with your team</h2>
+      <p>Publish Design Studio as a static website on Vercel, Netlify, Cloudflare or another host. Keep editing locally, and publish updates to the same link.</p>
+      <div class="ds-share-grid">
+        <div><h3>Publish a website</h3><p>Your team explores the prototypes and the thinking behind them in the browser, with nothing to install.</p><a href={liveDemo}>Explore a published Studio <Icon icon={ArrowUpRight01Icon} size={14} class="shrink-0" /></a></div>
+        <div><h3>Start in Personal mode</h3><p>Explore on your own, with full control of your prototypes, systems and settings.</p></div>
+        <div><h3>Grow into Team mode</h3><p>Contributors edit their own prototypes. Admins manage access and assign maintainers for shared systems.</p></div>
       </div>
     </section>
 
-    <section id="build-together" data-studio-entrance class="studio-story-section" aria-labelledby="together-title">
-      <div class="studio-story-split grid items-center gap-8">
-        <div>
-          <h2 id="together-title" class="studio-section-title">Your own space with room for a team.</h2>
-
-          <div class="mt-6 space-y-5">
-            <div><h3 class="text-lg font-medium tracking-tight">Start in Personal mode</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Explore on your own with full control of your prototypes, systems, and settings.</p></div>
-            <div><h3 class="text-lg font-medium tracking-tight">Design confidently in Team mode</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">Contributors edit their own prototypes. Admins manage access and assign maintainers for shared systems, giving everyone clear boundaries for their work.</p></div>
-          </div>
-        </div>
-        <StudioTeamSpaces />
-      </div>
-    </section>
-
-    <section data-studio-entrance id="get-started" class="scroll-mt-8 border-t border-border py-14 sm:py-20" aria-labelledby="setup-title">
-      <h2 id="setup-title" class="text-3xl font-medium leading-tight tracking-tight sm:text-4xl">Get started with Design Studio</h2>
-      <p class="studio-intro">Build locally with your agent. Publish when you’re ready to share.</p>
-      <div class="studio-story-split studio-action-grid mt-10">
+    <section id="get-started" class="cs-slide ds-start" aria-labelledby="setup-title">
+      <h2 id="setup-title">Get started with your agent</h2>
+      <p>Paste a prompt into your coding agent. It installs Design Studio and opens the preview, then helps you publish when you’re ready to share.</p>
+      <div class="studio-story-split studio-action-grid ds-start-grid">
         <section class="flex min-w-0 flex-col" aria-labelledby="install-title">
           <h3 id="install-title" class="text-xl font-medium tracking-tight sm:text-2xl">1. Install and run locally</h3>
           <p class="mt-3 text-base leading-relaxed text-muted-foreground">Use the agent harness you already use.</p>
@@ -179,10 +142,11 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
           <a href={publishingGuide} class="mt-4 inline-flex items-center gap-2 self-start text-sm font-medium underline underline-offset-4 transition-colors hover:text-accent">Full publishing guide <Icon icon={ArrowUpRight01Icon} size={14} class="shrink-0" /></a>
         </section>
       </div>
+      <p class="ds-community">Built something? <a href="https://github.com/itspatmorgan/design-studio/discussions">Share it with the community on GitHub</a>, or tag <a href={siteConfig.social.x}>@itspatmorgan</a> on X.</p>
       <p class="sr-only" data-copy-status role="status" aria-live="polite"></p>
     </section>
 
-    <section data-studio-entrance class="border-t border-border pt-14 pb-20 sm:pt-20 sm:pb-24" aria-labelledby="about-studio-title">
+    <section class="ds-note" aria-labelledby="about-studio-title">
       <h2 id="about-studio-title" class="text-3xl font-medium tracking-tight sm:text-4xl">A note from the creator</h2>
       <div class="mt-8 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-14">
         <div class="creator-portrait-field md:order-2 relative isolate flex justify-center py-8 md:self-start md:py-0">
@@ -227,19 +191,47 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
 
 <style>
   .studio-page { container: studio-page / inline-size; }
-  .studio-story-section { scroll-margin-top: 2rem; border-top: 1px solid var(--border); padding-block: 3.5rem; }
-  .studio-section-title { font-size: clamp(1.875rem, 3.8cqi, 2.5rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.035em; }
-  #context-title, #together-title { text-wrap: balance; }
-  .studio-intro { margin-top: 1.25rem; max-width: 65ch; font-size: 1rem; line-height: 1.7; color: var(--muted-foreground); }
+  /* The landing page shares the case studies' slide rhythm and stages (case-study.css), inside the Showcase shell. */
+  .ds-landing.cs-page { max-width: none; margin: 0; padding: 0; }
+  .ds-hero { padding-top: clamp(56px, 8cqi, 96px); }
+  .ds-hero > h1 { max-width: none; font-size: clamp(40px, 5.6cqi, 68px); line-height: 1.02; }
+  .ds-hero > p { max-width: 34em; margin-top: 24px; }
+  .ds-actions { margin-top: 36px; }
+  .ds-actions a { height: 44px; padding: 0 20px; font-size: 15px; }
+  .ds-actions a [data-copy-face] { transition: opacity 160ms ease; }
+  .ds-works { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 24px; font-size: 14px; line-height: 20px; color: var(--muted-foreground); }
+  .ds-works-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 14px; }
+  .ds-harness { display: inline-flex; align-items: center; gap: 6px; color: var(--foreground); }
+  .ds-works .ds-logo { width: 16px; height: 16px; }
+  .ds-works a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
+  .ds-works a:hover { text-decoration-color: currentColor; }
+  .ds-hero > :global(.cs-scene) { margin-top: 64px; }
+  .ds-proof { padding-top: 128px; }
+  .ds-stats { margin-top: 48px; }
+  .ds-case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 40px; font-size: 15px; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
+  .ds-case-link:hover { text-decoration-color: currentColor; }
+  .ds-share-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 1024px; margin: 48px auto 0; text-align: left; }
+  .ds-share-grid > div { display: flex; flex-direction: column; padding: 24px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); }
+  .ds-share-grid h3 { font-size: 17px; line-height: 24px; font-weight: 500; letter-spacing: -.01em; }
+  .ds-share-grid p { margin-top: 8px; font-size: 15px; line-height: 23px; color: var(--muted-foreground); }
+  .ds-share-grid a, .ds-community a { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
+  .ds-share-grid a { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 20px; font-size: 14px; font-weight: 500; }
+  .ds-share-grid a:hover, .ds-community a:hover { text-decoration-color: currentColor; }
+  .ds-start-grid { max-width: 1024px; margin: 48px auto 0; text-align: left; }
+  .ds-start > .ds-community { margin-top: 48px; font-size: 16px; }
+  .ds-community a { color: var(--foreground); }
+  .ds-note { padding: 144px 0 96px; }
+  @media (max-width: 860px) { .ds-share-grid { grid-template-columns: minmax(0, 1fr); max-width: 560px; margin-top: 28px; gap: 12px; } }
+  @media (max-width: 760px) { .ds-note { padding-top: 88px; } .ds-start-grid { margin-top: 28px; } }
+  @media (max-width: 640px) {
+    .ds-actions a { height: 40px; padding: 0 16px; font-size: 14px; }
+    .ds-works { font-size: 13px; }
+    .ds-works-row { gap: 4px 10px; }
+  }
   .studio-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; transition: color 150ms; }
   .studio-text-link:hover { color: var(--accent); }
   .studio-text-link:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
-  @container studio-page (min-width: 40rem) {
-    .studio-story-section { padding-block: 5rem; }
-    .studio-story-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  }
   .studio-mode-icon { display: none; }
-  .studio-hero { padding-top: clamp(3rem, 8.8cqi, 6rem); padding-bottom: clamp(2.5rem, 5cqi, 3.5rem); }
   @container studio-page (max-width: 39.999rem) {
     .studio-header { gap: 0.5rem; }
     .studio-brand { gap: 0.5rem; }
@@ -251,46 +243,13 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
     .studio-control-label { display: none; }
     .studio-mode-icon { display: flex; }
     .studio-header .mode-tab { display: flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; padding: 0; }
-    .studio-hero { padding-top: 1.5rem; }
-    .studio-hero > :global(.studio-atmosphere) { grid-row: 1; max-width: 22rem; margin-inline: 0; }
-    .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 2.5rem); }
-    .studio-hero > div > p { margin-top: 1.5rem; font-size: 1rem; }
   }
-  .systems-composition > :global(.foundation-system) { max-width: 27rem; }
-  @container studio-page (min-width: 40rem) {
-    .studio-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 3.5cqi, 2.5rem); }
-    .studio-hero h1 { font-size: clamp(2rem, 5.9cqi, 4rem); }
-    .studio-hero > div > p { margin-top: 1.5rem; font-size: clamp(1rem, 1.7cqi, 1.125rem); }
-    .studio-hero > :global(.studio-atmosphere) { max-width: 32rem; margin-inline: auto; }
-    .systems-composition { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(1.5rem, 4cqi, 3.5rem); }
-    .systems-composition h2 { font-size: clamp(1.75rem, 3.4cqi, 2.25rem); }
-    #make-it-yours { padding-block: 3.5rem; }
-    .system-layers { margin-top: clamp(1.5rem, 3cqi, 2rem); }
-  }
-  @container studio-page (min-width: 64rem) {
-    .systems-composition { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3.5rem; }
-  }
-  .setup-step > .setup-path { border-top: 1px solid var(--border); }
-  .context-image { min-width: 0; }
-  @container studio-page (max-width: 39.999rem) { .context-image { order: 2; } }
-  .setup-path + .setup-path { border-top: 1px solid var(--border); }
-  .setup-path summary { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.25rem 0; cursor: pointer; list-style: none; }
-  .setup-path summary::-webkit-details-marker { display: none; }
-  .setup-path-heading { display: flex; align-items: center; gap: 1rem; }
-  .setup-vendor-logo { display: block; width: 2.5rem; height: 2.5rem; flex-shrink: 0; background: var(--foreground); mask: var(--vendor-logo) center / contain no-repeat; }
   .hero-vendor-logo { display: block; width: 1.75rem; height: 1.75rem; flex-shrink: 0; background: currentColor; mask: var(--vendor-logo) center / contain no-repeat; }
-  @container studio-page (min-width: 40rem) {
-    .studio-agent-brand { flex-direction: row; justify-content: center; gap: 0.75rem; font-size: 1.125rem; white-space: nowrap; }
-    .studio-agent-logos { gap: 2rem; }
-  }
-  .setup-source-logo { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; flex-shrink: 0; }
-  .setup-expand { flex-shrink: 0; font: 1.5rem var(--font-mono); color: var(--muted-foreground); transition: transform 180ms ease; }
-  .setup-path[open] .setup-expand { transform: rotate(45deg); }
-  .setup-prompt { overflow-wrap: anywhere; }
   .setup-compatibility-logo { width: 1.25rem; height: 1.25rem; }
+  .setup-prompt { overflow-wrap: anywhere; }
   .studio-action-grid { display: grid; gap: 2rem; }
   .studio-action-grid > div { min-width: 0; }
-  @media (prefers-reduced-motion: reduce) { .setup-expand { transition: none; } }
+  @container studio-page (min-width: 40rem) { .studio-story-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .creator-portrait-field::before {
     content: "";
     position: absolute;
@@ -318,12 +277,6 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
   @media (prefers-reduced-motion: reduce) {
     [data-studio-modes][data-initialized="true"] .mode-indicator,.mode-tab { transition:none; }
   }
-  .code-block { position: relative; margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
-  .code-block pre { overflow-x: auto; padding: 1.25rem 4.5rem 1.25rem 1.25rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.9; }
-  .code-block-placeholder pre { padding-right: 1.25rem; }
-  .code-block button { position: absolute; right: 0.75rem; top: 0.65rem; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 0.3rem; font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted-foreground); }
-  .code-block button:hover { color: var(--foreground); background: var(--muted); }
-  .code-block button:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 </style>
 
 <script>
@@ -422,13 +375,32 @@ const feedbackDemo = `${liveDemo}prototypes/ccncfpcyaa1hvjts`;
       if (button.dataset.initialized === "true") return;
       button.hidden = false;
       button.dataset.initialized = "true";
+      const label = button.textContent ?? "";
       button.addEventListener("click", async () => {
         const code = button.parentElement?.querySelector("[data-setup-prompt]")?.textContent;
         const status = document.querySelector<HTMLElement>("[data-copy-status]");
         if (!code) return;
         try { await navigator.clipboard.writeText(code); button.textContent = "Copied"; if (status) status.textContent = "Prompt copied to clipboard."; }
         catch { if (status) status.textContent = "Couldn't copy. Select and copy the prompt directly."; }
-        window.setTimeout(() => { button.textContent = "Copy prompt"; }, 2000);
+        window.setTimeout(() => { button.textContent = label; }, 2000);
+      });
+    });
+    // The hero's setup prompt: a link to the setup section that copies the prompt instead, where the clipboard is available.
+    document.querySelectorAll<HTMLAnchorElement>("[data-copy-text]").forEach((link) => {
+      if (link.dataset.initialized === "true") return;
+      link.dataset.initialized = "true";
+      const face = link.querySelector<HTMLElement>("[data-copy-face]");
+      let timer = 0;
+      link.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const status = document.querySelector<HTMLElement>("[data-copy-status]");
+        try {
+          await navigator.clipboard.writeText(link.dataset.copyText ?? "");
+          if (face) face.textContent = link.dataset.copyDone ?? "Copied";
+          if (status) status.textContent = "Setup prompt copied. Paste it into your coding agent.";
+          window.clearTimeout(timer);
+          timer = window.setTimeout(() => { if (face) face.textContent = link.dataset.copyLabel ?? ""; }, 2600);
+        } catch { document.querySelector("#get-started")?.scrollIntoView({ behavior: "smooth" }); }
       });
     });
   }

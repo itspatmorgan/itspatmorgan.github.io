@@ -36,15 +36,16 @@ for related details. This file owns system orientation, not editing rules.
 | `/writing/<slug>` | Article detail pages |
 | `/community` | Community story, photos, and Kind Words |
 | `/colophon` | Public explanation of stack and workflow |
-| `/design-studio` | Design Studio project landing page, artifact previews, and setup |
+| `/design-studio` | Design Studio project landing page: animated product scenes, proof, and agent setup prompts |
 | `/design-studio-demo/` | Interactive Studio build included by the website deployment |
 | `/design-studio/agent.txt` | Plain-text Design Studio brief and setup guide, shared with the landing page's Agent mode |
 
-The Design Studio landing page embeds actual artifacts from the `/design-studio-demo/` build
-included in this website’s deployment. Its presentation and public-reader
-adapter live in `StudioLiveDemo.astro` and `src/scripts/studio-live-demo.ts`.
-See `agents/learnings/design-studio-live-demo.md` for the shared-origin
-requirement, deployment dependency, and sample-data boundaries.
+The Design Studio landing page uses the case-study slide system (`case-study.css`,
+`studio-case.css`) inside the Showcase shell. Its scenes are native recreations of the
+open-source Studio's Feedback Inbox sample and Product system, in
+`src/components/design-studio/` (`StudioShapes`, `StudioSystem`, `StudioDocs`), with
+the `Spectrum` scene shared from the case study. "Try the live demo" links to the
+`/design-studio-demo/` build rather than embedding it.
 
 ## Commands
 

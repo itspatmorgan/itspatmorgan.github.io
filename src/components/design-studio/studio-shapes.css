@@ -1,0 +1,209 @@
+/* The landing page hero (StudioShapes.tsx): the open-source Studio's prototype view, with the Feedback Inbox sample. The Studio's own
+   chrome (rail, section nav) comes from studio-case.css (.sc-os); Echo, the sample product, is drawn here in the Product system's
+   tokens (src/systems/product/styles/theme.css): square corners, a green primary, warm neutrals. */
+.ss-os {
+  --e-bg: oklch(0.985 0.002 90); --e-fg: oklch(0.147 0.004 49.25); --e-card: #fff; --e-primary: oklch(0.508 0.118 165.612);
+  --e-primary-fg: oklch(0.979 0.021 166.113); --e-secondary: oklch(0.923 0.003 48.717); --e-secondary-fg: oklch(0.216 0.006 56.043);
+  --e-muted: oklch(0.97 0.001 106.424); --e-weak: oklch(0.444 0.011 73.639); --e-accent: oklch(0.95 0.052 163.051);
+  --e-accent-fg: oklch(0.378 0.077 168.94); --e-destructive: oklch(0.505 0.213 16); --e-line: oklch(0.869 0.005 56.366);
+  --e-canvas: #fff; --e-frame: #c4c2bf; --e-ink: #1e1e1e; --e-node: #f4f4f4; --e-node-line: #d9d9d9; --e-edge: #6f6f6f;
+}
+.dark .ss-os {
+  --e-bg: oklch(0.147 0.004 49.25); --e-fg: oklch(0.985 0.001 106.423); --e-card: oklch(0.216 0.006 56.043); --e-primary: oklch(0.696 0.17 162.48);
+  --e-primary-fg: oklch(0.147 0.004 49.25); --e-secondary: oklch(0.268 0.007 34.298); --e-secondary-fg: oklch(0.985 0.001 106.423);
+  --e-muted: oklch(0.268 0.007 34.298); --e-weak: oklch(0.709 0.01 56.259); --e-accent: oklch(0.3 0.05 166);
+  --e-accent-fg: oklch(0.905 0.093 164.15); --e-destructive: oklch(0.65 0.21 16); --e-line: oklch(1 0 0 / 14%);
+  --e-canvas: #1f1d1b; --e-frame: #57534e; --e-ink: #ece8e3; --e-node: #2c2a27; --e-node-line: #45413c; --e-edge: #a39e97;
+}
+.ss-os { font-size: 14px; line-height: 20px; }
+.ss-os .ss-side { width: 220px; padding: 18px 12px; font-size: 13px; }
+.ss-side h4 { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; }
+.ss-side h4 span, .ss-side h5 span { display: flex; gap: 10px; color: var(--os-weak); }
+.ss-side-system { padding: 6px 8px 0; font-size: 12.5px; color: var(--os-weak); }
+.ss-side h5 { margin-top: 26px; margin-bottom: 6px; }
+.ss-os .ss-side li { height: 25px; }
+.ss-os .ss-side li.is-group { margin-top: 6px; }
+.ss-os .ss-side li.is-child { padding-left: 24px; }
+.ss-panes { position: relative; flex: 1; min-width: 0; }
+.ss-panes > div { height: 100%; }
+.ss-pane { position: relative; height: 100%; overflow: hidden; }
+
+/* Echo: the sample product (AppShell, feedback-inbox.tsx, overview.tsx, feedback-detail.tsx). */
+.ss-echo { position: relative; min-height: 100%; height: 100%; overflow: hidden; background: var(--e-bg); color: var(--e-fg); font-size: 14px; line-height: 20px; }
+.ss-echo-top { border-bottom: 1px solid var(--e-line); background: var(--e-bg); }
+.ss-echo-top > div { display: flex; align-items: center; gap: 32px; max-width: 1024px; height: 56px; margin: 0 auto; padding: 0 32px; font-weight: 500; color: var(--e-weak); }
+.ss-echo-top b { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--e-fg); }
+.ss-echo-top b i { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--e-primary); color: var(--e-primary-fg); }
+.ss-echo-top > div > span { position: relative; display: flex; align-items: center; align-self: stretch; margin-left: -8px; }
+.ss-echo-top > div > b + span { margin-left: 0; }
+.ss-echo-top > div > span.is-on { color: var(--e-fg); box-shadow: inset 0 -2px var(--e-primary); }
+.ss-echo-top em { margin-left: auto; font-style: normal; font-size: 13px; }
+.ss-echo-top > div > .ss-echo-pm { display: flex; align-self: center; align-items: center; justify-content: center; width: 24px; height: 24px; margin-left: -20px; border-radius: 999px; background: var(--e-muted); font-size: 10.5px; font-weight: 500; color: var(--e-weak); }
+.ss-echo-page { max-width: 1024px; margin: 0 auto; padding: 32px; }
+.ss-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.ss-head h1 { font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -.025em; }
+.ss-head p { margin-top: 4px; color: var(--e-weak); }
+.ss-btn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border: 1px solid var(--e-line); background: var(--e-bg); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.ss-btn.is-primary { border-color: var(--e-primary); background: var(--e-primary); color: var(--e-primary-fg); }
+.ss-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.ss-tabs { display: flex; height: 32px; padding: 3px; background: var(--e-muted); color: var(--e-weak); }
+.ss-tabs span { display: flex; align-items: center; padding: 0 8px; font-weight: 500; }
+.ss-tabs span.is-on { background: var(--e-bg); color: var(--e-fg); box-shadow: 0 1px 2px rgb(0 0 0 / .08); }
+.ss-input { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px; border: 1px solid var(--e-line); background: transparent; color: var(--e-weak); }
+.ss-bar .ss-input { width: 256px; }
+.ss-input svg:last-child:not(:first-child) { margin-left: auto; }
+.ss-input.is-area { align-items: flex-start; height: 76px; padding-top: 8px; }
+.ss-input.is-invalid { border-color: var(--e-destructive); box-shadow: 0 0 0 3px color-mix(in oklch, var(--e-destructive) 20%, transparent); }
+.ss-showing { display: flex; align-items: center; gap: 8px; margin: -4px 0 12px; color: var(--e-weak); }
+.ss-ghost { font-size: 12px; font-weight: 500; color: var(--e-fg); }
+.ss-table { border: 1px solid var(--e-line); background: var(--e-card); }
+.ss-row { display: grid; grid-template-columns: minmax(0, 1fr) 156px 80px 90px 86px 28px; align-items: center; height: 45px; padding: 0 8px; border-top: 1px solid var(--e-line); }
+.ss-row > span { padding: 0 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ss-row.is-head { height: 40px; border-top: 0; font-weight: 500; }
+.ss-row small { font-size: 12px; }
+.ss-strong { font-weight: 500; }
+.ss-weak { color: var(--e-weak); }
+.ss-dots { display: flex; color: var(--e-fg); }
+.ss-badge { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border: 1px solid transparent; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.ss-badge.is-high { background: color-mix(in oklch, var(--e-destructive) 10%, transparent); color: var(--e-destructive); }
+.ss-badge.is-medium, .ss-badge.is-low { border-color: var(--e-line); }
+.ss-badge.is-new { background: color-mix(in oklch, var(--e-primary) 10%, transparent); color: var(--e-primary); }
+.ss-badge.is-triaged, .ss-badge.is-secondary { background: var(--e-secondary); color: var(--e-secondary-fg); }
+.ss-badge.is-planned { background: var(--e-accent); color: var(--e-accent-fg); }
+.ss-badge.is-resolved { background: var(--e-muted); color: var(--e-weak); }
+.dark .ss-badge.is-high { background: color-mix(in oklch, var(--e-destructive) 20%, transparent); }
+.dark .ss-badge.is-new { background: color-mix(in oklch, var(--e-primary) 20%, transparent); }
+.ss-badges { display: flex; gap: 8px; margin-bottom: 8px; }
+.ss-head .ss-badges:last-child { margin: 0; }
+.ss-card { padding: 16px; border: 1px solid var(--e-line); background: var(--e-card); }
+.ss-card h3, .ss-detail h3 { margin-bottom: 12px; font-weight: 600; }
+.ss-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.ss-metrics b { display: block; margin-top: 4px; font-size: 30px; line-height: 36px; font-weight: 600; }
+.ss-metrics small { display: block; margin-top: 4px; font-size: 12px; color: var(--e-weak); }
+.ss-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.ss-bars { display: grid; gap: 12px; }
+.ss-bars li { display: grid; grid-template-columns: 88px 1fr 24px; align-items: center; gap: 12px; }
+.ss-bars li > span:first-child { color: var(--e-weak); }
+.ss-bars li > span:last-child { text-align: right; }
+.ss-bars i { height: 8px; border-radius: 999px; background: var(--e-muted); }
+.ss-bars b { display: block; height: 8px; border-radius: 999px; background: var(--e-primary); }
+.ss-newest li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--e-line); }
+.ss-newest li:first-child { border-top: 0; }
+.ss-newest li > span:first-child { flex: 1; }
+.ss-newest small { width: 56px; text-align: right; font-size: 12px; color: var(--e-weak); }
+.ss-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px; color: var(--e-weak); }
+.ss-detail { display: grid; grid-template-columns: 1fr 256px; gap: 24px; align-items: start; }
+.ss-detail p { line-height: 23px; }
+.ss-detail hr { margin: 24px 0; border: 0; border-top: 1px solid var(--e-line); }
+.ss-detail .ss-badges { margin: 12px 0 0; }
+.ss-detail label, .ss-sheet label { display: block; margin: 16px 0 6px; font-weight: 500; }
+.ss-scrim { position: absolute; inset: 0; background: rgb(0 0 0 / .1); }
+.ss-sheet { position: absolute; top: 0; right: 0; bottom: 0; width: 448px; padding: 16px; border-left: 1px solid var(--e-line); background: var(--e-bg); box-shadow: 0 10px 15px -3px rgb(0 0 0 / .1); }
+.ss-sheet h2 { font-weight: 600; }
+.ss-sheet > p { margin: 4px 0 8px; color: var(--e-weak); }
+.ss-sheet .ss-error { display: block; margin-top: 6px; font-size: 12px; color: var(--e-destructive); }
+.ss-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ss-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+
+/* Lo-fi (modules/view/lofi.css): the same screen in grayscale with handwritten type. */
+.ss-app { transition: filter 420ms ease; }
+.ss-app.is-lofi { filter: grayscale(1); }
+.ss-app.is-lofi, .ss-app.is-lofi * { font-family: 'Comic Neue', 'Comic Sans MS', cursive !important; }
+
+/* The Mermaid diagram, centered in the pane as the Studio fits it. */
+.ss-flow { background: var(--os-bg); }
+.ss-flow svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ss-nodes rect, .ss-nodes path { fill: var(--e-node); stroke: var(--e-node-line); stroke-width: 1; }
+.ss-flow text { font: 16px 'Geist Variable', sans-serif; fill: var(--e-ink); text-anchor: middle; dominant-baseline: central; }
+.ss-edges path { fill: none; stroke: var(--e-edge); stroke-width: 1.4; }
+.ss-flow marker path { fill: var(--e-edge); }
+.ss-edge-labels text { paint-order: stroke; stroke: var(--os-bg); stroke-width: 8px; }
+
+/* The handoff canvas (Excalidraw), drawn in the file's own coordinates and scaled to the Studio's 46%. */
+.ss-canvas { background: var(--e-canvas); }
+.ss-board { position: absolute; left: 0; top: 0; width: 2100px; height: 1500px; transform-origin: 0 0; color: var(--e-ink); }
+.ss-board > * { position: absolute; }
+.ss-board-title { font-size: 48px; line-height: 60px; font-weight: 500; letter-spacing: -.01em; }
+.ss-board-sub { font-size: 20px; line-height: 25px; }
+.ss-frame { border: 2px solid var(--e-frame); border-radius: 16px; }
+.ss-frame > span { position: absolute; left: 0; top: -40px; font-size: 28px; color: var(--os-weak); }
+.ss-embed { width: 458px; height: 318px; overflow: hidden; border: 1px solid var(--e-node-line); border-radius: 4px; background: var(--e-bg); }
+.ss-embed-bar { display: flex; align-items: center; justify-content: space-between; height: 34px; padding: 0 12px; border-bottom: 1px solid var(--e-node-line); background: var(--os-bg); color: var(--os-weak); }
+.ss-embed-bar b { font-size: 15px; font-weight: 600; color: var(--e-ink); }
+.ss-embed-screen { height: 284px; overflow: hidden; pointer-events: none; }
+.ss-embed-screen .ss-echo { height: auto; min-height: 640px; }
+.ss-note { width: 458px; font-size: 20px; line-height: 25px; }
+.ss-arrow { width: 224px; height: 0; }
+.ss-arrow i { position: absolute; left: 0; right: 0; top: -1.5px; height: 3px; background: var(--e-ink); border-radius: 2px; }
+.ss-arrow i::after { content: ''; position: absolute; right: -2px; top: -8px; width: 14px; height: 14px; border-top: 3px solid var(--e-ink); border-right: 3px solid var(--e-ink); transform: rotate(45deg); border-radius: 2px; }
+.ss-arrow span { position: absolute; left: 50%; top: -13px; padding: 0 10px; transform: translateX(-50%); background: var(--e-canvas); font-size: 20px; line-height: 25px; white-space: nowrap; }
+.ss-canvas-menu, .ss-zoom { position: absolute; z-index: 1; display: flex; align-items: center; border: 1px solid var(--os-line); border-radius: 8px; background: var(--os-bg); color: var(--os-fg); box-shadow: 0 1px 3px rgb(0 0 0 / .06); }
+.ss-canvas-menu { left: 16px; top: 16px; justify-content: center; width: 40px; height: 40px; }
+.ss-zoom { left: 16px; bottom: 16px; gap: 22px; height: 40px; padding: 0 14px; }
+.ss-zoom b { font-size: 14px; font-weight: 500; }
+
+/* A Markdown document (docs/DocLayout, Prose). */
+.ss-doc { padding: 48px 32px 0; background: var(--os-bg); color: var(--os-fg); }
+.ss-doc article { max-width: 620px; margin: 0 auto; }
+.ss-doc h1 { font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -.025em; }
+.ss-doc .ss-doc-lead { margin: 12px 0 40px; font-size: 16px; line-height: 26px; color: var(--os-weak); }
+.ss-doc h2 { margin: 32px 0 14px; font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -.015em; }
+.ss-doc h1 + .ss-doc-lead + h2 { margin-top: 0; }
+.ss-doc article > p:not(.ss-doc-lead) { font-size: 14.5px; line-height: 24px; color: color-mix(in srgb, var(--os-fg) 82%, var(--os-bg)); }
+.ss-doc ul { display: grid; gap: 4px; padding-left: 0; }
+.ss-doc li { position: relative; padding-left: 28px; font-size: 14.5px; line-height: 24px; color: color-mix(in srgb, var(--os-fg) 82%, var(--os-bg)); }
+.ss-doc li::before { content: ''; position: absolute; left: 10px; top: 10px; width: 5px; height: 5px; border-radius: 999px; background: color-mix(in srgb, var(--os-weak) 60%, var(--os-bg)); }
+.ss-doc li b { font-weight: 600; color: var(--os-fg); }
+
+/* The source editor (shared SourceEditor): the file's path with Save and Done, then the text with line numbers. */
+.ss-editor { display: flex; flex-direction: column; background: var(--os-bg); color: var(--os-fg); --md-h: #a94f1f; --md-key: #284a8f; }
+.dark .ss-editor { --md-h: #e39a6c; --md-key: #8fb0f5; }
+.ss-editor header { display: flex; align-items: center; gap: 8px; height: 56px; padding: 0 16px; border-bottom: 1px solid var(--os-line); }
+.ss-editor header code { flex: 1; font: 13px/1 'Geist Mono Variable', ui-monospace, monospace; color: var(--os-weak); }
+.ss-ed-btn { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border: 1px solid var(--os-line); border-radius: 6px; font-size: 14px; font-weight: 500; }
+.ss-ed-btn.is-disabled { border-color: transparent; background: color-mix(in srgb, var(--os-fg) 45%, var(--os-bg)); color: var(--os-bg); }
+.ss-editor ol { margin: 0; padding: 12px 24px 0 0; list-style: none; counter-reset: md; font: 13px/21px 'Geist Mono Variable', ui-monospace, monospace; }
+.ss-editor li { display: grid; grid-template-columns: 56px 1fr; counter-increment: md; white-space: pre-wrap; }
+.ss-editor li::before { content: counter(md); padding-right: 16px; text-align: right; color: var(--os-weak); }
+.ss-editor li > * { min-width: 0; }
+.ss-editor li.is-current { background: color-mix(in srgb, var(--os-muted) 80%, var(--os-bg)); }
+.ss-editor li.is-current::before { color: var(--os-fg); }
+.md-h { font-weight: 700; color: var(--md-h); }
+.md-key { color: var(--md-key); }
+.md-mark { color: var(--os-weak); }
+.ss-editor b { font-weight: 700; }
+
+/* A system's component page (ComponentDocPage) and its live examples in the Product theme. */
+.ss-sysnav li.ss-branch { height: 28px; margin-top: 4px; font-size: 12px; font-weight: 500; color: var(--os-fg); }
+.ss-sysnav li.ss-branch svg { color: var(--os-weak); }
+.ss-sys { background: var(--os-bg); color: var(--os-fg); }
+.ss-sys-page { max-width: 768px; margin: 0 auto; padding: 40px 32px; }
+.ss-sys h1 { margin-bottom: 8px; font-size: 26px; line-height: 36px; font-weight: 600; letter-spacing: -.01em; }
+.ss-sys .ss-sys-page .ss-sys-desc { margin: 0 0 32px; font-size: 14px; line-height: 22px; color: var(--os-weak); }
+.ss-sys h2 { margin: 40px 0 16px; font-size: 18px; line-height: 28px; font-weight: 600; letter-spacing: -.025em; }
+.ss-sys .ss-sys-desc + h2 { margin-top: 0; }
+.ss-sys-page > p:not(.ss-sys-desc) { margin-bottom: 14px; font-size: 14px; line-height: 24px; color: color-mix(in srgb, var(--os-fg) 85%, var(--os-bg)); }
+.ss-sys section + section { margin-top: 20px; }
+.ss-sys h3 { margin-bottom: 8px; font-size: 12px; font-weight: 500; color: var(--os-weak); }
+.ss-sys-frame { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 24px; border: 1px solid var(--os-line); border-radius: 8px; background: var(--e-bg); color: var(--e-fg); }
+.ss-sbtn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border: 1px solid transparent; font-size: 14px; font-weight: 500; white-space: nowrap; }
+.ss-sbtn.is-default { background: var(--e-primary); color: var(--e-primary-fg); }
+.ss-sbtn.is-secondary { background: var(--e-secondary); color: var(--e-secondary-fg); }
+.ss-sbtn.is-outline { border-color: var(--e-line); background: var(--e-bg); }
+.ss-sbtn.is-destructive { background: color-mix(in oklch, var(--e-destructive) 10%, transparent); color: var(--e-destructive); }
+.ss-sbtn.is-link { color: var(--e-primary); }
+.ss-sbtn.is-size-xs { height: 24px; gap: 4px; padding: 0 8px; font-size: 12px; }
+.ss-sbtn.is-size-sm { height: 28px; padding: 0 10px; font-size: 12.8px; }
+.ss-sbtn.is-size-lg { height: 36px; }
+.ss-sbtn.is-off { opacity: .5; }
+.ss-sbtn svg { margin-left: -2px; }
+.ss-sbadge { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border: 1px solid transparent; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.ss-sbadge.is-default { background: var(--e-primary); color: var(--e-primary-fg); }
+.ss-sbadge.is-secondary { background: var(--e-secondary); color: var(--e-secondary-fg); }
+.ss-sbadge.is-destructive { background: color-mix(in oklch, var(--e-destructive) 10%, transparent); color: var(--e-destructive); }
+.ss-sbadge.is-outline { border-color: var(--e-line); }
+.ss-sbadge.is-link { color: var(--e-primary); }
+.dark .ss-sbtn.is-destructive, .dark .ss-sbadge.is-destructive { background: color-mix(in oklch, var(--e-destructive) 20%, transparent); }
+.dark .ss-sbtn.is-outline { border-color: var(--e-line); background: oklch(1 0 0 / 5%); }
+/* .sc-os sets Geist on every descendant; the editor's source and path are mono. */
+.sc .sc-os .ss-editor ol, .sc .sc-os .ss-editor ol *, .sc .sc-os .ss-editor header code { font-family: 'Geist Mono Variable', ui-monospace, monospace; }

@@ -11,7 +11,7 @@ import './studio-card.css';
 // Drawn at 560 × 315 because the homepage's wide Design Studio card has a visual column is wider than a Work card, which puts type at the Work cards' size.
 // Phones, where that column is a Work card's width, get the same composition drawn at the Work cards' 400 × 225, and so does the Work
 // page's card (`size="card"`), which is a Work card at every width.
-// Content is the Feedback Inbox sample project that ships with Design Studio (see the home-*.png captures). Liberties: the list's
+// Content is the Feedback Inbox sample project that ships with Design Studio (src/prototypes/*/feedback-inbox in the Design Studio repo). Liberties: the list's
 // icons are Hugeicons standing in for Studio's own; the wireframe keeps Studio's grays and outlines but not its sketch typeface; the
 // canvas shows the handoff canvas's screens as outlines; the inbox keeps three of its five filters and drops its description; the
 // diagram's labels are shortened and its last step ("Mark resolved") dropped; the canvas and document are trimmed, running off the panel.
